@@ -21,6 +21,12 @@ uninstall:
 			echo "removed $$s"; \
 		fi; \
 	done
+	@for link in "$(DST)"/*; do \
+		if [ -L "$$link" ] && readlink "$$link" | grep -q "^$(SRC)/"; then \
+			echo "removed stale $$(basename $$link)"; \
+			rm -f "$$link"; \
+		fi; \
+	done
 
 status:
 	@for s in $(SKILLS); do \
