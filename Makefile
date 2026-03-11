@@ -10,10 +10,14 @@ install:
 	@for s in $(SKILLS); do \
 		ln -sfn "$(SRC)/$$s" "$(DST)/$$s"; \
 	done
+	@$(MAKE) --no-print-directory status
 
 uninstall:
 	@for s in $(SKILLS); do \
-		rm -f "$(DST)/$$s"; \
+		if [ -e "$(DST)/$$s" ] || [ -L "$(DST)/$$s" ]; then \
+			rm -f "$(DST)/$$s"; \
+			echo "removed $$s"; \
+		fi; \
 	done
 
 status:
