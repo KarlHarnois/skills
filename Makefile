@@ -6,13 +6,13 @@ DST := $(HOME)/.claude/skills
 SKILLS := $(shell find "$(SRC)" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;)
 
 install:
-	mkdir -p "$(DST)"
-	for s in $(SKILLS); do \
+	@mkdir -p "$(DST)"
+	@for s in $(SKILLS); do \
 		ln -sfn "$(SRC)/$$s" "$(DST)/$$s"; \
 	done
 
 uninstall:
-	for s in $(SKILLS); do \
+	@for s in $(SKILLS); do \
 		rm -f "$(DST)/$$s"; \
 	done
 
