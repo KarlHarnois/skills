@@ -1,4 +1,6 @@
-.PHONY: install uninstall status reinstall
+.PHONY: all install uninstall status reinstall
+
+all: install
 
 REPO_ROOT := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 SRC := $(REPO_ROOT)skills
