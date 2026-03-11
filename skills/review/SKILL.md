@@ -30,11 +30,23 @@ If no custom guidelines exist, use these defaults:
 
 **IMPORTANT:** You are already in a git worktree with the PR branch checked out. The code is local - use git directly, NOT `gh` commands to fetch diffs.
 
-1. **Get the PR base commit and diff:**
+1. **Determine the PR to review:**
+
+   If a PR number is provided in the prompt, use it directly.
+
+   If no PR number is provided, detect the PR from the current branch:
+   ```bash
+   gh pr list --head "$(git branch --show-current)" --json number,title,baseRefName
+   ```
+   - If exactly one PR is found, use it.
+   - If multiple PRs are found, present them to the user and ask which one to review.
+   - If no PRs are found, tell the user no open PR was found for this branch and stop.
+
+2. **Get the PR base commit and diff:**
    ```bash
    # Query base SHA directly with a literal PR number
    # Avoid shell wrappers like: PR_NUMBER=123; gh pr view $PR_NUMBER ...
-   gh pr view <pr-number-from-initial-prompt> --json baseRefOid --jq '.baseRefOid'
+   gh pr view <pr-number> --json baseRefOid --jq '.baseRefOid'
 
    # Diff from that base SHA to HEAD (the PR's changes only)
    git diff -U10 <base-sha-from-command>...HEAD
@@ -46,15 +58,13 @@ If no custom guidelines exist, use these defaults:
    git diff -U10 $MERGE_BASE HEAD
    ```
 
-2. **Get PR metadata** (for comment submission):
+3. **Get PR metadata** (for comment submission):
    ```bash
    # Get repo info
    gh repo view --json nameWithOwner --jq '.nameWithOwner'
-
-   # The PR number is provided in the initial prompt
    ```
 
-3. **Read surrounding code** using local files for additional context when needed.
+4. **Read surrounding code** using local files for additional context when needed.
 
 ### Phase 2: Analyze and Identify Issues
 
