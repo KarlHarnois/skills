@@ -69,13 +69,19 @@ If no custom guidelines exist, use these defaults:
    - Prioritize files with the most changes, and files in critical paths (auth, security, data handling).
    - Skip generated files (e.g. `*.generated.*`, `*.min.js`), lock files (`package-lock.json`, `yarn.lock`, `Cargo.lock`), and vendored dependencies.
 
-4. **Get PR metadata** (for comment submission):
+4. **Get PR metadata** (for comment submission and description review):
    ```bash
-   # Get repo info
+   # Get repo info and PR description
    gh repo view --json nameWithOwner --jq '.nameWithOwner'
+   gh pr view <pr-number> --json title,body
    ```
 
-5. **Read surrounding code** using local files for additional context when needed.
+5. **Get commit messages:**
+   ```bash
+   git log --format="%H%n%s%n%b%n---" <base-sha>...HEAD
+   ```
+
+6. **Read surrounding code** using local files for additional context when needed.
 
 ### Line Number Mapping from Unified Diffs
 
@@ -100,6 +106,12 @@ Each hunk starts with a header like `@@ -a,b +c,d @@`. The `+c` value is the sta
 The hunk header says `+12`, so the first context line is line 12. Counting forward through ` ` and `+` lines (skipping the `-` line): 12, 13, 14, 15, 16, 17, 18. To comment on `new_transform`, use `line: 14`. To comment on the `log::info!` addition, use `line: 15`.
 
 ### Phase 2: Analyze and Identify Issues
+
+#### Understand intent from commit messages and PR description
+
+Read the commit messages and PR description to understand the motivation, approach, and scope of the change. Use this context to inform your code review. For example, knowing *why* a change was made helps you judge whether the implementation is appropriate and catch cases where the code doesn't match the stated intent.
+
+#### Review code changes
 
 Analyze the diff and categorize issues:
 
@@ -175,7 +187,9 @@ Parse user input:
 
 ### Phase 5: Submit Selected Comments
 
-Submit all selected comments in a single review to avoid spamming the PR with individual notifications. Build a JSON array of all comments and post them in one API call:
+Submit all selected comments in a single review to avoid spamming the PR with individual notifications.
+
+Build a JSON array of all comments and post them in one API call:
 
 ```bash
 gh api repos/{owner}/{repo}/pulls/{pr_number}/reviews \
