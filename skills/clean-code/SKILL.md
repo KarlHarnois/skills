@@ -15,7 +15,7 @@ Names are the most important tool for communicating intent. A good name eliminat
 
 **Reveal intent.** A name should tell you why something exists, what it does, and how it is used. If a name requires a comment to explain it, the name is wrong.
 
-```
+```python
 # Bad
 d = 5  # elapsed time in days
 
@@ -51,15 +51,15 @@ The proper use of comments is to compensate for our failure to express ourselves
 
 **Explain yourself in code.** Instead of:
 
-```
-// Check if the employee is eligible for full benefits
-if ((employee.flags & HOURLY_FLAG) && (employee.age > 65))
+```python
+# Check if the employee is eligible for full benefits
+if (employee.flags & HOURLY_FLAG) and (employee.age > 65):
 ```
 
 Write:
 
-```
-if (employee.is_eligible_for_full_benefits())
+```python
+if employee.is_eligible_for_full_benefits():
 ```
 
 **Acceptable comments (the short list):**
