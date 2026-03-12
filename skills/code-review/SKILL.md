@@ -27,7 +27,7 @@ If no custom guidelines exist, use these defaults:
 
 ### Phase 1: Gather Information
 
-**IMPORTANT:** You are already in a git worktree with the PR branch checked out. The code is local - use git directly, NOT `gh` commands to fetch diffs.
+Use git directly to read diffs and code, NOT `gh` commands to fetch diffs.
 
 1. **Determine the PR to review:**
 
@@ -41,7 +41,18 @@ If no custom guidelines exist, use these defaults:
    - If multiple PRs are found, present them to the user and ask which one to review.
    - If no PRs are found, tell the user no open PR was found for this branch and stop.
 
-2. **Get the PR base branch and diff:**
+2. **Ensure the PR branch is checked out locally:**
+
+   Check whether the current branch matches the PR's head branch:
+   ```bash
+   gh pr view <pr-number> --json headRefName --jq '.headRefName'
+   ```
+   If the current branch (`git branch --show-current`) does not match, check it out:
+   ```bash
+   gh pr checkout <pr-number>
+   ```
+
+3. **Get the PR base branch and diff:**
 
    Get the base branch name if not already known from step 1:
    ```bash
@@ -54,7 +65,7 @@ If no custom guidelines exist, use these defaults:
    git diff -U10 <merge-base>...HEAD
    ```
 
-3. **Check diff size before reading the full diff:**
+4. **Check diff size before reading the full diff:**
    ```bash
    git diff --stat <merge-base>...HEAD
    ```
@@ -66,18 +77,18 @@ If no custom guidelines exist, use these defaults:
    - Prioritize files with the most changes, and files in critical paths (auth, security, data handling).
    - Skip generated files (e.g. `*.generated.*`, `*.min.js`), lock files (`package-lock.json`, `yarn.lock`, `Cargo.lock`), and vendored dependencies.
 
-4. **Get PR metadata** (for comment submission):
+5. **Get PR metadata** (for comment submission):
    ```bash
    gh repo view --json nameWithOwner --jq '.nameWithOwner'
    gh pr view <pr-number> --json title,body
    ```
 
-5. **Get commit messages:**
+6. **Get commit messages:**
    ```bash
    git log --format="%H%n%s%n%b%n---" <merge-base>...HEAD
    ```
 
-6. **Read surrounding code** using local files for additional context when needed.
+7. **Read surrounding code** using local files for additional context when needed.
 
 ### Line Number Mapping from Unified Diffs
 
