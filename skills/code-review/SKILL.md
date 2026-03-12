@@ -234,7 +234,7 @@ Get the HEAD commit SHA with `git rev-parse HEAD` and substitute it into the pay
 - `path` is relative to the repo root
 - The `body` field on the review itself should be empty (the comments carry the content)
 
-If the batch review call fails, fall back to submitting each comment individually:
+If the batch review call fails, fall back to submitting each comment individually. Add a 1-second delay between requests to avoid hitting GitHub's secondary rate limits.
 
 ```bash
 gh api repos/{owner}/{repo}/pulls/{pr_number}/comments \
