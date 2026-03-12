@@ -89,7 +89,13 @@ Use git directly to read diffs and code, NOT `gh` commands to fetch diffs.
    git log --format="%H%n%s%n%b%n---" <merge-base>...HEAD
    ```
 
-7. **Read surrounding code** using local files for additional context when needed.
+7. **Fetch existing review comments** so you don't post duplicate feedback:
+   ```bash
+   gh api repos/{owner}/{repo}/pulls/{pr_number}/comments --jq '.[] | {path, line, body}'
+   ```
+   Keep these in mind during Phase 2. If an existing comment already covers an issue (same file, same line, same point), skip it.
+
+8. **Read surrounding code** using local files for additional context when needed.
 
 ### Line Number Mapping from Unified Diffs
 
