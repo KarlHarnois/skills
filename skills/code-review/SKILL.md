@@ -41,44 +41,40 @@ If no custom guidelines exist, use these defaults:
    - If multiple PRs are found, present them to the user and ask which one to review.
    - If no PRs are found, tell the user no open PR was found for this branch and stop.
 
-2. **Get the PR base commit and diff:**
-   ```bash
-   # Query base SHA directly with a literal PR number
-   # Avoid shell wrappers like: PR_NUMBER=123; gh pr view $PR_NUMBER ...
-   gh pr view <pr-number> --json baseRefOid --jq '.baseRefOid'
+2. **Get the PR base branch and diff:**
 
-   # Diff from that base SHA to HEAD (the PR's changes only)
-   git diff -U10 <base-sha-from-command>...HEAD
+   Get the base branch name if not already known from step 1:
+   ```bash
+   gh pr view <pr-number> --json baseRefName --jq '.baseRefName'
    ```
 
-   If `gh pr view` fails, fall back to merge-base with origin/main:
+   Compute the merge base and diff:
    ```bash
-   MERGE_BASE=$(git merge-base origin/main HEAD)
-   git diff -U10 $MERGE_BASE HEAD
+   git merge-base origin/<baseRefName> HEAD
+   git diff -U10 <merge-base>...HEAD
    ```
 
 3. **Check diff size before reading the full diff:**
    ```bash
-   git diff --stat <base-sha>...HEAD
+   git diff --stat <merge-base>...HEAD
    ```
    Look at the total line count in the summary line at the bottom. If total changed lines exceed ~2000:
    - Do NOT read the entire diff at once. Instead, review files individually:
      ```bash
-     git diff -U10 <base-sha>...HEAD -- path/to/file.ext
+     git diff -U10 <merge-base>...HEAD -- path/to/file.ext
      ```
    - Prioritize files with the most changes, and files in critical paths (auth, security, data handling).
    - Skip generated files (e.g. `*.generated.*`, `*.min.js`), lock files (`package-lock.json`, `yarn.lock`, `Cargo.lock`), and vendored dependencies.
 
-4. **Get PR metadata** (for comment submission and description review):
+4. **Get PR metadata** (for comment submission):
    ```bash
-   # Get repo info and PR description
    gh repo view --json nameWithOwner --jq '.nameWithOwner'
    gh pr view <pr-number> --json title,body
    ```
 
 5. **Get commit messages:**
    ```bash
-   git log --format="%H%n%s%n%b%n---" <base-sha>...HEAD
+   git log --format="%H%n%s%n%b%n---" <merge-base>...HEAD
    ```
 
 6. **Read surrounding code** using local files for additional context when needed.
@@ -106,6 +102,8 @@ Each hunk starts with a header like `@@ -a,b +c,d @@`. The `+c` value is the sta
 The hunk header says `+12`, so the first context line is line 12. Counting forward through ` ` and `+` lines (skipping the `-` line): 12, 13, 14, 15, 16, 17, 18. To comment on `new_transform`, use `line: 14`. To comment on the `log::info!` addition, use `line: 15`.
 
 ### Phase 2: Analyze and Identify Issues
+
+If no issues are found after analysis, skip directly to Phase 6 and offer approval.
 
 #### Understand intent from commit messages and PR description
 
@@ -290,22 +288,12 @@ After the review ends (approved or not), if any comments were skipped, offer to 
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    ```
 
-4. **Update guidelines file**: If user confirms, append to `~/.config/code-review/review_guide.md`:
+4. **Update guidelines file**: If user confirms, update `~/.config/code-review/review_guide.md`:
 
-   ```bash
-   # Create file if it doesn't exist
-   mkdir -p ~/.config/code-review
-
-   # Append skip rules
-   cat >> ~/.config/code-review/review_guide.md << 'EOF'
-
-   ## Skip These
-   - unused imports
-   - missing documentation comments
-   EOF
-   ```
-
-   If the file already has a "## Skip These" section, append only the new categories under it (avoid duplicates).
+   - Create the directory and file if they don't exist (`mkdir -p ~/.config/code-review`).
+   - If the file already has a "## Skip These" section, append only the new categories under it.
+   - If the file has no "## Skip These" section, add one at the end.
+   - Deduplicate against existing entries before adding.
 
 5. **Confirm update**:
    ```
