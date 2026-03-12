@@ -105,7 +105,7 @@ Functions are the first line of organization in any program.
 
 **Command-query separation.** A function should either do something (change state) or answer something (return information), not both. `set_attribute` returning `true`/`false` for success is confusing. Separate the command from the query.
 
-**Prefer exceptions to error codes.** Error codes force the caller to deal with the error immediately, leading to deeply nested structures. Exceptions let the happy path stay clean. Extract the bodies of `try` and `catch` blocks into their own functions. Error handling is one thing.
+**Use the language's error mechanism consistently.** Exceptions (Python, Java), `Result` types (Rust), or multiple returns (Go): pick the idiomatic mechanism and use it consistently. Do not fall back to status codes or sentinel values that callers can silently ignore. Extract error-handling blocks into their own functions. Error handling is one thing.
 
 **DRY.** Duplication is the root of all evil in software. If you see the same structure repeated, extract it. Every piece of knowledge should have a single, unambiguous representation.
 
