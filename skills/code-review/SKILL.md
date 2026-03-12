@@ -134,6 +134,8 @@ Keep track of:
 - Issue description
 - Severity level
 
+When composing comment bodies for submission, prefix each with its severity so reviewers on GitHub can see it at a glance: `**Critical:** ...`, `**Suggestion:** ...`, `**Nitpick:** ...`.
+
 ### Phase 3: Present All Issues At Once
 
 Show ALL issues in a summary table first:
