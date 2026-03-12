@@ -1,7 +1,6 @@
 ---
 name: code-review
 description: Review pull requests and submit comments to GitHub. Use this skill when the user asks to review a PR, check a pull request, look at code changes, review PR #123, or anything involving code review of GitHub pull requests, even if they don't explicitly say "code review".
-disable-model-invocation: true
 allowed-tools: Bash(gh *), Bash(git *), Read, Grep, Glob, LS, AskUserQuestion
 ---
 
