@@ -3,34 +3,34 @@
 all: install
 
 REPO_ROOT := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
-SRC := $(REPO_ROOT)skills
-DST := $(HOME)/.claude/skills
-SKILLS := $(shell find "$(SRC)" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;)
+SOURCE := $(REPO_ROOT)skills
+DESTINATION := $(HOME)/.claude/skills
+SKILLS := $(shell find "$(SOURCE)" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;)
 
 install:
-	@mkdir -p "$(DST)"
-	@for s in $(SKILLS); do \
-		ln -sfn "$(SRC)/$$s" "$(DST)/$$s"; \
+	@mkdir -p "$(DESTINATION)"
+	@for skill in $(SKILLS); do \
+		ln -sfn "$(SOURCE)/$$skill" "$(DESTINATION)/$$skill"; \
 	done
 	@$(MAKE) --no-print-directory status
 
 uninstall:
-	@for s in $(SKILLS); do \
-		if [ -e "$(DST)/$$s" ] || [ -L "$(DST)/$$s" ]; then \
-			rm -f "$(DST)/$$s"; \
-			echo "removed $$s"; \
+	@for skill in $(SKILLS); do \
+		if [ -e "$(DESTINATION)/$$skill" ] || [ -L "$(DESTINATION)/$$skill" ]; then \
+			rm -f "$(DESTINATION)/$$skill"; \
+			echo "removed $$skill"; \
 		fi; \
 	done
-	@for link in "$(DST)"/*; do \
-		if [ -L "$$link" ] && readlink "$$link" | grep -q "^$(SRC)/"; then \
+	@for link in "$(DESTINATION)"/*; do \
+		if [ -L "$$link" ] && readlink "$$link" | grep -q "^$(SOURCE)/"; then \
 			echo "removed stale $$(basename $$link)"; \
 			rm -f "$$link"; \
 		fi; \
 	done
 
 status:
-	@for s in $(SKILLS); do \
-		ls -ld "$(DST)/$$s" 2>/dev/null || echo "$$s missing"; \
+	@for skill in $(SKILLS); do \
+		ls -ld "$(DESTINATION)/$$skill" 2>/dev/null || echo "$$skill missing"; \
 	done
 
 reinstall: uninstall install
