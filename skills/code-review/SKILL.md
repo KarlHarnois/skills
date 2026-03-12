@@ -198,23 +198,34 @@ Parse user input:
 
 Submit all selected comments in a single review to avoid spamming the PR with individual notifications.
 
-Build a JSON array of all comments and post them in one API call:
+Build a JSON payload file and submit it in one API call. Using a temp file avoids shell escaping issues with quotes and special characters in comment bodies.
 
 ```bash
+cat > /tmp/review_payload.json << 'REVIEW_JSON'
+{
+  "event": "COMMENT",
+  "body": "",
+  "commit_id": "<HEAD commit SHA>",
+  "comments": [
+    {"path":"auth.rs","line":45,"side":"RIGHT","body":"**Critical:** Token expiration is not checked..."},
+    {"path":"auth.rs","line":23,"side":"RIGHT","body":"**Suggestion:** Use constant-time comparison..."},
+    {"path":"middleware.rs","line":67,"side":"RIGHT","body":"**Suggestion:** Error message reveals user existence..."}
+  ]
+}
+REVIEW_JSON
+
 gh api repos/{owner}/{repo}/pulls/{pr_number}/reviews \
   -X POST \
-  -f event="COMMENT" \
-  -f body="" \
-  --raw-field comments='[
-    {"path":"auth.rs","line":45,"body":"Token expiration is not checked..."},
-    {"path":"auth.rs","line":23,"body":"Use constant-time comparison..."},
-    {"path":"middleware.rs","line":67,"body":"Error message reveals user existence..."}
-  ]'
+  --input /tmp/review_payload.json
 ```
 
+Get the HEAD commit SHA with `git rev-parse HEAD` and substitute it into the payload.
+
 **Important API notes:**
+- `commit_id` is required to anchor comments to the correct commit
 - `line` values must be integers, not strings
 - `line` must be the new-file line number derived from hunk headers (see "Line Number Mapping from Unified Diffs")
+- `side` should be `"RIGHT"` for comments on new-file lines
 - `path` is relative to the repo root
 - The `body` field on the review itself should be empty (the comments carry the content)
 
