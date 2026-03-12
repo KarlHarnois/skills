@@ -142,47 +142,47 @@ Parse user input:
 
 ### Phase 5: Submit Selected Comments
 
-For each selected comment, submit using `gh` CLI:
+Submit all selected comments in a single review to avoid spamming the PR with individual notifications. Build a JSON array of all comments and post them in one API call:
 
 ```bash
-# For line-specific comments, use a review with comments array
-  gh api repos/{owner}/{repo}/pulls/{pr_number}/reviews \
-    -X POST \
-    -f event="COMMENT" \
-    -f body="" \
-    --raw-field comments='[{"path":"[file path]","line":[line number],"body":"[Comment text]"}]'
+gh api repos/{owner}/{repo}/pulls/{pr_number}/reviews \
+  -X POST \
+  -f event="COMMENT" \
+  -f body="" \
+  --raw-field comments='[
+    {"path":"auth.rs","line":45,"body":"Token expiration is not checked..."},
+    {"path":"auth.rs","line":23,"body":"Use constant-time comparison..."},
+    {"path":"middleware.rs","line":67,"body":"Error message reveals user existence..."}
+  ]'
 ```
 
-Or for a single inline comment without creating a full review:
-
-```bash
-# Use the correct parameters for single-line comments
-  gh api repos/{owner}/{repo}/pulls/{pr_number}/comments \
-    -X POST \
-    -f body="[Comment text]" \
-    -f commit_id="$(git rev-parse HEAD)" \
-    -f path="[file path]" \
-    -F line=[line number] \
-    -f side="RIGHT"
-```
 **Important API notes:**
-- Use `-F line=123` (not `-f`) so the number is sent as integer, not string
-- `subject_type` must be `"line"` for single-line comments
-- `side` should be `"RIGHT"` for new code (lines with `+`)
-- `commit_id` must be the HEAD commit of the PR branch
+- `line` values must be integers, not strings
+- `line` refers to the position in the NEW version of the file (lines with `+` in the diff)
+- `path` is relative to the repo root
+- The `body` field on the review itself should be empty (the comments carry the content)
 
-If line-level comment fails, fall back to a general PR comment:
+If the batch review call fails, fall back to submitting each comment individually:
+
+```bash
+gh api repos/{owner}/{repo}/pulls/{pr_number}/comments \
+  -X POST \
+  -f body="[Comment text]" \
+  -f commit_id="$(git rev-parse HEAD)" \
+  -f path="[file path]" \
+  -F line=[line number] \
+  -f side="RIGHT" \
+  -f subject_type="line"
+```
+
+If a single comment also fails (usually a bad line number), fall back to a general PR comment:
 ```bash
 gh pr comment {pr_number} --body "**[file:line]** [Comment text]"
 ```
 
-Show progress as comments are submitted:
+Show the result after submission:
 ```
-Submitting comments...
-  [1] auth.rs:45 ✓
-  [2] auth.rs:23 ✓
-  [3] middleware.rs:67 ✗ (failed - added as general comment)
-Done. 3 comments submitted.
+Submitted 3 comments as a single review.
 ```
 
 ### Phase 6: Final Summary and Approval
