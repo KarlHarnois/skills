@@ -155,12 +155,11 @@ Code formatting is about communication, and communication is the professional de
 
 ## Tests
 
-**Clean tests follow F.I.R.S.T.:**
+**Clean tests follow these rules:**
 - **Fast.** Tests should run quickly.
 - **Independent.** Tests should not depend on each other.
 - **Repeatable.** Tests should work in any environment.
 - **Self-validating.** Tests should have a boolean output: pass or fail.
-- **Timely.** Write tests just before the production code that makes them pass.
 
 **One concept per test.** Each test function should test a single concept. Do not write long test functions that test one thing after another.
 
