@@ -58,13 +58,47 @@ If no custom guidelines exist, use these defaults:
    git diff -U10 $MERGE_BASE HEAD
    ```
 
-3. **Get PR metadata** (for comment submission):
+3. **Check diff size before reading the full diff:**
+   ```bash
+   git diff --stat <base-sha>...HEAD
+   ```
+   Look at the total line count in the summary line at the bottom. If total changed lines exceed ~2000:
+   - Do NOT read the entire diff at once. Instead, review files individually:
+     ```bash
+     git diff -U10 <base-sha>...HEAD -- path/to/file.ext
+     ```
+   - Prioritize files with the most changes, and files in critical paths (auth, security, data handling).
+   - Skip generated files (e.g. `*.generated.*`, `*.min.js`), lock files (`package-lock.json`, `yarn.lock`, `Cargo.lock`), and vendored dependencies.
+
+4. **Get PR metadata** (for comment submission):
    ```bash
    # Get repo info
    gh repo view --json nameWithOwner --jq '.nameWithOwner'
    ```
 
-4. **Read surrounding code** using local files for additional context when needed.
+5. **Read surrounding code** using local files for additional context when needed.
+
+### Line Number Mapping from Unified Diffs
+
+The GitHub review API `line` field expects new-file line numbers. Here is how to extract them from a unified diff.
+
+Each hunk starts with a header like `@@ -a,b +c,d @@`. The `+c` value is the starting line number in the new file. From there, count forward through lines that exist in the new file: context lines (starting with ` `) and addition lines (starting with `+`). Skip deletion lines (starting with `-`), they do not exist in the new file.
+
+**Example:**
+
+```diff
+@@ -10,7 +12,8 @@ fn process(input: &str) {
+     let trimmed = input.trim();       // +12 (context)
+     let parsed = parse(trimmed);      // +13 (context)
+-    let result = old_transform(parsed);
++    let result = new_transform(parsed); // +14 (addition)
++    log::info!("transformed: {result}"); // +15 (addition)
+     if result.is_empty() {            // +16 (context)
+         return Err("empty");          // +17 (context)
+     }                                 // +18 (context)
+```
+
+The hunk header says `+12`, so the first context line is line 12. Counting forward through ` ` and `+` lines (skipping the `-` line): 12, 13, 14, 15, 16, 17, 18. To comment on `new_transform`, use `line: 14`. To comment on the `log::info!` addition, use `line: 15`.
 
 ### Phase 2: Analyze and Identify Issues
 
@@ -76,7 +110,7 @@ Analyze the diff and categorize issues:
 
 Keep track of:
 - File path
-- Line number (from the NEW version, lines with `+`)
+- Line number (see "Line Number Mapping from Unified Diffs" above)
 - Issue description
 - Severity level
 
@@ -158,7 +192,7 @@ gh api repos/{owner}/{repo}/pulls/{pr_number}/reviews \
 
 **Important API notes:**
 - `line` values must be integers, not strings
-- `line` refers to the position in the NEW version of the file (lines with `+` in the diff)
+- `line` must be the new-file line number derived from hunk headers (see "Line Number Mapping from Unified Diffs")
 - `path` is relative to the repo root
 - The `body` field on the review itself should be empty (the comments carry the content)
 
@@ -277,7 +311,7 @@ After the review ends (approved or not), if any comments were skipped, offer to 
 - **NO `--body` on approve** - comments are submitted separately in Phase 5
 - Always confirm the PR number before submitting any comments
 - Use `gh auth status` to verify authentication if commands fail
-- Line numbers must correspond to the NEW version of the file (right side of diff)
+- Line numbers must be mapped from the unified diff hunk headers (see "Line Number Mapping from Unified Diffs")
 - Be constructive and specific in comments
 - Explain *why* something is an issue, not just *what*
 - Review guidelines at `~/.config/code-review/review_guide.md` - check "Skip These" section before flagging issues
