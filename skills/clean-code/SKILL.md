@@ -145,6 +145,16 @@ Code formatting is about communication, and communication is the professional de
 
 **Do not pass null.** Passing null into a method is worse than returning it. There is no good way to deal with a null passed by a caller. Forbid it by policy.
 
+## System Organization
+
+**Depend toward stability.** High-level policy should not depend on low-level details. Both should depend on abstractions. A business rule module should never import a database driver or HTTP framework directly.
+
+**No dependency cycles.** If module A depends on B and B depends on A, extract the shared concept into a third module or merge them. The dependency graph between modules should always be a directed acyclic graph.
+
+**Group by change.** Classes that change for the same reason belong in the same module. Prefer organizing by feature or domain concept over organizing by technical layer (all controllers together, all models together).
+
+**Separate construction from use.** Building and wiring objects is a distinct concern from using them. Push object creation to the boundaries of the system. Business logic receives its dependencies, it does not create them.
+
 ## Tests
 
 **Clean tests follow F.I.R.S.T.:**
