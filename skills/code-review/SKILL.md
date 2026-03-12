@@ -138,7 +138,9 @@ When composing comment bodies for submission, prefix each with its severity so r
 
 ### Phase 3: Present All Issues At Once
 
-Show ALL issues in a summary table first:
+**Short-circuit for small reviews:** If there are only 1-2 issues, skip the table and selection menu. Show each issue inline with its details and ask "Submit these comments? (y/n)". Jump to Phase 5 if yes, Phase 6 if no.
+
+For 3+ issues, show ALL issues in a summary table first:
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
