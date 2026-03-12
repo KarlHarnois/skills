@@ -31,6 +31,8 @@ elapsed_time_in_days = 5
 
 **Use searchable names.** Single-letter names and numeric constants are hard to find in a body of text. The length of a name should correspond to the size of its scope. A single-letter variable is acceptable only as a local variable in a very short method.
 
+**No magic numbers or strings.** Replace literal values with named constants when the meaning cannot be derived from the value itself. `SECONDS_PER_DAY = 86400` over a bare `86400`. Exception: universally obvious values like `0`, `1`, `""`, `true`.
+
 **No encodings.** No Hungarian notation. No member prefixes (`m_`) or interface prefixes (`IShapeFactory`). Exception: follow established language conventions (e.g., `_private` in Python, `I` prefixes in C#/.NET). Modern tools make other encodings unnecessary.
 
 **Class names are nouns.** `Customer`, `WikiPage`, `Account`, `AddressParser`. Never a verb. Avoid vague names like `Manager`, `Processor`, `Data`, `Info`.
@@ -97,6 +99,10 @@ Functions are the first line of organization in any program.
 
 **No side effects.** A function that claims to do one thing but also changes something else is lying. A `check_password` function that initializes a session has a side effect. Side effects create temporal couplings and order dependencies.
 
+**Use explanatory variables.** Introduce named locals to break complex expressions into labeled steps. A reader should not have to mentally evaluate a multi-part expression to understand what it computes.
+
+**Encapsulate boundary conditions.** Boundary logic is error-prone. Compute boundary values once in a named variable (`nextIndex = index + 1`) rather than scattering the arithmetic.
+
 **Command-query separation.** A function should either do something (change state) or answer something (return information), not both. `set_attribute` returning `true`/`false` for success is confusing. Separate the command from the query.
 
 **Prefer exceptions to error codes.** Error codes force the caller to deal with the error immediately, leading to deeply nested structures. Exceptions let the happy path stay clean. Extract the bodies of `try` and `catch` blocks into their own functions. Error handling is one thing.
@@ -117,6 +123,14 @@ Code formatting is about communication, and communication is the professional de
 
 **Horizontal size.** Lines should not require horizontal scrolling. Aim to stay within 120 characters.
 
+## Conditionals
+
+**Encapsulate conditionals.** `if shouldDelete(timer)` over `if timer.hasExpired && !timer.isRecurrent`. Extract complex boolean expressions into well-named functions or variables.
+
+**Prefer positive conditionals.** `if isValid` over `if !isInvalid`. Positive conditions are easier to read. When both branches exist, put the positive case first.
+
+**Replace type-checking conditionals with polymorphism.** If a conditional (switch/case, if/else chain) selects behavior based on type or category, replace it with polymorphism, pattern matching, or dispatch tables. One such conditional in a factory is fine; the same conditional scattered across the codebase is not.
+
 ## Objects, Data Structures, and Classes
 
 **Data/object anti-symmetry.** Objects hide data behind abstractions and expose functions that operate on that data. Data structures expose data and have no meaningful functions. These are opposites. Procedural code (using data structures) makes it easy to add new functions. OO code makes it easy to add new classes. Choose based on what is more likely to change.
@@ -124,6 +138,8 @@ Code formatting is about communication, and communication is the professional de
 **Law of Demeter.** A method should only call methods on: its own object, objects passed as parameters, objects it creates, and its direct component objects. No chaining through strangers: `context.get_options().get_scratch_dir().get_absolute_path()` is a violation. If you find yourself reaching through a chain of objects, something is wrong with the design.
 
 **Tell, don't ask.** Instead of asking an object for data and then acting on it, tell the object what to do. Move behavior to the object that has the data.
+
+**Prefer value objects to primitives.** When a primitive carries domain meaning (file paths, email addresses, monetary amounts), wrap it in a dedicated type. This centralizes validation, prevents mixing unrelated values of the same primitive type, and makes function signatures self-documenting.
 
 **Classes should be small.** Measure by responsibilities, not lines of code. A class should have one responsibility, one reason to change (Single Responsibility Principle). If you cannot describe a class in about 25 words without using "and", "or", "if", or "but", it has too many responsibilities.
 
@@ -137,6 +153,10 @@ Code formatting is about communication, and communication is the professional de
 
 **Make errors impossible to ignore.** Exceptions and Rust's `Result` force the caller to acknowledge the error. The anti-pattern is a return code or status flag the caller can silently discard.
 
+**Fail fast.** Detect and signal errors as early as possible. Validate inputs at the boundary, assert preconditions at the top of functions. The closer the error is raised to its cause, the easier it is to diagnose.
+
+**Never use exceptions for control flow.** Exceptions signal exceptional, unexpected failures. Using them for normal branching (e.g., catching an exception to check if a key exists) is slower, harder to follow, and obscures real errors.
+
 **Provide context with errors.** Include the operation that failed and the type of failure. A caller should be able to determine the source and location of an error from the message alone.
 
 **Wrap third-party error types.** Define errors by the caller's needs, not the library's taxonomy. This decouples your domain from external APIs and gives you a single place to change if the dependency changes.
@@ -148,6 +168,8 @@ Code formatting is about communication, and communication is the professional de
 **Depend toward stability.** High-level policy should not depend on low-level details. Both should depend on abstractions. A business rule module should never import a database driver or HTTP framework directly.
 
 **No dependency cycles.** If module A depends on B and B depends on A, extract the shared concept into a third module or merge them. The dependency graph between modules should always be a directed acyclic graph.
+
+**Make temporal coupling explicit.** If operations must happen in a specific order, enforce it through the API: have each step return the input for the next, or use a builder/pipeline pattern. A caller should not need to read the implementation to discover the required sequence.
 
 **Group by change.** Classes that change for the same reason belong in the same module. Prefer organizing by feature or domain concept over organizing by technical layer (all controllers together, all models together).
 
