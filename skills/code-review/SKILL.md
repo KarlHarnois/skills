@@ -80,8 +80,9 @@ Use git directly to read diffs and code, NOT `gh` commands to fetch diffs.
 5. **Get PR metadata** (for comment submission):
    ```bash
    gh repo view --json nameWithOwner --jq '.nameWithOwner'
-   gh pr view <pr-number> --json title,body
+   gh pr view <pr-number> --json title,body,isDraft
    ```
+   If the PR is a draft, ask the user whether they still want to submit review comments before proceeding.
 
 6. **Get commit messages:**
    ```bash
