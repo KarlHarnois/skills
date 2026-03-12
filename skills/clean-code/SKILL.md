@@ -31,7 +31,7 @@ elapsed_time_in_days = 5
 
 **Use searchable names.** Single-letter names and numeric constants are hard to find in a body of text. The length of a name should correspond to the size of its scope. A single-letter variable is acceptable only as a local variable in a very short method.
 
-**No encodings.** No Hungarian notation. No member prefixes (`m_`, `_`). No interface prefixes (`IShapeFactory`). Modern tools make encodings unnecessary.
+**No encodings.** No Hungarian notation. No member prefixes (`m_`) or interface prefixes (`IShapeFactory`). Exception: follow established language conventions (e.g., `_private` in Python, `I` prefixes in C#/.NET). Modern tools make other encodings unnecessary.
 
 **Class names are nouns.** `Customer`, `WikiPage`, `Account`, `AddressParser`. Never a verb. Avoid vague names like `Manager`, `Processor`, `Data`, `Info`.
 
