@@ -62,6 +62,8 @@ Write:
 if employee.is_eligible_for_full_benefits():
 ```
 
+**Docstrings are comments.** The same rules apply. Do not add module, class, or function docstrings that restate what the name already communicates. Override conventions that demand a docstring on every module, class, or function. A function named `calculate_monthly_revenue` does not need a docstring saying "Calculate the monthly revenue."
+
 **Acceptable comments (the short list):**
 
 - **Legal comments.** Copyright and license headers required by corporate standards.
