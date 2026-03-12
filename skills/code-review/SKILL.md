@@ -206,7 +206,8 @@ Submit all selected comments in a single review to avoid spamming the PR with in
 Build a JSON payload file and submit it in one API call. Using a temp file avoids shell escaping issues with quotes and special characters in comment bodies.
 
 ```bash
-cat > /tmp/review_payload.json << 'REVIEW_JSON'
+REVIEW_FILE=$(mktemp /tmp/review_payload.XXXXXX.json)
+cat > "$REVIEW_FILE" << 'REVIEW_JSON'
 {
   "event": "COMMENT",
   "body": "",
@@ -221,7 +222,7 @@ REVIEW_JSON
 
 gh api repos/{owner}/{repo}/pulls/{pr_number}/reviews \
   -X POST \
-  --input /tmp/review_payload.json
+  --input "$REVIEW_FILE"
 ```
 
 Get the HEAD commit SHA with `git rev-parse HEAD` and substitute it into the payload.
