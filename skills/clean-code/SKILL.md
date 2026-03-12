@@ -133,17 +133,15 @@ Code formatting is about communication, and communication is the professional de
 
 ## Error Handling
 
-**Use exceptions, not return codes.** Exception-based error handling separates the happy path from error handling, making both cleaner.
+**Separate the happy path from error handling.** Do not interleave success logic and failure logic. In exception-based languages (Python, Ruby, Java), use try-catch/rescue blocks and extract bodies into their own functions. In Rust, use the `?` operator and `Result` chains. Whatever the mechanism, a reader should be able to follow the happy path without stepping over error-handling code.
 
-**Write try-catch-finally first.** When writing code that could throw, start with the try-catch block. This helps define what the caller can expect.
+**Make errors impossible to ignore.** Exceptions and Rust's `Result` force the caller to acknowledge the error. The anti-pattern is a return code or status flag the caller can silently discard.
 
-**Provide context with exceptions.** Create informative error messages that include the operation that failed and the type of failure. Mention enough context for someone to determine the source and location of an error.
+**Provide context with errors.** Include the operation that failed and the type of failure. A caller should be able to determine the source and location of an error from the message alone.
 
-**Define exception classes by the caller's needs.** Wrap third-party APIs so you can define your own exceptions. Often a single exception class is fine for a particular area of code, distinguished by the information in the message.
+**Wrap third-party error types.** Define errors by the caller's needs, not the library's taxonomy. This decouples your domain from external APIs and gives you a single place to change if the dependency changes.
 
-**Do not return null.** Returning null creates work for the caller and invites null pointer errors. Return a special case object or throw an exception instead. If a method returns a collection, return an empty collection rather than null.
-
-**Do not pass null.** Passing null into a method is worse than returning it. There is no good way to deal with a null passed by a caller. Forbid it by policy.
+**Make absence explicit.** Do not use null or nil as a signal that a value is missing. Use the language's type system: `Optional` in Java, `Option` in Rust, `None` with type hints in Python, empty collections instead of null. If the type signature does not communicate that absence is possible, callers will forget to check.
 
 ## System Organization
 
