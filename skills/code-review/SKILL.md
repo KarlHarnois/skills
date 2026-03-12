@@ -11,7 +11,7 @@ Interactively review code changes and submit approved comments to GitHub using `
 
 ## Review Guidelines
 
-First, check for custom review guidelines at `~/.config/reviewer/review_guide.md`. If the file exists:
+First, check for custom review guidelines at `~/.config/code-review/review_guide.md`. If the file exists:
 1. Follow any custom review focus areas
 2. **Check the "Skip These" section** - do NOT flag issues matching skip categories
 
@@ -243,14 +243,14 @@ After the review ends (approved or not), if any comments were skipped, offer to 
    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
    ```
 
-4. **Update guidelines file**: If user confirms, append to `~/.config/reviewer/review_guide.md`:
+4. **Update guidelines file**: If user confirms, append to `~/.config/code-review/review_guide.md`:
 
    ```bash
    # Create file if it doesn't exist
-   mkdir -p ~/.config/reviewer
+   mkdir -p ~/.config/code-review
 
    # Append skip rules
-   cat >> ~/.config/reviewer/review_guide.md << 'EOF'
+   cat >> ~/.config/code-review/review_guide.md << 'EOF'
 
    ## Skip These
    - unused imports
@@ -262,7 +262,7 @@ After the review ends (approved or not), if any comments were skipped, offer to 
 
 5. **Confirm update**:
    ```
-   ✓ Updated ~/.config/reviewer/review_guide.md
+   ✓ Updated ~/.config/code-review/review_guide.md
      Added 2 categories to skip list.
    ```
 
@@ -280,4 +280,4 @@ After the review ends (approved or not), if any comments were skipped, offer to 
 - Line numbers must correspond to the NEW version of the file (right side of diff)
 - Be constructive and specific in comments
 - Explain *why* something is an issue, not just *what*
-- Review guidelines at `~/.config/reviewer/review_guide.md` - check "Skip These" section before flagging issues
+- Review guidelines at `~/.config/code-review/review_guide.md` - check "Skip These" section before flagging issues
