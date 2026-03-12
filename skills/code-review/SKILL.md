@@ -2,7 +2,7 @@
 name: code-review
 description: Interactive code review with GitHub comment submission using gh CLI
 disable-model-invocation: true
-allowed-tools: Bash(gh *), Bash(git *), Read, Grep, Glob, LS
+allowed-tools: Bash(gh *), Bash(git *), Read, Grep, Glob, LS, AskUserQuestion
 ---
 
 # Code Review Skill
