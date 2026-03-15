@@ -37,7 +37,7 @@ elapsed_time_in_days = 5
 
 **Class names are nouns.** `Customer`, `WikiPage`, `Account`, `AddressParser`. Never a verb. Avoid vague names like `Manager`, `Processor`, `Data`, `Info`.
 
-**Method names are verbs.** `save`, `delete_page`, `post_payment`. Accessors, mutators, and predicates follow language conventions (`get_name`, `set_name`, `is_posted`).
+**Action methods are verbs.** `save`, `delete_page`, `post_payment`. Getters, setters, and predicates follow the target language's naming conventions (e.g., `get_name`/`is_active` in Java, `name`/`active?` in Ruby).
 
 **One word per concept.** Pick one word for one abstract concept and stick with it. Do not use `fetch`, `retrieve`, and `get` in the same codebase for the same kind of operation. Do not use `controller`, `manager`, and `driver` interchangeably.
 
