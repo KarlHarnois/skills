@@ -69,6 +69,8 @@ If the current branch equals the repo's default branch, stop and tell the user t
 
 If `gh pr list` returns a non-empty array, an open PR already exists for this branch. Stop and tell the user, surfacing the PR number and URL from the JSON output so they can jump straight to it. They likely want to update, not re-create. Do not continue to the fetch/diff work below.
 
+If `git status` shows any modified, staged, or untracked files, stop and tell the user to commit first. Do not auto-commit, and do not continue to the fetch/diff work below.
+
 Then refresh the remote-tracking ref so the comparison is against the current remote tip, not a stale local copy:
 ```bash
 git fetch origin <default>
@@ -88,7 +90,6 @@ git diff origin/<default>...HEAD -- path/to/file
 
 ### Phase 2: Preconditions
 
-- **Uncommitted changes**: if the `git status` output from Phase 1 shows any modified, staged, or untracked files, stop and tell the user to commit first. Do not auto-commit.
 - **No commits ahead of base**: if the `git log origin/<default>..HEAD` output from Phase 1 is empty, stop and tell the user there is nothing to open a PR for.
 - **Branch not pushed**: note it, push in Phase 4 with `-u`.
 
