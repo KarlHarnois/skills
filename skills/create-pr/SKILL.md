@@ -62,7 +62,10 @@ Run these in parallel:
 git status
 git branch --show-current
 gh repo view --json defaultBranchRef,nameWithOwner --jq '{default: .defaultBranchRef.name, repo: .nameWithOwner}'
+gh pr list --head "$(git branch --show-current)" --json number,url
 ```
+
+If `gh pr list` returns a non-empty array, an open PR already exists for this branch. Stop and tell the user. They likely want to update, not re-create. Do not continue to the fetch/diff work below.
 
 Then refresh the remote-tracking ref so the comparison is against the current remote tip, not a stale local copy:
 ```bash
@@ -86,7 +89,6 @@ git diff origin/<default>...HEAD -- path/to/file
 - **Uncommitted changes**: stop and tell the user to commit first. Do not auto-commit.
 - **No commits ahead of base**: stop and tell the user there is nothing to open a PR for.
 - **Branch not pushed**: note it, push in Phase 4 with `-u`.
-- **Existing PR for this branch**: check with `gh pr list --head "$(git branch --show-current)" --json number,url`. If one exists, tell the user and stop. They likely want to update, not re-create.
 
 ### Phase 3: Draft
 
