@@ -65,6 +65,8 @@ gh repo view --json defaultBranchRef,nameWithOwner --jq '{default: .defaultBranc
 gh pr list --head "$(git branch --show-current)" --json number,url
 ```
 
+If the current branch equals the repo's default branch, stop and tell the user to switch to a feature branch first. Otherwise the workflow will fetch and diff for nothing, then fail confusingly at `gh pr create` (which refuses base==head).
+
 If `gh pr list` returns a non-empty array, an open PR already exists for this branch. Stop and tell the user. They likely want to update, not re-create. Do not continue to the fetch/diff work below.
 
 Then refresh the remote-tracking ref so the comparison is against the current remote tip, not a stale local copy:
