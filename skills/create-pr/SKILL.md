@@ -78,7 +78,7 @@ If the diff is large (>2000 changed lines), read it in chunks by file instead of
 - **Uncommitted changes**: stop and tell the user to commit first. Do not auto-commit.
 - **No commits ahead of base**: stop and tell the user there is nothing to open a PR for.
 - **Branch not pushed**: note it, push in Phase 4 with `-u`.
-- **Existing PR for this branch**: check with `gh pr list --head "$(git branch --show-current)" --json number,url`. If one exists, tell the user and stop — they likely want to update, not re-create.
+- **Existing PR for this branch**: check with `gh pr list --head "$(git branch --show-current)" --json number,url`. If one exists, tell the user and stop. They likely want to update, not re-create.
 
 ### Phase 3: Draft
 
