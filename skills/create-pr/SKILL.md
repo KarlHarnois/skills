@@ -61,7 +61,7 @@ Run these in parallel:
 ```bash
 git status
 git branch --show-current
-gh repo view --json defaultBranchRef,nameWithOwner --jq '{default: .defaultBranchRef.name, repo: .nameWithOwner}'
+gh repo view --json defaultBranchRef --jq '.defaultBranchRef.name'
 gh pr list --head "$(git branch --show-current)" --json number,url
 ```
 
