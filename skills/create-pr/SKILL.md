@@ -92,11 +92,9 @@ Otherwise, read the diff per file, prioritizing the largest changes and files in
 git diff origin/<default>...HEAD -- path/to/file
 ```
 
-### Phase 2: Preconditions
+If the `git log origin/<default>..HEAD` output is empty, stop and tell the user there is nothing to open a PR for.
 
-- **No commits ahead of base**: if the `git log origin/<default>..HEAD` output from Phase 1 is empty, stop and tell the user there is nothing to open a PR for.
-
-### Phase 3: Draft
+### Phase 2: Draft
 
 1. **Check for a PR template**: GitHub accepts the template at any of these paths, so check all of them:
    - `.github/pull_request_template.md` or `.github/PULL_REQUEST_TEMPLATE.md`
@@ -120,9 +118,9 @@ git diff origin/<default>...HEAD -- path/to/file
    ```
    For trivial changes (docs, one-line fixes), `## Test plan` can be `- N/A`.
 
-5. **Submit without asking for confirmation.** Proceed directly to Phase 4. The user prefers to edit the PR on GitHub after the fact rather than iterate on the draft in chat.
+5. **Submit without asking for confirmation.** Proceed directly to Phase 3. The user prefers to edit the PR on GitHub after the fact rather than iterate on the draft in chat.
 
-### Phase 4: Submit
+### Phase 3: Submit
 
 Push the branch if needed:
 ```bash
