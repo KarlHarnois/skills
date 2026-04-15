@@ -98,7 +98,7 @@ git diff origin/<default>...HEAD -- path/to/file
    - `pull_request_template.md` or `PULL_REQUEST_TEMPLATE.md` at the repo root
    - Any `*.md` inside `.github/PULL_REQUEST_TEMPLATE/` (multi-template repos, pick the one that fits or ask the user)
 
-   If found, use its sections verbatim. For sections that don't apply, put plain `N/A` (no italics, no explanation).
+   If found, use its section headers verbatim and fill each one with real content. Drop any HTML-comment placeholders (`<!-- describe your changes -->`, `<!-- link related issues -->`, etc.) rather than copying them into the final body. For sections that don't apply, put plain `N/A` (no italics, no explanation).
 
 2. **Draft the title**: imperative, capitalized, ≤72 chars. Derived from the overall change, not the latest commit message.
 
