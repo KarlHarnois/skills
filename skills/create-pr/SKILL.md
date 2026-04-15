@@ -64,8 +64,9 @@ git branch --show-current
 gh repo view --json defaultBranchRef,nameWithOwner --jq '{default: .defaultBranchRef.name, repo: .nameWithOwner}'
 ```
 
-Then:
+Then refresh the remote-tracking ref so the comparison is against the current remote tip, not a stale local copy:
 ```bash
+git fetch origin <default>
 git log --format="%H%n%s%n%b%n---" origin/<default>..HEAD
 git diff origin/<default>...HEAD --stat
 git diff origin/<default>...HEAD
