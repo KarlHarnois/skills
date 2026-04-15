@@ -120,7 +120,7 @@ Return the PR URL.
 ## Important Notes
 
 - Never add `Co-Authored-By` lines or any generated-by footer.
-- Never include emojis in the title or body unless the user asks.
+- Never include emojis in the title or body unless the user asks or the PR template already uses them.
 - Never use em dashes to join clauses. Use periods or commas.
 - Always `--assignee @me`.
 - If the user pushes back on the draft ("too long", "too detailed"), cut harder. The target is a description a busy reviewer can read in 10 seconds and know what the PR is about.
