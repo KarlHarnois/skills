@@ -82,7 +82,13 @@ If the diff is large (>2000 changed lines), read it in chunks by file instead of
 
 ### Phase 3: Draft
 
-1. **Check for a PR template**: read `.github/pull_request_template.md` if it exists. Use its sections verbatim. For sections that don't apply, put plain `N/A` (no italics, no explanation).
+1. **Check for a PR template**: GitHub accepts the template at any of these paths, so check all of them:
+   - `.github/pull_request_template.md` or `.github/PULL_REQUEST_TEMPLATE.md`
+   - `docs/pull_request_template.md` or `docs/PULL_REQUEST_TEMPLATE.md`
+   - `pull_request_template.md` or `PULL_REQUEST_TEMPLATE.md` at the repo root
+   - Any `*.md` inside `.github/PULL_REQUEST_TEMPLATE/` (multi-template repos, pick the one that fits or ask the user)
+
+   If found, use its sections verbatim. For sections that don't apply, put plain `N/A` (no italics, no explanation).
 
 2. **Draft the title**: imperative, capitalized, ≤72 chars. Derived from the overall change, not the latest commit message.
 
