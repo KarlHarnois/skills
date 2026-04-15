@@ -69,6 +69,11 @@ gh repo view --json defaultBranchRef --jq '.defaultBranchRef.name'
 gh pr list --head <branch> --json number,url
 ```
 
+On a fork, `gh pr list` queries the current repo, so a PR opened cross-fork against the canonical repo won't show up. If the working repo is a fork (`gh repo view --json isFork --jq '.isFork'` returns `true`), also query the parent with the cross-fork head form:
+```bash
+gh pr list --repo <parent-owner>/<parent-repo> --head <fork-owner>:<branch> --json number,url
+```
+
 If the current branch equals the repo's default branch, stop and tell the user to switch to a feature branch first. Otherwise the workflow will fetch and diff for nothing, then fail confusingly at `gh pr create` (which refuses base==head).
 
 If `gh pr list` returns a non-empty array, an open PR already exists for this branch. Stop and tell the user, surfacing the PR number and URL from the JSON output so they can jump straight to it. They likely want to update, not re-create. Do not continue to the fetch/diff work below.
