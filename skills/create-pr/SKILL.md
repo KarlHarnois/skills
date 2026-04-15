@@ -69,10 +69,17 @@ Then refresh the remote-tracking ref so the comparison is against the current re
 git fetch origin <default>
 git log --format="%H%n%s%n%b%n---" origin/<default>..HEAD
 git diff origin/<default>...HEAD --stat
+```
+
+Check the stat total. If ≤2000 changed lines, read the full diff:
+```bash
 git diff origin/<default>...HEAD
 ```
 
-If the diff is large (>2000 changed lines), read it in chunks by file instead of all at once.
+Otherwise, read the diff per file, prioritizing the largest changes and files in critical paths:
+```bash
+git diff origin/<default>...HEAD -- path/to/file
+```
 
 ### Phase 2: Preconditions
 
@@ -105,7 +112,7 @@ If the diff is large (>2000 changed lines), read it in chunks by file instead of
    ```
    For trivial changes (docs, one-line fixes), `## Test plan` can be `- N/A`.
 
-5. **Show the draft to the user** and ask if they want to edit, submit as-is, or submit as draft. Do not submit without confirmation.
+5. **Submit without asking for confirmation.** Proceed directly to Phase 4. The user prefers to edit the PR on GitHub after the fact rather than iterate on the draft in chat.
 
 ### Phase 4: Submit
 
