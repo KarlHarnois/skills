@@ -57,12 +57,16 @@ Charge tax on invoice line items instead of invoice totals, so mixed-rate orders
 
 ### Phase 1: Gather state
 
-Run these in parallel:
+First get the branch name:
+```bash
+git branch --show-current
+```
+
+Then run these in parallel, substituting the branch name into `gh pr list`:
 ```bash
 git status
-git branch --show-current
 gh repo view --json defaultBranchRef --jq '.defaultBranchRef.name'
-gh pr list --head "$(git branch --show-current)" --json number,url
+gh pr list --head <branch> --json number,url
 ```
 
 If the current branch equals the repo's default branch, stop and tell the user to switch to a feature branch first. Otherwise the workflow will fetch and diff for nothing, then fail confusingly at `gh pr create` (which refuses base==head).
