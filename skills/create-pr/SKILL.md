@@ -79,10 +79,16 @@ Then refresh the remote-tracking ref so the comparison is against the current re
 ```bash
 git fetch origin <default>
 git log --format="%H%n%s%n%b%n---" origin/<default>..HEAD
+```
+
+If the `git log` output is empty, stop and tell the user there is nothing to open a PR for. Do not continue to the diff work below.
+
+Then check the diff size:
+```bash
 git diff origin/<default>...HEAD --stat
 ```
 
-Check the stat total. If ≤2000 changed lines, read the full diff:
+If ≤2000 changed lines, read the full diff:
 ```bash
 git diff origin/<default>...HEAD
 ```
@@ -91,8 +97,6 @@ Otherwise, read the diff per file, prioritizing the largest changes and files in
 ```bash
 git diff origin/<default>...HEAD -- path/to/file
 ```
-
-If the `git log origin/<default>..HEAD` output is empty, stop and tell the user there is nothing to open a PR for.
 
 ### Phase 2: Draft
 
