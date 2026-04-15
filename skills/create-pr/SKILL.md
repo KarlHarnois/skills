@@ -88,7 +88,7 @@ git diff origin/<default>...HEAD -- path/to/file
 
 ### Phase 2: Preconditions
 
-- **Uncommitted changes**: stop and tell the user to commit first. Do not auto-commit.
+- **Uncommitted changes**: if the `git status` output from Phase 1 shows any modified, staged, or untracked files, stop and tell the user to commit first. Do not auto-commit.
 - **No commits ahead of base**: if the `git log origin/<default>..HEAD` output from Phase 1 is empty, stop and tell the user there is nothing to open a PR for.
 - **Branch not pushed**: note it, push in Phase 4 with `-u`.
 
