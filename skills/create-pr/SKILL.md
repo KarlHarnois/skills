@@ -86,7 +86,9 @@ If the diff is large (>2000 changed lines), read it in chunks by file instead of
 
 2. **Draft the title**: imperative, capitalized, ≤72 chars. Derived from the overall change, not the latest commit message.
 
-3. **Draft the body**: follow the Writing Style rules above. If no template exists, use:
+3. **Synthesize from commits and diff together**: use commit subjects and bodies to draft the framing. They carry intent and the natural shape of the change. Then skim the diff to sanity-check that the description matches reality and to catch anything the commits downplayed or omitted. Don't rely on commits alone (WIP or squashed commits can lie) or the diff alone (you'll drift into restating it).
+
+4. **Draft the body**: follow the Writing Style rules above. If no template exists, use:
    ```
    ## Summary
    <1-3 sentences, bird's-eye view>
@@ -96,7 +98,7 @@ If the diff is large (>2000 changed lines), read it in chunks by file instead of
    ```
    For trivial changes (docs, one-line fixes), `## Test plan` can be `- N/A`.
 
-4. **Show the draft to the user** and ask if they want to edit, submit as-is, or submit as draft. Do not submit without confirmation.
+5. **Show the draft to the user** and ask if they want to edit, submit as-is, or submit as draft. Do not submit without confirmation.
 
 ### Phase 4: Submit
 
