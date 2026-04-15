@@ -75,7 +75,7 @@ If `gh pr list` returns a non-empty array, an open PR already exists for this br
 
 If `git status` shows any modified, staged, or untracked files, stop and tell the user to commit first. Do not auto-commit, and do not continue to the fetch/diff work below.
 
-Then refresh the remote-tracking ref so the comparison is against the current remote tip, not a stale local copy:
+Then refresh the remote-tracking ref so the comparison is against the current remote tip, not a stale local copy. The commands below assume `origin` tracks the PR base. On fork setups where the canonical repo is a different remote (commonly `upstream`), substitute that remote name everywhere `origin` appears in the rest of this phase, otherwise the diff will include commits already on the canonical branch and overstate what the PR contains.
 ```bash
 git fetch origin <default>
 git log --format="%H%n%s%n%b%n---" origin/<default>..HEAD
