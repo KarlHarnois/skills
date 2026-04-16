@@ -85,7 +85,7 @@ gh pr list --repo <parent> --head <fork-owner>:<branch> --json number,url
 
 If the current branch equals the resolved base, stop and tell the user to switch to a feature branch first. Otherwise the workflow will fetch and diff for nothing, then fail confusingly at `gh pr create` (which refuses base==head).
 
-If `gh pr list` returns a non-empty array, an open PR already exists for this branch. Stop and tell the user, surfacing the PR number and URL from the JSON output so they can jump straight to it. They likely want to update, not re-create. Do not continue to the fetch/diff work below.
+If either `gh pr list` call (the current-repo query, or the cross-fork query against the parent on a fork) returns a non-empty array, an open PR already exists for this branch. Stop and tell the user, surfacing the PR number and URL from the JSON output so they can jump straight to it. They likely want to update, not re-create. Do not continue to the fetch/diff work below.
 
 If `git status` shows any modified, staged, or untracked files, stop and tell the user to commit first. Do not auto-commit, and do not continue to the fetch/diff work below.
 
