@@ -162,6 +162,8 @@ EOF
 
 Add `--draft` if the user asked for a draft. Pass `--base <base>` if the resolved base from Phase 1 isn't the repo default.
 
+On a fork (`isFork` is `true`), `gh pr create` may interactive-prompt for the target repo or default to the fork itself. Make it deterministic by passing `--repo <parent> --head <fork-owner>:<branch>` using the values collected in Phase 1.
+
 Return the PR URL.
 
 ## Handling pushback
