@@ -20,7 +20,7 @@ The default failure mode is a PR description that restates the diff as a bullet 
 
 - **Lead with *what changed* and *why*, in plain language.** No corporate phrasing, no marketing voice, no "This PR..." preamble.
 
-- **Write plainly at standup-level altitude in every section, not just Summary.** Launch plan and Testing included. Prefer concrete words to metaphor or abstraction ("the table only rewrites recent rows on each run" beats "the incremental predicate doesn't watch the resolver's lineage"), but precise technical terms are fine if the reviewer knows them ("incremental" is fine for a dbt audience). Prefer verbs to stacked noun phrases ("we intentionally drop per-order fidelity" beats "per-order fidelity is dropped by design"). State what happens; don't dramatize ("archived test products are used" beats "archived test products label real retailer revenue").
+- **Write plainly at standup-level altitude throughout.** Prefer concrete words to metaphor or abstraction ("the table only rewrites recent rows on each run" beats "the incremental predicate doesn't watch the resolver's lineage"), but precise technical terms are fine if the reviewer knows them ("incremental" is fine for a dbt audience). Prefer verbs to stacked noun phrases ("we intentionally drop per-order fidelity" beats "per-order fidelity is dropped by design"). State what happens; don't dramatize ("archived test products are used" beats "archived test products label real retailer revenue").
 
 - **Use bullets only for parallel items that share a logical role** (two root causes, two failure modes, two affected subsystems). Never for files, methods, test inputs, or diff steps.
 
