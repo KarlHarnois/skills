@@ -134,7 +134,7 @@ git diff origin/<base>...HEAD -- path/to/file
    ## Test plan
    <bulleted checklist>
    ```
-   For trivial changes (docs, one-line fixes), `## Test plan` can be `- N/A`.
+   For trivial changes (docs, one-line fixes), `## Test plan` can be plain `N/A` (no bullet, no italics, no explanation), matching the empty-section form used in the template path.
 
 5. **Submit without asking for confirmation.** Proceed directly to Phase 3. The user prefers to edit the PR on GitHub after the fact rather than iterate on the draft in chat.
 
