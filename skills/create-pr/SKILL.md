@@ -93,7 +93,7 @@ Pick the remote that tracks the PR base. If `isFork` is `false`, use `origin`. I
 ```bash
 git remote -v
 ```
-Pick the remote whose URL matches the `parent` value. Use that remote name in place of `origin` for every command in the rest of this phase. If no remote matches the parent, tell the user the canonical remote isn't configured locally and stop.
+Pick the remote whose URL matches the `parent` value. Use that remote name in place of `origin` for every command in the rest of this phase. If no remote matches the parent, tell the user the canonical remote isn't configured locally and suggest `git remote add upstream <parent-url>` (the URL is `https://github.com/<parent>.git` or the SSH equivalent), then stop so they can add it and re-run.
 
 Then refresh the remote-tracking ref so the comparison is against the current remote tip, not a stale local copy:
 ```bash
