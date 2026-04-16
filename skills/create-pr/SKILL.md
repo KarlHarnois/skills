@@ -84,7 +84,10 @@ git diff <remote>/<base>...HEAD -- path/to/file
    - Lead with what changed and why. Plain language.
    - Prefer outcome and scope over implementation inventory. Skip tests you added.
    - Bullets only for parallel items (two causes, two failure modes). Never for files, methods, or tests.
-   - Backticks around code identifiers. No em dashes. No `Co-Authored-By` footers. No emojis unless the template uses them.
+   - Backticks around code identifiers.
+   - No em dashes.
+   - No `Co-Authored-By` footers.
+   - No emojis unless the template uses them.
 
    **Target length and tone:**
    ```
