@@ -78,7 +78,9 @@ On a fork, `gh pr list` queries the current repo, so a PR opened cross-fork agai
 gh pr list --repo <parent-owner>/<parent-repo> --head <fork-owner>:<branch> --json number,url
 ```
 
-If the current branch equals the repo's default branch, stop and tell the user to switch to a feature branch first. Otherwise the workflow will fetch and diff for nothing, then fail confusingly at `gh pr create` (which refuses base==head).
+**Resolve the PR base.** Default to the repo default branch from the `gh repo view` output. If the user's prompt named a different base ("open a PR against `release-1.5`", "PR into `develop`"), use that instead. Use this resolved base in every command below — fetching, logging, and diffing against the wrong base would draft a description that enumerates commits already on the actual base and omits commits the PR will actually contain.
+
+If the current branch equals the resolved base, stop and tell the user to switch to a feature branch first. Otherwise the workflow will fetch and diff for nothing, then fail confusingly at `gh pr create` (which refuses base==head).
 
 If `gh pr list` returns a non-empty array, an open PR already exists for this branch. Stop and tell the user, surfacing the PR number and URL from the JSON output so they can jump straight to it. They likely want to update, not re-create. Do not continue to the fetch/diff work below.
 
@@ -86,25 +88,25 @@ If `git status` shows any modified, staged, or untracked files, stop and tell th
 
 Then refresh the remote-tracking ref so the comparison is against the current remote tip, not a stale local copy. The commands below assume `origin` tracks the PR base. On fork setups where the canonical repo is a different remote (commonly `upstream`), substitute that remote name everywhere `origin` appears in the rest of this phase, otherwise the diff will include commits already on the canonical branch and overstate what the PR contains.
 ```bash
-git fetch origin <default>
-git log --format="%H%n%s%n%b%n---" origin/<default>..HEAD
+git fetch origin <base>
+git log --format="%H%n%s%n%b%n---" origin/<base>..HEAD
 ```
 
 If the `git log` output is empty, stop and tell the user there is nothing to open a PR for. Do not continue to the diff work below.
 
 Then check the diff size:
 ```bash
-git diff origin/<default>...HEAD --stat
+git diff origin/<base>...HEAD --stat
 ```
 
 If ≤2000 changed lines, read the full diff:
 ```bash
-git diff origin/<default>...HEAD
+git diff origin/<base>...HEAD
 ```
 
 Otherwise, read the diff per file, prioritizing the largest changes and files in critical paths:
 ```bash
-git diff origin/<default>...HEAD -- path/to/file
+git diff origin/<base>...HEAD -- path/to/file
 ```
 
 ### Phase 2: Draft
@@ -148,7 +150,7 @@ EOF
 )"
 ```
 
-Add `--draft` if the user asked for a draft. Add `--base <branch>` only if the base is not the repo default.
+Add `--draft` if the user asked for a draft. Pass `--base <base>` if the resolved base from Phase 1 isn't the repo default.
 
 Return the PR URL.
 
