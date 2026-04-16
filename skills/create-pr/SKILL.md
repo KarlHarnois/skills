@@ -13,22 +13,25 @@ Create a GitHub pull request with a short, high-signal description.
 The default failure mode is a PR description that restates the diff as a bullet list. Do not do that. The reader can see the diff. What they cannot see is the *shape* of the change and *why it matters*.
 
 **Rules:**
-- Keep the description short. A few sentences is usually enough. Long PRs get a few sentences plus a short bullet list of the main moving parts, nothing more.
-- Use bullets for parallel items that share a logical role (two root causes, two failure modes, two affected subsystems). Prose flattens that parallel structure, but a bulleted list preserves it. Don't use bullets to enumerate files, methods, or diff steps.
-- If a section covers two distinct ideas, for example a cause and its fix, or a deploy step and a compatibility note, break them into separate paragraphs so a reader can skim.
-- Write every section at the level a teammate would explain it in one breath at standup, not just Summary. Launch plan and Testing included. Not "added method X to class Y, updated Z to call it, fixed typo in W." Instead: "Cache the expensive lookup on the request object so downstream middleware doesn't re-fetch it."
-- Prefer the concrete word to metaphor and abstraction. Say "the table only rewrites recent rows on each run" instead of "the incremental predicate doesn't watch the resolver's lineage." But don't paraphrase precise technical terms the reviewer already knows. "That table is incremental" is fine for a dbt audience.
-- Bias toward plain descriptive prose. Don't editorialize or dramatize. "Archived test products are used" is better than "archived test products label real retailer revenue." State what happens and let the reader draw the implication.
-- Prefer verbs to stacked noun phrases. "We intentionally drop per-order fidelity" beats "per-order fidelity is dropped by design."
-- Skip minor surrounding fixes, refactors, import reshuffles, formatting, and renames unless they are the point of the PR.
-- Skip implementation details the reader doesn't need to evaluate the change. Don't name every file or function.
-- Don't describe tests you added in the Changes section. The diff shows them. Use the Testing section to summarize what you verified, not to enumerate every input ("against the known-bad SKUs" beats listing five of them).
-- Lead with *what changed* and *why*, in plain language. No corporate phrasing, no marketing voice, no "This PR..." preamble.
-- Wrap code identifiers (column names, table names, variable names, CLI commands, file paths) in backticks.
-- Imperative mood in the title. Capitalized first letter. Max 72 characters.
-- Never use em dashes to join or interrupt clauses. Use periods or commas instead.
-- Never add `Co-Authored-By` lines or any generated-by footer to the body.
-- No emojis in the title or body unless the user asks or the PR template already uses them.
+
+- **Be brief.** A PR body should fit on one screen. Target ~150 words. A few sentences for small PRs; a few sentences plus a short bullet list for larger ones. When in doubt, cut.
+
+- **Cut anything not essential for evaluating the change.** The reviewer can read the diff. Skip minor fixes and renames. Skip implementation details like file names, predicates, and specific function names. Skip tests you added; the Testing section is for summarizing what you verified, not for listing the tests themselves or enumerating inputs ("against the known-bad SKUs" beats listing five of them). Skip impact metrics unless the user gave them to you. Skip forward-looking notes about downstream consumers.
+
+- **Lead with *what changed* and *why*, in plain language.** No corporate phrasing, no marketing voice, no "This PR..." preamble.
+
+- **Write plainly at standup-level altitude in every section, not just Summary.** Launch plan and Testing included. Prefer concrete words to metaphor or abstraction ("the table only rewrites recent rows on each run" beats "the incremental predicate doesn't watch the resolver's lineage"), but precise technical terms are fine if the reviewer knows them ("incremental" is fine for a dbt audience). Prefer verbs to stacked noun phrases ("we intentionally drop per-order fidelity" beats "per-order fidelity is dropped by design"). State what happens; don't dramatize ("archived test products are used" beats "archived test products label real retailer revenue").
+
+- **Use bullets only for parallel items that share a logical role** (two root causes, two failure modes, two affected subsystems). Never for files, methods, test inputs, or diff steps.
+
+- **Break paragraphs for distinct ideas**, for example a cause and its fix, or a deploy step and a compatibility note.
+
+- **Housekeeping.**
+  - Title: imperative, capitalized, ≤72 characters.
+  - Wrap code identifiers (column names, table names, variable names, CLI commands, file paths) in backticks.
+  - Never use em dashes to join or interrupt clauses. Use periods or commas.
+  - Never add `Co-Authored-By` lines or generated-by footers.
+  - No emojis in title or body unless the user asks or the PR template uses them.
 
 **Good vs bad:**
 
@@ -69,6 +72,23 @@ Wholesale and owned-channel arms of the dim returned different names for the sam
 - Wholesale picked archived Shopify variants, so test products labeled real revenue.
 - Owned-channel joined names per order line, so a SKU fanned out every time a variant was renamed.
 Both arms now resolve from a single per-SKU canonical name model.
+```
+
+Good (full-body shape and length, ~130 words):
+```
+## Summary
+`invoice_totals` produced different tax amounts for the same order across our two rendering paths:
+- PDF export used the order's creation-time tax rate, so rates fixed months later weren't picked up.
+- Email receipts joined tax per line item, so an order with line items across tax zones double-counted the zone delta.
+
+## Changes
+Both paths now read tax from a new shared `resolve_invoice_tax` helper, which snapshots the per-line-item rate at send time and falls back to the order-level rate for legacy rows.
+
+## Testing
+Verified against prod for the known-bad invoices. Every invoice rendered in the last 30 days now produces matching PDF and email totals.
+
+## Launch plan
+After merge, run the `tax_backfill` job on staging and production. The invoice cache is per-template, so without a backfill historical invoices render with the old totals.
 ```
 
 ## Workflow
