@@ -18,6 +18,7 @@ The default failure mode is a PR description that restates the diff as a bullet 
 - If a section covers two distinct ideas, for example a mechanism change and the test that locks it in, break them into separate paragraphs so a reader can skim.
 - Write every section at the level a teammate would explain it in one breath at standup, not just Summary. Launch plan and Testing included. Not "added method X to class Y, updated Z to call it, fixed typo in W." Instead: "Cache the expensive lookup on the request object so downstream middleware doesn't re-fetch it."
 - Prefer the concrete word to jargon or metaphor. Say "the table only rewrites recent rows on each run" instead of "the incremental predicate doesn't watch the resolver's lineage."
+- Prefer verbs to stacked noun phrases. "We intentionally drop per-order fidelity" beats "per-order fidelity is dropped by design."
 - Skip minor surrounding fixes, refactors, import reshuffles, formatting, and renames unless they are the point of the PR.
 - Skip implementation details the reader doesn't need to evaluate the change. Don't name every file or function.
 - Lead with *what changed* and *why*, in plain language. No corporate phrasing, no marketing voice, no "This PR..." preamble.
