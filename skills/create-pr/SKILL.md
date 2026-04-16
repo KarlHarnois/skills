@@ -67,13 +67,13 @@ git diff <remote>/<base>...HEAD -- path/to/file
 
 ## Phase 2: Draft
 
-1. **Check for a PR template**: GitHub accepts the template at any of these paths, so check all of them:
+1. **Check for a PR template** using the Glob tool (not `ls` or other shell commands). GitHub accepts the template at any of these paths, so glob for all of them in one call:
    - `.github/pull_request_template.md` or `.github/PULL_REQUEST_TEMPLATE.md`
    - `docs/pull_request_template.md` or `docs/PULL_REQUEST_TEMPLATE.md`
    - `pull_request_template.md` or `PULL_REQUEST_TEMPLATE.md` at the repo root
    - Any `*.md` inside `.github/PULL_REQUEST_TEMPLATE/` (multi-template repos, pick the one that fits or ask the user)
 
-   If found, use its section headers and fill each one. For sections that don't apply, put plain `N/A`.
+   If found, read it and use its section headers, filling each one. For sections that don't apply, put plain `N/A`.
 
 2. **Draft the title**: imperative, capitalized, ≤72 chars. Derived from the overall change, not the latest commit message.
 
@@ -117,7 +117,9 @@ git diff <remote>/<base>...HEAD -- path/to/file
    ```
    For trivial changes, `## Test plan` can be `N/A`.
 
-4. **Submit without asking for confirmation.** The user prefers to edit on GitHub rather than iterate in chat.
+4. **Self-review before submitting.** Reread the title and body against every rule above. These rules are violated often when drafted in a single pass, so this step is not optional. Fix any violation before continuing.
+
+5. **Submit without asking the user for confirmation.** The user prefers to edit on GitHub rather than iterate in chat.
 
 ## Phase 3: Submit
 
