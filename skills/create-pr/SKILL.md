@@ -75,7 +75,7 @@ The reader can see the diff. What they cannot see is the *shape* of the change a
 - Wrap code identifiers in backticks.
 - No em dashes to join clauses. No `Co-Authored-By` footers. No emojis unless the template uses them.
 
-**Match this shape and density:**
+**Target length and tone:**
 
 ```
 ## Summary
