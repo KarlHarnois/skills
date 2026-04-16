@@ -1,7 +1,7 @@
 ---
 name: code-review
 description: Review pull requests and submit comments to GitHub. Use this skill when the user asks to review a PR, check a pull request, look at code changes, review PR #123, or anything involving code review of GitHub pull requests, even if they don't explicitly say "code review".
-allowed-tools: Bash(gh *), Bash(git *), Read, Grep, Glob, LS, AskUserQuestion
+allowed-tools: Bash(*), Read, Write, Grep, Glob, LS, AskUserQuestion
 ---
 
 # Code Review Skill
@@ -35,7 +35,8 @@ Use git directly to read diffs and code, NOT `gh` commands to fetch diffs.
 
    If no PR number is provided, detect the PR from the current branch:
    ```bash
-   gh pr list --head "$(git branch --show-current)" --json number,title,baseRefName
+   BRANCH=$(git branch --show-current)
+   gh pr list --head "$BRANCH" --json number,title,baseRefName
    ```
    - If exactly one PR is found, use it.
    - If multiple PRs are found, present them to the user and ask which one to review.
@@ -244,10 +245,11 @@ Get the HEAD commit SHA with `git rev-parse HEAD` and substitute it into the pay
 If the batch review call fails, fall back to submitting each comment individually. Add a 1-second delay between requests to avoid hitting GitHub's secondary rate limits.
 
 ```bash
+COMMIT_SHA=$(git rev-parse HEAD)
 gh api repos/{owner}/{repo}/pulls/{pr_number}/comments \
   -X POST \
   -f body="[Comment text]" \
-  -f commit_id="$(git rev-parse HEAD)" \
+  -f commit_id="$COMMIT_SHA" \
   -f path="[file path]" \
   -F line=[line number] \
   -f side="RIGHT" \
