@@ -80,7 +80,7 @@ git diff <remote>/<base>...HEAD -- path/to/file
 3. **Draft the body**: the reader can see the diff. What they cannot see is the *shape* of the change and *why it matters*. Describe that, nothing more.
 
    **Rules:**
-   - Under 150 words. Keep it short and scannable. When in doubt, cut.
+   - Under 150 words for the entire body. Keep it short and scannable. When in doubt, cut.
    - Lead with what changed and why. Plain language, no dramatization.
    - Prefer outcome and scope over implementation inventory. Skip tests you added. The diff has both.
    - Bullets only for parallel items (two causes, two failure modes). Never for files, methods, or tests.
