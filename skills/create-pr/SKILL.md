@@ -70,15 +70,15 @@ Then run these in parallel, substituting the branch name into `gh pr list`. Issu
 git status
 ```
 ```bash
-gh repo view --json defaultBranchRef,isFork,parent,owner --jq '{default: .defaultBranchRef.name, isFork, parent: .parent.nameWithOwner, owner: .owner.login}'
+gh repo view --json defaultBranchRef,isFork,parent,owner --jq '{default: .defaultBranchRef.name, isFork, parent: .parent.nameWithOwner, forkOwner: .owner.login}'
 ```
 ```bash
 gh pr list --head <branch> --json number,url
 ```
 
-On a fork, `gh pr list` queries the current repo, so a PR opened cross-fork against the canonical repo won't show up. If `isFork` from the repo view above is `true`, also query the parent using the `parent` (`<parent-owner>/<parent-repo>`) and `owner` (`<fork-owner>`) values from the same call:
+On a fork, `gh pr list` queries the current repo, so a PR opened cross-fork against the canonical repo won't show up. If `isFork` from the repo view above is `true`, also query the parent. Substitute `<parent>` (already in `owner/repo` form) and `<forkOwner>` from the repo view into:
 ```bash
-gh pr list --repo <parent> --head <fork-owner>:<branch> --json number,url
+gh pr list --repo <parent> --head <forkOwner>:<branch> --json number,url
 ```
 
 **Resolve the PR base.** Default to the repo default branch from the `gh repo view` output. If the user's prompt named a different base ("open a PR against `release-1.5`", "PR into `develop`"), use that instead. Use this resolved base in every command below — fetching, logging, and diffing against the wrong base would draft a description that enumerates commits already on the actual base and omits commits the PR will actually contain.
@@ -162,7 +162,7 @@ EOF
 
 Add `--draft` if the user asked for a draft. Pass `--base <base>` if the resolved base from Phase 1 isn't the repo default.
 
-On a fork (`isFork` is `true`), `gh pr create` may interactive-prompt for the target repo or default to the fork itself. Make it deterministic by passing `--repo <parent> --head <fork-owner>:<branch>` using the values collected in Phase 1.
+On a fork (`isFork` is `true`), `gh pr create` may interactive-prompt for the target repo or default to the fork itself. Make it deterministic by passing `--repo <parent> --head <forkOwner>:<branch>` using the values collected in Phase 1.
 
 Return the PR URL.
 
