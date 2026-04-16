@@ -75,7 +75,7 @@ The default failure mode is a PR description that restates the diff as a bullet 
 
 - **Be brief.** A PR body should fit on one screen. Target ~150 words. A few sentences for small PRs; a few sentences plus a short bullet list for larger ones. When in doubt, cut.
 
-- **Cut anything not essential for evaluating the change.** The reviewer can read the diff. Skip minor fixes and renames. Skip implementation details like file names, predicates, and specific function names. Skip descriptions of the tests you added; the diff shows them. When you summarize what you verified, keep it brief ("against the known-bad SKUs" beats listing five of them). Skip impact metrics unless the user gave them to you. Skip forward-looking notes about downstream consumers.
+- **Cut anything not essential for evaluating the change.** The reviewer can read the diff. Skip minor fixes and renames. Skip implementation details like file names, predicates, and specific function names. Skip descriptions of the tests you added; the diff shows them. When you summarize what you verified, keep it brief ("against the known-bad SKUs" beats listing five of them). Skip impact metrics unless the user gave them to you.
 
 - **Lead with *what changed* and *why*, in plain language.** No corporate phrasing, no marketing voice, no "This PR..." preamble.
 
