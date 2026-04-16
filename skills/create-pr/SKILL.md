@@ -69,37 +69,6 @@ git diff <remote>/<base>...HEAD -- path/to/file
 
 ## Phase 2: Draft
 
-The reader can see the diff. What they cannot see is the *shape* of the change and *why it matters*. Describe that, nothing more.
-
-**Rules:**
-- Under 150 words. Keep it short and scannable. When in doubt, cut.
-- Lead with what changed and why. Plain language, no dramatization.
-- Prefer outcome and scope over implementation inventory. The diff has the details.
-- Skip tests you added. The diff has them.
-- Bullets only for parallel items (two causes, two failure modes). Never for files, methods, or tests.
-- Title: imperative, capitalized, ≤72 characters. Backticks around code identifiers.
-- No em dashes. No `Co-Authored-By` footers. No emojis unless the template uses them.
-
-**Target length and tone:**
-
-```
-## Summary
-`invoice_totals` produced different tax amounts for the same order across our two rendering paths:
-- PDF export used the order's creation-time tax rate, so rates fixed months later weren't picked up.
-- Email receipts recomputed tax from the current rate table on every send, so a sent-and-paid invoice could show a new total if the rate later changed.
-
-## Changes
-Both paths now read tax from a new shared `resolve_invoice_tax` helper, which snapshots the per-line-item rate at send time and falls back to the order-level rate for legacy rows.
-
-## Testing
-Verified against prod for the known-bad invoices. Every invoice rendered in the last 30 days now produces matching PDF and email totals.
-
-## Launch plan
-After merge, run the `tax_backfill` job on staging and production. The invoice cache is per-template, so without a backfill historical invoices render with the old totals.
-```
-
-**Steps:**
-
 1. **Check for a PR template**: GitHub accepts the template at any of these paths, so check all of them:
    - `.github/pull_request_template.md` or `.github/PULL_REQUEST_TEMPLATE.md`
    - `docs/pull_request_template.md` or `docs/PULL_REQUEST_TEMPLATE.md`
@@ -112,7 +81,33 @@ After merge, run the `tax_backfill` job on staging and production. The invoice c
 
 3. **Synthesize from commits and diff together**: use commit subjects and bodies to draft the framing. They carry intent and the natural shape of the change. Then skim the diff to sanity-check that the description matches reality and to catch anything the commits downplayed or omitted. Don't rely on commits alone (WIP or squashed commits can lie) or the diff alone (you'll drift into restating it).
 
-4. **Draft the body**: follow the rules above. If no template exists, use:
+4. **Draft the body**: the reader can see the diff. What they cannot see is the *shape* of the change and *why it matters*. Describe that, nothing more.
+
+   **Rules:**
+   - Under 150 words. Keep it short and scannable. When in doubt, cut.
+   - Lead with what changed and why. Plain language, no dramatization.
+   - Prefer outcome and scope over implementation inventory. Skip tests you added. The diff has both.
+   - Bullets only for parallel items (two causes, two failure modes). Never for files, methods, or tests.
+   - Backticks around code identifiers. No em dashes. No `Co-Authored-By` footers. No emojis unless the template uses them.
+
+   **Target length and tone:**
+   ```
+   ## Summary
+   `invoice_totals` produced different tax amounts for the same order across our two rendering paths:
+   - PDF export used the order's creation-time tax rate, so rates fixed months later weren't picked up.
+   - Email receipts recomputed tax from the current rate table on every send, so a sent-and-paid invoice could show a new total if the rate later changed.
+
+   ## Changes
+   Both paths now read tax from a new shared `resolve_invoice_tax` helper, which snapshots the per-line-item rate at send time and falls back to the order-level rate for legacy rows.
+
+   ## Testing
+   Verified against prod for the known-bad invoices. Every invoice rendered in the last 30 days now produces matching PDF and email totals.
+
+   ## Launch plan
+   After merge, run the `tax_backfill` job on staging and production. The invoice cache is per-template, so without a backfill historical invoices render with the old totals.
+   ```
+
+   If no template exists, use:
    ```
    ## Summary
    <1-3 sentences, bird's-eye view>
@@ -121,7 +116,7 @@ After merge, run the `tax_backfill` job on staging and production. The invoice c
    - [ ] <item>
    - [ ] <item>
    ```
-   For trivial changes (docs, one-line fixes), `## Test plan` can be plain `N/A` (no bullet, no italics, no explanation), matching the empty-section form used in the template path.
+   For trivial changes (docs, one-line fixes), `## Test plan` can be plain `N/A` (no bullet, no italics, no explanation).
 
 5. **Submit without asking for confirmation.** Proceed directly to Phase 3. The user prefers to edit the PR on GitHub after the fact rather than iterate on the draft in chat.
 
