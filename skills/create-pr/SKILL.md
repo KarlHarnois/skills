@@ -69,71 +69,14 @@ git diff <remote>/<base>...HEAD -- path/to/file
 
 ## Phase 2: Draft
 
-The default failure mode is a PR description that restates the diff as a bullet list. Do not do that. The reader can see the diff. What they cannot see is the *shape* of the change and *why it matters*.
+The reader can see the diff. What they cannot see is the *shape* of the change and *why it matters*. Describe that, nothing more. Target ~150 words for the body. When in doubt, cut.
 
-**Rules:**
+- Title: imperative, capitalized, ≤72 characters.
+- Wrap code identifiers in backticks.
+- No em dashes to join clauses. No `Co-Authored-By` footers. No emojis unless the template uses them.
 
-- **Be brief.** A PR body should fit on one screen. Target ~150 words. A few sentences for small PRs; a few sentences plus a short bullet list for larger ones. When in doubt, cut.
+**Match this shape and density:**
 
-- **Cut anything not essential for evaluating the change.** The reviewer can read the diff. Skip minor fixes and renames. Skip implementation details like file names, predicates, and specific function names. Skip descriptions of the tests you added; the diff shows them. When you summarize what you verified, keep it brief ("against the known-bad SKUs" beats listing five of them). Skip impact metrics unless the user gave them to you.
-
-- **Lead with *what changed* and *why*, in plain language.** No corporate phrasing, no marketing voice, no "This PR..." preamble.
-
-- **Write plainly at standup-level altitude throughout.** Prefer concrete words to metaphor or abstraction ("the table only rewrites recent rows on each run" beats "the incremental predicate doesn't watch the resolver's lineage"), but precise technical terms are fine if the reviewer knows them ("incremental" is fine for a dbt audience). Prefer verbs to stacked noun phrases ("we intentionally drop per-order fidelity" beats "per-order fidelity is dropped by design"). State what happens; don't dramatize ("archived test products are used" beats "archived test products label real retailer revenue").
-
-- **Use bullets only for parallel items that share a logical role** (two root causes, two failure modes, two affected subsystems). Never for files, methods, test inputs, or diff steps.
-
-- **Break paragraphs for distinct ideas**, for example a cause and its fix, or a deploy step and a compatibility note.
-
-- **Housekeeping.**
-  - Title: imperative, capitalized, ≤72 characters.
-  - Wrap code identifiers (column names, table names, variable names, CLI commands, file paths) in backticks.
-  - Never use em dashes to join or interrupt clauses. Use periods or commas.
-  - Never add `Co-Authored-By` lines or generated-by footers.
-  - No emojis in title or body unless the user asks or the PR template uses them.
-
-**Good vs bad:**
-
-Bad (restates the diff):
-```
-## Summary
-- Added `getUserCache` method to `UserService`
-- Updated `AuthMiddleware` to call `getUserCache` instead of `fetchUser`
-- Added unit tests for `getUserCache`
-- Fixed a typo in `user.ts`
-- Renamed `tmp` to `cached` in `user.ts`
-```
-
-Good (bird's-eye view):
-```
-## Summary
-Cache the user lookup on the request so auth and downstream middleware share one fetch instead of two.
-```
-
-Bad (bullet list of files):
-```
-## Summary
-- Changes in `billing.py`
-- Changes in `invoice.py`
-- Changes in `tests/test_billing.py`
-```
-
-Good:
-```
-## Summary
-Charge tax on invoice line items instead of invoice totals, so mixed-rate orders come out right. Previously all lines were taxed at the order's first line's rate.
-```
-
-Good (parallel structure kept as bullets):
-```
-## Summary
-Order totals came out wrong, for two different reasons:
-- Discounts rounded per item, so large carts drifted by a cent or two.
-- Shipping was added before tax, so tax on shipping was undercharged.
-The totals pipeline now rounds once at the end and applies tax after shipping.
-```
-
-Good (full-body shape and length, ~130 words):
 ```
 ## Summary
 `invoice_totals` produced different tax amounts for the same order across our two rendering paths:
