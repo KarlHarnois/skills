@@ -14,8 +14,8 @@ The default failure mode is a PR description that restates the diff as a bullet 
 
 **Rules:**
 - Keep the description short. A few sentences is usually enough. Long PRs get a few sentences plus a short bullet list of the main moving parts, nothing more.
-- Bullets are bad when they enumerate files, methods, or diff steps. Bullets are good when they enumerate parallel items that share a logical role (two root causes, two affected subsystems, two failure modes). If the items have the same grammatical shape and answer the same question, keep them as bullets. The parallel structure is itself the signal and prose flattens it.
-- When a section covers two or more distinct ideas (e.g., the mechanism change and the test added, or the rollout step and the compatibility note), separate them with a blank line. Don't jam unrelated sentences into one paragraph for brevity's sake. Paragraph breaks are free and they let a reader skim.
+- Use bullets for parallel items that share a logical role (two root causes, two failure modes, two affected subsystems). Prose flattens that parallel structure, but a bulleted list preserves it. Don't use bullets to enumerate files, methods, or diff steps.
+- If a section covers two distinct ideas, for example a mechanism change and the test that locks it in, break them into separate paragraphs so a reader can skim.
 - Describe the change at the level a teammate would explain it in one breath at standup. Not "added method X to class Y, updated Z to call it, fixed typo in W." Instead: "Cache the expensive lookup on the request object so downstream middleware doesn't re-fetch it."
 - Skip minor surrounding fixes, refactors, import reshuffles, formatting, and renames unless they are the point of the PR.
 - Skip implementation details the reader doesn't need to evaluate the change. Don't name every file or function.
