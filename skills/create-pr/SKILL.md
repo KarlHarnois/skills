@@ -132,7 +132,8 @@ git diff origin/<base>...HEAD -- path/to/file
    <1-3 sentences, bird's-eye view>
 
    ## Test plan
-   <bulleted checklist>
+   - [ ] <item>
+   - [ ] <item>
    ```
    For trivial changes (docs, one-line fixes), `## Test plan` can be plain `N/A` (no bullet, no italics, no explanation), matching the empty-section form used in the template path.
 
