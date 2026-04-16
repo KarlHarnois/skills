@@ -68,10 +68,10 @@ Charge tax on invoice line items instead of invoice totals, so mixed-rate orders
 Good (parallel structure kept as bullets):
 ```
 ## Summary
-Background jobs ran twice for the same event, for two different reasons:
-- The retry worker fired on any row missing from the dedupe table, but the dedupe insert lived in a separate transaction and could lag.
-- The webhook handler re-enqueued on any non-2xx response, including 429s that had already succeeded downstream.
-Both paths now share a single idempotency key stamped at enqueue time and checked before send.
+Order totals came out wrong, for two different reasons:
+- Discounts rounded per item, so large carts drifted by a cent or two.
+- Shipping was added before tax, so tax on shipping was undercharged.
+The totals pipeline now rounds once at the end and applies tax after shipping.
 ```
 
 Good (full-body shape and length, ~130 words):
