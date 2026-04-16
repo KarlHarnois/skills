@@ -89,27 +89,33 @@ If either `gh pr list` call (the current-repo query, or the cross-fork query aga
 
 If `git status` shows any modified, staged, or untracked files, stop and tell the user to commit first. Do not auto-commit, and do not continue to the fetch/diff work below.
 
-Then refresh the remote-tracking ref so the comparison is against the current remote tip, not a stale local copy. The commands below assume `origin` tracks the PR base. On fork setups where the canonical repo is a different remote (commonly `upstream`), substitute that remote name everywhere `origin` appears in the rest of this phase, otherwise the diff will include commits already on the canonical branch and overstate what the PR contains.
+Pick the remote that tracks the PR base. If `isFork` is `false`, use `origin`. If `isFork` is `true`, `origin` points at the fork and would lag the actual base, so look up the canonical remote (commonly `upstream`) by matching `parent.nameWithOwner` against `git remote -v`:
 ```bash
-git fetch origin <base>
-git log --format="%H%n%s%n%b%n---" origin/<base>..HEAD
+git remote -v
+```
+Pick the remote whose URL matches the `parent` value. Use that remote name in place of `origin` for every command in the rest of this phase. If no remote matches the parent, tell the user the canonical remote isn't configured locally and stop.
+
+Then refresh the remote-tracking ref so the comparison is against the current remote tip, not a stale local copy:
+```bash
+git fetch <remote> <base>
+git log --format="%H%n%s%n%b%n---" <remote>/<base>..HEAD
 ```
 
 If the `git log` output is empty, stop and tell the user there is nothing to open a PR for. Do not continue to the diff work below.
 
 Then check the diff size:
 ```bash
-git diff origin/<base>...HEAD --stat
+git diff <remote>/<base>...HEAD --stat
 ```
 
 If ≤2000 changed lines, read the full diff:
 ```bash
-git diff origin/<base>...HEAD
+git diff <remote>/<base>...HEAD
 ```
 
 Otherwise, read the diff per file, prioritizing the largest changes and files in critical paths:
 ```bash
-git diff origin/<base>...HEAD -- path/to/file
+git diff <remote>/<base>...HEAD -- path/to/file
 ```
 
 ### Phase 2: Draft
