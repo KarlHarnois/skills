@@ -68,10 +68,10 @@ Charge tax on invoice line items instead of invoice totals, so mixed-rate orders
 Good (parallel structure kept as bullets):
 ```
 ## Summary
-Wholesale and owned-channel arms of the dim returned different names for the same SKU, for two different reasons:
-- Wholesale picked archived Shopify variants, so test products labeled real revenue.
-- Owned-channel joined names per order line, so a SKU fanned out every time a variant was renamed.
-Both arms now resolve from a single per-SKU canonical name model.
+Background jobs ran twice for the same event, for two different reasons:
+- The retry worker fired on any row missing from the dedupe table, but the dedupe insert lived in a separate transaction and could lag.
+- The webhook handler re-enqueued on any non-2xx response, including 429s that had already succeeded downstream.
+Both paths now share a single idempotency key stamped at enqueue time and checked before send.
 ```
 
 Good (full-body shape and length, ~130 words):
