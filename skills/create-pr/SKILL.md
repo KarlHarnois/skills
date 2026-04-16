@@ -62,10 +62,14 @@ First get the branch name:
 git branch --show-current
 ```
 
-Then run these in parallel, substituting the branch name into `gh pr list`:
+Then run these in parallel, substituting the branch name into `gh pr list`. Issue them as three separate Bash tool calls in the same turn so they actually run concurrently. Putting them in one block would just run them sequentially in a single shell.
 ```bash
 git status
+```
+```bash
 gh repo view --json defaultBranchRef --jq '.defaultBranchRef.name'
+```
+```bash
 gh pr list --head <branch> --json number,url
 ```
 
