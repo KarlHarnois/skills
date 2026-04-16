@@ -165,7 +165,3 @@ Add `--draft` if the user asked for a draft. Pass `--base <base>` if the resolve
 On a fork (`isFork` is `true`), `gh pr create` may interactive-prompt for the target repo or default to the fork itself. Make it deterministic by passing `--repo <parent> --head <forkOwner>:<branch>` using the values collected in Phase 1.
 
 Return the PR URL.
-
-## Handling pushback
-
-If the user pushes back on the draft ("too long", "too detailed"), cut harder. The target is a description a busy reviewer can read in 10 seconds and know what the PR is about.
