@@ -81,7 +81,7 @@ git diff <remote>/<base>...HEAD -- path/to/file
 
    **Rules:**
    - Under 150 words for the entire body. Keep it short and scannable. When in doubt, cut.
-   - Lead with what changed and why. Plain language, no dramatization.
+   - Lead with what changed and why. Plain language.
    - Prefer outcome and scope over implementation inventory. Skip tests you added. The diff has both.
    - Bullets only for parallel items (two causes, two failure modes). Never for files, methods, or tests.
    - Backticks around code identifiers. No em dashes. No `Co-Authored-By` footers. No emojis unless the template uses them.
