@@ -20,6 +20,9 @@ The default failure mode is a PR description that restates the diff as a bullet 
 - Lead with *what changed* and *why*, in plain language. No corporate phrasing, no marketing voice, no "This PR..." preamble.
 - Wrap code identifiers (column names, table names, variable names, CLI commands, file paths) in backticks.
 - Imperative mood in the title. Capitalized first letter. Max 72 characters.
+- Never use em dashes to join or interrupt clauses. Use periods or commas instead.
+- Never add `Co-Authored-By` lines or any generated-by footer to the body.
+- No emojis in the title or body unless the user asks or the PR template already uses them.
 
 **Good vs bad:**
 
@@ -154,10 +157,6 @@ Add `--draft` if the user asked for a draft. Pass `--base <base>` if the resolve
 
 Return the PR URL.
 
-## Important Notes
+## Handling pushback
 
-- Never add `Co-Authored-By` lines or any generated-by footer.
-- Never include emojis in the title or body unless the user asks or the PR template already uses them.
-- Never use em dashes to join clauses. Use periods or commas.
-- Always `--assignee @me`.
-- If the user pushes back on the draft ("too long", "too detailed"), cut harder. The target is a description a busy reviewer can read in 10 seconds and know what the PR is about.
+If the user pushes back on the draft ("too long", "too detailed"), cut harder. The target is a description a busy reviewer can read in 10 seconds and know what the PR is about.
