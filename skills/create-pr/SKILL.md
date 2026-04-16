@@ -69,11 +69,15 @@ git diff <remote>/<base>...HEAD -- path/to/file
 
 ## Phase 2: Draft
 
-The reader can see the diff. What they cannot see is the *shape* of the change and *why it matters*. Describe that, nothing more. Target ~150 words for the body. When in doubt, cut.
+The reader can see the diff. What they cannot see is the *shape* of the change and *why it matters*. Describe that, nothing more.
 
-- Title: imperative, capitalized, ≤72 characters.
-- Wrap code identifiers in backticks.
-- No em dashes to join clauses. No `Co-Authored-By` footers. No emojis unless the template uses them.
+- ~150 words. When in doubt, cut.
+- Lead with what changed and why. Plain language, no dramatization.
+- Skip implementation details (file names, column names, filter predicates). The diff has them.
+- Skip tests you added. The diff has them.
+- Bullets only for parallel items (two causes, two failure modes). Never for files, methods, or tests.
+- Title: imperative, capitalized, ≤72 characters. Backticks around code identifiers.
+- No em dashes. No `Co-Authored-By` footers. No emojis unless the template uses them.
 
 **Target length and tone:**
 
