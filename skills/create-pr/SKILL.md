@@ -71,6 +71,7 @@ git diff <remote>/<base>...HEAD -- path/to/file
 
 The reader can see the diff. What they cannot see is the *shape* of the change and *why it matters*. Describe that, nothing more.
 
+**Rules:**
 - ~150 words. When in doubt, cut.
 - Lead with what changed and why. Plain language, no dramatization.
 - Skip implementation details (file names, column names, filter predicates). The diff has them.
