@@ -70,15 +70,15 @@ Then run these in parallel, substituting the branch name into `gh pr list`. Issu
 git status
 ```
 ```bash
-gh repo view --json defaultBranchRef --jq '.defaultBranchRef.name'
+gh repo view --json defaultBranchRef,isFork,parent,owner --jq '{default: .defaultBranchRef.name, isFork, parent: .parent.nameWithOwner, owner: .owner.login}'
 ```
 ```bash
 gh pr list --head <branch> --json number,url
 ```
 
-On a fork, `gh pr list` queries the current repo, so a PR opened cross-fork against the canonical repo won't show up. If the working repo is a fork (`gh repo view --json isFork --jq '.isFork'` returns `true`), also query the parent with the cross-fork head form:
+On a fork, `gh pr list` queries the current repo, so a PR opened cross-fork against the canonical repo won't show up. If `isFork` from the repo view above is `true`, also query the parent using the `parent` (`<parent-owner>/<parent-repo>`) and `owner` (`<fork-owner>`) values from the same call:
 ```bash
-gh pr list --repo <parent-owner>/<parent-repo> --head <fork-owner>:<branch> --json number,url
+gh pr list --repo <parent> --head <fork-owner>:<branch> --json number,url
 ```
 
 **Resolve the PR base.** Default to the repo default branch from the `gh repo view` output. If the user's prompt named a different base ("open a PR against `release-1.5`", "PR into `develop`"), use that instead. Use this resolved base in every command below — fetching, logging, and diffing against the wrong base would draft a description that enumerates commits already on the actual base and omits commits the PR will actually contain.
