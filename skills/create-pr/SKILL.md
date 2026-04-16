@@ -14,6 +14,8 @@ The default failure mode is a PR description that restates the diff as a bullet 
 
 **Rules:**
 - Keep the description short. A few sentences is usually enough. Long PRs get a few sentences plus a short bullet list of the main moving parts, nothing more.
+- Bullets are bad when they enumerate files, methods, or diff steps. Bullets are good when they enumerate parallel items that share a logical role (two root causes, two affected subsystems, two failure modes). If the items have the same grammatical shape and answer the same question, keep them as bullets. The parallel structure is itself the signal and prose flattens it.
+- When a section covers two or more distinct ideas (e.g., the mechanism change and the test added, or the rollout step and the compatibility note), separate them with a blank line. Don't jam unrelated sentences into one paragraph for brevity's sake. Paragraph breaks are free and they let a reader skim.
 - Describe the change at the level a teammate would explain it in one breath at standup. Not "added method X to class Y, updated Z to call it, fixed typo in W." Instead: "Cache the expensive lookup on the request object so downstream middleware doesn't re-fetch it."
 - Skip minor surrounding fixes, refactors, import reshuffles, formatting, and renames unless they are the point of the PR.
 - Skip implementation details the reader doesn't need to evaluate the change. Don't name every file or function.
@@ -54,6 +56,15 @@ Good:
 ```
 ## Summary
 Charge tax on invoice line items instead of invoice totals, so mixed-rate orders come out right. Previously all lines were taxed at the order's first line's rate.
+```
+
+Good (parallel structure kept as bullets):
+```
+## Summary
+Wholesale and owned-channel arms of the dim returned different names for the same SKU, for two different reasons:
+- Wholesale picked archived Shopify variants, so test products labeled real revenue.
+- Owned-channel joined names per order line, so a SKU fanned out every time a variant was renamed.
+Both arms now resolve from a single per-SKU canonical name model.
 ```
 
 ## Workflow
