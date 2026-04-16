@@ -8,7 +8,66 @@ allowed-tools: Bash(gh *), Bash(git *), Read, Grep, Glob, AskUserQuestion
 
 Create a GitHub pull request with a short, high-signal description.
 
-## Writing Style (the whole point)
+## Phase 1: Gather state
+
+Get the branch name:
+```bash
+git branch --show-current
+```
+
+Run these in parallel as three separate Bash tool calls:
+```bash
+git status
+```
+```bash
+gh repo view --json defaultBranchRef,isFork,parent,owner --jq '{default: .defaultBranchRef.name, isFork, parent: .parent.nameWithOwner, forkOwner: .owner.login}'
+```
+```bash
+gh pr list --head <branch> --json number,url
+```
+
+On a fork (`isFork` is `true`), also query the parent:
+```bash
+gh pr list --repo <parent> --head <forkOwner>:<branch> --json number,url
+```
+
+**Resolve the PR base.** Default to the repo default branch. If the user named a different base, use that instead. Use this resolved base in every command below.
+
+**Stop conditions** — check before continuing:
+- Current branch equals the resolved base → tell the user to switch to a feature branch.
+- Either `gh pr list` call returned a PR → tell the user, surface the PR URL.
+- `git status` shows uncommitted changes → tell the user to commit first.
+
+**Resolve the remote.** If not a fork, use `origin`. If a fork, match `parent.nameWithOwner` against `git remote -v` to find the canonical remote:
+```bash
+git remote -v
+```
+Use that remote in place of `origin` below. If no remote matches, suggest `git remote add upstream <parent-url>` and stop.
+
+Fetch and log:
+```bash
+git fetch <remote> <base>
+git log --format="%H%n%s%n%b%n---" <remote>/<base>..HEAD
+```
+
+If `git log` is empty, stop. Nothing to open a PR for.
+
+Check the diff size:
+```bash
+git diff <remote>/<base>...HEAD --stat
+```
+
+If ≤2000 changed lines, read the full diff:
+```bash
+git diff <remote>/<base>...HEAD
+```
+
+Otherwise, read per file, prioritizing the largest changes:
+```bash
+git diff <remote>/<base>...HEAD -- path/to/file
+```
+
+## Phase 2: Draft
 
 The default failure mode is a PR description that restates the diff as a bullet list. Do not do that. The reader can see the diff. What they cannot see is the *shape* of the change and *why it matters*.
 
@@ -91,69 +150,7 @@ Verified against prod for the known-bad invoices. Every invoice rendered in the 
 After merge, run the `tax_backfill` job on staging and production. The invoice cache is per-template, so without a backfill historical invoices render with the old totals.
 ```
 
-## Workflow
-
-### Phase 1: Gather state
-
-First get the branch name:
-```bash
-git branch --show-current
-```
-
-Then run these in parallel, substituting the branch name into `gh pr list`. Issue them as three separate Bash tool calls in the same turn so they actually run concurrently. Putting them in one block would just run them sequentially in a single shell.
-```bash
-git status
-```
-```bash
-gh repo view --json defaultBranchRef,isFork,parent,owner --jq '{default: .defaultBranchRef.name, isFork, parent: .parent.nameWithOwner, forkOwner: .owner.login}'
-```
-```bash
-gh pr list --head <branch> --json number,url
-```
-
-On a fork, `gh pr list` queries the current repo, so a PR opened cross-fork against the canonical repo won't show up. If `isFork` from the repo view above is `true`, also query the parent. Substitute `<parent>` (already in `owner/repo` form) and `<forkOwner>` from the repo view into:
-```bash
-gh pr list --repo <parent> --head <forkOwner>:<branch> --json number,url
-```
-
-**Resolve the PR base.** Default to the repo default branch from the `gh repo view` output. If the user's prompt named a different base ("open a PR against `release-1.5`", "PR into `develop`"), use that instead. Use this resolved base in every command below. Fetching, logging, and diffing against the wrong base would draft a description that enumerates commits already on the actual base and omits commits the PR will actually contain.
-
-If the current branch equals the resolved base, stop and tell the user to switch to a feature branch first. Otherwise the workflow will fetch and diff for nothing, then fail confusingly at `gh pr create` (which refuses base==head).
-
-If either `gh pr list` call (the current-repo query, or the cross-fork query against the parent on a fork) returns a non-empty array, an open PR already exists for this branch. Stop and tell the user, surfacing the PR number and URL from the JSON output so they can jump straight to it. They likely want to update, not re-create. Do not continue to the fetch/diff work below.
-
-If `git status` shows any modified, staged, or untracked files, stop and tell the user to commit first. Do not auto-commit, and do not continue to the fetch/diff work below.
-
-Pick the remote that tracks the PR base. If `isFork` is `false`, use `origin`. If `isFork` is `true`, `origin` points at the fork and would lag the actual base, so look up the canonical remote (commonly `upstream`) by matching `parent.nameWithOwner` against `git remote -v`:
-```bash
-git remote -v
-```
-Pick the remote whose URL matches the `parent` value. Use that remote name in place of `origin` for every command in the rest of this phase. If no remote matches the parent, tell the user the canonical remote isn't configured locally and suggest `git remote add upstream <parent-url>` (the URL is `https://github.com/<parent>.git` or the SSH equivalent), then stop so they can add it and re-run.
-
-Then refresh the remote-tracking ref so the comparison is against the current remote tip, not a stale local copy:
-```bash
-git fetch <remote> <base>
-git log --format="%H%n%s%n%b%n---" <remote>/<base>..HEAD
-```
-
-If the `git log` output is empty, stop and tell the user there is nothing to open a PR for. Do not continue to the diff work below.
-
-Then check the diff size:
-```bash
-git diff <remote>/<base>...HEAD --stat
-```
-
-If ≤2000 changed lines, read the full diff:
-```bash
-git diff <remote>/<base>...HEAD
-```
-
-Otherwise, read the diff per file, prioritizing the largest changes and files in critical paths:
-```bash
-git diff <remote>/<base>...HEAD -- path/to/file
-```
-
-### Phase 2: Draft
+**Steps:**
 
 1. **Check for a PR template**: GitHub accepts the template at any of these paths, so check all of them:
    - `.github/pull_request_template.md` or `.github/PULL_REQUEST_TEMPLATE.md`
@@ -167,7 +164,7 @@ git diff <remote>/<base>...HEAD -- path/to/file
 
 3. **Synthesize from commits and diff together**: use commit subjects and bodies to draft the framing. They carry intent and the natural shape of the change. Then skim the diff to sanity-check that the description matches reality and to catch anything the commits downplayed or omitted. Don't rely on commits alone (WIP or squashed commits can lie) or the diff alone (you'll drift into restating it).
 
-4. **Draft the body**: follow the Writing Style rules above. If no template exists, use:
+4. **Draft the body**: follow the rules above. If no template exists, use:
    ```
    ## Summary
    <1-3 sentences, bird's-eye view>
@@ -180,7 +177,7 @@ git diff <remote>/<base>...HEAD -- path/to/file
 
 5. **Submit without asking for confirmation.** Proceed directly to Phase 3. The user prefers to edit the PR on GitHub after the fact rather than iterate on the draft in chat.
 
-### Phase 3: Submit
+## Phase 3: Submit
 
 Push the branch if needed:
 ```bash
