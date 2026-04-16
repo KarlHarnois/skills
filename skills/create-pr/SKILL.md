@@ -117,7 +117,9 @@ git diff <remote>/<base>...HEAD -- path/to/file
    ```
    For trivial changes, `## Test plan` can be `N/A`.
 
-4. **Submit without asking for confirmation.** The user prefers to edit on GitHub rather than iterate in chat.
+4. **Self-review before submitting.** Reread the title and body against every rule above. These rules are violated often when drafted in a single pass, so this step is not optional. Fix any violation before continuing.
+
+5. **Submit without asking the user for confirmation.** The user prefers to edit on GitHub rather than iterate in chat.
 
 ## Phase 3: Submit
 
