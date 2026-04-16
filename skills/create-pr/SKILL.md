@@ -15,12 +15,14 @@ The default failure mode is a PR description that restates the diff as a bullet 
 **Rules:**
 - Keep the description short. A few sentences is usually enough. Long PRs get a few sentences plus a short bullet list of the main moving parts, nothing more.
 - Use bullets for parallel items that share a logical role (two root causes, two failure modes, two affected subsystems). Prose flattens that parallel structure, but a bulleted list preserves it. Don't use bullets to enumerate files, methods, or diff steps.
-- If a section covers two distinct ideas, for example a mechanism change and the test that locks it in, break them into separate paragraphs so a reader can skim.
+- If a section covers two distinct ideas, for example a cause and its fix, or a deploy step and a compatibility note, break them into separate paragraphs so a reader can skim.
 - Write every section at the level a teammate would explain it in one breath at standup, not just Summary. Launch plan and Testing included. Not "added method X to class Y, updated Z to call it, fixed typo in W." Instead: "Cache the expensive lookup on the request object so downstream middleware doesn't re-fetch it."
-- Prefer the concrete word to jargon or metaphor. Say "the table only rewrites recent rows on each run" instead of "the incremental predicate doesn't watch the resolver's lineage."
+- Prefer the concrete word to metaphor and abstraction. Say "the table only rewrites recent rows on each run" instead of "the incremental predicate doesn't watch the resolver's lineage." But don't paraphrase precise technical terms the reviewer already knows. "That table is incremental" is fine for a dbt audience.
+- Bias toward plain descriptive prose. Don't editorialize or dramatize. "Archived test products are used" is better than "archived test products label real retailer revenue." State what happens and let the reader draw the implication.
 - Prefer verbs to stacked noun phrases. "We intentionally drop per-order fidelity" beats "per-order fidelity is dropped by design."
 - Skip minor surrounding fixes, refactors, import reshuffles, formatting, and renames unless they are the point of the PR.
 - Skip implementation details the reader doesn't need to evaluate the change. Don't name every file or function.
+- Don't describe tests you added in the Changes section. The diff shows them. Use the Testing section to summarize what you verified, not to enumerate every input ("against the known-bad SKUs" beats listing five of them).
 - Lead with *what changed* and *why*, in plain language. No corporate phrasing, no marketing voice, no "This PR..." preamble.
 - Wrap code identifiers (column names, table names, variable names, CLI commands, file paths) in backticks.
 - Imperative mood in the title. Capitalized first letter. Max 72 characters.
