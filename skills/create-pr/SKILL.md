@@ -171,6 +171,8 @@ EOF
 )"
 ```
 
+Do not backslash-escape backticks, dollar signs, or quotes inside the body. The single-quoted `'EOF'` delimiter already disables shell expansion, so any escape characters pass through literally and show up as visible backslashes in the rendered PR.
+
 Add `--draft` if the user asked for a draft. Pass `--base <base>` if the resolved base from Phase 1 isn't the repo default.
 
 On a fork (`isFork` is `true`), `gh pr create` may interactive-prompt for the target repo or default to the fork itself. Make it deterministic by passing `--repo <parent> --head <forkOwner>:<branch>` using the values collected in Phase 1.
