@@ -35,7 +35,8 @@ Use git directly to read diffs and code, NOT `gh` commands to fetch diffs.
 
    If no PR number is provided, detect the PR from the current branch:
    ```bash
-   gh pr list --head "$(git branch --show-current)" --json number,title,baseRefName
+   BRANCH=$(git branch --show-current)
+   gh pr list --head "$BRANCH" --json number,title,baseRefName
    ```
    - If exactly one PR is found, use it.
    - If multiple PRs are found, present them to the user and ask which one to review.
@@ -244,10 +245,11 @@ Get the HEAD commit SHA with `git rev-parse HEAD` and substitute it into the pay
 If the batch review call fails, fall back to submitting each comment individually. Add a 1-second delay between requests to avoid hitting GitHub's secondary rate limits.
 
 ```bash
+COMMIT_SHA=$(git rev-parse HEAD)
 gh api repos/{owner}/{repo}/pulls/{pr_number}/comments \
   -X POST \
   -f body="[Comment text]" \
-  -f commit_id="$(git rev-parse HEAD)" \
+  -f commit_id="$COMMIT_SHA" \
   -f path="[file path]" \
   -F line=[line number] \
   -f side="RIGHT" \
