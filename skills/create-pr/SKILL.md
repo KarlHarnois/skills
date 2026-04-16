@@ -6,8 +6,6 @@ allowed-tools: Bash(gh *), Bash(git *), Read, Grep, Glob, AskUserQuestion
 
 # Create PR Skill
 
-Create a GitHub pull request with a short, high-signal description.
-
 ## Phase 1: Gather state
 
 Get the branch name:
@@ -114,9 +112,9 @@ git diff <remote>/<base>...HEAD -- path/to/file
    - [ ] <item>
    - [ ] <item>
    ```
-   For trivial changes (docs, one-line fixes), `## Test plan` can be plain `N/A` (no bullet, no italics, no explanation).
+   For trivial changes, `## Test plan` can be `N/A`.
 
-4. **Submit without asking for confirmation.** Proceed directly to Phase 3. The user prefers to edit the PR on GitHub after the fact rather than iterate on the draft in chat.
+4. **Submit without asking for confirmation.** The user prefers to edit on GitHub rather than iterate in chat.
 
 ## Phase 3: Submit
 
@@ -133,7 +131,7 @@ EOF
 )"
 ```
 
-Do not backslash-escape backticks, dollar signs, or quotes inside the body. The single-quoted `'EOF'` delimiter already disables shell expansion, so any escape characters pass through literally and show up as visible backslashes in the rendered PR.
+Do not escape backticks, dollar signs, or quotes inside the body. The single-quoted `'EOF'` handles them.
 
 Add `--draft` if the user asked for a draft. Pass `--base <base>` if the resolved base from Phase 1 isn't the repo default.
 
