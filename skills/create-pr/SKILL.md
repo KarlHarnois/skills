@@ -79,9 +79,7 @@ git diff <remote>/<base>...HEAD -- path/to/file
 
 2. **Draft the title**: imperative, capitalized, ≤72 chars. Derived from the overall change, not the latest commit message.
 
-3. **Synthesize from commits and diff together**: use commit subjects and bodies to draft the framing. They carry intent and the natural shape of the change. Then skim the diff to sanity-check that the description matches reality and to catch anything the commits downplayed or omitted. Don't rely on commits alone (WIP or squashed commits can lie) or the diff alone (you'll drift into restating it).
-
-4. **Draft the body**: the reader can see the diff. What they cannot see is the *shape* of the change and *why it matters*. Describe that, nothing more.
+3. **Draft the body**: the reader can see the diff. What they cannot see is the *shape* of the change and *why it matters*. Describe that, nothing more.
 
    **Rules:**
    - Under 150 words. Keep it short and scannable. When in doubt, cut.
@@ -118,7 +116,7 @@ git diff <remote>/<base>...HEAD -- path/to/file
    ```
    For trivial changes (docs, one-line fixes), `## Test plan` can be plain `N/A` (no bullet, no italics, no explanation).
 
-5. **Submit without asking for confirmation.** Proceed directly to Phase 3. The user prefers to edit the PR on GitHub after the fact rather than iterate on the draft in chat.
+4. **Submit without asking for confirmation.** Proceed directly to Phase 3. The user prefers to edit the PR on GitHub after the fact rather than iterate on the draft in chat.
 
 ## Phase 3: Submit
 
