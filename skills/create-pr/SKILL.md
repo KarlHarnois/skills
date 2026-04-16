@@ -79,7 +79,7 @@ Good (full-body shape and length, ~130 words):
 ## Summary
 `invoice_totals` produced different tax amounts for the same order across our two rendering paths:
 - PDF export used the order's creation-time tax rate, so rates fixed months later weren't picked up.
-- Email receipts joined tax per line item, so an order with line items across tax zones double-counted the zone delta.
+- Email receipts recomputed tax from the current rate table on every send, so a sent-and-paid invoice could show a new total if the rate later changed.
 
 ## Changes
 Both paths now read tax from a new shared `resolve_invoice_tax` helper, which snapshots the per-line-item rate at send time and falls back to the order-level rate for legacy rows.
