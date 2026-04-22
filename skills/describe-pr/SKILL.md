@@ -1,7 +1,7 @@
 ---
 name: describe-pr
 description: Draft or rewrite a GitHub pull request title and body for the current branch. Use this skill whenever the user asks to write, generate, update, rewrite, edit, or regenerate a PR description, with phrasings like "describe this PR", "write the PR body", "update the PR description", "rewrite the description", or "fix up the PR body". If a PR already exists for the branch, the skill applies the new description via `gh pr edit`. Otherwise, it returns the draft to the caller (typically the `create-pr` skill). Enforces a terse, bird's-eye-view style over diff enumeration.
-allowed-tools: Bash(gh *), Bash(git *), Read, Grep, Glob
+allowed-tools: Bash(gh *), Bash(git *), Read, Grep, Glob, AskUserQuestion
 ---
 
 # Describe PR Skill
