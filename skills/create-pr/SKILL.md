@@ -1,7 +1,7 @@
 ---
 name: create-pr
 description: Create a GitHub pull request with a brief, high-level description. Use this skill when the user asks to create a PR, open a pull request, push a PR up, or anything involving authoring a new pull request on GitHub. Delegates the title and body drafting to the `describe-pr` skill.
-allowed-tools: Bash(gh *), Bash(git *), Read, Grep, Glob, AskUserQuestion
+allowed-tools: Bash(gh *), Bash(git *), Read, Grep, Glob, AskUserQuestion, Skill
 ---
 
 # Create PR Skill
