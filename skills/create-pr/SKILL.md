@@ -51,7 +51,9 @@ If `git log --format=%H <remote>/<base>..HEAD` is empty, stop. Nothing to open a
 
 ## Phase 2: Draft title and body
 
-Follow the `describe-pr` skill to produce the title and body. No PR exists yet for this branch, so `describe-pr` runs in draft mode and returns the title and body to you without touching GitHub. Reuse the branch, repo, base, and remote you already resolved in Phase 1. There's no need to re-run those queries.
+Invoke the `describe-pr` skill via the Skill tool to produce the title and body. Do not draft them inline and do not read `describe-pr`'s SKILL.md to execute its steps yourself. Skill invocation is the single source of truth for drafting rules, and skipping it means its rules silently don't apply.
+
+No PR exists yet for this branch, so `describe-pr` runs in draft mode and returns the title and body to you without touching GitHub. Reuse the branch, repo, base, and remote you already resolved in Phase 1. There's no need to re-run those queries.
 
 ## Phase 3: Submit
 
