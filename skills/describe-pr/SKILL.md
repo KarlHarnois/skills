@@ -84,10 +84,11 @@ git diff <remote>/<base>...HEAD -- path/to/file
 3. **Draft the body**: the reader can see the diff. What they cannot see is the *shape* of the change and *why it matters*. Describe that, nothing more.
 
    **Rules:**
-   - Under 150 words for the entire body. Keep it short and scannable. When in doubt, cut.
-   - Lead with what changed and why. Plain language.
-   - Prefer outcome and scope over implementation inventory. Skip tests you added.
-   - Bullets only for parallel items (two causes, two failure modes). Never for files, methods, or tests.
+   - Favor natural language and a high-level summary. Each section is one or two sentences, like a standup update. Describe what the change means for the system, not what code moved.
+   - No low-level implementation notes. Don't write things like "added a test for X", "refactored the Y class", "extracted a helper", or "renamed the Z field". The reader sees that in the diff.
+   - Under 150 words for the entire body. When in doubt, cut.
+   - Lead with what changed and why.
+   - Bullets only for genuinely parallel items (two causes, two failure modes). Never for files, methods, or tests. Default to prose.
    - Backticks around code identifiers.
    - No em dashes.
    - No `Co-Authored-By` footers.
@@ -96,18 +97,16 @@ git diff <remote>/<base>...HEAD -- path/to/file
    **Target length and tone:**
    ```
    ## Summary
-   `invoice_totals` produced different tax amounts for the same order across our two rendering paths:
-   - PDF export used the order's creation-time tax rate, so rates fixed months later weren't picked up.
-   - Email receipts recomputed tax from the current rate table on every send, so a sent-and-paid invoice could show a new total if the rate later changed.
+   Fixed a bug where `invoice_totals` returned different tax amounts depending on whether an invoice was rendered as a PDF or sent by email.
 
    ## Changes
-   Both paths now read tax from a new shared `resolve_invoice_tax` helper, which snapshots the per-line-item rate at send time and falls back to the order-level rate for legacy rows.
+   Both rendering paths now go through a shared `resolve_invoice_tax` helper that snapshots the rate at send time.
 
    ## Testing
-   Verified against prod for the known-bad invoices. Every invoice rendered in the last 30 days now produces matching PDF and email totals.
+   Reran the known-bad invoices against prod. PDF and email totals now match for every invoice rendered in the last 30 days.
 
    ## Launch plan
-   After merge, run the `tax_backfill` job on staging and production. The invoice cache is per-template, so without a backfill historical invoices render with the old totals.
+   Run the `tax_backfill` job on staging and production after merge to refresh historical invoices.
    ```
 
    If no template exists, use:
