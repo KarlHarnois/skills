@@ -86,6 +86,7 @@ git diff <remote>/<base>...HEAD -- path/to/file
    **Rules:**
    - Favor natural language and a high-level summary. Each section is one or two sentences, like a standup update. Describe what the change means for the system, not what code moved.
    - No low-level implementation notes. Don't write things like "added a test for X", "refactored the Y class", "extracted a helper", or "renamed the Z field". The reader sees that in the diff.
+   - Describe the system-level effect, not the surface diff. Do not name the specific renamed, added, or removed symbols even in prose. Listing what moved, which import was deleted, or which method now wraps another is just diff narration. Say what the change means for callers or the system.
    - Under 150 words for the entire body. When in doubt, cut.
    - Lead with what changed and why.
    - Bullets only for genuinely parallel items (two causes, two failure modes). Never for files, methods, or tests. Default to prose.
@@ -135,4 +136,4 @@ EOF
 
 On a fork, add `--repo <parent>`. Do not escape backticks, dollar signs, or quotes inside the body. The single-quoted `'EOF'` handles them. Return the PR URL.
 
-**Draft mode**: present the title and body to the caller and stop. If `create-pr` invoked this skill, control returns there with the draft in hand. If the user invoked `describe-pr` directly and no PR exists, show them the draft and note that `create-pr` will open the PR when they're ready.
+**Draft mode**: return the draft (title, then body) to the caller. Do not render the draft as your final user-facing message when `create-pr` invoked this skill; control returns to `create-pr`, which is expected to continue with its Phase 3 (submit) in the same turn. "Stop" here means stop running `describe-pr`'s steps, not stop the turn. If the user invoked `describe-pr` directly and no PR exists, show them the draft and note that `create-pr` will open the PR when they're ready.

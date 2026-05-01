@@ -55,7 +55,11 @@ Invoke the `describe-pr` skill via the Skill tool to produce the title and body.
 
 No PR exists yet for this branch, so `describe-pr` runs in draft mode and returns the title and body to you without touching GitHub. Reuse the branch, repo, base, and remote you already resolved in Phase 1. There's no need to re-run those queries.
 
+**Do not end your turn once `describe-pr` returns, and do not present the draft to the user for approval.** The draft is input to Phase 3, not a deliverable. There is no approval phase. Proceed straight into the push and `gh pr create` in the same turn. If the user wants a different description after the PR is open, they can re-run `describe-pr` (edit mode) against the live PR; that is where iteration happens, not here.
+
 ## Phase 3: Submit
+
+Run this in the same turn as Phase 2. The draft is already in hand. Do not stop the turn with the draft as your final message; brief progress lines ("pushing…", "opening PR…") before the `gh pr create` call are fine, but ending on the draft is the failure mode to avoid.
 
 Push the branch if needed:
 ```bash
