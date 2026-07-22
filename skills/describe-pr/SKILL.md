@@ -1,6 +1,6 @@
 ---
 name: describe-pr
-description: Draft or rewrite a GitHub pull request title and body for the current branch. Use this skill whenever the user asks to write, generate, update, rewrite, edit, or regenerate a PR description, with phrasings like "describe this PR", "write the PR body", "update the PR description", "rewrite the description", or "fix up the PR body". If a PR already exists for the branch, the skill applies the new description via `gh pr edit`. Otherwise, it returns the draft to the caller (typically the `create-pr` skill). Enforces a terse, bird's-eye-view style over diff enumeration.
+description: Draft or rewrite a GitHub pull request title and body for the current branch. Use this skill whenever the user asks to write, generate, update, rewrite, edit, or regenerate a PR description, with phrasings like "describe this PR", "write the PR body", "update the PR description", "rewrite the description", or "fix up the PR body". If a PR already exists for the branch, the skill applies the new description via `gh pr edit`. Otherwise, it shows the draft to the user. Enforces a terse, bird's-eye-view style over diff enumeration.
 allowed-tools: Bash(gh *), Bash(git *), Read, Grep, Glob, AskUserQuestion
 ---
 
@@ -8,8 +8,8 @@ allowed-tools: Bash(gh *), Bash(git *), Read, Grep, Glob, AskUserQuestion
 
 This skill produces the title and body for a pull request. It runs in one of two modes depending on whether a PR already exists for the current branch:
 
-- **Edit mode**: a PR exists. The skill rewrites the description and applies it via `gh pr edit`.
-- **Draft mode**: no PR yet. The skill returns the draft to the caller (often the `create-pr` skill) without touching GitHub.
+- **Edit mode**: a PR exists. The skill rewrites the description and applies it via `gh pr edit`. This is the path `create-pr` invokes, since `create-pr` always opens the PR before delegating here.
+- **Draft mode**: no PR yet. The skill shows the draft to the user without touching GitHub. Only reached when a user invokes `describe-pr` directly on a branch with no PR.
 
 ## Phase 1: Detect mode and resolve base
 
@@ -136,4 +136,4 @@ EOF
 
 On a fork, add `--repo <parent>`. Do not escape backticks, dollar signs, or quotes inside the body. The single-quoted `'EOF'` handles them. Return the PR URL.
 
-**Draft mode**: return the draft (title, then body) to the caller. Do not render the draft as your final user-facing message when `create-pr` invoked this skill; control returns to `create-pr`, which is expected to continue with its Phase 3 (submit) in the same turn. "Stop" here means stop running `describe-pr`'s steps, not stop the turn. If the user invoked `describe-pr` directly and no PR exists, show them the draft and note that `create-pr` will open the PR when they're ready.
+**Draft mode**: show the user the draft (title, then body) and note that `create-pr` will open the PR when they're ready.

@@ -6,6 +6,8 @@ allowed-tools: Bash(gh *), Bash(git *), Read, Grep, Glob, AskUserQuestion, Skill
 
 # Create PR Skill
 
+This skill opens the PR first with a bootstrap title/body, then invokes `describe-pr` in edit mode to replace them with a proper draft. The order is deliberate: if anything goes wrong between the two phases, the PR still exists and the user can rerun `describe-pr` to fix the description. The previous design drafted first and created second, which meant a turn that ended after drafting left the user with no PR at all.
+
 ## Phase 1: Pre-flight checks
 
 Get the branch name:
@@ -42,42 +44,34 @@ git remote -v
 ```
 Use that remote in place of `origin` below. If no remote matches, suggest `git remote add upstream <parent-url>` and stop.
 
-Fetch so the next phase can diff against an up-to-date base:
+Fetch so we can confirm there's something to push:
 ```bash
 git fetch <remote> <base>
 ```
 
 If `git log --format=%H <remote>/<base>..HEAD` is empty, stop. Nothing to open a PR for.
 
-## Phase 2: Draft title and body
+## Phase 2: Open the PR with a bootstrap description
 
-Invoke the `describe-pr` skill via the Skill tool to produce the title and body. Do not draft them inline and do not read `describe-pr`'s SKILL.md to execute its steps yourself. Skill invocation is the single source of truth for drafting rules, and skipping it means its rules silently don't apply.
-
-No PR exists yet for this branch, so `describe-pr` runs in draft mode and returns the title and body to you without touching GitHub. Reuse the branch, repo, base, and remote you already resolved in Phase 1. There's no need to re-run those queries.
-
-**Do not end your turn once `describe-pr` returns, and do not present the draft to the user for approval.** The draft is input to Phase 3, not a deliverable. There is no approval phase. Proceed straight into the push and `gh pr create` in the same turn. If the user wants a different description after the PR is open, they can re-run `describe-pr` (edit mode) against the live PR; that is where iteration happens, not here.
-
-## Phase 3: Submit
-
-Run this in the same turn as Phase 2. The draft is already in hand. Do not stop the turn with the draft as your final message; brief progress lines ("pushing…", "opening PR…") before the `gh pr create` call are fine, but ending on the draft is the failure mode to avoid.
-
-Push the branch if needed:
+Push the branch:
 ```bash
-git push -u origin HEAD
+git push -u <remote> HEAD
 ```
 
-Create the PR using a HEREDOC for the body:
-```bash
-gh pr create --assignee @me --title "<title>" --body "$(cat <<'EOF'
-<body>
-EOF
-)"
-```
+Open the PR with `--fill-first`, which uses the first commit's subject and body as a temporary title/body. `describe-pr` will replace both in Phase 3.
 
-Do not escape backticks, dollar signs, or quotes inside the body. The single-quoted `'EOF'` handles them.
+```bash
+gh pr create --assignee @me --fill-first
+```
 
 Add `--draft` if the user asked for a draft. Pass `--base <base>` if the resolved base from Phase 1 isn't the repo default.
 
 On a fork (`isFork` is `true`), `gh pr create` may interactive-prompt for the target repo or default to the fork itself. Make it deterministic by passing `--repo <parent> --head <forkOwner>:<branch>` using the values collected in Phase 1.
 
-Submit without asking the user for confirmation. The user prefers to edit on GitHub rather than iterate in chat. Return the PR URL.
+Do not ask the user for confirmation before creating. The placeholder is meant to be transient; the user reviews the real description on GitHub.
+
+## Phase 3: Replace the description
+
+Invoke the `describe-pr` skill via the Skill tool. It detects the freshly-opened PR and runs in edit mode, overwriting the bootstrap title and body with a proper draft. Do not draft the title and body inline; the drafting rules and self-review live in `describe-pr` and only apply when it actually runs.
+
+Return the PR URL when done.
