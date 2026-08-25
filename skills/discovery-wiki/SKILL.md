@@ -7,11 +7,10 @@ description: Bootstrap a project knowledge base by running discovery across ever
 
 Build and use a persistent, link-based knowledge base for a project. The wiki's job is not to *contain* the knowledge. It is to let a future agent (or you, later in this session) find the right source in one or two file reads instead of re-crawling everything.
 
-Three principles govern everything:
+Two principles govern everything:
 
 1. **Indexes point, they don't copy.** Each entry is a summary plus a stable link/ID back to the source. Copying content bloats the wiki, goes stale, and defeats progressive disclosure. The source of truth stays on its surface.
 2. **Stay flat by default.** One index per surface plus one top-level index; a future agent reaches any source in at most two hops: `index.md`, then `surfaces/<surface>.md`, then the source. Hierarchy added by default costs tokens without improving retrieval. The single sanctioned exception is volume: a document or research question that outgrows its surface index earns a sub-index, never anything deeper.
-3. **Crawl wide but shallow.** Every relevant surface gets crawled, but what a crawl costs is tool results landing in context. So each crawl caps results per query, triages on titles and snippets, opens a source in full only when it is a Key evidence candidate, and runs a second search round only when the first one earned it.
 
 ## Two jobs, two paths
 

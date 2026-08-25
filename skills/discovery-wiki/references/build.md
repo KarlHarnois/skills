@@ -31,7 +31,7 @@ SURFACES: <optional override>
 DIR: <optional target directory>
 ```
 
-**Cold starts / handoffs**: when the user is new to the topic (taking over a vendor, inheriting a project), they can't supply aliases or key people, so don't stall on the interview. Start with the terms you have, treat the round-2 term harvest (step 3) as the primary scoping mechanism (set `COLD START: yes` in every crawl brief so crawlers always run that round), confirm harvested names and terms back to the user, and add a `## Who's who` section to the top-level index (prior owner, counterparty contacts, recurring internal voices). For a handoff, that roster is half the deliverable.
+**Cold starts / handoffs**: when the user is new to the topic (taking over a vendor, inheriting a project), they can't supply aliases or key people, so don't stall on the interview. Start with the terms you have, treat the round-2 term harvest (step 3) as the primary scoping mechanism, confirm harvested names and terms back to the user, and add a `## Who's who` section to the top-level index (prior owner, counterparty contacts, recurring internal voices). For a handoff, that roster is half the deliverable.
 
 Record all of this in the top-level `index.md` under `## Scope`; it doubles as the re-crawl spec later.
 
@@ -56,9 +56,9 @@ Tell the user which surfaces you will crawl and which relevant-looking ones you 
 
 ### 3. Fan out, one crawl per surface
 
-The crawl is where nearly all of a build's tokens go, and crawling is triage work (search, skim, summarize) that doesn't need the orchestrator's model. Fill in the brief from `references/crawl-brief.md` once per surface with the scope from step 1, the surface assignment, and the output path, then:
+The crawl is where nearly all of a build's tokens go. Fill in the brief from `references/crawl-brief.md` once per surface with the scope from step 1, the surface assignment, and the output path, then:
 
-**If the `surface-crawler` agent is available** (it ships in this repo's `agents/` and installs to `~/.claude/agents/`; check the agent list): spawn one `surface-crawler` per surface, all in the same turn so they run in parallel, with the filled-in brief as its task prompt. The agent runs on a cheaper model with a read-only tool allowlist, which is the point.
+**If the `surface-crawler` agent is available** (it ships in this repo's `agents/` and installs to `~/.claude/agents/`; check the agent list): spawn one `surface-crawler` per surface, all in the same turn so they run in parallel, with the filled-in brief as its task prompt. The agent carries the read-only tool allowlist and sets the crawler model in one place. It inherits the session model by default: in testing, a cheaper crawler model cost more in missed evidence and format errors than it saved.
 
 **If subagents are available but the agent is not** (generic Claude Code, Cowork): spawn one generic subagent per surface, same turn, same filled-in brief.
 
@@ -66,7 +66,7 @@ Either way, subagents write their index file directly and return only entry coun
 
 **If subagents are not available** (claude.ai chat): crawl surfaces yourself, sequentially, one surface at a time, writing each surface index before starting the next. Follow the same brief. Prioritize the surfaces most likely to hold decisive evidence for the decision context (for contracts: drive and email first).
 
-Each crawl follows the protocol in `references/crawl-brief.md`: capped breadth-first search with the key terms, triage on metadata, a second round only when it earns its cost, dedupe, then write the index. That file also has per-surface query tactics.
+Each crawl follows the protocol in `references/crawl-brief.md`: breadth-first search with the key terms, one expansion round, triage by relevance, dedupe, then write the index. That file also has per-surface query tactics.
 
 ### 4. Write per-surface indexes
 
@@ -75,7 +75,7 @@ Each surface gets exactly one file, `surfaces/<surface>.md`, in the format defin
 - Frontmatter records `crawled_at`, the queries actually run, and the time window covered; this is what makes delta re-crawls possible.
 - Entries are grouped by relevance (`Key evidence` / `Supporting` / `Peripheral`), newest first within groups. This structure is identical on every surface, no exceptions, so downstream agents can parse any index mechanically. Consumption-specific structure (rubric categories, research questions) is expressed through entry tags, never through custom sections.
 - Every entry: title, **stable link or ID**, date, owner/author if known, and a 1-2 sentence summary written for the *decision context*, not a generic abstract. "Contains the 2024 pricing table; per-seat cost is on p. 4" beats "A spreadsheet about pricing."
-- A `## Coverage notes` section stating honestly what was and wasn't searched, whether the second search round ran, and any access failures. An index that overstates its coverage is worse than no index.
+- A `## Coverage notes` section stating honestly what was and wasn't searched, and any access failures. An index that overstates its coverage is worse than no index.
 - A surface that was searched but returned nothing still gets its index file: frontmatter with `entry_count: 0`, no tier sections, full Coverage notes. "Searched, empty" and "couldn't reach" are different facts; only the latter belongs in `## Coverage gaps`.
 
 ### 5. Stitch the top-level index

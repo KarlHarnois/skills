@@ -20,35 +20,22 @@ RESEARCH QUESTIONS: {web surface only, optional: questions to investigate
   "cheaper vendors?"}
 TIME WINDOW: {e.g. 2025-01-01 to present}
 DECISION CONTEXT: {what the wiki will be used for}
-COLD START: {yes | no. Yes when the user is new to the topic and the
-  round-2 term harvest is the main way the scope gets discovered.}
 SURFACE: {email | drive | chat | tracker | code | calendar | local | web | documents | past-chats}
 TOOLS: {the specific tools available for this surface}
 OUTPUT FILE: {path}/surfaces/{surface}.md
 FORMAT: follow {path-to-skill}/references/templates.md exactly.
 
 Protocol:
-1. BREADTH FIRST, CAPPED. Run one search per key term before drilling
-   into anything, asking for about 15 results per query (first page
-   only when the tool can't cap). Results landing in context are what a
-   crawl costs, and a 16th result rarely changes the index. Note which
-   queries return nothing; that goes in Coverage notes.
-2. TRIAGE ON METADATA. Judge relevance from titles, senders, dates, and
-   snippets. Open a source in full only when it is a Key evidence
-   candidate for the decision context, and even then fetch the specific
-   message, section, or page rather than the whole thread or document.
-   For Supporting and Peripheral entries the snippet is enough to write
-   the summary. One exception: when the RUBRIC implies a metric, a
-   snippet rarely carries the number, so open the source for it.
-3. EXPAND when it earns its cost. From the best hits, harvest new terms
-   (people's names, doc titles, thread subjects, ticket IDs,
-   counterparty domains). Run a second round with them when round 1
-   surfaced genuinely new high-value terms, or returned suspiciously
-   little for a topic that should have traces; otherwise skip it and
-   say so in Coverage notes ("round 2 skipped: round 1 comprehensive").
-   On a COLD START the harvest is the scoping mechanism, so always run
-   round 2. Never run a third round; deeper crawling is a re-crawl
-   decision, not yours.
+1. BREADTH FIRST. Run one search per key term before drilling into
+   anything. Note which queries return nothing; that goes in Coverage
+   notes.
+2. EXPAND once: from the best hits, harvest new terms (people's names,
+   doc titles, thread subjects, ticket IDs) and run one more round with
+   them. Stop after two rounds; deeper crawling is a re-crawl decision,
+   not yours.
+3. TRIAGE, don't read everything. Open a source fully only if its
+   title or snippet suggests it bears on the decision context. Skim,
+   don't study.
 4. DEDUPE. Same document reachable two ways = one entry; note the
    aliases.
 5. WRITE the index. Summaries must answer "why would the decision-maker
@@ -80,8 +67,7 @@ Protocol:
    sub-index's best entry. Below those thresholds, keep everything
    inline.
 9. Fill in Coverage notes honestly: queries run, queries that failed,
-   whether round 2 ran, folders/channels/labels NOT searched, access
-   errors.
+   folders/channels/labels NOT searched, access errors.
 
 Return to the orchestrator ONLY: entry counts per relevance tier, 1-2
 sentences on the most important finding, and any coverage problems.
@@ -92,9 +78,9 @@ Do not return the index content itself.
 
 ## Per-surface tactics
 
-**email**: Search key terms in subject AND body; also search by correspondent once you know the counterparty's domain (`from:acme.com`). Attachments are often the real evidence: note filename and which message carries them. Thread = one entry; link the thread with an openable permalink (Gmail: `https://mail.google.com/mail/u/0/#all/<thread-id>`), and summarize its arc ("Mar-Apr 2025 negotiation; ends with them conceding the SLA credit"). Fetch a single message when one message settles the entry; a full thread is the most expensive thing an email crawl can pull.
+**email**: Search key terms in subject AND body; also search by correspondent once you know the counterparty's domain (`from:acme.com`). Attachments are often the real evidence: note filename and which message carries them. Thread = one entry; link the thread with an openable permalink (Gmail: `https://mail.google.com/mail/u/0/#all/<thread-id>`), and summarize its arc ("Mar-Apr 2025 negotiation; ends with them conceding the SLA credit").
 
-**drive**: Search by term, then by owner once key people are known. Prefer the canonical or latest version when drafts proliferate; list superseded drafts as one collapsed entry ("plus 4 earlier drafts"). Record doc IDs, not just titles; titles get renamed. Read a document's content only for Key evidence candidates; metadata and the first page are enough to place everything else.
+**drive**: Search by term, then by owner once key people are known. Prefer the canonical or latest version when drafts proliferate; list superseded drafts as one collapsed entry ("plus 4 earlier drafts"). Record doc IDs, not just titles; titles get renamed.
 
 **chat**: Search channels and DMs for key terms; identify the 1-3 channels where the topic actually lives and note them in Coverage notes even if you couldn't read everything. Chat evidence is about *who decided what, when*; summaries should name people and dates.
 
