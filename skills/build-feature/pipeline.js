@@ -4,7 +4,7 @@ export const meta = {
   phases: [
     { title: 'Implement', detail: 'implementer writes the code and tests for the spec' },
     { title: 'Refactor', detail: 'refactorer improves the changed files without changing behavior' },
-    { title: 'Review', detail: 'pr-reviewer reviews the branch against the spec' },
+    { title: 'Review', detail: 'reviewer reviews the branch against the spec' },
     { title: 'Apply', detail: 'implementer triages the findings and commits the fixes it keeps' },
   ],
 }
@@ -125,14 +125,13 @@ class PromptBook {
   review(round, declined) {
     const { branch, baseBranch, specPath } = this.settings
     return [
-      `TARGET: branch ${branch} vs ${baseBranch}`,
-      `BRANCH: ${branch}, already checked out.`,
+      `BRANCH: ${branch}`,
+      `BASE: ${baseBranch}`,
       `FOCUS: Read the approved spec at ${specPath} before the diff. ` +
         'Report each acceptance criterion the diff does not meet as a finding, in addition to the normal review.',
       `ROUND: ${round}`,
       'PREVIOUSLY DECLINED:',
       declined.toBrief(),
-      'Return the complete `review-pr` output verbatim.',
     ].join('\n')
   }
 
@@ -245,7 +244,7 @@ class ReviewLoop {
       const review = await agent(this.prompts.review(round, this.declined), {
         label: `review round ${round}, attempt ${attempt}`,
         phase: 'Review',
-        agentType: 'pr-reviewer',
+        agentType: 'reviewer',
       })
       if (this.isCompleteReview(review)) return review
       log(`Round ${round}: reviewer attempt ${attempt} did not return a complete review`)

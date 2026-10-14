@@ -5,7 +5,7 @@ description: Build a feature with a pipeline of agents. Write a spec, get the us
 
 # Build Feature
 
-This session writes the spec and holds the approval gate. The pipeline, a Workflow script, then runs the `implementer`, `refactorer`, and `pr-reviewer` subagents in an order fixed in code.
+This session writes the spec and holds the approval gate. The pipeline, a Workflow script, then runs the `implementer`, `refactorer`, and `reviewer` subagents in an order fixed in code.
 
 Invocation arguments, if any (the task, a round budget): $ARGUMENTS
 
@@ -23,7 +23,7 @@ Invocation arguments, if any (the task, a round budget): $ARGUMENTS
 | pipeline | `pipeline.js` in this skill's base directory. |
 | launch args | The `args` object passed to the pipeline. |
 | run result | The object the pipeline returns. |
-| round | One review by `pr-reviewer` followed by one pass by `implementer` that triages and applies its findings. |
+| round | One review by `reviewer` followed by one pass by `implementer` that triages and applies its findings. |
 
 **The workspace MUST be under `git rev-parse --absolute-git-dir`:** git never tracks that directory, so nothing the skill writes lands in a commit, and a literal `.git/` path breaks in a linked worktree, where `.git` is a file.
 
@@ -31,7 +31,7 @@ Invocation arguments, if any (the task, a round budget): $ARGUMENTS
 
 ### 1. Check the agents
 
-If the available agent types do not include all of `implementer`, `refactorer`, and `pr-reviewer`, stop and tell the user to run `make install` in the skills repository: the pipeline cannot spawn an agent type that is not installed.
+If the available agent types do not include all of `implementer`, `refactorer`, and `reviewer`, stop and tell the user to run `make install` in the skills repository: the pipeline cannot spawn an agent type that is not installed.
 
 ### 2. Resolve the task
 
