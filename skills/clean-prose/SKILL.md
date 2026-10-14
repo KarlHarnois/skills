@@ -1,14 +1,14 @@
 ---
 name: clean-prose
-description: "This skill is the prose standard for instruction text, the prose a model executes: CLAUDE.md, AGENTS.md, and the files they import; SKILL.md files and their reference files; agent definitions; slash commands; and prompts a program sends to a model. Use this skill before writing, editing, or reviewing instruction text, including a one-sentence change. Prose written for people is out of scope: READMEs, documentation, PR descriptions, and commit messages."
+description: "This skill is the prose standard for instruction text, the prose a model executes. Instruction text includes CLAUDE.md, AGENTS.md, and the files they import, plus SKILL.md files and their reference files. Instruction text also includes agent definitions, slash commands, and prompts a program sends to a model. Use this skill before writing, editing, or reviewing instruction text, including a one-sentence change. Prose written for people is out of scope: READMEs, documentation, PR descriptions, and commit messages."
 allowed-tools: Bash(${CLAUDE_SKILL_DIR}/scripts/lint.sh *)
 ---
 
 # Clean Prose
 
-**A reader MUST be able to tell, from a sentence alone, whether the sentence
-binds them and what it makes them do.** The orchestrator and subagents execute
-instruction text, and neither can ask what a sentence meant.
+**Each sentence alone MUST tell its reader whether it binds them and what it
+makes them do.** The orchestrator and subagents execute instruction text, and
+neither can ask what a sentence meant.
 
 ## Terms
 
@@ -34,9 +34,9 @@ instruction text, and neither can ask what a sentence meant.
 - every `SKILL.md` and every reference file a skill loads
 - every agent definition
 - every slash command
-- every prompt a program sends to a model, such as a prompt string in a
-  workflow script or a system prompt in application code; this skill governs
-  the prompt's text and not the code around it
+- every prompt a program sends to a model, such as a workflow script's prompt
+  string or an application's system prompt. This skill governs the prompt's
+  text and not the code around it.
 
 **§9 applies the standard to the orchestrator's explanation of its own work
 in chat.**
@@ -59,7 +59,11 @@ cut.
 | Invariant | X is always true. |
 
 - **One rule per sentence.** A sentence carrying two obligations hides the
-  second: split it.
+  second: split it. NEVER write a semicolon: split the clauses into sentences,
+  or move the series into a list.
+- **Short sentences.** If a sentence passes 20 words, split it at a clause
+  boundary or move its series into a list. If a sentence carries more than
+  three commas, split its clauses or move its series into a list.
 - **Condition first.** Write `If C, do X`, never `Do X, in cases where C`. The
   reader needs to know whether the sentence applies before learning what it
   asks.
@@ -83,15 +87,39 @@ cut.
 (Prohibition form) carries NEVER. Write the capitalized word when the sentence
 would otherwise read as advice.
 
-**NEVER write a word that states no force:** `consider`, `try to`, `it is a
-good idea to`, `generally`, `usually`, `where appropriate`, `as needed`. Each
-leaves the reader to invent the rule. If the force is conditional, write a
-Conditional sentence.
+**NEVER attach a force word to a passive verb.** Name the actor as the
+subject: a passive verb hides who acts.
+
+**NEVER write a word that states no force:**
+
+- `consider`
+- `try to`
+- `it is a good idea to`
+- `generally`
+- `usually`
+- `where appropriate`
+- `as needed`
+
+Each listed word leaves the reader to invent the rule. If the force is
+conditional, write a Conditional sentence.
 
 ## 3. Branches are exhaustive
 
 **If a rule branches, cover every case or name the default.** An uncovered
 case is an instruction to guess, and different readers guess differently.
+
+**NEVER write a Latin abbreviation.** An `etc.` leaves a list open, and an
+open list is an uncovered case. Replace `etc.` with the full list, or with the
+property every item shares. Replace each other abbreviation with its plain form:
+
+| Abbreviation | Plain form |
+| --- | --- |
+| `e.g.` | for example |
+| `i.e.` | that is |
+| `vs.` | versus |
+
+If the table has no row for an abbreviation, write the English words it stands
+for.
 
 **If any branch can reach a destructive or unrecoverable action, the default
 MUST be `Otherwise, stop and ask the user`.**
@@ -110,17 +138,20 @@ for elegance: in instruction text, a synonym reads as a distinction. Define a
 load-bearing term once, with a Definition sentence, and reference that
 definition rather than restating it.
 
+**NEVER write a contraction.** Write the full words: `'s` and `'d` each stand
+for more than one word.
+
 **A vocabulary is the project's table of fixed terms.** It has one row per
 term and three columns: the term, what it means, and its banned synonyms. A
 banned synonym NEVER appears in place of its term.
 
 - If the always-loaded instructions name a vocabulary file, read the
   vocabulary file before the edit and use its terms. If the edit introduces a
-  load-bearing term, add the term to the vocabulary file in the same change,
-  with its banned synonyms: a term used in two files and defined in neither
-  becomes a distinction.
+  load-bearing term, that edit adds the term and its banned synonyms to the
+  vocabulary file. A term used in two files and defined in neither becomes a
+  distinction.
 - If the named vocabulary file does not exist, report the missing file to the
-  user, then define each new load-bearing term with a Definition sentence in
+  user. Then define each new load-bearing term with a Definition sentence in
   the file that introduces it.
 - Otherwise, define each new load-bearing term with a Definition sentence in
   the file that introduces it.
@@ -145,13 +176,13 @@ procedures is three copies to drift.
 - **A step names every effect it has.** If a step writes, deletes, or sends
   something, the step's text names that action.
 - **Split a procedure on its mode.** If a procedure branches on the same
-  condition at more than one step, write one procedure per branch and choose
-  between them at the top.
+  condition at more than one step, write one procedure per branch. Choose
+  between the procedures at the top.
 - **Reference only what the reader loads.** A file MAY reference the
   always-loaded instructions and the reference files it names. If the file is
-  an agent definition, NEVER reference anything §8's table does not list for
-  its subagent. If a rule depends on another skill, the rule tells the reader
-  to invoke that skill: a reader cannot apply a skill it has not loaded.
+  an agent definition, NEVER reference anything its subagent does not load,
+  per §8. If a rule depends on another skill, the rule tells the reader to
+  invoke that skill. A reader cannot apply a skill it has not loaded.
 
 ### Formatting
 
@@ -160,14 +191,14 @@ paragraph:**
 
 - Enumerable rules go in a **table**.
 - Sequences go in **numbered steps**.
-- A paragraph opens with a **bold rule-head** stating the rule; what follows is
+- A paragraph opens with a **bold rule-head** stating the rule. What follows is
   its detail.
 - Reserve flowing paragraphs for recast rationale (§8).
 - One section covers one decision. A section that covers three is three
   sections.
 
 **Break a paragraph at its joints.** One paragraph carries one unit of the
-argument; where the text turns to the next unit, break. If a paragraph passes
+argument. Where the text turns to the next unit, break. If a paragraph passes
 140 words, look for a joint. Length alone NEVER forces a break. NEVER merge
 two units to balance length. An enumeration breaks between its items, NEVER
 inside one. If an enumeration's items run about a line each, the list stays one
@@ -187,12 +218,38 @@ you edit past.
 - **Qualification longer than the rule it qualifies.** Name the rare case in
   one clause.
 
+**NEVER write a wordy phrase where a shorter one means the same.** Write the
+plain form:
+
+| Wordy phrase | Plain form |
+| --- | --- |
+| `in order to` | to |
+| `prior to` | before |
+| `utilize` | use |
+| `leverage`, as a verb | use |
+| `commence` | start |
+| `approximately` | about |
+| `in the event that` | if |
+| `due to the fact that` | because |
+| `despite the fact that` | although |
+| `at this point in time` | now |
+| `with regard to` | about |
+| `is able to`, `has the ability to` | can |
+
 **PREFER tightening the rule OVER adding an example:** a reader copies an
 example's surface into the rule. An example wins only when the tightened rule
-is still ambiguous; then write a contrasting pair, one case the rule covers and
-one it excludes, differing only in the property the rule tests. Data that
-parameterizes a rule, such as an enumeration of types, producers, fields,
-sentence shapes, or name-shapes, is specification, not example.
+is still ambiguous. If an example wins, write a contrasting pair: one case the
+rule covers and one it excludes. Make the two cases differ only in the property
+the rule tests.
+
+**Data that parameterizes a rule is specification, not example.** Such data
+includes an enumeration of any of these:
+
+- types
+- producers
+- fields
+- sentence shapes
+- name-shapes
 
 ## 8. What must survive
 
@@ -206,15 +263,20 @@ Place the kept reason directly after the rule, as one clause
 (`NEVER X: <reason>`) or one sentence. Cut every other reason. Cut the story
 behind every reason: the history, the incident, the alternatives weighed.
 
-**Duplication is a defect only within a single context.** A rule restated in
-an agent definition or in the prompt a subagent is sent is a duplicate if the
-subagent also loads the rule's source, and necessary otherwise. A subagent
-loads:
+**Duplication is a defect only within a single context.** A restatement is a
+copy of a rule in an agent definition or in the prompt a subagent is sent. If
+the subagent also loads the rule's source, the restatement is a duplicate.
+Otherwise, the restatement is necessary.
 
-| Subagent | Loads |
-| --- | --- |
-| a fork | everything the orchestrator has loaded |
-| every other subagent | its agent definition, the prompt it is sent, every skill its agent definition lists in its `skills` field, every reference file it reads in the run, and the always-loaded instructions unless its agent definition sets `omitClaudeMd: true` |
+**A fork loads everything the orchestrator has loaded.** Every other subagent
+loads the items below. If its agent definition sets `omitClaudeMd: true`, the
+subagent does not load the always-loaded instructions.
+
+- its agent definition
+- the prompt it is sent
+- every skill its agent definition lists in its `skills` field
+- every reference file it reads in the run
+- the always-loaded instructions
 
 ## 9. Chat register
 
@@ -246,7 +308,7 @@ apply and why. The user cannot audit a choice whose alternatives are invisible.
 NEVER improvise a recovery silently.
 
 **Mark judgment as judgment.** If no rule governs a choice, say so: "No rule
-covers this; choosing X because Y." NEVER present a preference as a
+covers this. Choosing X because Y." NEVER present a preference as a
 requirement. NEVER present a requirement as a preference.
 
 **If a recommendation reverses an earlier one, name what changed:** the rule,
@@ -260,17 +322,17 @@ and…`, `I'll just…`, or `Now I'll…`.
 
 **Weight a finding by how often its text loads.** The always-loaded
 instructions, every skill `description`, and every agent `description` load in
-every session; a skill body loads only when the skill is invoked. Fix the text
+every session. A skill body loads only when the skill is invoked. Fix the text
 that loads in every session first.
 
 **Within a file, rank by consequence:** an unstated failure branch or an
-uncovered case outranks a wordy sentence, because the first two change what
-the reader does and the third only costs tokens.
+uncovered case outranks a wordy sentence. The first two change what the reader
+does, and the third only costs tokens.
 
 ## 11. How to change instruction text
 
 **State every proposed change as replacement text, never as a verdict.**
-"These 40 words say what these 12 do" is actionable; "this section is
+"These 40 words say what these 12 do" is actionable, and "this section is
 verbose" is not.
 
 **Edit one file per change.** Read the result whole.
@@ -280,24 +342,26 @@ verbose" is not.
 **A defect class is the property of an input that produces a failure, stated
 without naming the input.** An input is what an instruction acts on: a file, a
 record, a request, a pull request. **A special case is a rule, a branch, a
-constant, or a table entry that only one input, or only the inputs of one
-run, can meet.** NEVER write a special case into instruction text: inputs vary
-without limit, and a rule fitted to one input breaks on the next.
+constant, or a table entry that only one input can meet.** The inputs of one
+run count as one input. NEVER write a special case into instruction text.
+Inputs vary without limit, and a rule fitted to one input breaks on the next.
 
-- If a reader misjudged one input, state the defect class, then find the
+- If a reader misjudged one input, state the defect class. Then find the
   sentence that permitted the misjudgment: an uncovered case, an undefined
   force, or an undefined term. Restate that sentence. NEVER append a sentence
   for the input.
-- If the defect class cannot be stated, or the only edit that covers the
-  input is a special case, leave the instruction text unchanged and report
-  the input to the user.
+- If the defect class cannot be stated, leave the instruction text unchanged
+  and report the input to the user. If only a special case covers the input,
+  leave the instruction text unchanged and report the input to the user.
 - NEVER name an input in a rule. NEVER describe an input so closely that
   only that input fits. Data that parameterizes a rule is specification (§7).
 - PREFER restating the rule that governs the decision OVER adding a rule
   beside it. The added rule wins only when no existing rule governs the
   decision.
-- If a rule carries more than two exceptions, or a list in it gains one entry
-  per failure, restate the rule so that it covers them.
+- If a rule carries more than two exceptions, restate the rule so that it
+  covers them.
+- If a list in a rule gains one entry per failure, restate the rule so that it
+  covers every entry.
 
 ## 13. Lint the edited file
 
@@ -305,11 +369,12 @@ without limit, and a rule fitted to one input breaks on the next.
 CleanProse style in this skill's `vale/` directory.** An **alert** is one line
 of the linter's output, in the form `file:line:column:level:rule:message`. An
 alert's message cites the section of this standard that the alert enforces. An
-**edited block** is a top-level block, such as a paragraph, a list, or a
-table, that the edit wrote, changed, or deleted text from.
+**edited block** is a top-level block that the edit wrote, changed, or deleted
+text from. A top-level block is any block that no other block contains.
+Headings, paragraphs, lists, and tables are top-level blocks.
 
 **After each edit to instruction text, run these steps.** If the edited file's
-extension is not `.md` or `.markdown`, start at step 3: the linter applies no
+extension is not `.md` or `.markdown`, start at step 3. The linter applies no
 rule to any other file and reports it clean.
 
 1. Run the linter on the file's absolute path:
@@ -320,8 +385,10 @@ rule to any other file and reports it clean.
 
 2. Act on the linter's exit code, per the exit code table.
 3. Read the result whole, as §11 requires. A run with no alerts does not
-   clear the file: the linter matches words and sentence patterns, not
-   meaning, and skips code blocks, including a prompt kept in one.
+   clear the file. The linter matches words and sentence patterns, not
+   meaning. The linter also skips code blocks, including a prompt kept in one.
+   The linter matches only words in front matter, never sentence patterns.
+   Read each front matter sentence against this standard.
 
 **Act on the exit code:**
 
@@ -335,14 +402,20 @@ rule to any other file and reports it clean.
 | Any other code | The linter could not run. | Report the exit code and the output to the user. |
 
 **If the flagged text is quoted text, put it in a code span or a fenced code
-block:** the linter skips code, so its rules stay on for the rest of the
-block. Quoted text is text whose exact wording the reader must keep, such as a
-quotation that states its own ban, a message template the reader sends to a
-person, or a message a tool prints that the reader must recognize. A prompt
-sent to a model is instruction text, never quoted text.
+block.** The linter skips code, so its rules stay on for the rest of the
+block.
+
+**Quoted text is text whose exact wording the reader must keep.** Quoted text
+includes:
+
+- a quotation that states its own ban
+- a message template the reader sends to a person
+- a message a tool prints that the reader must recognize
+
+A prompt sent to a model is instruction text, never quoted text.
 
 **If the quoted text is in front matter, leave the text and report the alert
-to the user instead:** the linter checks code spans in front matter too.
+to the user instead.** The linter checks code spans in front matter too.
 
 **Handle every other alert by its level:**
 
@@ -351,7 +424,7 @@ to the user instead:** the linter checks code spans in front matter too.
 | `error` | Restate the flagged text so it meets the cited section. |
 | `warning` or `suggestion` | Read the cited section. If its rule holds for the flagged text, restate the text. Otherwise, leave the text. |
 
-**NEVER swap in a synonym to clear an alert:** the synonym breaks the same
+**NEVER swap in a synonym to clear an alert.** The synonym breaks the same
 rule and hides the break from the linter.
 
 **NEVER cut a reason §8 keeps to clear an alert:** the linter cannot tell a

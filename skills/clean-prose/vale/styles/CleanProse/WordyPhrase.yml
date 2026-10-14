@@ -1,0 +1,27 @@
+extends: substitution
+message: "§7: write '%s' instead of '%s'."
+level: error
+ignorecase: true
+swap:
+  in\s+order\s+to: to
+  prior\s+to: before
+  utili[sz]e: use
+  utili[sz]es: uses
+  utili[sz]ed: used
+  utili[sz]ing: using
+  leverage(?=\s+(?:the|a|an|this|that|these|those|its|their|each|every)\b): use
+  leverages: uses
+  leveraged(?=\s+(?:the|a|an|this|that|these|those|its|their|each|every)\b): used
+  leveraging: using
+  commence: start
+  commences: starts
+  commenced: started
+  commencing: starting
+  approximately: about
+  in\s+the\s+event\s+that: if
+  due\s+to\s+the\s+fact\s+that: because
+  despite\s+the\s+fact\s+that: although
+  at\s+this\s+point\s+in\s+time: now
+  with\s+regard\s+to: about
+  (?:is|are)\s+able\s+to: can
+  ha(?:s|ve)\s+the\s+ability\s+to: can

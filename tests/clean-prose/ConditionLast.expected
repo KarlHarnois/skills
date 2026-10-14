@@ -6,6 +6,7 @@ tests/clean-prose/ConditionLast.md:25:23:suggestion:CleanProse.ConditionLast:§1
 tests/clean-prose/ConditionLast.md:27:22:suggestion:CleanProse.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
 tests/clean-prose/ConditionLast.md:29:14:suggestion:CleanProse.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
 tests/clean-prose/ConditionLast.md:31:29:suggestion:CleanProse.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
+tests/clean-prose/ConditionLast.md:33:18:error:CleanProse.Semicolon:§1: NEVER write a semicolon. Split the clauses into sentences, or move the series into a list.
 tests/clean-prose/ConditionLast.md:33:25:suggestion:CleanProse.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
 tests/clean-prose/ConditionLast.md:39:14:suggestion:CleanProse.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
 tests/clean-prose/ConditionLast.md:45:28:suggestion:CleanProse.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.

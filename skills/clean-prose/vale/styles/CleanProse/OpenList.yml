@@ -1,0 +1,7 @@
+extends: existence
+message: "§3: '%s' leaves the list open. Write the full list, or name the property every item shares."
+level: error
+ignorecase: true
+nonword: true
+tokens:
+  - '\betc\.'

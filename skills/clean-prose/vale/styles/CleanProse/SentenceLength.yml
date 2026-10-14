@@ -1,0 +1,6 @@
+extends: occurrence
+message: "§1: this sentence passes 20 words. Split it at a clause boundary, or move its series into a list."
+level: suggestion
+scope: sentence
+max: 20
+token: '\S+'

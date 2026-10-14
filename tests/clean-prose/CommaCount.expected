@@ -1,0 +1,1 @@
+tests/clean-prose/CommaCount.md:1:18:suggestion:CleanProse.CommaCount:§1: this sentence carries more than three commas. Split its clauses into sentences, or move its series into a list.

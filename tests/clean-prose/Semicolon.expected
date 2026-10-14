@@ -1,0 +1,1 @@
+tests/clean-prose/Semicolon.md:1:18:error:CleanProse.Semicolon:§1: NEVER write a semicolon. Split the clauses into sentences, or move the series into a list.
