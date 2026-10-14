@@ -6,3 +6,4 @@ tests/clean-prose/WordyPhrase.md:9:19:error:CleanProse.WordyPhrase:§7: write 'i
 tests/clean-prose/WordyPhrase.md:11:11:error:CleanProse.WordyPhrase:§7: write 'can' instead of 'is able to'.
 tests/clean-prose/WordyPhrase.md:17:11:error:CleanProse.WordyPhrase:§7: write 'used' instead of 'utilized'.
 tests/clean-prose/WordyPhrase.md:25:15:error:CleanProse.WordyPhrase:§7: write 'about' instead of 'with regard to'.
+tests/clean-prose/WordyPhrase.md:27:11:error:CleanProse.WordyPhrase:§7: write 'used' instead of 'leveraged'.

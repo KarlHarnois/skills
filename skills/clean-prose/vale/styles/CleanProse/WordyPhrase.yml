@@ -11,7 +11,7 @@ swap:
   utili[sz]ing: using
   leverage(?=\s+(?:the|a|an|this|that|these|those|its|their|each|every)\b): use
   leverages: uses
-  leveraged: used
+  leveraged(?=\s+(?:the|a|an|this|that|these|those|its|their|each|every)\b): used
   leveraging: using
   commence: start
   commences: starts

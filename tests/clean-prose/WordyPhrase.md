@@ -23,3 +23,7 @@ Compute the leverage ratio for each account.
 Resolve each path with respect to the repository root.
 
 Read the file with regard to the cache.
+
+The build leveraged the cache.
+
+Buy the leveraged fund.
