@@ -1,0 +1,6 @@
+extends: existence
+message: "§1: a semicolon joins two clauses into one sentence. Split them into two sentences, or move the series into a list."
+level: error
+nonword: true
+tokens:
+  - ';'
