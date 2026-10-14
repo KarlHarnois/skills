@@ -14,7 +14,7 @@ Invocation arguments, if any (the task, a round budget): $ARGUMENTS
 | Term | Meaning |
 | --- | --- |
 | task | What the user wants built, in their words. |
-| repository root | The output of `git rev-parse --show-toplevel`. |
+| repository root | The output of `git rev-parse --show-toplevel`, run in the directory the task names by path, or in the session's working directory if the task names none. |
 | base branch | The branch the work merges into, resolved in Phase 1. |
 | workspace | `<git-dir>/build-feature/<branch-slug>/`, where `<git-dir>` is the output of `git rev-parse --absolute-git-dir` and `<branch-slug>` is the branch name with every `/` replaced by `-`. |
 | spec | `spec.md` in the workspace. |
@@ -28,6 +28,8 @@ Invocation arguments, if any (the task, a round budget): $ARGUMENTS
 
 **The workspace MUST be under `git rev-parse --absolute-git-dir`:** git never tracks that directory, so nothing the skill writes lands in a commit, and a literal `.git/` path breaks in a linked worktree, where `.git` is a file.
 
+**Run every command in this skill from the repository root:** the session's shell can start in a different repository.
+
 ## Phase 1: Setup
 
 ### 1. Check the agents
@@ -36,7 +38,7 @@ If the available agent types do not include all of `implementer`, `refactorer`, 
 
 ### 2. Resolve the task
 
-If `$ARGUMENTS` or the conversation states the task, use it. Otherwise, ask the user for the task and wait.
+If `$ARGUMENTS` or the conversation states the task, use it. Otherwise, ask the user for the task and wait. Then resolve the repository root.
 
 ### 3. Resolve the branch
 
