@@ -25,3 +25,5 @@ Run `make` if the lockfile changed.
 - Rebuild the *cache* if the lockfile changed.
 
 Keep the reason (§8) if a reader would revert the rule.
+
+Reply "done" if the build passes.
