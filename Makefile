@@ -71,8 +71,8 @@ vale:
 
 test: vale
 	@cd "$(REPO_ROOT)" && failed=0; \
-	for fixture in $(CLEAN_PROSE_FIXTURES)/*.md; do \
-		$(CLEAN_PROSE_LINT) "$$fixture" | diff -u "$${fixture%.md}.expected" - || failed=1; \
+	for fixture in $(CLEAN_PROSE_FIXTURES)/*.md $(CLEAN_PROSE_FIXTURES)/*.markdown; do \
+		$(CLEAN_PROSE_LINT) "$$fixture" | diff -u "$${fixture%.*}.expected" - || failed=1; \
 	done; \
 	exit $$failed
 	$(call expect_lint_exit,4,$(CLEAN_PROSE_LINT) $(REPO_ROOT)$(CLEAN_PROSE_FIXTURES)/Missing.md,missing file)
