@@ -71,7 +71,9 @@ If `git status --porcelain --untracked-files=all` shows paths other than the ver
 
 ### 7. Open the workspace
 
-Resolve the workspace path and run `mkdir -p <workspace>`.
+1. Resolve the workspace path.
+2. If the workspace exists and is not empty, rename it to `<workspace>.<N>`, with the lowest unused integer `N`: it holds an earlier run from a branch with the same name or the same slug, and the report counts every run file in the workspace.
+3. Run `mkdir -p <workspace>`.
 
 ### 8. Write the spec
 
