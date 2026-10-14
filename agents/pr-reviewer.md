@@ -1,6 +1,6 @@
 ---
 name: pr-reviewer
-description: Runs the review-pr skill on one PR or branch and returns the review verbatim. Spawned once per round by the refine-pr loop so every round gets a reviewer with no memory of the previous round's argument. Read-only on the working tree and on GitHub. Not for fixing, committing, or pushing anything it finds.
+description: Runs the review-pr skill on one PR or branch and returns the review verbatim. Spawned once per round by the refine-pr loop and the build-feature pipeline so every round gets a reviewer with no memory of the previous round's argument. Read-only on the working tree and on GitHub. Not for fixing, committing, or pushing anything it finds.
 model: inherit
 tools: Bash, Read, Grep, Glob, Skill
 ---
