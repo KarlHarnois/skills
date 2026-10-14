@@ -335,7 +335,10 @@ alert's message cites the section of this standard that the alert enforces.
 | 4 | The path does not exist. | Rerun step 1 with the edited file's absolute path. |
 | 5 | nix could not build Vale. | Report the error message to the user. |
 
-**Handle each alert by its level:**
+**If the flagged text is a quotation that states its own ban, as §5 permits,
+wrap the quotation in `<!-- vale <rule> = NO -->` and
+`<!-- vale <rule> = YES -->` lines, where `<rule>` is the alert's rule
+field.** Handle every other alert by its level:
 
 | Level | Action |
 | --- | --- |
