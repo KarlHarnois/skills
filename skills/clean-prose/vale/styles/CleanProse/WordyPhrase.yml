@@ -1,0 +1,18 @@
+extends: substitution
+message: "§7: write '%s' instead of '%s'."
+level: error
+ignorecase: true
+swap:
+  in\s+order\s+to: to
+  prior\s+to: before
+  utili[sz](?:e|es|ed|ing|ation): use
+  leverag(?:e|es|ed|ing): use
+  commenc(?:e|es|ed|ing): start
+  approximately: about
+  in\s+the\s+event\s+that: if
+  due\s+to\s+the\s+fact\s+that: because
+  despite\s+the\s+fact\s+that: although
+  at\s+this\s+point\s+in\s+time: now
+  with\s+(?:regard|respect)\s+to: about
+  (?:is|are)\s+able\s+to: can
+  ha(?:s|ve)\s+the\s+ability\s+to: can

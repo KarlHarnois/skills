@@ -206,6 +206,23 @@ you edit past.
 - **Qualification longer than the rule it qualifies.** Name the rare case in
   one clause.
 
+**NEVER write a wordy phrase where a shorter one means the same.** Write the
+plain form:
+
+| Wordy phrase | Plain form |
+| --- | --- |
+| `in order to` | to |
+| `prior to` | before |
+| `utilize`, `leverage` | use |
+| `commence` | start |
+| `approximately` | about |
+| `in the event that` | if |
+| `due to the fact that` | because |
+| `despite the fact that` | although |
+| `at this point in time` | now |
+| `with regard to`, `with respect to` | about |
+| `is able to`, `has the ability to` | can |
+
 **PREFER tightening the rule OVER adding an example:** a reader copies an
 example's surface into the rule. An example wins only when the tightened rule
 is still ambiguous; then write a contrasting pair, one case the rule covers and
