@@ -183,7 +183,7 @@ A relaunched agent stops on any uncommitted change it did not write, so the left
 
 ### 3. Report
 
-Write `report.md` in the workspace and print the same text. Take the implement, refactor, and architect commits from the `stages` of every `run-*.json` file: a relaunch's run result holds only the stages that relaunch ran. Count findings across every run of this workspace by these rules:
+Write `report.md` in the workspace and print the same text. Take the commit total from `git log --oneline <startCommit>..HEAD`. Attribute commits to implement, refactor, architect, and review fixes from the `stages` and `triage` of every `run-*.json` file: a relaunch's run result holds only the stages that relaunch ran. Count every commit no run file names as `other` on the Commits line: an agent that returned nothing and the skill's own commits appear in no run file. Count findings across every run of this workspace by these rules:
 
 - Two findings in different rounds are the same finding if they name the same file and the same problem, whatever their line numbers.
 - A finding is counted once, in the round it first appeared.
