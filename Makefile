@@ -1,4 +1,4 @@
-.PHONY: all install uninstall status reinstall test vale
+.PHONY: all install uninstall status reinstall test test-node test-clean-prose vale
 
 all: install
 
@@ -12,6 +12,8 @@ SKILLS := $(shell find "$(SKILLS_SOURCE)" -mindepth 1 -maxdepth 1 -type d -exec 
 AGENTS_SOURCE := $(REPO_ROOT)agents
 AGENTS_DESTINATION := $(CLAUDE_HOME)/agents
 AGENTS := $(shell find "$(AGENTS_SOURCE)" -mindepth 1 -maxdepth 1 -name '*.md' -exec basename {} \;)
+
+TESTS := $(shell find "$(SKILLS_SOURCE)" -name '*.test.mjs')
 
 NIX := nix --extra-experimental-features 'nix-command flakes' --option warn-dirty false
 VALE_GC_ROOT := $(REPO_ROOT).vale-gcroot
@@ -71,7 +73,12 @@ vale:
 	@command -v nix >/dev/null || { echo "nix not found, see README"; exit 1; }
 	@$(NIX) build --quiet --out-link "$(VALE_GC_ROOT)" "$(abspath $(REPO_ROOT))#vale"
 
-test: vale
+test: test-node test-clean-prose
+
+test-node:
+	node --test $(TESTS)
+
+test-clean-prose: vale
 	@cd "$(REPO_ROOT)" && failed=0; \
 	for fixture in $(CLEAN_PROSE_FIXTURES)/*.md $(CLEAN_PROSE_FIXTURES)/*.markdown; do \
 		$(CLEAN_PROSE_LINT) "$$fixture" | diff -u "$${fixture%.*}.expected" - || failed=1; \

@@ -19,9 +19,11 @@ Invocation arguments, if any (a PR number, a review focus, a round budget): $ARG
 
 Detect it the way `review-pr` does, so both skills agree on what "this PR" means:
 
-- A PR number in the prompt wins. Use it directly.
-- Otherwise find the PR for the current branch: `gh pr list --head "$(git branch --show-current)" --json number,title,headRefName`.
+- A PR number in the prompt wins. Read its branches with `gh pr view <number> --json number,title,headRefName,baseRefName`.
+- Otherwise find the PR for the current branch: `gh pr list --head "$(git branch --show-current)" --json number,title,headRefName,baseRefName`.
 - Otherwise run in branch mode, current branch against `gh repo view --json defaultBranchRef -q .defaultBranchRef.name`.
+
+Record the base branch: the PR's `baseRefName`, or the default branch in branch mode. Every round's reviewer brief passes it as `BASE`, so a stacked PR is reviewed against its parent branch and not against the default branch.
 
 If the PR's head branch is not the current branch, check it out here, once, and say so. Doing it up front is what lets the reviewer subagent be forbidden from moving HEAD later. A checkout in the middle of a round would strand that round's commits on the wrong branch.
 
@@ -77,7 +79,7 @@ HEAD is still the branch under review, and `git status --porcelain` shows nothin
 
 ### 2. Spawn one reviewer
 
-**If the `pr-reviewer` agent is available** (it ships in this repo's `agents/` and installs to `~/.claude/agents/`; check the agent list): spawn one `pr-reviewer` with the filled-in brief below as its task prompt. The agent carries the read-only tool set and sets the reviewer model in one place. It inherits the session model by default, because review quality here decides both what gets committed and when the loop declares the PR done.
+**If the `reviewer` agent is available** (it ships in this repo's `agents/` and installs to `~/.claude/agents/`; check the agent list): spawn one `reviewer` with the filled-in brief below as its task prompt. The agent carries the read-only tool set and sets the reviewer model in one place. It inherits the session model by default, because review quality here decides both what gets committed and when the loop declares the PR done.
 
 **If subagents are available but the agent is not**: spawn one generic subagent with the same brief, and add to it the read-only constraints the agent file would have carried, namely that it must not edit files, move HEAD, or post to GitHub.
 
@@ -86,8 +88,9 @@ HEAD is still the branch under review, and `git status --porcelain` shows nothin
 Spawn a fresh reviewer every round. Never continue the previous one. A reviewer that remembers being overruled last round argues less this round, and a loop that ends because the reviewer got tired has converged for the wrong reason.
 
 ```
-TARGET: PR #<number> "<title>"        (branch mode: <branch> vs <base>)
+REPO: <output of `git rev-parse --show-toplevel`>
 BRANCH: <branch>, already checked out. Do not switch branches or move HEAD.
+BASE: <the PR's base branch, or the default branch in branch mode>
 FOCUS: <the user's focus, verbatim, or "none">
 ROUND: <N>
 
@@ -99,7 +102,7 @@ on round 1 write "none, this is the first round"):
 Do not simply restate a point already answered here. If you think a reason is
 wrong, raise it again and say which part you disagree with.
 
-Invoke the `review-pr` skill and review the target. Return its complete output
+Invoke the `review-pr` skill and review BRANCH against BASE. Return its complete output
 verbatim: the summary table, every detail block with its failure scenario, and
 the closing summary block with the counts. That text is your whole return
 value. Do not summarize it and do not add recommendations of your own.

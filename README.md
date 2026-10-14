@@ -39,7 +39,11 @@ text by reading it.
 make test
 ```
 
-This runs the `clean-prose` lint script against the fixtures in
-`tests/clean-prose/` and diffs the alerts against each `.expected` file. The
-fixtures include lists and tables, which Vale skipped before 3.17, so run
-`make test` after every `nix flake update`.
+This runs two suites, and each has its own target:
+
+- `make test-node` runs every `*.test.mjs` under `skills/` with `node --test`,
+  so it needs Node.
+- `make test-clean-prose` runs the `clean-prose` lint script against the
+  fixtures in `tests/clean-prose/` and diffs the alerts against each
+  `.expected` file, so it needs nix. The fixtures include lists and tables,
+  which Vale skipped before 3.17, so run it after every `nix flake update`.
