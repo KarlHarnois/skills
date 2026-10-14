@@ -17,6 +17,12 @@ For a separate config profile, override the destination:
 make install CLAUDE_HOME=~/.claude-work
 ```
 
+To run the tests (requires Node):
+
+```sh
+make test
+```
+
 To remove installed skills and agents:
 
 ```sh

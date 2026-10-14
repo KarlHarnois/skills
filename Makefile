@@ -1,4 +1,4 @@
-.PHONY: all install uninstall status reinstall
+.PHONY: all install uninstall status reinstall test
 
 all: install
 
@@ -12,6 +12,8 @@ SKILLS := $(shell find "$(SKILLS_SOURCE)" -mindepth 1 -maxdepth 1 -type d -exec 
 AGENTS_SOURCE := $(REPO_ROOT)agents
 AGENTS_DESTINATION := $(CLAUDE_HOME)/agents
 AGENTS := $(shell find "$(AGENTS_SOURCE)" -mindepth 1 -maxdepth 1 -name '*.md' -exec basename {} \;)
+
+TESTS := $(shell find "$(SKILLS_SOURCE)" -name '*.test.mjs')
 
 define link_all
 @mkdir -p "$(2)"
@@ -55,3 +57,6 @@ status:
 	$(call status_all,$(AGENTS_DESTINATION),$(AGENTS),agent)
 
 reinstall: uninstall install
+
+test:
+	node --test $(TESTS)
