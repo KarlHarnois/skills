@@ -308,7 +308,9 @@ alert's message cites the section of this standard that the alert enforces. An
 **edited block** is a top-level block, such as a paragraph, a list, or a
 table, that the edit wrote, changed, or deleted text from.
 
-**After each edit to instruction text, run these steps:**
+**After each edit to instruction text, run these steps.** If the edited file's
+extension is not `.md` or `.markdown`, start at step 3: the linter applies no
+rule to any other file and reports it clean.
 
 1. Run the linter on the file's absolute path:
 
@@ -320,9 +322,6 @@ table, that the edit wrote, changed, or deleted text from.
 3. Read the result whole, as §11 requires. A run with no alerts does not
    clear the file: the linter matches words and sentence patterns, not
    meaning, and skips code blocks, including a prompt kept in one.
-
-**If the edited file's extension is not `.md` or `.markdown`, skip steps 1
-and 2:** the linter applies no rule to any other file and reports it clean.
 
 **Act on the exit code:**
 
