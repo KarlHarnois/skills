@@ -4,4 +4,4 @@ level: suggestion
 scope: sentence
 nonword: true
 tokens:
-  - '^(?!(?:\w+,\s+)?(?i:if|unless|when|whenever|otherwise|once|while|where|even if|only if)\b)[^(:;"“]*?[\s,](?:if|unless|in cases where|provided that|as long as)\b(?! any\b)'
+  - '^(?!(?:\w+,\s+)?(?i:if|unless|when|whenever|otherwise|once|while|where|even\s+if|only\s+if)\b)[^(:;"“]*?[\s,](?:if|unless|in\s+cases\s+where|provided\s+that|as\s+long\s+as)\b(?!\s+any\b)'

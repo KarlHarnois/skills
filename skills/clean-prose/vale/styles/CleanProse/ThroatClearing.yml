@@ -3,9 +3,9 @@ message: "§7: '%s' announces text instead of stating a rule. Cut it."
 level: warning
 ignorecase: true
 tokens:
-  - this (?:section|document|file|skill) (?:will|describes|explains|covers|walks|outlines|shows)
-  - the following (?:sections?|steps|table|list) (?:will|describes?|explains?|covers?|shows?|outlines?)
-  - in this section
-  - in the next section
-  - below (?:we|you will|you'll)
-  - here(?:'s| is) how
+  - this\s+(?:section|document|file|skill)\s+(?:will|describes|explains|covers|walks|outlines|shows)
+  - the\s+following\s+(?:sections?|steps|table|list)\s+(?:will|describes?|explains?|covers?|shows?|outlines?)
+  - in\s+this\s+section
+  - in\s+the\s+next\s+section
+  - below\s+(?:we|you\s+will|you'll)
+  - here(?:'s|\s+is)\s+how

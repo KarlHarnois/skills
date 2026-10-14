@@ -6,7 +6,7 @@ tokens:
   - shall
   - may
   - '[Pp]refer'
-  - required to
-  - needs? to
-  - ha(?:ve|s) to
-  - ought to
+  - required\s+to
+  - needs?\s+to
+  - ha(?:ve|s)\s+to
+  - ought\s+to

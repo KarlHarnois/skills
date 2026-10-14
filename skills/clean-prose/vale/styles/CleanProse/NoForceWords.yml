@@ -4,18 +4,18 @@ level: error
 ignorecase: true
 tokens:
   - consider
-  - try to
-  - it is a good idea to
+  - try\s+to
+  - it\s+is\s+a\s+good\s+idea\s+to
   - generally
   - usually
-  - where appropriate
-  - as appropriate
-  - when appropriate
-  - as needed
-  - if needed
-  - if necessary
-  - if possible
-  - where possible
-  - might want to
-  - feel free to
+  - where\s+appropriate
+  - as\s+appropriate
+  - when\s+appropriate
+  - as\s+needed
+  - if\s+needed
+  - if\s+necessary
+  - if\s+possible
+  - where\s+possible
+  - might\s+want\s+to
+  - feel\s+free\s+to
   - ideally
