@@ -59,6 +59,7 @@ install: vale
 uninstall:
 	$(call unlink_all,$(SKILLS_SOURCE),$(SKILLS_DESTINATION),$(SKILLS),skill)
 	$(call unlink_all,$(AGENTS_SOURCE),$(AGENTS_DESTINATION),$(AGENTS),agent)
+	@rm -f "$(VALE_GC_ROOT)"
 
 status:
 	$(call status_all,$(SKILLS_DESTINATION),$(SKILLS),skill)
