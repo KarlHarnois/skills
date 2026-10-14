@@ -330,7 +330,7 @@ and 2:** the linter applies no rule to any other file and reports it clean.
 
 | Exit code | Meaning | Action |
 | --- | --- | --- |
-| 0 or 1 | The linter ran. Code 1 means at least one `error` alert. | Handle each alert by its level, per the alert table. |
+| 0 or 1 | The linter ran. Code 1 means at least one `error` alert. | Handle each alert per the rules that follow this table. |
 | 2 | Vale failed, for example on invalid YAML front matter. | Report Vale's error message to the user. |
 | 3 | nix is not installed. | Tell the user the linter needs nix. |
 | 4 | The path does not exist. | Rerun step 1 once with the edited file's absolute path. If the rerun exits 4, report the path to the user. |
@@ -341,7 +341,12 @@ and 2:** the linter applies no rule to any other file and reports it clean.
 `<!-- vale <rule> = NO -->` and `<!-- vale <rule> = YES -->` lines, where
 `<rule>` is the alert's rule field.** Quoted text is a quotation that states
 its own ban, or text the reader reproduces verbatim, such as a message
-template. Handle every other alert by its level:
+template.
+
+**If the quoted text is in front matter, leave the text and report the alert
+to the user instead:** a toggle line inside front matter breaks its YAML.
+
+**Handle every other alert by its level:**
 
 | Level | Action |
 | --- | --- |
