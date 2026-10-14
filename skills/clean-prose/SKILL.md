@@ -118,6 +118,9 @@ property every item shares. Replace each other abbreviation with its plain form:
 | `i.e.` | that is |
 | `vs.` | versus |
 
+If the table has no row for an abbreviation, write the English words it stands
+for.
+
 **If any branch can reach a destructive or unrecoverable action, the default
 MUST be `Otherwise, stop and ask the user`.**
 
