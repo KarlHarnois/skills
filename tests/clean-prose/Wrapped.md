@@ -18,3 +18,12 @@ where the lockfile changed.
 
 Report stale entries, if
 any.
+
+If the lockfile changed, rebuild the cache
+and the index, then report if a stale entry remains.
+
+Tell the user: "The cache was cold, so
+we rebuilt it before the run."
+
+Stop the run if any
+check fails.

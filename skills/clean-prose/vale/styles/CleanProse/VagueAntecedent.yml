@@ -4,4 +4,4 @@ level: suggestion
 scope: sentence
 nonword: true
 tokens:
-  - '^(?:This|That|It|These|Those)\s+(?:is|are|was|means|ensures|makes|keeps|lets|allows|prevents|avoids|will|does|helps|matters|way)\b'
+  - '\A(?:This|That|It|These|Those)\s+(?:is|are|was|means|ensures|makes|keeps|lets|allows|prevents|avoids|will|does|helps|matters|way)\b'

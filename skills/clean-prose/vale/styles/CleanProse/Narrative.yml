@@ -4,4 +4,4 @@ level: suggestion
 scope: sentence
 nonword: true
 tokens:
-  - '(?<=^[^"“]*)\b(?:I(?!/)|[Ww]e|[Oo]urs?)\b'
+  - '(?<=\A[^"“]*)\b(?:I(?!/)|[Ww]e|[Oo]urs?)\b'
