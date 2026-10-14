@@ -132,7 +132,7 @@ Resolve the workspace path and run `mkdir -p <workspace>`.
 
 1. Read the run result from the completion notification. If the notification names a file instead, read that file. If it holds neither, report that the run result is missing and stop.
 2. If the pipeline threw an error instead of returning a run result, report the error to the user and stop.
-3. Write `state.json` with the launch args and the run result.
+3. Write the run result to `run-<N>.json` in the workspace, where `<N>` is one more than the number of `run-*.json` files already there. Then write `state.json` with the launch args and the run result.
 4. For each entry in the run result's `rounds`, write `round-<N>-review.md` with the entry's `review` verbatim.
 5. For each entry whose `triage` is not null, write `round-<N>-triage.md` as a table with one row per finding: number, severity, location, summary, decision, reason, and commit.
 
@@ -167,7 +167,7 @@ Resolve the workspace path and run `mkdir -p <workspace>`.
 
 ### 3. Report
 
-Write `report.md` in the workspace and print the same text. Count findings across every run of this workspace by these rules:
+Write `report.md` in the workspace and print the same text. Take the implement, refactor, and architect commits from the `stages` of every `run-*.json` file: a relaunch's run result holds only the stages that relaunch ran. Count findings across every run of this workspace by these rules:
 
 - Two findings in different rounds are the same finding if they name the same file and the same problem, whatever their line numbers.
 - A finding is counted once, in the round it first appeared.
