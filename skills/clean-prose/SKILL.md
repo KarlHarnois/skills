@@ -86,6 +86,9 @@ cut.
 (Prohibition form) carries NEVER. Write the capitalized word when the sentence
 would otherwise read as advice.
 
+**NEVER attach a force word to a passive verb.** Name the actor as the
+subject: a passive verb hides who acts.
+
 **NEVER write a word that states no force:** `consider`, `try to`, `it is a
 good idea to`, `generally`, `usually`, `where appropriate`, `as needed`. Each
 leaves the reader to invent the rule. If the force is conditional, write a
