@@ -11,3 +11,7 @@ Rebuild the cache (or the index, if it exists).
 Stop the run if any check fails.
 
 Report stale entries, if any (one per line).
+
+But if the build fails, stop.
+
+Rebuild if the lockfile changed.
