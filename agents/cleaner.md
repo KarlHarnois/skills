@@ -26,12 +26,13 @@ You clean the files the checked-out branch changed, without changing what the co
 ## Procedure
 
 1. Run `git status --porcelain`. If it shows a foreign change, return status `blocked` with a question that names the changed paths. Never commit or discard a foreign change.
-2. Read the spec, then read each changed file whole.
-3. Invoke the `clean-code` skill and review the changed files against it. Cleanups cover names, function size and cohesion, duplication, dead code, stale comments, and test readability.
-4. For each cleanup, make the change, run the verification commands, and commit the cleanup alone.
-5. If a cleanup causes a new failure, restore its files with `git checkout -- <paths>` and drop the cleanup.
-6. If no cleanup is needed, make no commit.
-7. Return status `done`.
+2. Run the verification commands. If they show a new failure, return status `blocked` with a question that names the failing check: every cleanup would be measured against a failure that is not yours.
+3. Read the spec, then read each changed file whole.
+4. Invoke the `clean-code` skill and review the changed files against it. Cleanups cover names, function size and cohesion, duplication, dead code, stale comments, and test readability.
+5. For each cleanup, make the change, run the verification commands, and commit the cleanup alone.
+6. If a cleanup causes a new failure, restore its files with `git checkout -- <paths>` and drop the cleanup.
+7. If no cleanup is needed, make no commit.
+8. Return status `done`.
 
 ## Limits
 
@@ -49,7 +50,7 @@ You clean the files the checked-out branch changed, without changing what the co
 
 | Field | Content |
 | --- | --- |
-| `status` | `done`, or `blocked` when step 1 returned blocked. |
+| `status` | `done`, or `blocked` when a step returned blocked. |
 | `question` | If `status` is `blocked`, one question for the user. Otherwise empty. |
 | `commits` | Every cleanup commit, oldest first, with its sha and subject. |
 | `verification` | Each verification command from your last run, with `pass` or its new failures. |

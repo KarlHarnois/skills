@@ -126,7 +126,7 @@ class PromptBook {
     const { branch, baseBranch, specPath } = this.settings
     return [
       `TARGET: branch ${branch} vs ${baseBranch}`,
-      `BRANCH: ${branch}, already checked out. Do not switch branches or move HEAD.`,
+      `BRANCH: ${branch}, already checked out.`,
       `FOCUS: Read the approved spec at ${specPath} before the diff. ` +
         'Report each acceptance criterion the diff does not meet as a finding, in addition to the normal review.',
       `ROUND: ${round}`,

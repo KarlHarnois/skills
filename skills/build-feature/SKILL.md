@@ -1,6 +1,6 @@
 ---
 name: build-feature
-description: Build a feature with a pipeline of agents. Write a spec with acceptance criteria and get the user's approval, then launch a Workflow in which an implementer writes the code and tests, a cleaner improves the changed code without changing behavior, and a reviewer and the implementer loop until no review finding is left in scope. Use this skill whenever the user wants agents to implement a feature, change, or fix from a description, with phrasings like "build this feature", "implement X with the pipeline", "spec it, build it, review it", "run the implementer and reviewer on this", or "/build-feature <task>". For a branch whose code already exists and needs review and fixes, use `refine-pr` instead.
+description: Build a feature with a pipeline of agents. Write a spec, get the user's approval, then launch a Workflow that implements the spec, cleans the changed code, and loops review and fixes until no finding is left in scope. Use this skill whenever the user wants agents to implement a feature, change, or fix from a description, with phrasings like "build this feature", "implement X with the pipeline", "spec it, build it, review it", "run the implementer and reviewer on this", or "/build-feature <task>". For a branch whose code already exists and needs review and fixes, use `refine-pr` instead.
 ---
 
 # Build Feature
@@ -23,9 +23,9 @@ Invocation arguments, if any (the task, a round budget): $ARGUMENTS
 | pipeline | `pipeline.js` in this skill's base directory. |
 | launch args | The `args` object passed to the pipeline. |
 | run result | The object the pipeline returns. |
-| round | One review by `pr-reviewer` followed by one APPLY pass by `implementer`. |
+| round | One review by `pr-reviewer` followed by one pass by `implementer` that triages and applies its findings. |
 
-The workspace sits inside the git directory because git never tracks that directory, so nothing the skill writes can land in a commit. `git rev-parse` finds it in a linked worktree, where `.git` is a file.
+**The workspace MUST be under `git rev-parse --absolute-git-dir`:** git never tracks that directory, so nothing the skill writes lands in a commit, and a literal `.git/` path breaks in a linked worktree, where `.git` is a file.
 
 ## Phase 1: Setup
 
@@ -40,7 +40,7 @@ If `$ARGUMENTS` or the conversation states the task, use it. Otherwise, ask the 
 ### 3. Resolve the branch
 
 1. Read the base branch with `gh repo view --json defaultBranchRef -q .defaultBranchRef.name`. If `gh` fails, run `git symbolic-ref --short refs/remotes/origin/HEAD` and strip the `origin/` prefix. If both fail, ask the user for the base branch.
-2. If the current branch is the base branch, use `AskUserQuestion` to propose a new branch named after the task. If the user accepts, run `git switch -c <name>`. Otherwise, stop: the pipeline commits, and nothing is committed to the base branch.
+2. If the current branch is the base branch, use `AskUserQuestion` to propose a new branch named after the task. If the user accepts, run `git switch -c <name>`. If the switch fails, report the error and stop. If the user declines, stop: the pipeline commits, and nothing is committed to the base branch.
 3. Otherwise, use the current branch.
 
 ### 4. Record the verification commands and the baseline
@@ -54,15 +54,15 @@ If `$ARGUMENTS` or the conversation states the task, use it. Otherwise, ask the 
 
 ### 5. Require a clean tree
 
-If `git status --porcelain` shows paths other than the verification artifacts, ask the user whether to commit those changes first or abort. Never launch the pipeline with uncommitted work: the agents treat it as a foreign change and stop.
+If `git status --porcelain` shows paths other than the verification artifacts, ask the user whether to commit those changes first or abort. If the user chooses commit, commit those paths and continue. Otherwise, stop. Never launch the pipeline with uncommitted work: the agents stop on any uncommitted change outside the verification artifacts.
 
 ### 6. Open the workspace
 
 1. Resolve the workspace path and run `mkdir -p <workspace>`.
 2. If the workspace contains `state.json`, ask the user whether to continue that run or start a new one.
-3. To continue a run whose `state.json` holds a run result, go to Phase 3, step 2, with that run result and its launch args.
-4. To continue a run whose `state.json` holds no run result, show the user the stored launch args and, after the user confirms, run Phase 2 from step 3 with them: the earlier pipeline never reported back, and the implementer continues from the commits already on the branch.
-5. To start a new run, rename the workspace to `<workspace>.<N>`, with the lowest unused integer `N`, and create the workspace again.
+3. If the user chooses to continue and `state.json` holds a run result, go to Phase 3, step 2, with that run result and its launch args.
+4. If the user chooses to continue and `state.json` holds no run result, show the user the stored launch args and, after the user confirms, run Phase 2 from step 3 with them: the earlier pipeline never reported back, and the implementer continues from the commits already on the branch.
+5. If the user chooses a new run, rename the workspace to `<workspace>.<N>`, with the lowest unused integer `N`, and create the workspace again.
 
 ### 7. Write the spec
 
@@ -86,7 +86,7 @@ If `git status --porcelain` shows paths other than the verification artifacts, a
 2. Use `AskUserQuestion` with three options: `Approve and run the pipeline`, `Revise`, and `Abort`.
 3. If the user chooses Revise, ask what to change, rewrite the spec, and return to step 1.
 4. If the user chooses Abort, stop and leave the workspace in place.
-5. If the user chooses Approve, go to Phase 2.
+5. If the user chooses Approve and this step was reached from Phase 3, relaunch per Relaunch in Phase 3. Otherwise, go to Phase 2.
 
 ## Phase 2: Run the pipeline
 
@@ -116,7 +116,7 @@ If `git status --porcelain` shows paths other than the verification artifacts, a
 
 ### 1. Record the run result
 
-1. Read the run result from the completion notification. If the notification names a file instead, read that file.
+1. Read the run result from the completion notification. If the notification names a file instead, read that file. If it holds neither, report that the run result is missing and stop.
 2. If the pipeline threw an error instead of returning a run result, report the error to the user and stop.
 3. Write `state.json` with the launch args and the run result.
 4. For each entry in the run result's `rounds`, write `round-<N>-review.md` with the entry's `review` verbatim.
@@ -127,17 +127,24 @@ If `git status --porcelain` shows paths other than the verification artifacts, a
 | `exitReason` | Action |
 | --- | --- |
 | `nothing in scope` | Go to step 3. |
-| `round cap` | Show the last round's findings by decision, then ask the user whether to run more rounds and how many. If yes, relaunch. Otherwise, go to step 3. |
-| `blocked` | Find the stage result or round `triage` whose `status` is `blocked`, and ask the user its `question`. If the answer changes the spec, update the spec and run Phase 1, step 8. Then relaunch. |
-| `reviewer failed` | Tell the user the reviewer twice returned no complete review, then ask whether to relaunch or stop. If the user stops, go to step 3. |
-| `agent failed` | Tell the user which stage or round returned nothing, then ask whether to relaunch or stop. If the user stops, go to step 3. |
+| `round cap` | Show the last round's findings by decision, then ask the user whether to run more rounds and how many. If yes, relaunch per Relaunch. Otherwise, go to step 3. |
+| `blocked` | Find the entry in the run result's `stages` or a round's `triage` whose `status` is `blocked`, and ask the user its `question`. If the answer changes the spec, update the spec and get approval per Phase 1, step 8. Otherwise, relaunch per Relaunch. |
+| `reviewer failed` | Tell the user the reviewer twice returned no complete review, then ask whether to relaunch or stop. If the user chooses relaunch, relaunch per Relaunch. Otherwise, go to step 3. |
+| `agent failed` | Tell the user which stage or round returned nothing, then ask whether to relaunch or stop. If the user chooses relaunch, relaunch per Relaunch. Otherwise, go to step 3. |
 
-**To relaunch,** copy the previous launch args, overwrite `reviewOnly` and `startRound` with the run result's `resume`, overwrite `declined` with the run result's `declined`, set `maxRounds` to the user's number or 3, and run Phase 2 from step 2.
+#### Relaunch
+
+1. Copy the previous launch args.
+2. Overwrite `reviewOnly` and `startRound` with the run result's `resume`.
+3. Overwrite `declined` with the run result's `declined`.
+4. Set `maxRounds` to the number of rounds the user asked for, or 3.
+5. Run Phase 2 from step 2.
 
 ### 3. Report
 
 Write `report.md` in the workspace and print the same text. Count findings across every run of this workspace by these rules:
 
+- Two findings in different rounds are the same finding if they name the same file and the same problem, whatever their line numbers.
 - A finding is counted once, in the round it first appeared.
 - A finding decided `repeat` adds nothing.
 - If a finding decided `reverted` appears again in a later round, its later decision replaces the earlier one.

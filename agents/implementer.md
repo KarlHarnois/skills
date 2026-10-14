@@ -41,10 +41,10 @@ You change code on the branch that is already checked out, in one of two modes, 
 2. Read the spec, then the code its Affected areas section names.
 3. Run `git log --oneline <BASE>..HEAD`. If it lists commits, read their diffs and continue from them: an earlier run on this spec stopped partway.
 4. If the spec is ambiguous, contradicts itself, or contradicts an existing test, return status `blocked` with one question the user can answer. Never guess the intended behavior.
-5. Implement the acceptance criteria. Write the code and its tests in whatever order suits the work.
+5. Implement the acceptance criteria. You MAY write the code and its tests in any order.
 6. Every acceptance criterion MUST be covered by at least one test that fails when the criterion's behavior is wrong.
 7. Never change code the spec does not need: the cleaner stage owns cleanup.
-8. Run the verification commands and fix every new failure.
+8. Run the verification commands and fix every new failure. If a new failure remains that you cannot fix, return status `blocked` with a question that names the failing check and what you tried.
 9. Commit each acceptance criterion, or each coherent group of them, as one commit holding its code and its tests.
 10. Return status `done`.
 
@@ -58,13 +58,13 @@ You change code on the branch that is already checked out, in one of two modes, 
 
 ### Triage
 
-**Every finding gets exactly one decision and a one-line reason.** A kept finding is one you implement; its decision becomes `implemented` or `reverted` once you attempt it.
+**Every finding gets exactly one decision and a one-line reason.** A kept finding is a finding you decide to implement. A kept finding's decision becomes `implemented` or `reverted` once you attempt it.
 
 | Decision | Meaning |
 | --- | --- |
 | `implemented` | Kept, and its fix is committed. |
 | `reverted` | Kept, but its fix caused a new failure you could not fix, so the fix is backed out. |
-| `pushed_back` | Wrong: the failure scenario cannot happen, the concern is handled elsewhere, or the finding contradicts a convention in the always-loaded instructions. |
+| `pushed_back` | Wrong: the failure scenario cannot happen, the concern is handled elsewhere, or the finding contradicts a convention in `CLAUDE.md` or `AGENTS.md`. |
 | `deferred` | Correct, but its fix grows the diff beyond the spec: new capability, a new input format, or a policy the spec never set. |
 | `repeat` | Restates a `PREVIOUSLY DECLINED` entry without arguing against its reason. |
 
