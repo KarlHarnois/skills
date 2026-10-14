@@ -83,12 +83,10 @@ cut.
 (Prohibition form) carries NEVER. Write the capitalized word when the sentence
 would otherwise read as advice.
 
-<!-- vale CleanProse.NoForceWords = NO -->
-**NEVER write a word that states no force:** *consider*, *try to*, *it is a
-good idea to*, *generally*, *usually*, *where appropriate*, *as needed*. Each
+**NEVER write a word that states no force:** `consider`, `try to`, `it is a
+good idea to`, `generally`, `usually`, `where appropriate`, `as needed`. Each
 leaves the reader to invent the rule. If the force is conditional, write a
 Conditional sentence.
-<!-- vale CleanProse.NoForceWords = YES -->
 
 ## 3. Branches are exhaustive
 
@@ -255,10 +253,8 @@ requirement. NEVER present a requirement as a preference.
 the measurement, or the fact. A reversal with no stated cause is
 indistinguishable from noise.
 
-<!-- vale CleanProse.Narrative = NO -->
-**NEVER narrate an action without citing its reason**, as in *Let me go ahead
-and…*, *I'll just…*, or *Now I'll…*.
-<!-- vale CleanProse.Narrative = YES -->
+**NEVER narrate an action without citing its reason**, as in `Let me go ahead
+and…`, `I'll just…`, or `Now I'll…`.
 
 ## 10. Priority
 
@@ -339,16 +335,14 @@ and 2:** the linter applies no rule to any other file and reports it clean.
 | 5 | nix could not build Vale. | Report the error message to the user. |
 | Any other code | The linter could not run. | Report the exit code and the output to the user. |
 
-**If the flagged text is quoted text, put a `<!-- vale <rule> = NO -->` line
-before the top-level block that holds it and a `<!-- vale <rule> = YES -->`
-line after that block, where `<rule>` is the alert's rule field:** a toggle
-line inside a table, a list, or a blockquote splits it. Quoted text is a
-quotation that states its own ban, or text the reader reproduces verbatim for
-a person, such as a message template. A prompt sent to a model is instruction
-text, never quoted text.
+**If the flagged text is quoted text, put it in a code span or a fenced code
+block:** the linter skips code, so its rules stay on for the rest of the
+block. Quoted text is a quotation that states its own ban, or text the reader
+reproduces verbatim for a person, such as a message template. A prompt sent
+to a model is instruction text, never quoted text.
 
-**If that block is front matter, leave the text and report the alert to the
-user instead:** a toggle line inside front matter breaks its YAML.
+**If the quoted text is in front matter, leave the text and report the alert
+to the user instead:** the linter checks code spans in front matter too.
 
 **Handle every other alert by its level:**
 
