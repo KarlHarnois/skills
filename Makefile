@@ -78,4 +78,5 @@ test: vale
 	exit $$failed
 	$(call expect_lint_exit,4,$(CLEAN_PROSE_LINT) $(REPO_ROOT)$(CLEAN_PROSE_FIXTURES)/Missing.md,missing file)
 	$(call expect_lint_exit,3,env PATH=/nonexistent /bin/sh $(CLEAN_PROSE_LINT) $(REPO_ROOT)$(CLEAN_PROSE_FIXTURES)/Narrative.md,nix not on PATH)
+	$(call expect_lint_exit,5,env PATH="$(REPO_ROOT)$(CLEAN_PROSE_FIXTURES)/bin:$$PATH" $(CLEAN_PROSE_LINT) $(REPO_ROOT)$(CLEAN_PROSE_FIXTURES)/Narrative.md,nix build fails)
 	@echo "clean-prose lint fixtures pass"
