@@ -30,7 +30,7 @@ script_dir() {
 
 build_pinned_vale() {
   nix --extra-experimental-features 'nix-command flakes' --option warn-dirty false \
-    build --no-link --print-out-paths --quiet "$REPO_ROOT#vale" ||
+    build --out-link "$REPO_ROOT/.vale-gcroot" --print-out-paths --quiet "$REPO_ROOT#vale" ||
     fail "$EXIT_VALE_UNAVAILABLE" "nix could not build the pinned Vale from $REPO_ROOT/flake.nix"
 }
 
