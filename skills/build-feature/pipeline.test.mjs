@@ -338,6 +338,27 @@ describe('build-feature pipeline', () => {
       .forEach(call => assert.match(call.prompt, /f36e958/, call.label))
   })
 
+  test('asks each agent for the output shape the pipeline reads', async () => {
+    const agents = new ScriptedAgents({
+      implementer: [Replies.stageDone(), Replies.triage()],
+      refactorer: [Replies.stageDone()],
+      architect: [Replies.stageDone()],
+      reviewer: [COMPLETE_REVIEW],
+    })
+
+    await pipeline.run(agents, {})
+
+    const stageFields = ['status', 'question', 'commits', 'verification', 'notes']
+    const triageFields = ['status', 'question', 'findings', 'verification']
+    assert.deepEqual(agents.calls.map(call => [call.label, call.schema?.required]), [
+      ['implement', stageFields],
+      ['refactor', stageFields],
+      ['architect', stageFields],
+      ['review round 1, attempt 1', undefined],
+      ['apply round 1', triageFields],
+    ])
+  })
+
   test('rejects round numbers that are not integers', async () => {
     await assert.rejects(
       pipeline.run(new ScriptedAgents({}), { startRound: '2', maxRounds: '3' }),
