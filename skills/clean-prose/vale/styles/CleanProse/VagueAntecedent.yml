@@ -1,5 +1,5 @@
 extends: existence
-message: "§1: '%s' opens on a bare pronoun. Name the noun unless it is the previous sentence's subject. If the sentence only justifies the one before it, cut it per §7 unless §8 keeps the reason."
+message: "§1: '%s' opens on a bare pronoun. If the pronoun's referent is not the previous sentence's subject, name the noun. If the sentence only justifies the one before it and §8 does not keep the reason, cut the sentence per §7."
 level: suggestion
 scope: sentence
 nonword: true

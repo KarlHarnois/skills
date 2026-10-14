@@ -1,5 +1,5 @@
 extends: existence
-message: "§2: '%s' states no force. Write a force word, or a Conditional sentence if the force is conditional."
+message: "§2: '%s' states no force. If the force is conditional, write a Conditional sentence. Otherwise, write a force word."
 level: error
 ignorecase: true
 tokens:

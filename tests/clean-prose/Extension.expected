@@ -1,1 +1,1 @@
-tests/clean-prose/Extension.markdown:1:1:error:CleanProse.NoForceWords:§2: 'Consider' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/Extension.markdown:1:1:error:CleanProse.NoForceWords:§2: 'Consider' states no force. If the force is conditional, write a Conditional sentence. Otherwise, write a force word.
