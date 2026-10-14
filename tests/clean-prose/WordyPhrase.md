@@ -17,3 +17,9 @@ Rename the `prior to` field.
 The build utilized the cache.
 
 Report the CPU utilization.
+
+Compute the leverage ratio for each account.
+
+Resolve each path with respect to the repository root.
+
+Read the file with regard to the cache.

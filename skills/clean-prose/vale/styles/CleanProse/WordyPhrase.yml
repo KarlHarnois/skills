@@ -9,7 +9,7 @@ swap:
   utili[sz]es: uses
   utili[sz]ed: used
   utili[sz]ing: using
-  leverage: use
+  leverage(?=\s+(?:the|a|an|this|that|these|those|its|their|each|every)\b): use
   leverages: uses
   leveraged: used
   leveraging: using
@@ -22,6 +22,6 @@ swap:
   due\s+to\s+the\s+fact\s+that: because
   despite\s+the\s+fact\s+that: although
   at\s+this\s+point\s+in\s+time: now
-  with\s+(?:regard|respect)\s+to: about
+  with\s+regard\s+to: about
   (?:is|are)\s+able\s+to: can
   ha(?:s|ve)\s+the\s+ability\s+to: can
