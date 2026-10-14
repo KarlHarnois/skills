@@ -36,17 +36,27 @@ Invocation arguments, if any (the task, a round budget): $ARGUMENTS
 
 If the available agent types do not include all of `implementer`, `refactorer`, `architect`, and `reviewer`, stop and tell the user to run `make install` in the skills repository: the pipeline cannot spawn an agent type that is not installed.
 
-### 2. Resolve the task
+### 2. Check for a run to continue
 
-If `$ARGUMENTS` or the conversation states the task, use it. Otherwise, ask the user for the task and wait. Then resolve the repository root.
+1. Resolve the repository root.
+2. If the workspace for the current branch contains `state.json`, ask the user whether to continue that run or start a new one. Otherwise, go to step 3.
+3. If the user chooses to continue and `state.json` holds a run result, go to Phase 3, step 2, with that run result and its launch args.
+4. If the user chooses to continue and `state.json` holds no run result, show the user the stored launch args and, after the user confirms, run Phase 2 from step 3 with them: the earlier pipeline never reported back, and the implementer continues from the commits already on the branch.
+5. If the user chooses a new run, rename the workspace to `<workspace>.<N>`, with the lowest unused integer `N`, and go to step 3.
 
-### 3. Resolve the branch
+This check comes before the task question and the baseline run: a continued run takes both from its stored launch args.
+
+### 3. Resolve the task
+
+If `$ARGUMENTS` or the conversation states the task, use it. Otherwise, ask the user for the task and wait. If the task names a repository path outside the repository root, resolve the repository root again from that path and repeat step 2.
+
+### 4. Resolve the branch
 
 1. Read the base branch with `gh repo view --json defaultBranchRef -q .defaultBranchRef.name`. If `gh` fails, run `git symbolic-ref --short refs/remotes/origin/HEAD` and strip the `origin/` prefix. If both fail, ask the user for the base branch.
 2. If the current branch is the base branch, use `AskUserQuestion` to propose a new branch named after the task. If the user accepts, run `git switch -c <name>`. If the switch fails, report the error and stop. If the user declines, stop: the pipeline commits, and nothing is committed to the base branch.
 3. Otherwise, use the current branch.
 
-### 4. Record the verification commands and the baseline
+### 5. Record the verification commands and the baseline
 
 1. Find the verification commands in `CLAUDE.md`, `Makefile` targets, `package.json` scripts, `pyproject.toml`, `Cargo.toml`, or the CI workflow. Record each exact invocation, including any container or credential wrapper.
 2. If a fast lint or typecheck command exists, list it before the test suite.
@@ -55,19 +65,15 @@ If `$ARGUMENTS` or the conversation states the task, use it. Otherwise, ask the 
 5. Run `git status --porcelain`, run the verification commands once, and run `git status --porcelain` again. The paths that appear only in the second listing are the verification artifacts.
 6. Record the result as the baseline, naming every failing test or check: only failures the baseline lacks block a commit later.
 
-### 5. Require a clean tree
+### 6. Require a clean tree
 
 If `git status --porcelain` shows paths other than the verification artifacts, ask the user whether to commit those changes first or abort. If the user chooses commit, commit those paths and continue. Otherwise, stop. Never launch the pipeline with uncommitted work: the agents stop on any uncommitted change outside the verification artifacts.
 
-### 6. Open the workspace
+### 7. Open the workspace
 
-1. Resolve the workspace path and run `mkdir -p <workspace>`.
-2. If the workspace contains `state.json`, ask the user whether to continue that run or start a new one.
-3. If the user chooses to continue and `state.json` holds a run result, go to Phase 3, step 2, with that run result and its launch args.
-4. If the user chooses to continue and `state.json` holds no run result, show the user the stored launch args and, after the user confirms, run Phase 2 from step 3 with them: the earlier pipeline never reported back, and the implementer continues from the commits already on the branch.
-5. If the user chooses a new run, rename the workspace to `<workspace>.<N>`, with the lowest unused integer `N`, and create the workspace again.
+Resolve the workspace path and run `mkdir -p <workspace>`.
 
-### 7. Write the spec
+### 8. Write the spec
 
 1. Read the code the task touches.
 2. If the task leaves a behavior undecided that changes what gets built, ask the user with `AskUserQuestion` before writing.
@@ -85,7 +91,7 @@ If `git status --porcelain` shows paths other than the verification artifacts, a
 4. Never prescribe an implementation detail the task does not require: the implementer chooses the design, and the reviewer judges it.
 5. Never write a criterion that requires matching all existing behavior, such as "exactly as it does today": no test can check it, and every review round finds another case to restore. If existing behavior must stay the same, give each behavior that must stay its own criterion.
 
-### 8. Get approval
+### 9. Get approval
 
 1. Print the spec.
 2. Use `AskUserQuestion` with three options: `Approve and run the pipeline`, `Revise`, and `Abort`.
@@ -136,7 +142,7 @@ If `git status --porcelain` shows paths other than the verification artifacts, a
 | --- | --- |
 | `nothing in scope` | Go to step 3. |
 | `round cap` | Show the last round's findings by decision, then ask the user whether to run more rounds and how many. If yes, relaunch per Relaunch. Otherwise, go to step 3. |
-| `blocked` | Find the entry in the run result's `stages` or a round's `triage` whose `status` is `blocked`, and ask the user its `question`. Record the answer per Recording a decision. If the answer asks for an action in the tree, such as committing or discarding a change, carry it out. If the answer adds, removes, or changes an acceptance criterion, update the criteria and get approval per Phase 1, step 8. Otherwise, relaunch per Relaunch. |
+| `blocked` | Find the entry in the run result's `stages` or a round's `triage` whose `status` is `blocked`, and ask the user its `question`. Record the answer per Recording a decision. If the answer asks for an action in the tree, such as committing or discarding a change, carry it out. If the answer adds, removes, or changes an acceptance criterion, update the criteria and get approval per Phase 1, step 9. Otherwise, relaunch per Relaunch. |
 | `reviewer failed` | Tell the user the reviewer twice returned no complete review, then ask whether to relaunch or stop. If the user chooses relaunch, relaunch per Relaunch. Otherwise, go to step 3. |
 | `agent failed` | Tell the user which stage or round returned nothing, then ask whether to relaunch or stop. If the user chooses relaunch, relaunch per Relaunch. Otherwise, go to step 3. |
 
