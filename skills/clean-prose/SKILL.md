@@ -178,7 +178,8 @@ paragraph at any length.
 ## 7. Economy
 
 **If deleting a sentence changes nothing about the reader's behavior, delete
-the sentence.** Apply this test to every sentence in an edited block (§13).
+the sentence.** Apply this test to every sentence in an edited block (§13). If
+a review edits nothing, apply the test to every sentence of the file.
 
 **NEVER write these into instruction text:**
 
