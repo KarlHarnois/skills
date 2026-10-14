@@ -37,3 +37,9 @@ Handle the exit code: if it is 2, rerun.
 Reply with the message "Rerun it if the cache is cold."
 
 Reply “done” if the build passes.
+
+Run the tests and, if one fails, report it.
+
+Retry the request, but if it fails again, stop.
+
+Rebuild the cache and stop if it fails.
