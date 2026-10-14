@@ -228,6 +228,16 @@ describe('build-feature pipeline', () => {
     assert.equal(result.exitReason, 'nothing in scope')
   })
 
+  test('counts the round budget from the start round', async () => {
+    const agents = new ScriptedAgents({ implementer: [Replies.triage('implemented')], reviewer: [COMPLETE_REVIEW] })
+
+    const result = await pipeline.run(agents, { reviewOnly: true, startRound: 4, maxRounds: 1 })
+
+    assert.deepEqual(agents.labels(), ['review round 4, attempt 1', 'apply round 4'])
+    assert.equal(result.exitReason, 'round cap')
+    assert.deepEqual(result.resume, { reviewOnly: true, startRound: 5 })
+  })
+
   test('points the resume at a round whose apply pass was blocked', async () => {
     const agents = new ScriptedAgents({
       implementer: [Replies.blockedTriage('Uncommitted change in notes.txt: keep or discard?')],
