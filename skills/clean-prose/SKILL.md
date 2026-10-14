@@ -1,7 +1,7 @@
 ---
 name: clean-prose
 description: "This skill is the prose standard for instruction text, the prose a model executes: CLAUDE.md, AGENTS.md, and the files they import; SKILL.md files and their reference files; agent definitions; slash commands; and prompts a program sends to a model. Use this skill before writing, editing, or reviewing instruction text, including a one-sentence change. Prose written for people is out of scope: READMEs, documentation, PR descriptions, and commit messages."
-allowed-tools: Bash(vale *)
+allowed-tools: Bash(${CLAUDE_SKILL_DIR}/scripts/lint.sh *)
 ---
 
 # Clean Prose
@@ -305,29 +305,37 @@ without limit, and a rule fitted to one input breaks on the next.
 
 ## 13. Lint the edited file
 
-**The linter is Vale running the CleanProse style in this skill's `vale/`
-directory.** An **alert** is one line of the linter's output, in the form
-`file:line:column:level:rule:message`. An alert's message cites the section of
-this standard that the alert enforces.
+**The linter is `scripts/lint.sh`, which runs a pinned build of Vale with the
+CleanProse style in this skill's `vale/` directory.** An **alert** is one line
+of the linter's output, in the form `file:line:column:level:rule:message`. An
+alert's message cites the section of this standard that the alert enforces.
 
 **After each edit to a Markdown file, run these steps:**
 
-1. Run the linter on the file:
+1. Run the linter on the file's absolute path:
 
    ```sh
-   vale --no-global --config="${CLAUDE_SKILL_DIR}/vale/.vale.ini" --output="${CLAUDE_SKILL_DIR}/vale/alerts.tmpl" <file>
+   ${CLAUDE_SKILL_DIR}/scripts/lint.sh <absolute path>
    ```
 
-2. Handle each alert by its level, per the table below.
+2. Act on the linter's exit code, per the exit code table.
 3. Review the file against §1 to §12 by reading it. A run with no alerts does
    not clear the file: the linter matches words and sentence patterns, not
    meaning.
 
-- If the edited file is not Markdown, skip steps 1 and 2.
-- If the shell reports `vale: command not found`, tell the user the linter is
-  not installed, then go to step 3.
-- If Vale exits with code 2, report its error message to the user, then go to
-  step 3.
+**If the edited file is not Markdown, skip steps 1 and 2.**
+
+**Act on the exit code:**
+
+| Exit code | Meaning | Action |
+| --- | --- | --- |
+| 0 or 1 | The linter ran. Code 1 means at least one `error` alert. | Handle each alert by its level, per the alert table. |
+| 2 | Vale failed, for example on invalid YAML front matter. | Report Vale's error message to the user. |
+| 3 | nix is not installed. | Tell the user the linter needs nix. |
+| 4 | The path does not exist. | Rerun step 1 with the edited file's absolute path. |
+| 5 | nix could not build Vale. | Report the error message to the user. |
+
+**Handle each alert by its level:**
 
 | Level | Action |
 | --- | --- |

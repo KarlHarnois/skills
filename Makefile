@@ -1,4 +1,4 @@
-.PHONY: all install uninstall status reinstall test
+.PHONY: all install uninstall status reinstall test vale
 
 all: install
 
@@ -13,10 +13,9 @@ AGENTS_SOURCE := $(REPO_ROOT)agents
 AGENTS_DESTINATION := $(CLAUDE_HOME)/agents
 AGENTS := $(shell find "$(AGENTS_SOURCE)" -mindepth 1 -maxdepth 1 -name '*.md' -exec basename {} \;)
 
-VALE ?= vale
-CLEAN_PROSE_VALE := $(SKILLS_SOURCE)/clean-prose/vale
+NIX := nix --extra-experimental-features 'nix-command flakes' --option warn-dirty false
+CLEAN_PROSE_LINT := $(SKILLS_SOURCE)/clean-prose/scripts/lint.sh
 CLEAN_PROSE_FIXTURES := tests/clean-prose
-LINT_PROSE := $(VALE) --no-global --no-exit --config=$(CLEAN_PROSE_VALE)/.vale.ini --output=$(CLEAN_PROSE_VALE)/alerts.tmpl
 
 define link_all
 @mkdir -p "$(2)"
@@ -46,7 +45,7 @@ define status_all
 done
 endef
 
-install:
+install: vale
 	$(call link_all,$(SKILLS_SOURCE),$(SKILLS_DESTINATION),$(SKILLS))
 	$(call link_all,$(AGENTS_SOURCE),$(AGENTS_DESTINATION),$(AGENTS))
 	@$(MAKE) --no-print-directory status
@@ -61,11 +60,14 @@ status:
 
 reinstall: uninstall install
 
-test:
-	@command -v $(VALE) >/dev/null || { echo "$(VALE) not found, see README"; exit 1; }
+vale:
+	@command -v nix >/dev/null || { echo "nix not found, see README"; exit 1; }
+	@$(NIX) build --no-link --quiet "$(abspath $(REPO_ROOT))#vale"
+
+test: vale
 	@cd "$(REPO_ROOT)" && failed=0; \
 	for fixture in $(CLEAN_PROSE_FIXTURES)/*.md; do \
-		$(LINT_PROSE) "$$fixture" | diff -u "$${fixture%.md}.expected" - || failed=1; \
+		$(CLEAN_PROSE_LINT) "$$fixture" | diff -u "$${fixture%.md}.expected" - || failed=1; \
 	done; \
 	exit $$failed
 	@echo "clean-prose lint fixtures pass"

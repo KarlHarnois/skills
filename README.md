@@ -25,16 +25,12 @@ make uninstall
 
 ## Requirements
 
-The `clean-prose` skill lints instruction text with [Vale](https://vale.sh),
-version 3.14 or later. Install it on each machine:
+`make install` needs [Nix](https://nixos.org/download). The `clean-prose`
+skill lints instruction text with [Vale](https://vale.sh), and this repo's
+flake pins the Vale build, so every machine runs the same version. Apple
+Silicon Macs work. Intel Macs do not, since nixpkgs-unstable dropped them.
 
-| Platform | Command |
-| --- | --- |
-| Arch | `sudo pacman -S vale` |
-| macOS | `brew install vale` |
-| NixOS | add `pkgs.vale` to `home.packages` |
-
-Without Vale, the skill reports that the linter is missing and reviews the
+Without nix, the skill reports that the linter is unavailable and reviews the
 text by reading it.
 
 ## Testing
@@ -43,6 +39,7 @@ text by reading it.
 make test
 ```
 
-This runs the `clean-prose` Vale style against the fixtures in
-`tests/clean-prose/` and diffs the alerts against each `.expected` file. To
-test another Vale binary, pass `VALE=/path/to/vale`.
+This runs the `clean-prose` lint script against the fixtures in
+`tests/clean-prose/` and diffs the alerts against each `.expected` file. The
+fixtures include lists and tables, which Vale skipped before 3.17, so run
+`make test` after every `nix flake update`.
