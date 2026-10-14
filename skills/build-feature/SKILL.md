@@ -172,7 +172,7 @@ Write `report.md` in the workspace and print the same text. Take the implement, 
 - Two findings in different rounds are the same finding if they name the same file and the same problem, whatever their line numbers.
 - A finding is counted once, in the round it first appeared.
 - A finding decided `repeat` adds nothing.
-- If a finding decided `reverted` appears again in a later round, its later decision replaces the earlier one.
+- If a finding appears again in a later round with any decision other than `repeat`, the later decision replaces the earlier one.
 - Every severity row MUST satisfy `Raised = Implemented + Reverted + Pushed back + Deferred`. If a row does not reconcile, recount from the triage files. Never print numbers that do not add up.
 
 ```
