@@ -39,6 +39,11 @@ done
 done
 endef
 
+define expect_lint_exit
+@$(2) >/dev/null 2>&1; status=$$?; \
+[ $$status -eq $(1) ] || { echo "lint.sh exited $$status, expected $(1): $(3)"; exit 1; }
+endef
+
 define status_all
 @for name in $(2); do \
 	ls -ld "$(1)/$$name" 2>/dev/null || echo "$(3) $$name missing"; \
@@ -70,4 +75,6 @@ test: vale
 		$(CLEAN_PROSE_LINT) "$$fixture" | diff -u "$${fixture%.md}.expected" - || failed=1; \
 	done; \
 	exit $$failed
+	$(call expect_lint_exit,4,$(CLEAN_PROSE_LINT) $(REPO_ROOT)$(CLEAN_PROSE_FIXTURES)/Missing.md,missing file)
+	$(call expect_lint_exit,3,env PATH=/nonexistent /bin/sh $(CLEAN_PROSE_LINT) $(REPO_ROOT)$(CLEAN_PROSE_FIXTURES)/Narrative.md,nix not on PATH)
 	@echo "clean-prose lint fixtures pass"

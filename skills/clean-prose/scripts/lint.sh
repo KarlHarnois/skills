@@ -27,7 +27,7 @@ build_pinned_vale() {
     fail "$EXIT_VALE_UNAVAILABLE" "nix could not build the pinned Vale from $REPO_ROOT/flake.nix"
 }
 
-SKILL_DIR=$(cd "$(dirname "$0")/.." && pwd -P)
+SKILL_DIR=$(cd "${0%/*}/.." && pwd -P)
 REPO_ROOT=$(cd "$SKILL_DIR/../.." && pwd -P)
 
 require_files "$@"
