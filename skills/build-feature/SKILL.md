@@ -41,7 +41,7 @@ If the available agent types do not include all of `implementer`, `refactorer`, 
 1. Resolve the repository root.
 2. If the workspace for the current branch contains `state.json`, ask the user whether to continue that run or start a new one. Otherwise, go to step 3.
 3. If the user chooses to continue and `state.json` holds a run result, go to Phase 3, step 2, with that run result and its launch args.
-4. If the user chooses to continue and `state.json` holds no run result, show the user the stored launch args and, after the user confirms, run Phase 2 from step 3 with them: the earlier pipeline never reported back, and the implementer continues from the commits already on the branch.
+4. If the user chooses to continue and `state.json` holds no run result, show the user the stored launch args and, after the user confirms, clear leftovers per Clearing leftovers in Phase 3 and run Phase 2 from step 3 with them: the earlier pipeline never reported back, and the implementer continues from the commits already on the branch.
 5. If the user chooses a new run, rename the workspace to `<workspace>.<N>`, with the lowest unused integer `N`, and go to step 3.
 
 This check comes before the task question and the baseline run: a continued run takes both from its stored launch args.
@@ -145,7 +145,7 @@ Resolve the workspace path and run `mkdir -p <workspace>`.
 | `round cap` | Show the last round's findings by decision, then ask the user whether to run more rounds and how many. If yes, relaunch per Relaunch. Otherwise, go to step 3. |
 | `blocked` | Find the entry in the run result's `stages` or a round's `triage` whose `status` is `blocked`, and ask the user its `question`. Record the answer per Recording a decision. If the answer asks for an action in the tree, such as committing or discarding a change, carry it out. If the answer adds, removes, or changes an acceptance criterion, update the criteria and get approval per Phase 1, step 9. Otherwise, relaunch per Relaunch. |
 | `reviewer failed` | Tell the user the reviewer twice returned no complete review, then ask whether to relaunch or stop. If the user chooses relaunch, relaunch per Relaunch. Otherwise, go to step 3. |
-| `agent failed` | Tell the user which stage or round returned nothing, then ask whether to relaunch or stop. If the user chooses relaunch, relaunch per Relaunch. Otherwise, go to step 3. |
+| `agent failed` | Tell the user which stage or round returned nothing, and clear leftovers per Clearing leftovers. Then ask whether to relaunch or stop. If the user chooses relaunch, relaunch per Relaunch. Otherwise, go to step 3. |
 
 #### Recording a decision
 
@@ -157,6 +157,17 @@ Resolve the workspace path and run `mkdir -p <workspace>`.
 - Asked by architect: Should the slug rules move from the HTTP handler into slug.py?
   Decision: Move them. The handler only parses the request and formats the response.
 ```
+
+#### Clearing leftovers
+
+1. Run `git status --porcelain --untracked-files=all`.
+2. If it lists no path outside the verification artifacts, the procedure is done.
+3. Tell the user that a stopped agent left these paths unverified, list them, and ask whether to discard them, commit them, or stop.
+4. If the user chooses discard, run `git restore --source=HEAD --staged --worktree -- <paths>` on the tracked paths and delete the untracked ones.
+5. If the user chooses commit, commit the paths.
+6. If the user chooses stop, go to Phase 3, step 3.
+
+A relaunched agent stops on any uncommitted change it did not write, so the leftovers MUST be cleared before a relaunch.
 
 #### Relaunch
 
