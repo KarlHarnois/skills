@@ -10,3 +10,14 @@ tests/clean-prose/NoForceWords.md:21:19:suggestion:CleanProse.ConditionLast:§1:
 tests/clean-prose/NoForceWords.md:23:21:error:CleanProse.NoForceWords:§2: 'where possible' states no force. Write a force word, or a Conditional sentence if the force is conditional.
 tests/clean-prose/NoForceWords.md:25:1:error:CleanProse.NoForceWords:§2: 'It’s a good idea to' states no force. Write a force word, or a Conditional sentence if the force is conditional.
 tests/clean-prose/NoForceWords.md:25:1:suggestion:CleanProse.VagueAntecedent:§1: 'It’s' opens on a bare pronoun. Name the noun unless it is the previous sentence's subject. If the sentence only justifies the one before it, cut it per §7 unless §8 keeps the reason.
+tests/clean-prose/NoForceWords.md:27:1:error:CleanProse.NoForceWords:§2: 'Generally' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/NoForceWords.md:29:1:error:CleanProse.NoForceWords:§2: 'Usually' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/NoForceWords.md:31:19:error:CleanProse.NoForceWords:§2: 'where appropriate' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/NoForceWords.md:33:20:error:CleanProse.NoForceWords:§2: 'as appropriate' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/NoForceWords.md:35:19:error:CleanProse.NoForceWords:§2: 'when appropriate' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/NoForceWords.md:37:19:error:CleanProse.NoForceWords:§2: 'as needed' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/NoForceWords.md:39:19:error:CleanProse.NoForceWords:§2: 'if possible' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/NoForceWords.md:39:19:suggestion:CleanProse.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
+tests/clean-prose/NoForceWords.md:41:5:error:CleanProse.NoForceWords:§2: 'might want to' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/NoForceWords.md:43:1:error:CleanProse.NoForceWords:§2: 'Feel free to' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/NoForceWords.md:45:1:error:CleanProse.NoForceWords:§2: 'Ideally' states no force. Write a force word, or a Conditional sentence if the force is conditional.
