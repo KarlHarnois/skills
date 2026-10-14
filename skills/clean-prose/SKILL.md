@@ -321,7 +321,7 @@ alert's message cites the section of this standard that the alert enforces.
 2. Act on the linter's exit code, per the exit code table.
 3. Review the file against §1 to §12 by reading it. A run with no alerts does
    not clear the file: the linter matches words and sentence patterns, not
-   meaning.
+   meaning, and skips code blocks, including a prompt kept in one.
 
 **If the edited file's extension is not `.md` or `.markdown`, skip steps 1
 and 2:** the linter applies no rule to any other file and reports it clean.
@@ -341,8 +341,9 @@ and 2:** the linter applies no rule to any other file and reports it clean.
 before the top-level block that holds it and a `<!-- vale <rule> = YES -->`
 line after that block, where `<rule>` is the alert's rule field:** a toggle
 line inside a table, a list, or a blockquote splits it. Quoted text is a
-quotation that states its own ban, or text the reader reproduces verbatim,
-such as a message template.
+quotation that states its own ban, or text the reader reproduces verbatim for
+a person, such as a message template. A prompt sent to a model is instruction
+text, never quoted text.
 
 **If that block is front matter, leave the text and report the alert to the
 user instead:** a toggle line inside front matter breaks its YAML.
