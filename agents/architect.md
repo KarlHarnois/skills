@@ -50,7 +50,7 @@ You fix the structure of the code the checked-out branch changed, without changi
 5. Check the changed files against the architecture rules.
 6. Make a structural change only if you can name the rule it fixes and the module that violates the rule. If no rule is violated, make no change.
 7. For each structural change, make the change, run the verification commands, and commit the change alone.
-8. If a structural change causes a new failure you cannot fix, restore its files with `git checkout -- <paths>`, delete every file the change created, and drop the change.
+8. If a structural change causes a new failure you cannot fix, restore the files the structural change modified with `git restore --source=HEAD --staged --worktree -- <paths>`, delete every file the change created that is still there, and drop the change: `git checkout -- <paths>` restores from the index, so a staged change would survive and land in the next commit.
 9. Return status `done`.
 
 ## Limits
