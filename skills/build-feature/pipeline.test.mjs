@@ -101,7 +101,7 @@ describe('build-feature pipeline', () => {
       implementer: [Replies.stageDone(), Replies.triage('implemented'), Replies.triage('pushed_back')],
       refactorer: [Replies.stageDone()],
       architect: [Replies.stageDone()],
-      'reviewer': [COMPLETE_REVIEW, COMPLETE_REVIEW],
+      reviewer: [COMPLETE_REVIEW, COMPLETE_REVIEW],
     })
 
     const result = await pipeline.run(agents, {})
@@ -124,7 +124,7 @@ describe('build-feature pipeline', () => {
       implementer: [Replies.stageDone(), Replies.triage('reverted'), Replies.triage()],
       refactorer: [Replies.stageDone()],
       architect: [Replies.stageDone()],
-      'reviewer': [COMPLETE_REVIEW, COMPLETE_REVIEW],
+      reviewer: [COMPLETE_REVIEW, COMPLETE_REVIEW],
     })
 
     const result = await pipeline.run(agents, {})
@@ -138,7 +138,7 @@ describe('build-feature pipeline', () => {
       implementer: [Replies.stageDone(), Replies.triage('implemented')],
       refactorer: [Replies.stageDone()],
       architect: [Replies.stageDone()],
-      'reviewer': [COMPLETE_REVIEW],
+      reviewer: [COMPLETE_REVIEW],
     })
 
     const result = await pipeline.run(agents, { maxRounds: 1 })
@@ -190,7 +190,7 @@ describe('build-feature pipeline', () => {
       implementer: [Replies.stageDone(), Replies.triage()],
       refactorer: [Replies.stageDone()],
       architect: [Replies.stageDone()],
-      'reviewer': [INCOMPLETE_REVIEW, COMPLETE_REVIEW],
+      reviewer: [INCOMPLETE_REVIEW, COMPLETE_REVIEW],
     })
 
     const result = await pipeline.run(agents, {})
@@ -205,7 +205,7 @@ describe('build-feature pipeline', () => {
       implementer: [Replies.stageDone()],
       refactorer: [Replies.stageDone()],
       architect: [Replies.stageDone()],
-      'reviewer': [INCOMPLETE_REVIEW, null],
+      reviewer: [INCOMPLETE_REVIEW, null],
     })
 
     const result = await pipeline.run(agents, {})
@@ -218,7 +218,7 @@ describe('build-feature pipeline', () => {
   test('resumes a review-only run at its start round without rebuilding', async () => {
     const agents = new ScriptedAgents({
       implementer: [Replies.triage()],
-      'reviewer': [COMPLETE_REVIEW],
+      reviewer: [COMPLETE_REVIEW],
     })
 
     const result = await pipeline.run(agents, { reviewOnly: true, startRound: 3 })
@@ -230,7 +230,7 @@ describe('build-feature pipeline', () => {
   test('points the resume at a round whose apply pass was blocked', async () => {
     const agents = new ScriptedAgents({
       implementer: [Replies.blockedTriage('Uncommitted change in notes.txt: keep or discard?')],
-      'reviewer': [COMPLETE_REVIEW],
+      reviewer: [COMPLETE_REVIEW],
     })
 
     const result = await pipeline.run(agents, { reviewOnly: true, startRound: 2 })
@@ -244,7 +244,7 @@ describe('build-feature pipeline', () => {
       implementer: [Replies.stageDone(), null],
       refactorer: [Replies.stageDone()],
       architect: [Replies.stageDone()],
-      'reviewer': [COMPLETE_REVIEW],
+      reviewer: [COMPLETE_REVIEW],
     })
 
     const result = await pipeline.run(agents, {})
@@ -263,7 +263,7 @@ describe('build-feature pipeline', () => {
       ],
       refactorer: [Replies.stageDone()],
       architect: [Replies.stageDone()],
-      'reviewer': [COMPLETE_REVIEW, COMPLETE_REVIEW, COMPLETE_REVIEW],
+      reviewer: [COMPLETE_REVIEW, COMPLETE_REVIEW, COMPLETE_REVIEW],
     })
 
     const result = await pipeline.run(agents, {})
@@ -275,7 +275,7 @@ describe('build-feature pipeline', () => {
 
   test('passes declined findings from a previous run into the first review', async () => {
     const declined = [{ severity: 'NITPICK', location: 'slug.py:9', summary: 'sort imports', reason: 'isort runs in CI' }]
-    const agents = new ScriptedAgents({ implementer: [Replies.triage()], 'reviewer': [COMPLETE_REVIEW] })
+    const agents = new ScriptedAgents({ implementer: [Replies.triage()], reviewer: [COMPLETE_REVIEW] })
 
     const result = await pipeline.run(agents, { reviewOnly: true, startRound: 2, declined })
 
