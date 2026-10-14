@@ -370,7 +370,8 @@ CleanProse style in this skill's `vale/` directory.** An **alert** is one line
 of the linter's output, in the form `file:line:column:level:rule:message`. An
 alert's message cites the section of this standard that the alert enforces. An
 **edited block** is a top-level block that the edit wrote, changed, or deleted
-text from. Paragraphs, lists, and tables are top-level blocks.
+text from. A top-level block is any block that no other block contains.
+Headings, paragraphs, lists, and tables are top-level blocks.
 
 **After each edit to instruction text, run these steps.** If the edited file's
 extension is not `.md` or `.markdown`, start at step 3. The linter applies no
