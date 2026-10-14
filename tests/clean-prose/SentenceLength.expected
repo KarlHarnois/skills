@@ -1,0 +1,2 @@
+tests/clean-prose/SentenceLength.md:1:1:suggestion:CleanProse.SentenceLength:§1: this sentence passes 20 words. Split it at a clause boundary, or turn its series into a list.
+tests/clean-prose/SentenceLength.md:7:1:suggestion:CleanProse.SentenceLength:§1: this sentence passes 20 words. Split it at a clause boundary, or turn its series into a list.

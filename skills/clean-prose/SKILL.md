@@ -60,6 +60,7 @@ cut.
 
 - **One rule per sentence.** A sentence carrying two obligations hides the
   second: split it.
+- **Short sentences.** If a sentence passes 20 words, split it.
 - **Condition first.** Write `If C, do X`, never `Do X, in cases where C`. The
   reader needs to know whether the sentence applies before learning what it
   asks.
