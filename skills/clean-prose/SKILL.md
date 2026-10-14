@@ -337,10 +337,11 @@ and 2:** the linter applies no rule to any other file and reports it clean.
 | 5 | nix could not build Vale. | Report the error message to the user. |
 | Any other code | The linter could not run. | Report the exit code and the output to the user. |
 
-**If the flagged text is a quotation that states its own ban, wrap the
-quotation in `<!-- vale <rule> = NO -->` and `<!-- vale <rule> = YES -->`
-lines, where `<rule>` is the alert's rule field.** Handle every other alert by
-its level:
+**If the flagged text is quoted text, wrap the quotation in
+`<!-- vale <rule> = NO -->` and `<!-- vale <rule> = YES -->` lines, where
+`<rule>` is the alert's rule field.** Quoted text is a quotation that states
+its own ban, or text the reader reproduces verbatim, such as a message
+template. Handle every other alert by its level:
 
 | Level | Action |
 | --- | --- |
