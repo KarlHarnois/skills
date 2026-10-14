@@ -15,3 +15,7 @@ Report stale entries, if any (one per line).
 But if the build fails, stop.
 
 Rebuild if the lockfile changed.
+
+Check if the lockfile changed.
+
+Treat the file as if it were new.
