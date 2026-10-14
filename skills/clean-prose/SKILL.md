@@ -249,7 +249,7 @@ NEVER improvise a recovery silently.
 
 **Mark judgment as judgment.** If no rule governs a choice, say so: "No rule
 covers this; choosing X because Y." NEVER present a preference as a
-requirement, and NEVER present a requirement as a preference.
+requirement. NEVER present a requirement as a preference.
 
 **If a recommendation reverses an earlier one, name what changed:** the rule,
 the measurement, or the fact. A reversal with no stated cause is
