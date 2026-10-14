@@ -14,6 +14,7 @@ AGENTS_DESTINATION := $(CLAUDE_HOME)/agents
 AGENTS := $(shell find "$(AGENTS_SOURCE)" -mindepth 1 -maxdepth 1 -name '*.md' -exec basename {} \;)
 
 NIX := nix --extra-experimental-features 'nix-command flakes' --option warn-dirty false
+VALE_GC_ROOT := $(REPO_ROOT).vale-gcroot
 CLEAN_PROSE_LINT := $(SKILLS_SOURCE)/clean-prose/scripts/lint.sh
 CLEAN_PROSE_FIXTURES := tests/clean-prose
 
@@ -67,7 +68,7 @@ reinstall: uninstall install
 
 vale:
 	@command -v nix >/dev/null || { echo "nix not found, see README"; exit 1; }
-	@$(NIX) build --no-link --quiet "$(abspath $(REPO_ROOT))#vale"
+	@$(NIX) build --quiet --out-link "$(VALE_GC_ROOT)" "$(abspath $(REPO_ROOT))#vale"
 
 test: vale
 	@cd "$(REPO_ROOT)" && failed=0; \
