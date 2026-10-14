@@ -335,7 +335,7 @@ and 2:** the linter applies no rule to any other file and reports it clean.
 | Exit code | Meaning | Action |
 | --- | --- | --- |
 | 0 or 1 | The linter ran. Code 1 means at least one `error` alert in the file. | Handle each alert in an edited block, per the rules that follow this table. Report the number of alerts outside the edited blocks to the user. |
-| 2 | Vale failed, for example on invalid YAML front matter. | Report Vale's error message to the user. |
+| 2 | Vale failed, for example on invalid YAML front matter. | If the edit changed the front matter, fix its YAML and rerun step 1 once. Otherwise, or if the rerun exits 2, report Vale's error message to the user. |
 | 3 | nix is not installed. | Tell the user the linter needs nix. |
 | 4 | The path does not exist. | Rerun step 1 once with the edited file's absolute path. If the rerun exits 4, report the path to the user. |
 | 5 | nix could not build Vale. | Report the error message to the user. |
