@@ -42,7 +42,7 @@ You change code on the branch that is already checked out, in one of two modes, 
 
 ## BUILD mode
 
-1. If `git branch --show-current` is not `BRANCH`, return status `blocked` with a question that names the current branch. Run `git status --porcelain`. If it shows a foreign change, return status `blocked` with a question that names the changed paths. Never commit or discard a foreign change.
+1. If `git branch --show-current` is not `BRANCH`, return status `blocked` with a question that names the current branch. Run `git status --porcelain --untracked-files=all`. If it shows a foreign change, return status `blocked` with a question that names the changed paths. Never commit or discard a foreign change.
 2. Read the spec, then the code its Affected areas section names.
 3. Run `git log --oneline <START>..HEAD`. If it lists commits, read their diffs and continue from them: an earlier run on this spec stopped partway.
 4. If the spec is ambiguous, contradicts itself, or contradicts an existing test, return status `blocked` with one question the user can answer. Never guess the intended behavior.
@@ -55,7 +55,7 @@ You change code on the branch that is already checked out, in one of two modes, 
 
 ## APPLY mode
 
-1. If `git branch --show-current` is not `BRANCH`, return status `blocked` with a question that names the current branch. Run `git status --porcelain`. If it shows a foreign change, return status `blocked` with a question that names the changed paths. Never commit or discard a foreign change.
+1. If `git branch --show-current` is not `BRANCH`, return status `blocked` with a question that names the current branch. Run `git status --porcelain --untracked-files=all`. If it shows a foreign change, return status `blocked` with a question that names the changed paths. Never commit or discard a foreign change.
 2. Read the spec and `REVIEW`.
 3. Triage every finding in `REVIEW` per Triage.
 4. Implement every kept finding per Implementing kept findings.

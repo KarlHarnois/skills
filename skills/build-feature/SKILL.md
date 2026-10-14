@@ -67,7 +67,7 @@ If `$ARGUMENTS` or the conversation states the task, use it. Otherwise, ask the 
 
 ### 6. Require a clean tree
 
-If `git status --porcelain` shows paths other than the verification artifacts, ask the user whether to commit those changes first or abort. If the user chooses commit, commit those paths and continue. Otherwise, stop. Never launch the pipeline with uncommitted work: the agents stop on any uncommitted change outside the verification artifacts.
+If `git status --porcelain --untracked-files=all` shows paths other than the verification artifacts, ask the user whether to commit those changes first or abort. If the user chooses commit, commit those paths and continue. Otherwise, stop. Never launch the pipeline with uncommitted work: the agents stop on any uncommitted change outside the verification artifacts.
 
 ### 7. Open the workspace
 

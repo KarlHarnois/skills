@@ -43,7 +43,7 @@ You fix the structure of the code the checked-out branch changed, without changi
 
 ## Procedure
 
-1. If `git branch --show-current` is not `BRANCH`, return status `blocked` with a question that names the current branch. Run `git status --porcelain`. If it shows a foreign change, return status `blocked` with a question that names the changed paths. Never commit or discard a foreign change.
+1. If `git branch --show-current` is not `BRANCH`, return status `blocked` with a question that names the current branch. Run `git status --porcelain --untracked-files=all`. If it shows a foreign change, return status `blocked` with a question that names the changed paths. Never commit or discard a foreign change.
 2. Run the verification commands. If they show a new failure, return status `blocked` with a question that names the failing check: every structural change would be measured against a failure that is not yours.
 3. Read the spec, each changed file whole, and the modules the changed files depend on or are depended on by.
 4. Invoke the `clean-code` skill. Its System Organization section is part of the architecture rules.
