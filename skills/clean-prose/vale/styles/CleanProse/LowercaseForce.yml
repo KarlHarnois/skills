@@ -1,11 +1,11 @@
 extends: existence
-message: "§2: lowercase '%s' reads as advice or possibility. If it states obligation or permission, write the force word (MUST, NEVER, SHOULD, MAY, PREFER X OVER Y). If it does not, leave it."
+message: "§2: '%s' is outside the force vocabulary. If it states obligation, permission, or preference, write the force word (MUST, NEVER, SHOULD, MAY, PREFER X OVER Y). If it does not, leave it."
 level: suggestion
 tokens:
   - should
   - shall
   - may
-  - prefer
+  - '[Pp]refer'
   - required to
   - needs? to
   - ha(?:ve|s) to
