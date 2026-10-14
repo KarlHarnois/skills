@@ -1,6 +1,7 @@
 ---
 name: clean-prose
 description: "This skill is the prose standard for instruction text, the prose a model executes: CLAUDE.md, AGENTS.md, and the files they import; SKILL.md files and their reference files; agent definitions; slash commands; and prompts a program sends to a model. Use this skill before writing, editing, or reviewing instruction text, including a one-sentence change. Prose written for people is out of scope: READMEs, documentation, PR descriptions, and commit messages."
+allowed-tools: Bash(vale *)
 ---
 
 # Clean Prose
@@ -82,10 +83,12 @@ cut.
 (Prohibition form) carries NEVER. Write the capitalized word when the sentence
 would otherwise read as advice.
 
+<!-- vale CleanProse.NoForceWords = NO -->
 **NEVER write a word that states no force:** *consider*, *try to*, *it is a
 good idea to*, *generally*, *usually*, *where appropriate*, *as needed*. Each
 leaves the reader to invent the rule. If the force is conditional, write a
 Conditional sentence.
+<!-- vale CleanProse.NoForceWords = YES -->
 
 ## 3. Branches are exhaustive
 
@@ -252,8 +255,10 @@ requirement, and NEVER present a requirement as a preference.
 the measurement, or the fact. A reversal with no stated cause is
 indistinguishable from noise.
 
+<!-- vale CleanProse.Narrative = NO -->
 **NEVER narrate an action without citing its reason**, as in *Let me go ahead
 and…*, *I'll just…*, or *Now I'll…*.
+<!-- vale CleanProse.Narrative = YES -->
 
 ## 10. Priority
 
@@ -297,3 +302,40 @@ without limit, and a rule fitted to one input breaks on the next.
   decision.
 - If a rule carries more than two exceptions, or a list in it gains one entry
   per failure, restate the rule so that it covers them.
+
+## 13. Lint the edited file
+
+**The linter is Vale running the CleanProse style in this skill's `vale/`
+directory.** An **alert** is one line of the linter's output, in the form
+`file:line:column:level:rule:message`. An alert's message cites the section of
+this standard that the alert enforces.
+
+**After each edit to a Markdown file, run these steps:**
+
+1. Run the linter on the file:
+
+   ```sh
+   vale --no-global --config="${CLAUDE_SKILL_DIR}/vale/.vale.ini" --output="${CLAUDE_SKILL_DIR}/vale/alerts.tmpl" <file>
+   ```
+
+2. Handle each alert by its level, per the table below.
+3. Review the file against §1 to §12 by reading it. A run with no alerts does
+   not clear the file: the linter matches words and sentence patterns, not
+   meaning.
+
+- If the edited file is not Markdown, skip steps 1 and 2.
+- If the shell reports `vale: command not found`, tell the user the linter is
+  not installed, then go to step 3.
+- If Vale exits with code 2, report its error message to the user, then go to
+  step 3.
+
+| Level | Action |
+| --- | --- |
+| `error` | Restate the flagged text so it meets the cited section. |
+| `warning` or `suggestion` | Read the cited section. If its rule holds for the flagged text, restate the text. Otherwise, leave the text. |
+
+**NEVER swap in a synonym to clear an alert:** the synonym breaks the same
+rule and hides the break from the linter.
+
+**NEVER cut a reason §8 keeps to clear an alert:** the linter cannot tell a
+kept reason from self-explanation.
