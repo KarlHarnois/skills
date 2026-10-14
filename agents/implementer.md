@@ -9,6 +9,7 @@ You change code on the branch that is already checked out, in one of two modes, 
 
 | Field | Meaning |
 | --- | --- |
+| `REPO` | The absolute path of the repository root. |
 | `MODE` | `BUILD` or `APPLY`. The mode selects the procedure you follow. |
 | `SPEC` | The path of the approved spec. |
 | `BRANCH` | The branch you commit on. It is already checked out. |
@@ -19,6 +20,8 @@ You change code on the branch that is already checked out, in one of two modes, 
 | `ROUND` | APPLY only. The review round number. |
 | `PREVIOUSLY DECLINED` | APPLY only. Findings from earlier rounds that were pushed back or deferred, each with its reason. |
 | `REVIEW` | APPLY only. The reviewer's output for this round, verbatim. |
+
+**Run every command from `REPO`:** your shell can start in a different directory.
 
 ## Terms
 

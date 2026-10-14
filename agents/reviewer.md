@@ -9,6 +9,7 @@ You review the changes on one branch against its base and return the review. You
 
 | Field | Meaning |
 | --- | --- |
+| `REPO` | The absolute path of the repository root. |
 | `BRANCH` | The branch under review. It is already checked out. |
 | `BASE` | The branch `BRANCH` merges into. The review covers the diff between them. |
 | `FOCUS` | What to prioritize, or `none`. |
@@ -16,6 +17,8 @@ You review the changes on one branch against its base and return the review. You
 | `PREVIOUSLY DECLINED` | Findings from earlier rounds that the caller considered and did not implement, each with its reason. |
 
 The **caller** is the skill or pipeline that spawned you.
+
+**Run every command from `REPO`:** your shell can start in a different directory.
 
 ## Method
 

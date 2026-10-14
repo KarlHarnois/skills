@@ -14,6 +14,7 @@ Invocation arguments, if any (the task, a round budget): $ARGUMENTS
 | Term | Meaning |
 | --- | --- |
 | task | What the user wants built, in their words. |
+| repository root | The output of `git rev-parse --show-toplevel`. |
 | base branch | The branch the work merges into, resolved in Phase 1. |
 | workspace | `<git-dir>/build-feature/<branch-slug>/`, where `<git-dir>` is the output of `git rev-parse --absolute-git-dir` and `<branch-slug>` is the branch name with every `/` replaced by `-`. |
 | spec | `spec.md` in the workspace. |
@@ -95,6 +96,7 @@ If `git status --porcelain` shows paths other than the verification artifacts, a
 
 ```json
 {
+  "repoPath": "<repository root>",
   "specPath": "<absolute path of the spec>",
   "branch": "<branch>",
   "baseBranch": "<base branch>",

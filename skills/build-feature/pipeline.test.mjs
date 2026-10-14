@@ -3,6 +3,7 @@ import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 
 const LAUNCH_ARGS = {
+  repoPath: '/work/wordstats',
   specPath: '/repo/.git/build-feature/feature-slugify/spec.md',
   branch: 'feature/slugify',
   baseBranch: 'main',
@@ -280,6 +281,20 @@ describe('build-feature pipeline', () => {
 
     assert.match(agents.promptFor('review round 2, attempt 1'), /slug\.py:9[\s\S]*isort runs in CI/)
     assert.deepEqual(result.declined, declined)
+  })
+
+  test('tells every agent which repository to work in', async () => {
+    const agents = new ScriptedAgents({
+      implementer: [Replies.stageDone(), Replies.triage()],
+      refactorer: [Replies.stageDone()],
+      architect: [Replies.stageDone()],
+      reviewer: [COMPLETE_REVIEW],
+    })
+
+    await pipeline.run(agents, {})
+
+    assert.equal(agents.calls.length, 5)
+    agents.calls.forEach(call => assert.match(call.prompt, /\/work\/wordstats/, call.label))
   })
 
   test('rejects launch args missing the spec path, branch, or base branch', async () => {

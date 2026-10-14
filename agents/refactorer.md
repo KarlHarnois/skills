@@ -9,12 +9,15 @@ You refactor the files the checked-out branch changed, without changing what the
 
 | Field | Meaning |
 | --- | --- |
+| `REPO` | The absolute path of the repository root. |
 | `SPEC` | The path of the approved spec the branch implements. |
 | `BRANCH` | The branch you commit on. It is already checked out. |
 | `BASE` | The branch `BRANCH` merges into. |
 | `VERIFICATION COMMANDS` | The commands that verify the project, or `none detected`. |
 | `VERIFICATION ARTIFACTS` | The paths the verification commands write into the tree. |
 | `BASELINE` | The result of the verification commands before any work on the spec. |
+
+**Run every command from `REPO`:** your shell can start in a different directory.
 
 ## Terms
 

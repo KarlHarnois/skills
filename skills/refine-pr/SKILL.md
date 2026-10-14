@@ -86,6 +86,7 @@ HEAD is still the branch under review, and `git status --porcelain` shows nothin
 Spawn a fresh reviewer every round. Never continue the previous one. A reviewer that remembers being overruled last round argues less this round, and a loop that ends because the reviewer got tired has converged for the wrong reason.
 
 ```
+REPO: <output of `git rev-parse --show-toplevel`>
 BRANCH: <branch>, already checked out. Do not switch branches or move HEAD.
 BASE: <the PR's base branch, or the default branch in branch mode>
 FOCUS: <the user's focus, verbatim, or "none">

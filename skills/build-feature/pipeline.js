@@ -92,7 +92,8 @@ const BUILD_STAGES = [
 
 class RunSettings {
   constructor(input) {
-    this.requireFields(input, ['specPath', 'branch', 'baseBranch'])
+    this.requireFields(input, ['repoPath', 'specPath', 'branch', 'baseBranch'])
+    this.repoPath = input.repoPath
     this.specPath = input.specPath
     this.branch = input.branch
     this.baseBranch = input.baseBranch
@@ -121,8 +122,9 @@ class PromptBook {
   }
 
   review(round, declined) {
-    const { branch, baseBranch, specPath } = this.settings
+    const { repoPath, branch, baseBranch, specPath } = this.settings
     return [
+      `REPO: ${repoPath}`,
       `BRANCH: ${branch}`,
       `BASE: ${baseBranch}`,
       `FOCUS: Read the approved spec at ${specPath} before the diff. ` +
@@ -146,8 +148,9 @@ class PromptBook {
   }
 
   runContext() {
-    const { specPath, branch, baseBranch, verifyCommands, verificationArtifacts, baseline } = this.settings
+    const { repoPath, specPath, branch, baseBranch, verifyCommands, verificationArtifacts, baseline } = this.settings
     return [
+      `REPO: ${repoPath}`,
       `SPEC: ${specPath}`,
       `BRANCH: ${branch}`,
       `BASE: ${baseBranch}`,
