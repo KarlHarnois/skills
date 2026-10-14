@@ -295,8 +295,8 @@ without limit, and a rule fitted to one input breaks on the next.
 - If the defect class cannot be stated, or the only edit that covers the
   input is a special case, leave the instruction text unchanged and report
   the input to the user.
-- NEVER name an input in a rule, and NEVER describe one so closely that only
-  that input fits. Data that parameterizes a rule is specification (§7).
+- NEVER name an input in a rule. NEVER describe an input so closely that
+  only that input fits. Data that parameterizes a rule is specification (§7).
 - PREFER restating the rule that governs the decision OVER adding a rule
   beside it. The added rule wins only when no existing rule governs the
   decision.
