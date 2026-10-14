@@ -5,7 +5,7 @@ ignorecase: true
 tokens:
   - consider
   - try\s+to
-  - it\s+is\s+a\s+good\s+idea\s+to
+  - it(?:\s+is|['’]s)\s+a\s+good\s+idea\s+to
   - generally
   - usually
   - 'where\s+appropriate(?![\w-]|\s+\w)'

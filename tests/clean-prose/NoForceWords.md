@@ -21,3 +21,5 @@ Classify each import as needed or unused.
 Rebuild the cache if needed.
 
 - Rebuild the cache where possible
+
+It’s a good idea to rebuild the cache weekly.

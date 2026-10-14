@@ -8,3 +8,5 @@ tests/clean-prose/NoForceWords.md:17:19:suggestion:CleanProse.ConditionLast:§1:
 tests/clean-prose/NoForceWords.md:21:19:error:CleanProse.NoForceWords:§2: 'if needed' states no force. Write a force word, or a Conditional sentence if the force is conditional.
 tests/clean-prose/NoForceWords.md:21:19:suggestion:CleanProse.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
 tests/clean-prose/NoForceWords.md:23:21:error:CleanProse.NoForceWords:§2: 'where possible' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/NoForceWords.md:25:1:error:CleanProse.NoForceWords:§2: 'It’s a good idea to' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/NoForceWords.md:25:1:suggestion:CleanProse.VagueAntecedent:§1: 'It’s' opens on a bare pronoun. Name the noun unless it is the previous sentence's subject. If the sentence only justifies the one before it, cut it per §7 unless §8 keeps the reason.
