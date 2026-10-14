@@ -11,3 +11,7 @@ The index MUST always be rebuilt.
 The file MUST be valid YAML.
 
 The run can be resumed.
+
+The field MUST be present.
+
+The value MUST be unknown.

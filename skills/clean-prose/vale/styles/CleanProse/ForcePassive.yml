@@ -3,4 +3,4 @@ message: "§2: '%s' attaches force to a passive verb. Name the actor and make it
 level: warning
 ignorecase: true
 tokens:
-  - '(?:must|should|may|never|always|shall)(?:\s+(?:not|never|also|only|always))?\s+be\s+(?:\w+ly\s+)?(?:\w+ed|\w*(?:built|chosen|done|found|given|held|kept|known|left|made|read|run|seen|sent|set|shown|split|taken|told|written))'
+  - '(?:must|should|may|never|always|shall)(?:\s+(?:not|never|also|only|always))?\s+be\s+(?:\w+ly\s+)?(?:\w+ed|(?:re|over|up|with)?(?:built|chosen|done|found|given|held|kept|known|left|made|read|run|seen|sent|set|shown|split|taken|told|written))'
