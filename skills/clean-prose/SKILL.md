@@ -336,10 +336,10 @@ alert's message cites the section of this standard that the alert enforces.
 | 5 | nix could not build Vale. | Report the error message to the user. |
 | Any other code | The linter could not run. | Report the exit code and the output to the user. |
 
-**If the flagged text is a quotation that states its own ban, as §5 permits,
-wrap the quotation in `<!-- vale <rule> = NO -->` and
-`<!-- vale <rule> = YES -->` lines, where `<rule>` is the alert's rule
-field.** Handle every other alert by its level:
+**If the flagged text is a quotation that states its own ban, wrap the
+quotation in `<!-- vale <rule> = NO -->` and `<!-- vale <rule> = YES -->`
+lines, where `<rule>` is the alert's rule field.** Handle every other alert by
+its level:
 
 | Level | Action |
 | --- | --- |
