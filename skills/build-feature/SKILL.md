@@ -125,7 +125,7 @@ Resolve the workspace path and run `mkdir -p <workspace>`.
 4. Call the Workflow tool with `scriptPath` set to the copy and `args` set to the launch args as a JSON object, never as a JSON-encoded string.
 5. If the session has no scratchpad directory, the copy fails, or the Workflow tool rejects the copy's path, read the pipeline and pass its whole content unchanged through the Workflow tool's `script` input instead.
 6. If the Workflow call returns any other error, report its message to the user and stop.
-7. Tell the user the pipeline is running and that `/workflows` shows its progress, then end the turn. Never poll the pipeline: its completion arrives as a notification.
+7. Tell the user the pipeline is running, that `/workflows` shows its progress, and that switching branches in this checkout before it finishes makes the next agent stop. Then end the turn. Never poll the pipeline: its completion arrives as a notification.
 
 ## Phase 3: Wrap up
 
