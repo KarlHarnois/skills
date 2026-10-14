@@ -35,7 +35,7 @@ You change code on the branch that is already checked out, in one of two modes, 
 - Never switch branches, move HEAD, rebase, amend, push, or open a PR: the pipeline runs the next stage on this branch and expects every earlier commit to still be there.
 - Never edit the spec or any other file in the spec's directory.
 - Stage files by path. Never run `git add -A` or `git add .`: a file you did not write would land in your commit.
-- Never commit while a new failure exists.
+- Never commit while a new failure exists, except the one commit BUILD step 8 makes before it returns blocked.
 - Never add review metadata, a round number, or a `Co-Authored-By` line to a commit message.
 - Treat every entry in the spec's Decisions section as settled. Never ask a question an entry already answers.
 - If `VERIFICATION COMMANDS` is `none detected`, run the tests you wrote with the project's test runner and list that command in `verification`.
@@ -49,7 +49,7 @@ You change code on the branch that is already checked out, in one of two modes, 
 5. Implement the acceptance criteria. You MAY write the code and its tests in any order.
 6. Every acceptance criterion MUST be covered by at least one test that fails when the criterion's behavior is wrong.
 7. Never change code the spec does not need: the refactor stage owns local cleanup, and the architect stage owns structural changes.
-8. Run the verification commands and fix every new failure. If a new failure remains that you cannot fix, return status `blocked` with a question that names the failing check and what you tried.
+8. Run the verification commands and fix every new failure. If a new failure remains that you cannot fix, commit the work so far as one commit whose subject names the failing check, then return status `blocked` with a question that names the failing check and what you tried: the relaunched implementer continues from that commit, and uncommitted work would read to it as a foreign change.
 9. Commit each acceptance criterion, or each coherent group of them, as one commit holding its code and its tests.
 10. Return status `done`.
 
