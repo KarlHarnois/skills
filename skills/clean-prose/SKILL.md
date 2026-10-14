@@ -180,8 +180,8 @@ procedures is three copies to drift.
   between the procedures at the top.
 - **Reference only what the reader loads.** A file MAY reference the
   always-loaded instructions and the reference files it names. If the file is
-  an agent definition, NEVER reference anything §8 does not list for its
-  subagent. If a rule depends on another skill, the rule tells the reader to
+  an agent definition, NEVER reference anything its subagent does not load,
+  per §8. If a rule depends on another skill, the rule tells the reader to
   invoke that skill. A reader cannot apply a skill it has not loaded.
 
 ### Formatting
@@ -269,16 +269,14 @@ the subagent also loads the rule's source, the restatement is a duplicate.
 Otherwise, the restatement is necessary.
 
 **A fork loads everything the orchestrator has loaded.** Every other subagent
-loads these:
+loads the items below. If its agent definition sets `omitClaudeMd: true`, the
+subagent does not load the always-loaded instructions.
 
 - its agent definition
 - the prompt it is sent
 - every skill its agent definition lists in its `skills` field
 - every reference file it reads in the run
 - the always-loaded instructions
-
-If its agent definition sets `omitClaudeMd: true`, the subagent does not load
-the always-loaded instructions.
 
 ## 9. Chat register
 
