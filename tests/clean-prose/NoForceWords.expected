@@ -34,3 +34,7 @@ tests/clean-prose/NoForceWords.md:61:19:error:CleanProse.NoForceWords:§2: 'when
 tests/clean-prose/NoForceWords.md:63:19:error:CleanProse.NoForceWords:§2: 'where applicable' states no force. If the force is conditional, write a Conditional sentence. Otherwise, write a force word.
 tests/clean-prose/NoForceWords.md:65:19:error:CleanProse.NoForceWords:§2: 'as applicable' states no force. If the force is conditional, write a Conditional sentence. Otherwise, write a force word.
 tests/clean-prose/NoForceWords.md:67:19:error:CleanProse.NoForceWords:§2: 'when possible' states no force. If the force is conditional, write a Conditional sentence. Otherwise, write a force word.
+tests/clean-prose/NoForceWords.md:71:19:error:CleanProse.NoForceWords:§2: 'whenever needed' states no force. If the force is conditional, write a Conditional sentence. Otherwise, write a force word.
+tests/clean-prose/NoForceWords.md:73:19:error:CleanProse.NoForceWords:§2: 'wherever appropriate' states no force. If the force is conditional, write a Conditional sentence. Otherwise, write a force word.
+tests/clean-prose/NoForceWords.md:75:19:error:CleanProse.NoForceWords:§2: 'whenever possible' states no force. If the force is conditional, write a Conditional sentence. Otherwise, write a force word.
+tests/clean-prose/NoForceWords.md:77:19:error:CleanProse.NoForceWords:§2: 'wherever possible' states no force. If the force is conditional, write a Conditional sentence. Otherwise, write a force word.

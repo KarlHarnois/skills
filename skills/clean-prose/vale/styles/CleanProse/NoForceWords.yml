@@ -8,8 +8,8 @@ tokens:
   - it(?:\s+is|['’]s)\s+a\s+good\s+idea\s+to
   - generally
   - usually
-  - '(?:if|when|where|as)\s+(?:needed|necessary|appropriate|applicable)(?![\w-]|\s+\w)'
-  - '(?:if|when|where)\s+possible(?![\w-]|\s+\w)'
+  - '(?:if|when(?:ever)?|where(?:ver)?|as)\s+(?:needed|necessary|appropriate|applicable)(?![\w-]|\s+\w)'
+  - '(?:if|when(?:ever)?|where(?:ver)?)\s+possible(?![\w-]|\s+\w)'
   - might\s+want\s+to
   - feel\s+free\s+to
   - ideally

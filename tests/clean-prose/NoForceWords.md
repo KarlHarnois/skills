@@ -67,3 +67,11 @@ Rebuild the cache as applicable.
 Rebuild the cache when possible.
 
 Rebuild the cache as soon as possible.
+
+Rebuild the cache whenever needed.
+
+Rebuild the cache wherever appropriate.
+
+Rebuild the cache whenever possible.
+
+Rebuild the cache wherever possible.
