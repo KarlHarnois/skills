@@ -7,3 +7,5 @@ Compare tabs vs spaces.
 Compare tabs vs. spaces.
 
 Write `e.g.`, `i.e.`, `etc.`, and `vs.` as plain words.
+
+Open the file in VS Code.

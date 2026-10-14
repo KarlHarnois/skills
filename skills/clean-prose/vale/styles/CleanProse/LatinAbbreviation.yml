@@ -6,4 +6,4 @@ nonword: true
 swap:
   '\be\.g\.': for example
   '\bi\.e\.': that is
-  '\bvs\b\.?': versus
+  '\b(?-i:vs)\b\.?': versus
