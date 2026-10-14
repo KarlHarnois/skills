@@ -1,0 +1,1 @@
+tests/clean-prose/Toggle.md:5:20:error:CleanProse.NoForceWords:§2: 'usually' states no force. Write a force word, or a Conditional sentence if the force is conditional.

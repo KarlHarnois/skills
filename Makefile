@@ -1,4 +1,4 @@
-.PHONY: all install uninstall status reinstall
+.PHONY: all install uninstall status reinstall test
 
 all: install
 
@@ -12,6 +12,11 @@ SKILLS := $(shell find "$(SKILLS_SOURCE)" -mindepth 1 -maxdepth 1 -type d -exec 
 AGENTS_SOURCE := $(REPO_ROOT)agents
 AGENTS_DESTINATION := $(CLAUDE_HOME)/agents
 AGENTS := $(shell find "$(AGENTS_SOURCE)" -mindepth 1 -maxdepth 1 -name '*.md' -exec basename {} \;)
+
+VALE ?= vale
+CLEAN_PROSE_VALE := $(SKILLS_SOURCE)/clean-prose/vale
+CLEAN_PROSE_FIXTURES := tests/clean-prose
+LINT_PROSE := $(VALE) --no-global --no-exit --config=$(CLEAN_PROSE_VALE)/.vale.ini --output=$(CLEAN_PROSE_VALE)/alerts.tmpl
 
 define link_all
 @mkdir -p "$(2)"
@@ -55,3 +60,12 @@ status:
 	$(call status_all,$(AGENTS_DESTINATION),$(AGENTS),agent)
 
 reinstall: uninstall install
+
+test:
+	@command -v $(VALE) >/dev/null || { echo "$(VALE) not found, see README"; exit 1; }
+	@cd "$(REPO_ROOT)" && failed=0; \
+	for fixture in $(CLEAN_PROSE_FIXTURES)/*.md; do \
+		$(LINT_PROSE) "$$fixture" | diff -u "$${fixture%.md}.expected" - || failed=1; \
+	done; \
+	exit $$failed
+	@echo "clean-prose lint fixtures pass"

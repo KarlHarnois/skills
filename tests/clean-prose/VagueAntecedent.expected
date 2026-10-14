@@ -1,0 +1,1 @@
+tests/clean-prose/VagueAntecedent.md:1:27:suggestion:CleanProse.VagueAntecedent:§1: 'This keeps' opens on a bare pronoun. Name the noun unless it is the previous sentence's subject. If the sentence only justifies the one before it, cut it per §7 unless §8 keeps the reason.

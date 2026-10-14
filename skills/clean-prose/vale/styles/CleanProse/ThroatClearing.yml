@@ -1,0 +1,11 @@
+extends: existence
+message: "§7: '%s' announces text instead of stating a rule. Cut it."
+level: warning
+ignorecase: true
+tokens:
+  - this (?:section|document|file|skill) (?:will|describes|explains|covers|walks|outlines|shows)
+  - the following (?:sections?|steps|table|list) (?:will|describes?|explains?|covers?|shows?|outlines?)
+  - in this section
+  - in the next section
+  - below (?:we|you will|you'll)
+  - here(?:'s| is) how

@@ -1,0 +1,7 @@
+extends: existence
+message: "§2: PREFER needs OVER in the same sentence: PREFER X OVER Y."
+level: error
+scope: sentence
+nonword: true
+tokens:
+  - '(?s)\bPREFER\b(?!.*\bOVER\b)'

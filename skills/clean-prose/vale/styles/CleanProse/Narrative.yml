@@ -1,0 +1,7 @@
+extends: existence
+message: "§7: first person '%s' reads as narrative. State the rule, not the story behind it."
+level: suggestion
+scope: sentence
+nonword: true
+tokens:
+  - '(?<=^[^"“]*)\b(?:I(?!/)|[Ww]e|[Oo]urs?)\b'

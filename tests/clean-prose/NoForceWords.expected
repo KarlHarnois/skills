@@ -1,0 +1,2 @@
+tests/clean-prose/NoForceWords.md:1:1:error:CleanProse.NoForceWords:§2: 'Consider' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/NoForceWords.md:3:1:error:CleanProse.NoForceWords:§2: 'If needed' states no force. Write a force word, or a Conditional sentence if the force is conditional.

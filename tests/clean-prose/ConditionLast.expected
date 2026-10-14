@@ -1,0 +1,1 @@
+tests/clean-prose/ConditionLast.md:1:1:suggestion:CleanProse.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.

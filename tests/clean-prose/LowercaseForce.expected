@@ -1,0 +1,2 @@
+tests/clean-prose/LowercaseForce.md:1:9:suggestion:CleanProse.LowercaseForce:§2: lowercase 'should' reads as advice or possibility. If it states obligation or permission, write the force word (MUST, NEVER, SHOULD, MAY, PREFER X OVER Y). If it does not, leave it.
+tests/clean-prose/LowercaseForce.md:5:5:suggestion:CleanProse.LowercaseForce:§2: lowercase 'need to' reads as advice or possibility. If it states obligation or permission, write the force word (MUST, NEVER, SHOULD, MAY, PREFER X OVER Y). If it does not, leave it.

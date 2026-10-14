@@ -1,0 +1,2 @@
+tests/clean-prose/ThroatClearing.md:1:1:warning:CleanProse.ThroatClearing:§7: 'This section explains' announces text instead of stating a rule. Cut it.
+tests/clean-prose/ThroatClearing.md:5:1:warning:CleanProse.ThroatClearing:§7: 'Here's how' announces text instead of stating a rule. Cut it.

@@ -1,0 +1,7 @@
+extends: existence
+message: "§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'."
+level: suggestion
+scope: sentence
+nonword: true
+tokens:
+  - '^(?!(?:\w+,\s+)?(?i:if|unless|when|whenever|otherwise|once|while|where|even if|only if)\b)[^(:;"“]*?[\s,](?:if|unless|in cases where|provided that|as long as)\b(?! any\b)'
