@@ -7,5 +7,5 @@ tokens:
   - the\s+following\s+(?:sections?|steps|table|list)\s+(?:will|describes?|explains?|covers?|shows?|outlines?)
   - in\s+this\s+section
   - in\s+the\s+next\s+section
-  - below\s+(?:we|you\s+will|you'll)
-  - here(?:'s|\s+is)\s+how
+  - below\s+(?:we|you\s+will|you['’]ll)
+  - here(?:['’]s|\s+is)\s+how
