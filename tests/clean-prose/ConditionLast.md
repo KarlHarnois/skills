@@ -27,3 +27,9 @@ Run `make` if the lockfile changed.
 Keep the reason (§8) if a reader would revert the rule.
 
 Reply "done" if the build passes.
+
+- **Retry:** rerun the step if it fails.
+
+Rebuild the cache; stop if it fails.
+
+Handle the exit code: if it is 2, rerun.
