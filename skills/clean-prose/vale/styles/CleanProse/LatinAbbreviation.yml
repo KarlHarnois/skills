@@ -6,5 +6,4 @@ nonword: true
 swap:
   '\be\.g\.': for example
   '\bi\.e\.': that is
-  '\betc\.': every item, or the property every item shares
   '\bvs\b\.?': versus

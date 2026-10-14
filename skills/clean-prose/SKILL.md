@@ -108,11 +108,11 @@ conditional, write a Conditional sentence.
 case is an instruction to guess, and different readers guess differently.
 
 **NEVER write a Latin abbreviation.** An `etc.` leaves a list open, and an
-open list is an uncovered case. Write the plain form:
+open list is an uncovered case. Replace `etc.` with the full list, or with the
+property every item shares. Replace each other abbreviation with its plain form:
 
 | Abbreviation | Plain form |
 | --- | --- |
-| `etc.` | every item, or the property every item shares |
 | `e.g.` | for example |
 | `i.e.` | that is |
 | `vs.` | versus |
