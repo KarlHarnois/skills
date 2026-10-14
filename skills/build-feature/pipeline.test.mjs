@@ -320,12 +320,13 @@ describe('build-feature pipeline', () => {
     )
   })
 
-  test('rejects launch args missing the spec path, branch, or base branch', async () => {
+  test('rejects launch args missing any required field', async () => {
     const agents = new ScriptedAgents({})
+    const blankedArgs = { repoPath: '', specPath: '', branch: undefined, baseBranch: undefined, startCommit: '' }
 
     await assert.rejects(
-      pipeline.run(agents, { specPath: '', baseBranch: undefined }),
-      /args are missing: specPath, baseBranch/,
+      pipeline.run(agents, blankedArgs),
+      /args are missing: repoPath, specPath, branch, baseBranch, startCommit/,
     )
   })
 })
