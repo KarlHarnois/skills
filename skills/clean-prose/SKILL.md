@@ -99,6 +99,16 @@ Conditional sentence.
 **If a rule branches, cover every case or name the default.** An uncovered
 case is an instruction to guess, and different readers guess differently.
 
+**NEVER write a Latin abbreviation.** An `etc.` leaves a list open, and an
+open list is an uncovered case. Write the plain form:
+
+| Abbreviation | Plain form |
+| --- | --- |
+| `etc.` | every item, or the property every item shares |
+| `e.g.` | for example |
+| `i.e.` | that is |
+| `vs.` | versus |
+
 **If any branch can reach a destructive or unrecoverable action, the default
 MUST be `Otherwise, stop and ask the user`.**
 

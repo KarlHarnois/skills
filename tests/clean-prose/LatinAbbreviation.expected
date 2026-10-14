@@ -1,0 +1,5 @@
+tests/clean-prose/LatinAbbreviation.md:1:30:error:CleanProse.LatinAbbreviation:§3: write 'every item, or the property every item shares' instead of 'etc.'.
+tests/clean-prose/LatinAbbreviation.md:3:34:error:CleanProse.LatinAbbreviation:§3: write 'for example' instead of 'e.g.'.
+tests/clean-prose/LatinAbbreviation.md:5:33:error:CleanProse.LatinAbbreviation:§3: write 'that is' instead of 'i.e.'.
+tests/clean-prose/LatinAbbreviation.md:7:14:error:CleanProse.LatinAbbreviation:§3: write 'versus' instead of 'vs'.
+tests/clean-prose/LatinAbbreviation.md:9:14:error:CleanProse.LatinAbbreviation:§3: write 'versus' instead of 'vs.'.
