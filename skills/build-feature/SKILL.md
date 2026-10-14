@@ -162,7 +162,7 @@ Resolve the workspace path and run `mkdir -p <workspace>`.
 1. Copy the previous launch args.
 2. Overwrite `reviewOnly` and `startRound` with the run result's `resume`.
 3. Overwrite `declined` with the run result's `declined`.
-4. Set `maxRounds` to the number of rounds the user asked for, or 3.
+4. If the exit reason is `round cap`, set `maxRounds` to the number of rounds the user asked for. Otherwise, set `maxRounds` to the rounds the previous launch had left: its `startRound` plus its `maxRounds` minus the run result's `resume.startRound`.
 5. Run Phase 2 from step 2.
 
 ### 3. Report
