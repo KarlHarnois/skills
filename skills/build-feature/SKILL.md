@@ -101,7 +101,7 @@ Resolve the workspace path and run `mkdir -p <workspace>`.
 
 ## Phase 2: Run the pipeline
 
-1. Build the launch args. If the user named a round budget, use it as `maxRounds`; otherwise use 3.
+1. Build the launch args. Set `startCommit` to the output of `git rev-parse HEAD`. If the user named a round budget, use it as `maxRounds`; otherwise use 3.
 
 ```json
 {
@@ -109,6 +109,7 @@ Resolve the workspace path and run `mkdir -p <workspace>`.
   "specPath": "<absolute path of the spec>",
   "branch": "<branch>",
   "baseBranch": "<base branch>",
+  "startCommit": "<commit HEAD points to>",
   "verifyCommands": ["<command>"],
   "verificationArtifacts": ["<path>"],
   "baseline": "<baseline, naming every failing test or check>",

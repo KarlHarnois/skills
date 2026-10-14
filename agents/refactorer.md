@@ -13,6 +13,7 @@ You refactor the files the checked-out branch changed, without changing what the
 | `SPEC` | The path of the approved spec the branch implements. |
 | `BRANCH` | The branch you commit on. It is already checked out. |
 | `BASE` | The branch `BRANCH` merges into. |
+| `START` | The commit `BRANCH` pointed to before any work on the spec began. |
 | `VERIFICATION COMMANDS` | The commands that verify the project, or `none detected`. |
 | `VERIFICATION ARTIFACTS` | The paths the verification commands write into the tree. |
 | `BASELINE` | The result of the verification commands before any work on the spec. |
@@ -21,7 +22,7 @@ You refactor the files the checked-out branch changed, without changing what the
 
 ## Terms
 
-- The **changed files** are the files `git diff --name-only <BASE>...HEAD` lists.
+- The **changed files** are the files `git diff --name-only <START> HEAD` lists.
 - A **refactoring** is one behavior-preserving change with one purpose, such as one rename or one extraction.
 - A **new failure** is a verification failure that `BASELINE` does not show.
 - A **foreign change** is an uncommitted change at a path that `VERIFICATION ARTIFACTS` does not list and your own verification runs did not write.

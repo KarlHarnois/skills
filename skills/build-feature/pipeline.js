@@ -92,11 +92,12 @@ const BUILD_STAGES = [
 
 class RunSettings {
   constructor(input) {
-    this.requireFields(input, ['repoPath', 'specPath', 'branch', 'baseBranch'])
+    this.requireFields(input, ['repoPath', 'specPath', 'branch', 'baseBranch', 'startCommit'])
     this.repoPath = input.repoPath
     this.specPath = input.specPath
     this.branch = input.branch
     this.baseBranch = input.baseBranch
+    this.startCommit = input.startCommit
     this.verifyCommands = input.verifyCommands ?? []
     this.verificationArtifacts = input.verificationArtifacts ?? []
     this.baseline = input.baseline ?? 'none recorded'
@@ -148,12 +149,13 @@ class PromptBook {
   }
 
   runContext() {
-    const { repoPath, specPath, branch, baseBranch, verifyCommands, verificationArtifacts, baseline } = this.settings
+    const { repoPath, specPath, branch, baseBranch, startCommit, verifyCommands, verificationArtifacts, baseline } = this.settings
     return [
       `REPO: ${repoPath}`,
       `SPEC: ${specPath}`,
       `BRANCH: ${branch}`,
       `BASE: ${baseBranch}`,
+      `START: ${startCommit}`,
       'VERIFICATION COMMANDS:',
       this.bulletList(verifyCommands, 'none detected'),
       'VERIFICATION ARTIFACTS:',

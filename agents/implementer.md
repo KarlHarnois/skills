@@ -14,6 +14,7 @@ You change code on the branch that is already checked out, in one of two modes, 
 | `SPEC` | The path of the approved spec. |
 | `BRANCH` | The branch you commit on. It is already checked out. |
 | `BASE` | The branch `BRANCH` merges into. |
+| `START` | The commit `BRANCH` pointed to before any work on the spec began. |
 | `VERIFICATION COMMANDS` | The commands that verify the project, or `none detected`. |
 | `VERIFICATION ARTIFACTS` | The paths the verification commands write into the tree. |
 | `BASELINE` | The result of the verification commands before any work on the spec. |
@@ -43,7 +44,7 @@ You change code on the branch that is already checked out, in one of two modes, 
 
 1. Run `git status --porcelain`. If it shows a foreign change, return status `blocked` with a question that names the changed paths. Never commit or discard a foreign change.
 2. Read the spec, then the code its Affected areas section names.
-3. Run `git log --oneline <BASE>..HEAD`. If it lists commits, read their diffs and continue from them: an earlier run on this spec stopped partway.
+3. Run `git log --oneline <START>..HEAD`. If it lists commits, read their diffs and continue from them: an earlier run on this spec stopped partway.
 4. If the spec is ambiguous, contradicts itself, or contradicts an existing test, return status `blocked` with one question the user can answer. Never guess the intended behavior.
 5. Implement the acceptance criteria. You MAY write the code and its tests in any order.
 6. Every acceptance criterion MUST be covered by at least one test that fails when the criterion's behavior is wrong.

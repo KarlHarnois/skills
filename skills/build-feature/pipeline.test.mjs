@@ -7,6 +7,7 @@ const LAUNCH_ARGS = {
   specPath: '/repo/.git/build-feature/feature-slugify/spec.md',
   branch: 'feature/slugify',
   baseBranch: 'main',
+  startCommit: 'f36e958',
   verifyCommands: ['pytest -q'],
   verificationArtifacts: ['.coverage'],
   baseline: 'all green',
@@ -295,6 +296,21 @@ describe('build-feature pipeline', () => {
 
     assert.equal(agents.calls.length, 5)
     agents.calls.forEach(call => assert.match(call.prompt, /\/work\/wordstats/, call.label))
+  })
+
+  test('gives every writing agent the commit its work started from', async () => {
+    const agents = new ScriptedAgents({
+      implementer: [Replies.stageDone(), Replies.triage()],
+      refactorer: [Replies.stageDone()],
+      architect: [Replies.stageDone()],
+      reviewer: [COMPLETE_REVIEW],
+    })
+
+    await pipeline.run(agents, {})
+
+    agents.calls
+      .filter(call => call.agentType !== 'reviewer')
+      .forEach(call => assert.match(call.prompt, /f36e958/, call.label))
   })
 
   test('rejects launch args missing the spec path, branch, or base branch', async () => {

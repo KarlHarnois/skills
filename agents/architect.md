@@ -13,6 +13,7 @@ You fix the structure of the code the checked-out branch changed, without changi
 | `SPEC` | The path of the approved spec the branch implements. |
 | `BRANCH` | The branch you commit on. It is already checked out. |
 | `BASE` | The branch `BRANCH` merges into. |
+| `START` | The commit `BRANCH` pointed to before any work on the spec began. |
 | `VERIFICATION COMMANDS` | The commands that verify the project, or `none detected`. |
 | `VERIFICATION ARTIFACTS` | The paths the verification commands write into the tree. |
 | `BASELINE` | The result of the verification commands before any work on the spec. |
@@ -21,7 +22,7 @@ You fix the structure of the code the checked-out branch changed, without changi
 
 ## Terms
 
-- The **changed files** are the files `git diff --name-only <BASE>...HEAD` lists.
+- The **changed files** are the files `git diff --name-only <START> HEAD` lists.
 - A **high-level module** holds policy and domain rules and is far from IO.
 - A **low-level module** is near IO: UI, filesystem, database, network, framework, or device code.
 - A **structural change** is one behavior-preserving change to module boundaries or dependencies, such as moving a responsibility to another module, splitting a module, or adding an interface that a high-level module owns.
