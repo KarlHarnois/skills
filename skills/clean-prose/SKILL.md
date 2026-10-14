@@ -59,7 +59,8 @@ cut.
 | Invariant | X is always true. |
 
 - **One rule per sentence.** A sentence carrying two obligations hides the
-  second: split it. NEVER join two clauses with a semicolon.
+  second: split it. NEVER write a semicolon: split the clauses into sentences,
+  or move the series into a list.
 - **Short sentences.** If a sentence passes 20 words, split it. If a
   sentence carries more than three commas, split its clauses or move its
   series into a list.
