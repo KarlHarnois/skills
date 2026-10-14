@@ -43,3 +43,11 @@ Run the tests and, if one fails, report it.
 Retry the request, but if it fails again, stop.
 
 Rebuild the cache and stop if it fails.
+
+Rebuild the cache unless the lockfile is unchanged.
+
+Rebuild the cache in cases where the lockfile changed.
+
+Rebuild the cache provided that the lockfile changed.
+
+Rebuild the cache as long as the lockfile changed.
