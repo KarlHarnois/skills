@@ -388,6 +388,8 @@ rule to any other file and reports it clean.
 3. Read the result whole, as §11 requires. A run with no alerts does not
    clear the file. The linter matches words and sentence patterns, not
    meaning. The linter also skips code blocks, including a prompt kept in one.
+   The linter matches only words in front matter, never sentence patterns.
+   Read each front matter sentence against this standard.
 
 **Act on the exit code:**
 
