@@ -323,7 +323,8 @@ alert's message cites the section of this standard that the alert enforces.
    not clear the file: the linter matches words and sentence patterns, not
    meaning.
 
-**If the edited file is not Markdown, skip steps 1 and 2.**
+**If the edited file's extension is not `.md` or `.markdown`, skip steps 1
+and 2:** the linter applies no rule to any other file and reports it clean.
 
 **Act on the exit code:**
 
