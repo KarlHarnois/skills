@@ -11,7 +11,7 @@ tokens:
   - 'where\s+appropriate(?![\w-]|\s+\w)'
   - 'as\s+appropriate(?![\w-]|\s+\w)'
   - 'when\s+appropriate(?![\w-]|\s+\w)'
-  - as\s+needed
+  - 'as\s+needed(?![\w-]|\s+\w)'
   - 'if\s+needed(?![\w-]|\s+\w)'
   - 'if\s+necessary(?![\w-]|\s+\w)'
   - 'if\s+possible(?![\w-]|\s+\w)'

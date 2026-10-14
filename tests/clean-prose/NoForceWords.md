@@ -15,3 +15,5 @@ Label each comment as appropriate or inappropriate.
 Rebuild the cache, where possible (per §4).
 
 Rebuild the cache if needed—then stop.
+
+Classify each import as needed or unused.
