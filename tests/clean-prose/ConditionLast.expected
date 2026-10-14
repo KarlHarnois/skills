@@ -3,3 +3,4 @@ tests/clean-prose/ConditionLast.md:11:14:suggestion:CleanProse.ConditionLast:§1
 tests/clean-prose/ConditionLast.md:17:9:suggestion:CleanProse.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
 tests/clean-prose/ConditionLast.md:23:12:suggestion:CleanProse.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
 tests/clean-prose/ConditionLast.md:25:23:suggestion:CleanProse.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
+tests/clean-prose/ConditionLast.md:27:22:suggestion:CleanProse.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
