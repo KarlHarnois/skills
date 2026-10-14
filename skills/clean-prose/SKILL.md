@@ -310,7 +310,7 @@ CleanProse style in this skill's `vale/` directory.** An **alert** is one line
 of the linter's output, in the form `file:line:column:level:rule:message`. An
 alert's message cites the section of this standard that the alert enforces.
 
-**After each edit to a Markdown file, run these steps:**
+**After each edit to instruction text in a Markdown file, run these steps:**
 
 1. Run the linter on the file's absolute path:
 
