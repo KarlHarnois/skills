@@ -111,9 +111,11 @@ If `git status --porcelain` shows paths other than the verification artifacts, a
 ```
 
 2. Write `state.json` in the workspace with the launch args and no run result.
-3. Call the Workflow tool with `scriptPath` set to the absolute path of the pipeline and `args` set to the launch args as a JSON object, never as a JSON-encoded string.
-4. If the Workflow call returns an error, report its message to the user and stop.
-5. Tell the user the pipeline is running and that `/workflows` shows its progress, then end the turn. Never poll the pipeline: its completion arrives as a notification.
+3. Copy the pipeline into the scratchpad directory your system prompt names, with `cp <pipeline> <scratchpad>/build-feature/pipeline.js`: the Workflow tool rejects a `scriptPath` outside the working directory and the directories added to the session, and this skill's base directory is neither.
+4. Call the Workflow tool with `scriptPath` set to the copy and `args` set to the launch args as a JSON object, never as a JSON-encoded string.
+5. If the session has no scratchpad directory, or the Workflow tool rejects the copy's path, read the pipeline and pass its whole content unchanged through the Workflow tool's `script` input instead.
+6. If the Workflow call returns any other error, report its message to the user and stop.
+7. Tell the user the pipeline is running and that `/workflows` shows its progress, then end the turn. Never poll the pipeline: its completion arrives as a notification.
 
 ## Phase 3: Wrap up
 
