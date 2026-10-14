@@ -178,8 +178,8 @@ paragraph at any length.
 ## 7. Economy
 
 **If deleting a sentence changes nothing about the reader's behavior, delete
-the sentence.** Apply this test to every sentence in an edited block (§13). If
-a review edits nothing, apply the test to every sentence of the file.
+the sentence.** Apply this test to every sentence you write and every sentence
+you edit past.
 
 **NEVER write these into instruction text:**
 
@@ -321,11 +321,9 @@ table, that the edit wrote, changed, or deleted text from.
    ```
 
 2. Act on the linter's exit code, per the exit code table.
-3. Review the file against §1 to §12 by reading it. Restate each violation in
-   an edited block, and report each violation outside the edited blocks to
-   the user. A run with no alerts does not clear the file: the linter matches
-   words and sentence patterns, not meaning, and skips code blocks, including
-   a prompt kept in one.
+3. Read the result whole, as §11 requires. A run with no alerts does not
+   clear the file: the linter matches words and sentence patterns, not
+   meaning, and skips code blocks, including a prompt kept in one.
 
 **If the edited file's extension is not `.md` or `.markdown`, skip steps 1
 and 2:** the linter applies no rule to any other file and reports it clean.
