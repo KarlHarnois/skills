@@ -100,7 +100,7 @@ If `git status --porcelain --untracked-files=all` shows paths other than the ver
 1. Print the spec.
 2. Use `AskUserQuestion` with three options: `Approve and run the pipeline`, `Revise`, and `Abort`.
 3. If the user chooses Revise, ask what to change, rewrite the spec, and return to step 1.
-4. If the user chooses Abort, stop and leave the workspace in place.
+4. If the user chooses Abort and this step was reached from Phase 3, go to Phase 3, step 3. Otherwise, stop and leave the workspace in place.
 5. If the user chooses Approve and this step was reached from Phase 3, relaunch per Relaunch in Phase 3. Otherwise, go to Phase 2.
 
 ## Phase 2: Run the pipeline
