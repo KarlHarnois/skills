@@ -77,7 +77,7 @@ You change code on the branch that is already checked out, in one of two modes, 
 
 1. Order the kept findings: structural findings first, such as an extraction that removes duplication or a change to a function's contract, then point fixes.
 2. For each kept finding, make the change, run the verification commands, and commit. One finding is one commit: one fix applied in three places is one commit, and two unrelated fixes in one file are two commits.
-3. If a fix causes a new failure you cannot fix, restore its files with `git checkout -- <paths>`, decide the finding `reverted`, put the failing output in its reason, and continue with the next kept finding.
+3. If a fix causes a new failure you cannot fix, restore its files with `git checkout -- <paths>`, delete every file the fix created, decide the finding `reverted`, put the failing output in its reason, and continue with the next kept finding.
 
 ## Result
 

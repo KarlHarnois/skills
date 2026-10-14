@@ -30,7 +30,7 @@ You refactor the files the checked-out branch changed, without changing what the
 3. Read the spec, then read each changed file whole.
 4. Invoke the `clean-code` skill and review the changed files against it. Refactorings cover names, function size and cohesion, duplication, dead code, stale comments, and test readability.
 5. For each refactoring, make the change, run the verification commands, and commit the refactoring alone.
-6. If a refactoring causes a new failure, restore its files with `git checkout -- <paths>` and drop the refactoring.
+6. If a refactoring causes a new failure, restore its files with `git checkout -- <paths>`, delete every file the refactoring created, and drop the refactoring.
 7. If no refactoring is needed, make no commit.
 8. Return status `done`.
 
