@@ -126,6 +126,9 @@ for elegance: in instruction text, a synonym reads as a distinction. Define a
 load-bearing term once, with a Definition sentence, and reference that
 definition rather than restating it.
 
+**NEVER write a contraction.** Write the full words: `'s` and `'d` each stand
+for more than one word.
+
 **A vocabulary is the project's table of fixed terms.** It has one row per
 term and three columns: the term, what it means, and its banned synonyms. A
 banned synonym NEVER appears in place of its term.

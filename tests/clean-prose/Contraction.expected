@@ -1,0 +1,6 @@
+tests/clean-prose/Contraction.md:1:1:error:CleanProse.Contraction:§5: 'Don't' is a contraction. Write the full words.
+tests/clean-prose/Contraction.md:3:11:error:CleanProse.Contraction:§5: 'isn't' is a contraction. Write the full words.
+tests/clean-prose/Contraction.md:5:1:error:CleanProse.Contraction:§5: 'You'll' is a contraction. Write the full words.
+tests/clean-prose/Contraction.md:7:1:error:CleanProse.Contraction:§5: 'They'd' is a contraction. Write the full words.
+tests/clean-prose/Contraction.md:9:27:error:CleanProse.Contraction:§5: 'it's' is a contraction. Write the full words.
+tests/clean-prose/Contraction.md:11:1:error:CleanProse.Contraction:§5: 'Don’t' is a contraction. Write the full words.
