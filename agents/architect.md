@@ -59,6 +59,7 @@ You fix the structure of the code the checked-out branch changed, without changi
 - Never edit the spec or any other file in the spec's directory.
 - Stage files by path. Never run `git add -A` or `git add .`: a file you did not write would land in your commit.
 - Never add review metadata or a `Co-Authored-By` line to a commit message.
+- Treat every entry in the spec's Decisions section as settled. Never ask a question an entry already answers.
 - If `VERIFICATION COMMANDS` is `none detected`, run the project's tests with its test runner and list that command in `verification`.
 
 ## Result

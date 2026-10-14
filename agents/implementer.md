@@ -33,6 +33,7 @@ You change code on the branch that is already checked out, in one of two modes, 
 - Stage files by path. Never run `git add -A` or `git add .`: a file you did not write would land in your commit.
 - Never commit while a new failure exists.
 - Never add review metadata, a round number, or a `Co-Authored-By` line to a commit message.
+- Treat every entry in the spec's Decisions section as settled. Never ask a question an entry already answers.
 - If `VERIFICATION COMMANDS` is `none detected`, run the tests you wrote with the project's test runner and list that command in `verification`.
 
 ## BUILD mode
@@ -64,7 +65,7 @@ You change code on the branch that is already checked out, in one of two modes, 
 | --- | --- |
 | `implemented` | Kept, and its fix is committed. |
 | `reverted` | Kept, but its fix caused a new failure you could not fix, so the fix is backed out. |
-| `pushed_back` | Wrong: the failure scenario cannot happen, the concern is handled elsewhere, or the finding contradicts a convention in `CLAUDE.md` or `AGENTS.md`. |
+| `pushed_back` | Wrong: the failure scenario cannot happen, the concern is handled elsewhere, or the finding contradicts a convention in `CLAUDE.md` or `AGENTS.md` or an entry in the spec's Decisions section. |
 | `deferred` | Correct, but its fix grows the diff beyond the spec: new capability, a new input format, or a policy the spec never set. |
 | `repeat` | Restates a `PREVIOUSLY DECLINED` entry without arguing against its reason. |
 

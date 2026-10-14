@@ -77,6 +77,7 @@ If `git status --porcelain` shows paths other than the verification artifacts, a
 | Out of scope | What this change does not do. |
 | Affected areas | The files and modules expected to change. |
 | Verification | The verification commands and the baseline. |
+| Decisions | `None yet`. Entries are added per Recording a decision. |
 
 4. Never prescribe an implementation detail the task does not require: the implementer chooses the design, and the reviewer judges it.
 
@@ -128,9 +129,20 @@ If `git status --porcelain` shows paths other than the verification artifacts, a
 | --- | --- |
 | `nothing in scope` | Go to step 3. |
 | `round cap` | Show the last round's findings by decision, then ask the user whether to run more rounds and how many. If yes, relaunch per Relaunch. Otherwise, go to step 3. |
-| `blocked` | Find the entry in the run result's `stages` or a round's `triage` whose `status` is `blocked`, and ask the user its `question`. If the answer changes the spec, update the spec and get approval per Phase 1, step 8. Otherwise, relaunch per Relaunch. |
+| `blocked` | Find the entry in the run result's `stages` or a round's `triage` whose `status` is `blocked`, and ask the user its `question`. Record the answer per Recording a decision. If the answer asks for an action in the tree, such as committing or discarding a change, carry it out. If the answer adds, removes, or changes an acceptance criterion, update the criteria and get approval per Phase 1, step 8. Otherwise, relaunch per Relaunch. |
 | `reviewer failed` | Tell the user the reviewer twice returned no complete review, then ask whether to relaunch or stop. If the user chooses relaunch, relaunch per Relaunch. Otherwise, go to step 3. |
 | `agent failed` | Tell the user which stage or round returned nothing, then ask whether to relaunch or stop. If the user chooses relaunch, relaunch per Relaunch. Otherwise, go to step 3. |
+
+#### Recording a decision
+
+1. If the spec has no Decisions section, add one at the end.
+2. If the section reads `None yet`, remove that line.
+3. Append one entry with the stage name, or `round <N>`, that asked, the question, and the user's answer:
+
+```
+- Asked by architect: Should the slug rules move from the HTTP handler into slug.py?
+  Decision: Move them. The handler only parses the request and formats the response.
+```
 
 #### Relaunch
 
@@ -183,6 +195,7 @@ Outstanding: 2 findings not implemented, none critical.
 ```
 
 - List every pushed back, deferred, and reverted finding with its reason. Omit a section that has no findings.
+- List every entry of the spec's Decisions section under `Decisions (<N>)`. Omit the section if the spec has no entries.
 - If a CRITICAL finding was not implemented, the closing line MUST say so.
 
 ### 4. Offer a pull request
