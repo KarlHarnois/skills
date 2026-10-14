@@ -11,6 +11,14 @@ export const meta = {
 }
 
 const DEFAULT_MAX_ROUNDS = 3
+const ARG_TYPE_CHECKS = {
+  startRound: Number.isInteger,
+  maxRounds: Number.isInteger,
+  reviewOnly: value => typeof value === 'boolean',
+  verifyCommands: Array.isArray,
+  verificationArtifacts: Array.isArray,
+  declined: Array.isArray,
+}
 const REVIEWER_ATTEMPTS = 2
 const REVIEW_COMPLETE_MARKER = 'Review Complete'
 const DECISIONS = ['implemented', 'reverted', 'pushed_back', 'deferred', 'repeat']
@@ -94,7 +102,7 @@ const BUILD_STAGES = [
 class RunSettings {
   constructor(input) {
     this.requireFields(input, ['repoPath', 'specPath', 'branch', 'baseBranch', 'startCommit'])
-    this.requireIntegers(input, ['startRound', 'maxRounds'])
+    this.requireTypes(input)
     this.repoPath = input.repoPath
     this.specPath = input.specPath
     this.branch = input.branch
@@ -109,9 +117,11 @@ class RunSettings {
     this.declined = input.declined ?? []
   }
 
-  requireIntegers(input, names) {
-    const invalid = names.filter(name => input[name] !== undefined && !Number.isInteger(input[name]))
-    if (invalid.length > 0) throw new Error(`build-feature pipeline args must be integers: ${invalid.join(', ')}`)
+  requireTypes(input) {
+    const invalid = Object.entries(ARG_TYPE_CHECKS)
+      .filter(([name, hasValidType]) => input[name] !== undefined && !hasValidType(input[name]))
+      .map(([name]) => name)
+    if (invalid.length > 0) throw new Error(`build-feature pipeline args have the wrong type: ${invalid.join(', ')}`)
   }
 
   requireFields(input, names) {

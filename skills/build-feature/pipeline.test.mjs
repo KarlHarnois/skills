@@ -331,7 +331,16 @@ describe('build-feature pipeline', () => {
   test('rejects round numbers that are not integers', async () => {
     await assert.rejects(
       pipeline.run(new ScriptedAgents({}), { startRound: '2', maxRounds: '3' }),
-      /must be integers: startRound, maxRounds/,
+      /wrong type: startRound, maxRounds/,
+    )
+  })
+
+  test('rejects a flag or a list passed as a string', async () => {
+    const quotedArgs = { reviewOnly: 'true', verifyCommands: 'make test', verificationArtifacts: '', declined: '[]' }
+
+    await assert.rejects(
+      pipeline.run(new ScriptedAgents({}), quotedArgs),
+      /wrong type: reviewOnly, verifyCommands, verificationArtifacts, declined/,
     )
   })
 
