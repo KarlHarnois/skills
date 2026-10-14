@@ -274,6 +274,21 @@ describe('build-feature pipeline', () => {
     assert.match(agents.promptFor('review round 3, attempt 1'), /slug\.py:3[\s\S]*reason 3/)
   })
 
+  test('tells the next round about a reverted fix and its failure', async () => {
+    const agents = new ScriptedAgents({
+      implementer: [Replies.stageDone(), Replies.triage('reverted'), Replies.triage()],
+      refactorer: [Replies.stageDone()],
+      architect: [Replies.stageDone()],
+      reviewer: [COMPLETE_REVIEW, COMPLETE_REVIEW],
+    })
+
+    const result = await pipeline.run(agents, {})
+
+    assert.match(agents.promptFor('review round 2, attempt 1'), /slug\.py:1[\s\S]*reason 1/)
+    assert.match(agents.promptFor('apply round 2'), /slug\.py:1[\s\S]*reason 1/)
+    assert.deepEqual(result.declined.map(entry => entry.location), ['slug.py:1'])
+  })
+
   test('passes declined findings from a previous run into the first review', async () => {
     const declined = [{ severity: 'NITPICK', location: 'slug.py:9', summary: 'sort imports', reason: 'isort runs in CI' }]
     const agents = new ScriptedAgents({ implementer: [Replies.triage()], reviewer: [COMPLETE_REVIEW] })

@@ -13,8 +13,9 @@ export const meta = {
 const DEFAULT_MAX_ROUNDS = 3
 const REVIEWER_ATTEMPTS = 2
 const REVIEW_COMPLETE_MARKER = 'Review Complete'
+const DECISIONS = ['implemented', 'reverted', 'pushed_back', 'deferred', 'repeat']
 const KEPT_DECISIONS = ['implemented', 'reverted']
-const DECLINED_DECISIONS = ['pushed_back', 'deferred']
+const NOT_IMPLEMENTED_DECISIONS = ['reverted', 'pushed_back', 'deferred']
 
 const EXIT_REASONS = {
   nothingInScope: 'nothing in scope',
@@ -72,7 +73,7 @@ const TRIAGE_RESULT_SCHEMA = {
           severity: { type: 'string', enum: ['CRITICAL', 'SUGGEST', 'NITPICK'] },
           location: { type: 'string' },
           summary: { type: 'string' },
-          decision: { type: 'string', enum: [...KEPT_DECISIONS, ...DECLINED_DECISIONS, 'repeat'] },
+          decision: { type: 'string', enum: DECISIONS },
           reason: { type: 'string' },
           commit: { type: 'string', description: 'The commit sha when decision is implemented; empty otherwise' },
         },
@@ -183,7 +184,7 @@ class DeclinedFindings {
 
   recordFrom(findings) {
     findings
-      .filter(finding => DECLINED_DECISIONS.includes(finding.decision))
+      .filter(finding => NOT_IMPLEMENTED_DECISIONS.includes(finding.decision))
       .forEach(finding => this.entries.push(this.entryFor(finding)))
   }
 

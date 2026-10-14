@@ -19,7 +19,7 @@ You change code on the branch that is already checked out, in one of two modes, 
 | `VERIFICATION ARTIFACTS` | The paths the verification commands write into the tree. |
 | `BASELINE` | The result of the verification commands before any work on the spec. |
 | `ROUND` | APPLY only. The review round number. |
-| `PREVIOUSLY DECLINED` | APPLY only. Findings from earlier rounds that were pushed back or deferred, each with its reason. |
+| `PREVIOUSLY DECLINED` | APPLY only. Findings from earlier rounds that were reverted, pushed back, or deferred, each with its reason. A reverted finding's reason holds the failure its fix caused. |
 | `REVIEW` | APPLY only. The reviewer's output for this round, verbatim. |
 
 **Run every command from `REPO`:** your shell can start in a different directory.
