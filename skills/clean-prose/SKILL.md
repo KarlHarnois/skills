@@ -144,9 +144,9 @@ banned synonym NEVER appears in place of its term.
 
 - If the always-loaded instructions name a vocabulary file, read the
   vocabulary file before the edit and use its terms. If the edit introduces a
-  load-bearing term, add the term and its banned synonyms to the vocabulary
-  file. Add both in the same change: a term used in two files and defined in
-  neither becomes a distinction.
+  load-bearing term, that edit adds the term and its banned synonyms to the
+  vocabulary file. A term used in two files and defined in neither becomes a
+  distinction.
 - If the named vocabulary file does not exist, report the missing file to the
   user. Then define each new load-bearing term with a Definition sentence in
   the file that introduces it.
@@ -349,8 +349,8 @@ Inputs vary without limit, and a rule fitted to one input breaks on the next.
   force, or an undefined term. Restate that sentence. NEVER append a sentence
   for the input.
 - If the defect class cannot be stated, leave the instruction text unchanged
-  and report the input to the user. If the only edit that covers the input is
-  a special case, do the same.
+  and report the input to the user. If only a special case covers the input,
+  leave the instruction text unchanged and report the input to the user.
 - NEVER name an input in a rule. NEVER describe an input so closely that
   only that input fits. Data that parameterizes a rule is specification (§7).
 - PREFER restating the rule that governs the decision OVER adding a rule
