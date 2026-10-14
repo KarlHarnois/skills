@@ -21,3 +21,16 @@ tests/clean-prose/NoForceWords.md:39:19:suggestion:CleanProse.ConditionLast:§1:
 tests/clean-prose/NoForceWords.md:41:5:error:CleanProse.NoForceWords:§2: 'might want to' states no force. Write a force word, or a Conditional sentence if the force is conditional.
 tests/clean-prose/NoForceWords.md:43:1:error:CleanProse.NoForceWords:§2: 'Feel free to' states no force. Write a force word, or a Conditional sentence if the force is conditional.
 tests/clean-prose/NoForceWords.md:45:1:error:CleanProse.NoForceWords:§2: 'Ideally' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/NoForceWords.md:47:19:error:CleanProse.NoForceWords:§2: 'if appropriate' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/NoForceWords.md:47:19:suggestion:CleanProse.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
+tests/clean-prose/NoForceWords.md:49:19:error:CleanProse.NoForceWords:§2: 'when needed' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/NoForceWords.md:51:19:error:CleanProse.NoForceWords:§2: 'where needed' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/NoForceWords.md:53:19:error:CleanProse.NoForceWords:§2: 'as necessary' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/NoForceWords.md:55:19:error:CleanProse.NoForceWords:§2: 'when necessary' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/NoForceWords.md:57:19:error:CleanProse.NoForceWords:§2: 'where necessary' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/NoForceWords.md:59:19:error:CleanProse.NoForceWords:§2: 'if applicable' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/NoForceWords.md:59:19:suggestion:CleanProse.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
+tests/clean-prose/NoForceWords.md:61:19:error:CleanProse.NoForceWords:§2: 'when applicable' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/NoForceWords.md:63:19:error:CleanProse.NoForceWords:§2: 'where applicable' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/NoForceWords.md:65:19:error:CleanProse.NoForceWords:§2: 'as applicable' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/NoForceWords.md:67:19:error:CleanProse.NoForceWords:§2: 'when possible' states no force. Write a force word, or a Conditional sentence if the force is conditional.

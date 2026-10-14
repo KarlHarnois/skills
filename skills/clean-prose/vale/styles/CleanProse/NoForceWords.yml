@@ -8,14 +8,8 @@ tokens:
   - it(?:\s+is|['’]s)\s+a\s+good\s+idea\s+to
   - generally
   - usually
-  - 'where\s+appropriate(?![\w-]|\s+\w)'
-  - 'as\s+appropriate(?![\w-]|\s+\w)'
-  - 'when\s+appropriate(?![\w-]|\s+\w)'
-  - 'as\s+needed(?![\w-]|\s+\w)'
-  - 'if\s+needed(?![\w-]|\s+\w)'
-  - 'if\s+necessary(?![\w-]|\s+\w)'
-  - 'if\s+possible(?![\w-]|\s+\w)'
-  - 'where\s+possible(?![\w-]|\s+\w)'
+  - '(?:if|when|where|as)\s+(?:needed|necessary|appropriate|applicable)(?![\w-]|\s+\w)'
+  - '(?:if|when|where)\s+possible(?![\w-]|\s+\w)'
   - might\s+want\s+to
   - feel\s+free\s+to
   - ideally

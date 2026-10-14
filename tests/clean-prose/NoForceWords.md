@@ -43,3 +43,27 @@ You might want to rebuild the cache.
 Feel free to rebuild the cache.
 
 Ideally, rebuild the cache weekly.
+
+Rebuild the cache if appropriate.
+
+Rebuild the cache when needed.
+
+Rebuild the cache where needed.
+
+Rebuild the cache as necessary.
+
+Rebuild the cache when necessary.
+
+Rebuild the cache where necessary.
+
+Rebuild the cache if applicable.
+
+Rebuild the cache when applicable.
+
+Rebuild the cache where applicable.
+
+Rebuild the cache as applicable.
+
+Rebuild the cache when possible.
+
+Rebuild the cache as soon as possible.
