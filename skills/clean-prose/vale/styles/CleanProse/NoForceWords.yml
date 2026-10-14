@@ -8,14 +8,14 @@ tokens:
   - it\s+is\s+a\s+good\s+idea\s+to
   - generally
   - usually
-  - 'where\s+appropriate(?=\s*(?:[.,;:)]|\z))'
-  - 'as\s+appropriate(?=\s*(?:[.,;:)]|\z))'
-  - 'when\s+appropriate(?=\s*(?:[.,;:)]|\z))'
+  - 'where\s+appropriate(?![\w-]|\s+\w)'
+  - 'as\s+appropriate(?![\w-]|\s+\w)'
+  - 'when\s+appropriate(?![\w-]|\s+\w)'
   - as\s+needed
-  - 'if\s+needed(?=\s*(?:[.,;:)]|\z))'
-  - 'if\s+necessary(?=\s*(?:[.,;:)]|\z))'
-  - 'if\s+possible(?=\s*(?:[.,;:)]|\z))'
-  - 'where\s+possible(?=\s*(?:[.,;:)]|\z))'
+  - 'if\s+needed(?![\w-]|\s+\w)'
+  - 'if\s+necessary(?![\w-]|\s+\w)'
+  - 'if\s+possible(?![\w-]|\s+\w)'
+  - 'where\s+possible(?![\w-]|\s+\w)'
   - might\s+want\s+to
   - feel\s+free\s+to
   - ideally
