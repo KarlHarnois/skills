@@ -1,9 +1,10 @@
 export const meta = {
   name: 'build-feature',
-  description: 'Implement an approved spec, refactor the result, then review and apply fixes until nothing in scope is left',
+  description: 'Implement an approved spec, refactor it, fix its architecture, then review and apply fixes until nothing in scope is left',
   phases: [
     { title: 'Implement', detail: 'implementer writes the code and tests for the spec' },
     { title: 'Refactor', detail: 'refactorer improves the changed files without changing behavior' },
+    { title: 'Architect', detail: 'architect fixes module boundaries and dependency direction without changing behavior' },
     { title: 'Review', detail: 'reviewer reviews the branch against the spec' },
     { title: 'Apply', detail: 'implementer triages the findings and commits the fixes it keeps' },
   ],
@@ -85,7 +86,8 @@ const TRIAGE_RESULT_SCHEMA = {
 
 const BUILD_STAGES = [
   { name: 'implement', phase: 'Implement', agentType: 'implementer', brief: prompts => prompts.build() },
-  { name: 'refactor', phase: 'Refactor', agentType: 'refactorer', brief: prompts => prompts.refactor() },
+  { name: 'refactor', phase: 'Refactor', agentType: 'refactorer', brief: prompts => prompts.runContext() },
+  { name: 'architect', phase: 'Architect', agentType: 'architect', brief: prompts => prompts.runContext() },
 ]
 
 class RunSettings {
@@ -116,10 +118,6 @@ class PromptBook {
 
   build() {
     return ['MODE: BUILD', this.runContext()].join('\n')
-  }
-
-  refactor() {
-    return this.runContext()
   }
 
   review(round, declined) {

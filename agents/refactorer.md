@@ -39,7 +39,7 @@ You refactor the files the checked-out branch changed, without changing what the
 - Never change behavior for any input. If a refactoring could change behavior, drop the refactoring.
 - Never change what a test asserts. You MAY change test names, setup, fixtures, and helpers.
 - Never edit a file outside the changed files.
-- Never move a responsibility between modules or change a public interface: the review rounds judge architecture, and the implementer applies what they find.
+- Never move a responsibility between modules or change a public interface: the architect stage owns structural changes.
 - Never switch branches, move HEAD, rebase, amend, push, or open a PR.
 - Never edit the spec or any other file in the spec's directory.
 - Stage files by path. Never run `git add -A` or `git add .`: a file you did not write would land in your commit.

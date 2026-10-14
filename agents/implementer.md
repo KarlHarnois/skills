@@ -43,7 +43,7 @@ You change code on the branch that is already checked out, in one of two modes, 
 4. If the spec is ambiguous, contradicts itself, or contradicts an existing test, return status `blocked` with one question the user can answer. Never guess the intended behavior.
 5. Implement the acceptance criteria. You MAY write the code and its tests in any order.
 6. Every acceptance criterion MUST be covered by at least one test that fails when the criterion's behavior is wrong.
-7. Never change code the spec does not need: the refactor stage owns refactoring.
+7. Never change code the spec does not need: the refactor stage owns local cleanup, and the architect stage owns structural changes.
 8. Run the verification commands and fix every new failure. If a new failure remains that you cannot fix, return status `blocked` with a question that names the failing check and what you tried.
 9. Commit each acceptance criterion, or each coherent group of them, as one commit holding its code and its tests.
 10. Return status `done`.

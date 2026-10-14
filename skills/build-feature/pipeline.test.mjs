@@ -95,10 +95,11 @@ class Replies {
 const pipeline = new PipelineScript()
 
 describe('build-feature pipeline', () => {
-  test('runs implement, refactor, then review rounds until a round keeps nothing', async () => {
+  test('runs implement, refactor, architect, then review rounds until a round keeps nothing', async () => {
     const agents = new ScriptedAgents({
       implementer: [Replies.stageDone(), Replies.triage('implemented'), Replies.triage('pushed_back')],
       refactorer: [Replies.stageDone()],
+      architect: [Replies.stageDone()],
       'reviewer': [COMPLETE_REVIEW, COMPLETE_REVIEW],
     })
 
@@ -107,6 +108,7 @@ describe('build-feature pipeline', () => {
     assert.deepEqual(agents.labels(), [
       'implement',
       'refactor',
+      'architect',
       'review round 1, attempt 1',
       'apply round 1',
       'review round 2, attempt 1',
@@ -120,6 +122,7 @@ describe('build-feature pipeline', () => {
     const agents = new ScriptedAgents({
       implementer: [Replies.stageDone(), Replies.triage('reverted'), Replies.triage()],
       refactorer: [Replies.stageDone()],
+      architect: [Replies.stageDone()],
       'reviewer': [COMPLETE_REVIEW, COMPLETE_REVIEW],
     })
 
@@ -133,6 +136,7 @@ describe('build-feature pipeline', () => {
     const agents = new ScriptedAgents({
       implementer: [Replies.stageDone(), Replies.triage('implemented')],
       refactorer: [Replies.stageDone()],
+      architect: [Replies.stageDone()],
       'reviewer': [COMPLETE_REVIEW],
     })
 
@@ -155,12 +159,28 @@ describe('build-feature pipeline', () => {
     assert.deepEqual(result.resume, { reviewOnly: false, startRound: 1 })
   })
 
-  test('halts before review when the refactorer returns nothing', async () => {
+  test('halts before the architect when the refactorer returns nothing', async () => {
     const agents = new ScriptedAgents({ implementer: [Replies.stageDone()], refactorer: [null] })
 
     const result = await pipeline.run(agents, {})
 
+    assert.deepEqual(agents.labels(), ['implement', 'refactor'])
     assert.equal(result.exitReason, 'agent failed')
+    assert.deepEqual(result.resume, { reviewOnly: false, startRound: 1 })
+  })
+
+  test('halts before review when the architect is blocked', async () => {
+    const agents = new ScriptedAgents({
+      implementer: [Replies.stageDone()],
+      refactorer: [Replies.stageDone()],
+      architect: [Replies.blocked('Should the slug rules move out of the HTTP handler?')],
+    })
+
+    const result = await pipeline.run(agents, {})
+
+    assert.deepEqual(agents.labels(), ['implement', 'refactor', 'architect'])
+    assert.equal(result.exitReason, 'blocked')
+    assert.equal(result.stages.architect.question, 'Should the slug rules move out of the HTTP handler?')
     assert.deepEqual(result.resume, { reviewOnly: false, startRound: 1 })
   })
 
@@ -168,6 +188,7 @@ describe('build-feature pipeline', () => {
     const agents = new ScriptedAgents({
       implementer: [Replies.stageDone(), Replies.triage()],
       refactorer: [Replies.stageDone()],
+      architect: [Replies.stageDone()],
       'reviewer': [INCOMPLETE_REVIEW, COMPLETE_REVIEW],
     })
 
@@ -182,6 +203,7 @@ describe('build-feature pipeline', () => {
     const agents = new ScriptedAgents({
       implementer: [Replies.stageDone()],
       refactorer: [Replies.stageDone()],
+      architect: [Replies.stageDone()],
       'reviewer': [INCOMPLETE_REVIEW, null],
     })
 
@@ -220,6 +242,7 @@ describe('build-feature pipeline', () => {
     const agents = new ScriptedAgents({
       implementer: [Replies.stageDone(), null],
       refactorer: [Replies.stageDone()],
+      architect: [Replies.stageDone()],
       'reviewer': [COMPLETE_REVIEW],
     })
 
@@ -238,6 +261,7 @@ describe('build-feature pipeline', () => {
         Replies.triage(),
       ],
       refactorer: [Replies.stageDone()],
+      architect: [Replies.stageDone()],
       'reviewer': [COMPLETE_REVIEW, COMPLETE_REVIEW, COMPLETE_REVIEW],
     })
 
