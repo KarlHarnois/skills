@@ -19,3 +19,7 @@ Rebuild if the lockfile changed.
 Check if the lockfile changed.
 
 Treat the file as if it were new.
+
+Run `make` if the lockfile changed.
+
+- Rebuild the *cache* if the lockfile changed.

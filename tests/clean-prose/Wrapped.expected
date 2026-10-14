@@ -4,5 +4,5 @@ tests/clean-prose/Wrapped.md:4:1:suggestion:CleanProse.VagueAntecedent:§1: 'It 
 tests/clean-prose/Wrapped.md:7:1:warning:CleanProse.ThroatClearing:§7: 'This section explains' announces text instead of stating a rule. Cut it.
 tests/clean-prose/Wrapped.md:10:5:suggestion:CleanProse.LowercaseForce:§2: 'need to' is outside the force vocabulary. If it states obligation, permission, or preference, write the force word (MUST, NEVER, SHOULD, MAY, PREFER X OVER Y). If it does not, leave it.
 tests/clean-prose/Wrapped.md:13:27:suggestion:CleanProse.VagueAntecedent:§1: 'This keeps' opens on a bare pronoun. Name the noun unless it is the previous sentence's subject. If the sentence only justifies the one before it, cut it per §7 unless §8 keeps the reason.
-tests/clean-prose/Wrapped.md:16:1:suggestion:CleanProse.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
-tests/clean-prose/Wrapped.md:28:1:suggestion:CleanProse.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
+tests/clean-prose/Wrapped.md:16:19:suggestion:CleanProse.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
+tests/clean-prose/Wrapped.md:28:14:suggestion:CleanProse.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
