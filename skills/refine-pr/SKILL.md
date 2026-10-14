@@ -19,9 +19,11 @@ Invocation arguments, if any (a PR number, a review focus, a round budget): $ARG
 
 Detect it the way `review-pr` does, so both skills agree on what "this PR" means:
 
-- A PR number in the prompt wins. Use it directly.
-- Otherwise find the PR for the current branch: `gh pr list --head "$(git branch --show-current)" --json number,title,headRefName`.
+- A PR number in the prompt wins. Read its branches with `gh pr view <number> --json number,title,headRefName,baseRefName`.
+- Otherwise find the PR for the current branch: `gh pr list --head "$(git branch --show-current)" --json number,title,headRefName,baseRefName`.
 - Otherwise run in branch mode, current branch against `gh repo view --json defaultBranchRef -q .defaultBranchRef.name`.
+
+Record the base branch: the PR's `baseRefName`, or the default branch in branch mode. Every round's reviewer brief passes it as `BASE`, so a stacked PR is reviewed against its parent branch and not against the default branch.
 
 If the PR's head branch is not the current branch, check it out here, once, and say so. Doing it up front is what lets the reviewer subagent be forbidden from moving HEAD later. A checkout in the middle of a round would strand that round's commits on the wrong branch.
 
