@@ -5,3 +5,6 @@ tests/clean-prose/NoForceWords.md:11:20:suggestion:CleanProse.ConditionLast:§1:
 tests/clean-prose/NoForceWords.md:15:20:error:CleanProse.NoForceWords:§2: 'where possible' states no force. Write a force word, or a Conditional sentence if the force is conditional.
 tests/clean-prose/NoForceWords.md:17:19:error:CleanProse.NoForceWords:§2: 'if needed' states no force. Write a force word, or a Conditional sentence if the force is conditional.
 tests/clean-prose/NoForceWords.md:17:19:suggestion:CleanProse.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
+tests/clean-prose/NoForceWords.md:21:19:error:CleanProse.NoForceWords:§2: 'if needed' states no force. Write a force word, or a Conditional sentence if the force is conditional.
+tests/clean-prose/NoForceWords.md:21:19:suggestion:CleanProse.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
+tests/clean-prose/NoForceWords.md:23:21:error:CleanProse.NoForceWords:§2: 'where possible' states no force. Write a force word, or a Conditional sentence if the force is conditional.
