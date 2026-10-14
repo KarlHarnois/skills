@@ -33,3 +33,7 @@ Reply "done" if the build passes.
 Rebuild the cache; stop if it fails.
 
 Handle the exit code: if it is 2, rerun.
+
+Reply with the message "Rerun it if the cache is cold."
+
+Reply “done” if the build passes.
