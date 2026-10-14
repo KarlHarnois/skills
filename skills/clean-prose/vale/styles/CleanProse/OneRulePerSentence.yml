@@ -1,0 +1,6 @@
+extends: occurrence
+message: "§1: this sentence carries more than one force word. If it states two obligations, split it."
+level: suggestion
+scope: sentence
+max: 1
+token: '\b(?:MUST|NEVER|SHOULD|MAY|ALWAYS|PREFER)\b'

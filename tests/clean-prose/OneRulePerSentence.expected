@@ -1,0 +1,1 @@
+tests/clean-prose/OneRulePerSentence.md:1:20:suggestion:CleanProse.OneRulePerSentence:§1: this sentence carries more than one force word. If it states two obligations, split it.

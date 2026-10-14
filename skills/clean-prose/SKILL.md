@@ -1,6 +1,7 @@
 ---
 name: clean-prose
 description: "This skill is the prose standard for instruction text, the prose a model executes: CLAUDE.md, AGENTS.md, and the files they import; SKILL.md files and their reference files; agent definitions; slash commands; and prompts a program sends to a model. Use this skill before writing, editing, or reviewing instruction text, including a one-sentence change. Prose written for people is out of scope: READMEs, documentation, PR descriptions, and commit messages."
+allowed-tools: Bash(${CLAUDE_SKILL_DIR}/scripts/lint.sh *)
 ---
 
 # Clean Prose
@@ -82,8 +83,8 @@ cut.
 (Prohibition form) carries NEVER. Write the capitalized word when the sentence
 would otherwise read as advice.
 
-**NEVER write a word that states no force:** *consider*, *try to*, *it is a
-good idea to*, *generally*, *usually*, *where appropriate*, *as needed*. Each
+**NEVER write a word that states no force:** `consider`, `try to`, `it is a
+good idea to`, `generally`, `usually`, `where appropriate`, `as needed`. Each
 leaves the reader to invent the rule. If the force is conditional, write a
 Conditional sentence.
 
@@ -246,14 +247,14 @@ NEVER improvise a recovery silently.
 
 **Mark judgment as judgment.** If no rule governs a choice, say so: "No rule
 covers this; choosing X because Y." NEVER present a preference as a
-requirement, and NEVER present a requirement as a preference.
+requirement. NEVER present a requirement as a preference.
 
 **If a recommendation reverses an earlier one, name what changed:** the rule,
 the measurement, or the fact. A reversal with no stated cause is
 indistinguishable from noise.
 
-**NEVER narrate an action without citing its reason**, as in *Let me go ahead
-and…*, *I'll just…*, or *Now I'll…*.
+**NEVER narrate an action without citing its reason**, as in `Let me go ahead
+and…`, `I'll just…`, or `Now I'll…`.
 
 ## 10. Priority
 
@@ -290,10 +291,68 @@ without limit, and a rule fitted to one input breaks on the next.
 - If the defect class cannot be stated, or the only edit that covers the
   input is a special case, leave the instruction text unchanged and report
   the input to the user.
-- NEVER name an input in a rule, and NEVER describe one so closely that only
-  that input fits. Data that parameterizes a rule is specification (§7).
+- NEVER name an input in a rule. NEVER describe an input so closely that
+  only that input fits. Data that parameterizes a rule is specification (§7).
 - PREFER restating the rule that governs the decision OVER adding a rule
   beside it. The added rule wins only when no existing rule governs the
   decision.
 - If a rule carries more than two exceptions, or a list in it gains one entry
   per failure, restate the rule so that it covers them.
+
+## 13. Lint the edited file
+
+**The linter is `scripts/lint.sh`, which runs a pinned build of Vale with the
+CleanProse style in this skill's `vale/` directory.** An **alert** is one line
+of the linter's output, in the form `file:line:column:level:rule:message`. An
+alert's message cites the section of this standard that the alert enforces. An
+**edited block** is a top-level block, such as a paragraph, a list, or a
+table, that the edit wrote, changed, or deleted text from.
+
+**After each edit to instruction text, run these steps.** If the edited file's
+extension is not `.md` or `.markdown`, start at step 3: the linter applies no
+rule to any other file and reports it clean.
+
+1. Run the linter on the file's absolute path:
+
+   ```sh
+   ${CLAUDE_SKILL_DIR}/scripts/lint.sh <absolute path>
+   ```
+
+2. Act on the linter's exit code, per the exit code table.
+3. Read the result whole, as §11 requires. A run with no alerts does not
+   clear the file: the linter matches words and sentence patterns, not
+   meaning, and skips code blocks, including a prompt kept in one.
+
+**Act on the exit code:**
+
+| Exit code | Meaning | Action |
+| --- | --- | --- |
+| 0 or 1 | The linter ran. Code 1 means at least one `error` alert in the file. | Handle each alert in an edited block, per the rules that follow this table. Report the number of alerts outside the edited blocks to the user. |
+| 2 | Vale failed, for example on invalid YAML front matter. | If the edit changed the front matter, fix its YAML and rerun step 1 once. Otherwise, or if the rerun exits 2, report Vale's error message to the user. |
+| 3 | nix is not installed. | Tell the user the linter needs nix. |
+| 4 | The path does not exist. | Rerun step 1 once with the edited file's absolute path. If the rerun exits 4, report the path to the user. |
+| 5 | nix could not build Vale. | Report the error message to the user. |
+| Any other code | The linter could not run. | Report the exit code and the output to the user. |
+
+**If the flagged text is quoted text, put it in a code span or a fenced code
+block:** the linter skips code, so its rules stay on for the rest of the
+block. Quoted text is text whose exact wording the reader must keep, such as a
+quotation that states its own ban, a message template the reader sends to a
+person, or a message a tool prints that the reader must recognize. A prompt
+sent to a model is instruction text, never quoted text.
+
+**If the quoted text is in front matter, leave the text and report the alert
+to the user instead:** the linter checks code spans in front matter too.
+
+**Handle every other alert by its level:**
+
+| Level | Action |
+| --- | --- |
+| `error` | Restate the flagged text so it meets the cited section. |
+| `warning` or `suggestion` | Read the cited section. If its rule holds for the flagged text, restate the text. Otherwise, leave the text. |
+
+**NEVER swap in a synonym to clear an alert:** the synonym breaks the same
+rule and hides the break from the linter.
+
+**NEVER cut a reason §8 keeps to clear an alert:** the linter cannot tell a
+kept reason from self-explanation.

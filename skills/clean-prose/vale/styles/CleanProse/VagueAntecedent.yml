@@ -1,0 +1,7 @@
+extends: existence
+message: "§1: '%s' opens on a bare pronoun. If the pronoun's referent is not the previous sentence's subject, name the noun. If the sentence only justifies the one before it and §8 does not keep the reason, cut the sentence per §7."
+level: suggestion
+scope: sentence
+nonword: true
+tokens:
+  - '\A(?:This|That|It|These|Those)(?:[''’]s|\s+(?:is|are|was|means|ensures|makes|keeps|lets|allows|prevents|avoids|will|does|helps|matters|way))\b'

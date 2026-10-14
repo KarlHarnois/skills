@@ -1,0 +1,1 @@
+tests/clean-prose/ParagraphLength.md:1:1:suggestion:CleanProse.ParagraphLength:§6: this paragraph passes 140 words. Look for a joint. Length alone never forces a break.
