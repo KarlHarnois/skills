@@ -93,6 +93,7 @@ const BUILD_STAGES = [
 class RunSettings {
   constructor(input) {
     this.requireFields(input, ['repoPath', 'specPath', 'branch', 'baseBranch', 'startCommit'])
+    this.requireIntegers(input, ['startRound', 'maxRounds'])
     this.repoPath = input.repoPath
     this.specPath = input.specPath
     this.branch = input.branch
@@ -105,6 +106,11 @@ class RunSettings {
     this.firstRound = input.startRound ?? 1
     this.lastRound = this.firstRound + (input.maxRounds ?? DEFAULT_MAX_ROUNDS) - 1
     this.declined = input.declined ?? []
+  }
+
+  requireIntegers(input, names) {
+    const invalid = names.filter(name => input[name] !== undefined && !Number.isInteger(input[name]))
+    if (invalid.length > 0) throw new Error(`build-feature pipeline args must be integers: ${invalid.join(', ')}`)
   }
 
   requireFields(input, names) {

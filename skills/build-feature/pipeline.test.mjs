@@ -313,6 +313,13 @@ describe('build-feature pipeline', () => {
       .forEach(call => assert.match(call.prompt, /f36e958/, call.label))
   })
 
+  test('rejects a round number that is not an integer', async () => {
+    await assert.rejects(
+      pipeline.run(new ScriptedAgents({}), { startRound: '2', maxRounds: 3 }),
+      /must be integers: startRound/,
+    )
+  })
+
   test('rejects launch args missing the spec path, branch, or base branch', async () => {
     const agents = new ScriptedAgents({})
 
