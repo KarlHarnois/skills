@@ -13,3 +13,7 @@ The build is able to reuse the cache.
 Rebuild the cache to speed up the build.
 
 Rename the `prior to` field.
+
+The build utilized the cache.
+
+Report the CPU utilization.
