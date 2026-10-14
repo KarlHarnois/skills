@@ -81,6 +81,7 @@ If `git status --porcelain` shows paths other than the verification artifacts, a
 | Decisions | `None yet`. Entries are added per Recording a decision. |
 
 4. Never prescribe an implementation detail the task does not require: the implementer chooses the design, and the reviewer judges it.
+5. Never write a criterion that requires matching all existing behavior, such as "exactly as it does today": no test can check it, and every review round finds another case to restore. If existing behavior must stay the same, give each behavior that must stay its own criterion.
 
 ### 8. Get approval
 
