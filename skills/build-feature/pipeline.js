@@ -1,9 +1,9 @@
 export const meta = {
   name: 'build-feature',
-  description: 'Implement an approved spec, clean the result, then review and apply fixes until nothing in scope is left',
+  description: 'Implement an approved spec, refactor the result, then review and apply fixes until nothing in scope is left',
   phases: [
     { title: 'Implement', detail: 'implementer writes the code and tests for the spec' },
-    { title: 'Clean', detail: 'cleaner improves the changed files without changing behavior' },
+    { title: 'Refactor', detail: 'refactorer improves the changed files without changing behavior' },
     { title: 'Review', detail: 'pr-reviewer reviews the branch against the spec' },
     { title: 'Apply', detail: 'implementer triages the findings and commits the fixes it keeps' },
   ],
@@ -85,7 +85,7 @@ const TRIAGE_RESULT_SCHEMA = {
 
 const BUILD_STAGES = [
   { name: 'implement', phase: 'Implement', agentType: 'implementer', brief: prompts => prompts.build() },
-  { name: 'clean', phase: 'Clean', agentType: 'cleaner', brief: prompts => prompts.clean() },
+  { name: 'refactor', phase: 'Refactor', agentType: 'refactorer', brief: prompts => prompts.refactor() },
 ]
 
 class RunSettings {
@@ -118,7 +118,7 @@ class PromptBook {
     return ['MODE: BUILD', this.runContext()].join('\n')
   }
 
-  clean() {
+  refactor() {
     return this.runContext()
   }
 

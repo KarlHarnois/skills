@@ -1,11 +1,11 @@
 ---
 name: build-feature
-description: Build a feature with a pipeline of agents. Write a spec, get the user's approval, then launch a Workflow that implements the spec, cleans the changed code, and loops review and fixes until no finding is left in scope. Use this skill whenever the user wants agents to implement a feature, change, or fix from a description, with phrasings like "build this feature", "implement X with the pipeline", "spec it, build it, review it", "run the implementer and reviewer on this", or "/build-feature <task>". For a branch whose code already exists and needs review and fixes, use `refine-pr` instead.
+description: Build a feature with a pipeline of agents. Write a spec, get the user's approval, then launch a Workflow that implements the spec, refactors the changed code, and loops review and fixes until no finding is left in scope. Use this skill whenever the user wants agents to implement a feature, change, or fix from a description, with phrasings like "build this feature", "implement X with the pipeline", "spec it, build it, review it", "run the implementer and reviewer on this", or "/build-feature <task>". For a branch whose code already exists and needs review and fixes, use `refine-pr` instead.
 ---
 
 # Build Feature
 
-This session writes the spec and holds the approval gate. The pipeline, a Workflow script, then runs the `implementer`, `cleaner`, and `pr-reviewer` subagents in an order fixed in code.
+This session writes the spec and holds the approval gate. The pipeline, a Workflow script, then runs the `implementer`, `refactorer`, and `pr-reviewer` subagents in an order fixed in code.
 
 Invocation arguments, if any (the task, a round budget): $ARGUMENTS
 
@@ -31,7 +31,7 @@ Invocation arguments, if any (the task, a round budget): $ARGUMENTS
 
 ### 1. Check the agents
 
-If the available agent types do not include all of `implementer`, `cleaner`, and `pr-reviewer`, stop and tell the user to run `make install` in the skills repository: the pipeline cannot spawn an agent type that is not installed.
+If the available agent types do not include all of `implementer`, `refactorer`, and `pr-reviewer`, stop and tell the user to run `make install` in the skills repository: the pipeline cannot spawn an agent type that is not installed.
 
 ### 2. Resolve the task
 
@@ -156,7 +156,7 @@ Build Complete
 
 Branch: feature/slugify vs main
 Spec: 4 acceptance criteria
-Commits: implement 3, clean 2, review fixes 4
+Commits: implement 3, refactor 2, review fixes 4
 Rounds: 2   Exit: nothing in scope
 Verification: pytest -q, green
 

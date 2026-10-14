@@ -95,10 +95,10 @@ class Replies {
 const pipeline = new PipelineScript()
 
 describe('build-feature pipeline', () => {
-  test('runs implement, clean, then review rounds until a round keeps nothing', async () => {
+  test('runs implement, refactor, then review rounds until a round keeps nothing', async () => {
     const agents = new ScriptedAgents({
       implementer: [Replies.stageDone(), Replies.triage('implemented'), Replies.triage('pushed_back')],
-      cleaner: [Replies.stageDone()],
+      refactorer: [Replies.stageDone()],
       'pr-reviewer': [COMPLETE_REVIEW, COMPLETE_REVIEW],
     })
 
@@ -106,7 +106,7 @@ describe('build-feature pipeline', () => {
 
     assert.deepEqual(agents.labels(), [
       'implement',
-      'clean',
+      'refactor',
       'review round 1, attempt 1',
       'apply round 1',
       'review round 2, attempt 1',
@@ -119,7 +119,7 @@ describe('build-feature pipeline', () => {
   test('counts a reverted finding as kept, so the loop continues', async () => {
     const agents = new ScriptedAgents({
       implementer: [Replies.stageDone(), Replies.triage('reverted'), Replies.triage()],
-      cleaner: [Replies.stageDone()],
+      refactorer: [Replies.stageDone()],
       'pr-reviewer': [COMPLETE_REVIEW, COMPLETE_REVIEW],
     })
 
@@ -132,7 +132,7 @@ describe('build-feature pipeline', () => {
   test('stops at the round cap when every round keeps a finding', async () => {
     const agents = new ScriptedAgents({
       implementer: [Replies.stageDone(), Replies.triage('implemented')],
-      cleaner: [Replies.stageDone()],
+      refactorer: [Replies.stageDone()],
       'pr-reviewer': [COMPLETE_REVIEW],
     })
 
@@ -142,7 +142,7 @@ describe('build-feature pipeline', () => {
     assert.deepEqual(result.resume, { reviewOnly: true, startRound: 2 })
   })
 
-  test('halts before cleaning when the implementer is blocked', async () => {
+  test('halts before refactoring when the implementer is blocked', async () => {
     const agents = new ScriptedAgents({
       implementer: [Replies.blocked('Which separator should slugify use?')],
     })
@@ -155,8 +155,8 @@ describe('build-feature pipeline', () => {
     assert.deepEqual(result.resume, { reviewOnly: false, startRound: 1 })
   })
 
-  test('halts before review when the cleaner returns nothing', async () => {
-    const agents = new ScriptedAgents({ implementer: [Replies.stageDone()], cleaner: [null] })
+  test('halts before review when the refactorer returns nothing', async () => {
+    const agents = new ScriptedAgents({ implementer: [Replies.stageDone()], refactorer: [null] })
 
     const result = await pipeline.run(agents, {})
 
@@ -167,7 +167,7 @@ describe('build-feature pipeline', () => {
   test('retries the reviewer once after an incomplete review', async () => {
     const agents = new ScriptedAgents({
       implementer: [Replies.stageDone(), Replies.triage()],
-      cleaner: [Replies.stageDone()],
+      refactorer: [Replies.stageDone()],
       'pr-reviewer': [INCOMPLETE_REVIEW, COMPLETE_REVIEW],
     })
 
@@ -181,7 +181,7 @@ describe('build-feature pipeline', () => {
   test('reports reviewer failed after two incomplete reviews', async () => {
     const agents = new ScriptedAgents({
       implementer: [Replies.stageDone()],
-      cleaner: [Replies.stageDone()],
+      refactorer: [Replies.stageDone()],
       'pr-reviewer': [INCOMPLETE_REVIEW, null],
     })
 
@@ -219,7 +219,7 @@ describe('build-feature pipeline', () => {
   test('points the resume at a round whose apply agent returned nothing', async () => {
     const agents = new ScriptedAgents({
       implementer: [Replies.stageDone(), null],
-      cleaner: [Replies.stageDone()],
+      refactorer: [Replies.stageDone()],
       'pr-reviewer': [COMPLETE_REVIEW],
     })
 
@@ -237,7 +237,7 @@ describe('build-feature pipeline', () => {
         Replies.triage('repeat', 'implemented', 'deferred'),
         Replies.triage(),
       ],
-      cleaner: [Replies.stageDone()],
+      refactorer: [Replies.stageDone()],
       'pr-reviewer': [COMPLETE_REVIEW, COMPLETE_REVIEW, COMPLETE_REVIEW],
     })
 
