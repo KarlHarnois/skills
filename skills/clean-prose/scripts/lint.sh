@@ -21,13 +21,20 @@ require_nix() {
   command -v nix >/dev/null 2>&1 || fail "$EXIT_NIX_MISSING" "nix is not installed, see https://nixos.org/download"
 }
 
+script_dir() {
+  case $0 in
+    */*) echo "${0%/*}" ;;
+    *) echo . ;;
+  esac
+}
+
 build_pinned_vale() {
   nix --extra-experimental-features 'nix-command flakes' --option warn-dirty false \
     build --no-link --print-out-paths --quiet "$REPO_ROOT#vale" ||
     fail "$EXIT_VALE_UNAVAILABLE" "nix could not build the pinned Vale from $REPO_ROOT/flake.nix"
 }
 
-SKILL_DIR=$(cd "${0%/*}/.." && pwd -P)
+SKILL_DIR=$(cd "$(script_dir)/.." && pwd -P)
 REPO_ROOT=$(cd "$SKILL_DIR/../.." && pwd -P)
 
 require_files "$@"
