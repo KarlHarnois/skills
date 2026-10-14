@@ -62,7 +62,7 @@ If `$ARGUMENTS` or the conversation states the task, use it. Otherwise, ask the 
 2. If a fast lint or typecheck command exists, list it before the test suite.
 3. If the test suite is expensive or needs live infrastructure, scope it with a selector naming the modules the task touches and their tests. Never drop the suite instead of scoping it.
 4. If no command is found, record `none detected`. Never invent a command.
-5. Run `git status --porcelain`, run the verification commands once, and run `git status --porcelain` again. The paths that appear only in the second listing are the verification artifacts.
+5. Run `git status --porcelain --untracked-files=all` and record the `git hash-object` of every file it lists. Run the verification commands once, then run the same `git status` again. A path in the second listing is a verification artifact if the first listing lacks it or its `git hash-object` changed during the run.
 6. Record the result as the baseline, naming every failing test or check: only failures the baseline lacks block a commit later.
 
 ### 6. Require a clean tree
