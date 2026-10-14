@@ -336,9 +336,10 @@ rule to any other file and reports it clean.
 
 **If the flagged text is quoted text, put it in a code span or a fenced code
 block:** the linter skips code, so its rules stay on for the rest of the
-block. Quoted text is a quotation that states its own ban, or text the reader
-reproduces verbatim for a person, such as a message template. A prompt sent
-to a model is instruction text, never quoted text.
+block. Quoted text is text whose exact wording the reader must keep, such as a
+quotation that states its own ban, a message template the reader sends to a
+person, or a message a tool prints that the reader must recognize. A prompt
+sent to a model is instruction text, never quoted text.
 
 **If the quoted text is in front matter, leave the text and report the alert
 to the user instead:** the linter checks code spans in front matter too.
