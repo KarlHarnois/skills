@@ -332,8 +332,9 @@ alert's message cites the section of this standard that the alert enforces.
 | 0 or 1 | The linter ran. Code 1 means at least one `error` alert. | Handle each alert by its level, per the alert table. |
 | 2 | Vale failed, for example on invalid YAML front matter. | Report Vale's error message to the user. |
 | 3 | nix is not installed. | Tell the user the linter needs nix. |
-| 4 | The path does not exist. | Rerun step 1 with the edited file's absolute path. |
+| 4 | The path does not exist. | Rerun step 1 once with the edited file's absolute path. If the rerun exits 4, report the path to the user. |
 | 5 | nix could not build Vale. | Report the error message to the user. |
+| Any other code | The linter could not run. | Report the exit code and the output to the user. |
 
 **If the flagged text is a quotation that states its own ban, as §5 permits,
 wrap the quotation in `<!-- vale <rule> = NO -->` and
