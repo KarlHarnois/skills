@@ -39,10 +39,12 @@ If the available agent types do not include all of `implementer`, `refactorer`, 
 ### 2. Check for a run to continue
 
 1. Resolve the repository root.
-2. If the workspace for the current branch contains `state.json`, ask the user whether to continue that run or start a new one. Otherwise, go to step 3.
-3. If the user chooses to continue and `state.json` holds a run result, go to Phase 3, step 2, with that run result and its launch args.
-4. If the user chooses to continue and `state.json` holds no run result, show the user the stored launch args and, after the user confirms, clear leftovers per Clearing leftovers in Phase 3 and run Phase 2 from step 3 with them: the earlier pipeline never reported back, and the implementer continues from the commits already on the branch.
-5. If the user chooses a new run, rename the workspace to `<workspace>.<N>`, with the lowest unused integer `N`, and go to step 3.
+2. If the workspace for the current branch has no `state.json`, go to Phase 1, step 3.
+3. If `state.json` holds no run result, ask the user whether that pipeline is still running, as `/workflows` in the session that launched it shows. If it is still running, stop: a second launch, a cleanup, or a renamed workspace would race a pipeline that is still committing on this branch.
+4. Ask the user whether to continue that run or start a new one.
+5. If the user chooses to continue and `state.json` holds a run result, go to Phase 3, step 2, with that run result and its launch args.
+6. If the user chooses to continue and `state.json` holds no run result, show the user the stored launch args and, after the user confirms, clear leftovers per Clearing leftovers in Phase 3 and run Phase 2 from step 3 with them: the earlier pipeline stopped without reporting back, and the implementer continues from the commits already on the branch.
+7. If the user chooses a new run, rename the workspace to `<workspace>.<N>`, with the lowest unused integer `N`, and go to Phase 1, step 3.
 
 This check comes before the task question and the baseline run: a continued run takes both from its stored launch args.
 
