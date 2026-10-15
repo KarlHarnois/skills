@@ -134,3 +134,23 @@ Paste this example:
 
 - Read the report.
 - Fix each alert.
+
+# A nested list at four columns
+
+- Build the cache:
+
+    - Warm the cache.
+    - Check the size.
+
+    - Read the report.
+    - Fix each alert.
+
+# An indented code block inside an item
+
+- Paste this example:
+
+      - Build the cache.
+      - Run the linter.
+
+      - Read the report.
+      - Fix each alert.
