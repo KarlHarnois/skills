@@ -14,10 +14,31 @@
 
       forEachSystem =
         buildOutputs: nixpkgs.lib.genAttrs systems (system: buildOutputs nixpkgs.legacyPackages.${system});
+
+      valeThatLintsNestedListsApart =
+        pkgs:
+        pkgs.vale.overrideAttrs (
+          finalAttrs: previousAttrs:
+          let
+            stampFinalVersion = builtins.replaceStrings [ previousAttrs.version ] [ finalAttrs.version ];
+          in
+          {
+            version = "3.24.0";
+            src = pkgs.fetchFromGitHub {
+              owner = "vale-cli";
+              repo = "vale";
+              tag = "v${finalAttrs.version}";
+              hash = "sha256-s3KEAUjZHApRG2+qxOJAzyXMP3FJNnJXzu2nv4oHwe8=";
+            };
+            proxyVendor = true;
+            vendorHash = "sha256-cuSjULIbb7JtP0CkX4eFm9RChi3nQW46k5Ik9DyGYKk=";
+            ldflags = map stampFinalVersion previousAttrs.ldflags;
+          }
+        );
     in
     {
       packages = forEachSystem (pkgs: {
-        inherit (pkgs) vale;
+        vale = valeThatLintsNestedListsApart pkgs;
       });
     };
 }

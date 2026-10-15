@@ -1,0 +1,3 @@
+tests/clean-prose/NestedList.md:13:4:suggestion:CleanProse.SentenceLength:§1: this sentence passes 20 words. Split it at a clause boundary, or move its series into a list.
+tests/clean-prose/NestedList.md:18:34:suggestion:CleanProse.CommaCount:§1: this sentence carries more than three commas. Split its clauses into sentences, or move its series into a list.
+tests/clean-prose/NestedList.md:24:5:suggestion:CleanProse.VagueAntecedent:§1: 'This keeps' opens on a bare pronoun. If the pronoun's referent is not the previous sentence's subject, name the noun. If the sentence only justifies the one before it and §8 does not keep the reason, cut the sentence per §7.
