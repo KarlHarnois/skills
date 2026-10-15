@@ -5,12 +5,14 @@ scope: raw
 script: |
   text := import("text")
 
-  bullet_item := text.re_compile("^( *)([-*+])(?:[ \t]|$)")
-  ordered_item := text.re_compile("^( *)([0-9]{1,9})([.)])(?:[ \t]|$)")
+  bullet_item := text.re_compile("^( *)([-*+])([ \t]+|$)")
+  ordered_item := text.re_compile("^( *)([0-9]{1,9})([.)])([ \t]+|$)")
   fence_opener := text.re_compile("^ *(```+|~~~+)")
   front_matter_delimiter := text.re_compile("^---[ \t\r]*$")
   blank := text.re_compile("^[ \t\r]*$")
   thematic_break := text.re_compile("^ *(?:(?:[*][ \t]*){3,}|(?:-[ \t]*){3,}|(?:_[ \t]*){3,})\r?$")
+  code_indent_step := 4
+  widest_marker_spacing := 4
 
   front_matter_length := func(raw_lines) {
     if !front_matter_delimiter.match(raw_lines[0]) { return 0 }
@@ -27,35 +29,33 @@ script: |
     return text.re_compile("^ *" + fence + text.substr(fence, 0, 1) + "*[ \t\r]*$")
   }
 
-  skipped_flags := func(raw_lines) {
-    flags := []
-    front_matter := front_matter_length(raw_lines)
-    closer := undefined
-    for i, line in raw_lines {
-      in_fence := !is_undefined(closer)
-      if in_fence && closer.match(line) { closer = undefined }
-      if !in_fence && i >= front_matter { closer = fence_closer(line) }
-      flags = append(flags, i < front_matter || in_fence || !is_undefined(closer))
-    }
-    return flags
-  }
-
   indent_of := func(line) {
     return len(line) - len(text.trim_left(line, " "))
+  }
+
+  content_column := func(prefix, spacing) {
+    width := len(spacing)
+    return len(prefix) - width + (width >= 1 && width <= widest_marker_spacing ? width : 1)
   }
 
   parse_bullet := func(line) {
     found := bullet_item.find(line)
     if is_undefined(found) { return undefined }
     groups := found[0]
-    return {kind: "item", indent: len(groups[1].text), marker: groups[2].text, number: undefined}
+    return {
+      kind: "item", indent: len(groups[1].text), marker: groups[2].text, number: undefined,
+      content: content_column(groups[0].text, groups[3].text)
+    }
   }
 
   parse_ordered := func(line) {
     found := ordered_item.find(line)
     if is_undefined(found) { return undefined }
     groups := found[0]
-    return {kind: "item", indent: len(groups[1].text), marker: groups[3].text, number: text.atoi(groups[2].text)}
+    return {
+      kind: "item", indent: len(groups[1].text), marker: groups[3].text, number: text.atoi(groups[2].text),
+      content: content_column(groups[0].text, groups[4].text)
+    }
   }
 
   parse_item := func(line) {
@@ -71,14 +71,50 @@ script: |
     return {kind: "other", indent: indent_of(line)}
   }
 
+  container_column := func(lines, indent) {
+    for i := len(lines) - 1; i >= 0; i-- {
+      line := lines[i]
+      if line.kind != "blank" && line.indent < indent {
+        return line.kind == "item" ? line.content : line.indent
+      }
+    }
+    return 0
+  }
+
+  indented_code_indent := func(lines, raw_line) {
+    follows_blank := len(lines) == 0 || lines[len(lines) - 1].kind == "blank"
+    if blank.match(raw_line) || !follows_blank { return -1 }
+    indent := indent_of(raw_line)
+    code_indent := container_column(lines, indent) + code_indent_step
+    return indent >= code_indent ? code_indent : -1
+  }
+
+  code_scanner := func() {
+    closer := undefined
+    code_indent := -1
+    return func(lines, raw_line) {
+      if !is_undefined(closer) {
+        if closer.match(raw_line) { closer = undefined }
+        return true
+      }
+      if code_indent >= 0 && (blank.match(raw_line) || indent_of(raw_line) >= code_indent) { return true }
+      code_indent = indented_code_indent(lines, raw_line)
+      if code_indent >= 0 { return true }
+      closer = fence_closer(raw_line)
+      return !is_undefined(closer)
+    }
+  }
+
   parse_lines := func(raw) {
     raw_lines := text.split(raw, "\n")
-    skipped := skipped_flags(raw_lines)
+    front_matter := front_matter_length(raw_lines)
+    reads_code := code_scanner()
     lines := []
     begin := 0
     for i, raw_line in raw_lines {
-      line := classify(raw_line, skipped[i])
-      line.skipped = skipped[i]
+      skipped := i < front_matter || reads_code(lines, raw_line)
+      line := classify(raw_line, skipped)
+      line.skipped = skipped
       line.begin = begin
       line.end = begin + len(raw_line) + 1
       lines = append(lines, line)

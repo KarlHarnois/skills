@@ -107,3 +107,13 @@ Act on the report:
 
 - Read the report.
 - Fix each alert.
+
+# An indented code block
+
+Paste this example:
+
+    - Build the cache.
+    - Run the linter.
+
+    - Read the report.
+    - Fix each alert.
