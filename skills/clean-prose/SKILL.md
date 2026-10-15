@@ -391,15 +391,8 @@ rule to any other file and reports it clean.
 2. Act on the linter's exit code, per the exit code table.
 3. Read the result whole, as §11 requires. A run with no alerts does not
    clear the file. The linter matches words, sentence patterns, and list
-   structure, not meaning. Check the result for each defect below, which the
-   linter cannot detect:
-
-   - a branch that leaves a case uncovered, per §3
-   - an action that can fail with no failure branch, per §4
-   - a load-bearing term written with a different word, per §5
-   - a sentence whose deletion changes nothing about the reader's behavior,
-     per §7
-
+   structure, not meaning. Check the result against every rule of this
+   standard whose test depends on meaning, which the linter cannot detect.
    The linter also skips code blocks, including a prompt kept in one. The
    linter matches only words in front matter, never sentence patterns. Read
    each front matter sentence against this standard.
