@@ -1,0 +1,2 @@
+tests/clean-prose/ListRunOn.md:14:1:warning:CleanProse.ListRunOn:§3: CommonMark joins the lists on both sides of this blank line into one list. Put a paragraph between the lists, or delete the blank line.
+tests/clean-prose/ListRunOn.md:22:1:warning:CleanProse.ListRunOn:§3: CommonMark joins the lists on both sides of this blank line into one list. Put a paragraph between the lists, or delete the blank line.
