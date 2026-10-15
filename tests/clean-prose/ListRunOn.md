@@ -154,3 +154,25 @@ Paste this example:
 
       - Read the report.
       - Fix each alert.
+
+# A loose list missing one blank line
+
+- Build the cache.
+
+- Run the linter.
+
+- Read the report.
+- Fix each alert.
+
+- Commit the fix.
+
+# Three groups with one marker
+
+- Build the cache.
+- Run the linter.
+
+- Read the report.
+- Fix each alert.
+
+- Commit the fix.
+- Push the branch.
