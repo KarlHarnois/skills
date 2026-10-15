@@ -80,3 +80,20 @@ Act on the report:
 - Read the report.
 - Fix each alert.
 ```
+
+# A nested list after a blank line
+
+- Build the cache.
+- Run the linter:
+
+  - Read the report.
+  - Fix each alert.
+
+# Nested lists with one marker
+
+- Build the cache:
+  - Warm the cache.
+  - Check the size.
+
+  - Read the report.
+  - Fix each alert.
