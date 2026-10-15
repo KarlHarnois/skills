@@ -85,6 +85,7 @@ script: |
     follows_blank := len(lines) == 0 || lines[len(lines) - 1].kind == "blank"
     if blank.match(raw_line) || !follows_blank { return -1 }
     indent := indent_of(raw_line)
+    if indent < code_indent_step { return -1 }
     code_indent := container_column(lines, indent) + code_indent_step
     return indent >= code_indent ? code_indent : -1
   }
