@@ -30,6 +30,8 @@ Invocation arguments, if any (the task, a round budget): $ARGUMENTS
 
 **Run every command in this skill from the repository root:** the session's shell can start in a different repository.
 
+**Every write to the spec MUST meet the `clean-prose` standard:** the implementer and the reviewer execute the spec. If the session has not invoked the `clean-prose` skill, invoke the `clean-prose` skill before the write. If the invocation fails, stop and tell the user to run `make install` in the skills repository.
+
 ## Phase 1: Setup
 
 ### 1. Check the agents
