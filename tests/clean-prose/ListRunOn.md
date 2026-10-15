@@ -117,3 +117,20 @@ Paste this example:
 
     - Read the report.
     - Fix each alert.
+
+# A second list of one item
+
+- Build the cache.
+- Run the linter.
+
+- Read the report.
+
+# Items that wrap onto a second line
+
+- Build the cache
+  before each run.
+- Run the linter
+  on the file.
+
+- Read the report.
+- Fix each alert.
