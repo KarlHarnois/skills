@@ -97,3 +97,13 @@ Act on the report:
 
   - Read the report.
   - Fix each alert.
+
+# A thematic break between the lists
+
+- Build the cache.
+- Run the linter.
+
+- - -
+
+- Read the report.
+- Fix each alert.

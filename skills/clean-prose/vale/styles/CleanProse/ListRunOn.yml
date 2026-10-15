@@ -10,6 +10,7 @@ script: |
   fence_opener := text.re_compile("^ *(```+|~~~+)")
   front_matter_delimiter := text.re_compile("^---[ \t\r]*$")
   blank := text.re_compile("^[ \t\r]*$")
+  thematic_break := text.re_compile("^ *(?:(?:[*][ \t]*){3,}|(?:-[ \t]*){3,}|(?:_[ \t]*){3,})\r?$")
 
   front_matter_length := func(raw_lines) {
     if !front_matter_delimiter.match(raw_lines[0]) { return 0 }
@@ -58,6 +59,7 @@ script: |
   }
 
   parse_item := func(line) {
+    if thematic_break.match(line) { return undefined }
     bullet := parse_bullet(line)
     return is_undefined(bullet) ? parse_ordered(line) : bullet
   }
