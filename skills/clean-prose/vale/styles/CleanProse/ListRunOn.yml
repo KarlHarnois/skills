@@ -1,5 +1,5 @@
 extends: script
-message: "§3: CommonMark joins the lists on both sides of this blank line into one list. If the lists are separate, put a paragraph between them. Otherwise, delete the blank line and number an ordered list in sequence."
+message: "§6: CommonMark joins the lists on both sides of this blank line into one list. If the lists are separate, put a paragraph between them. Otherwise, delete the blank line and number an ordered list in sequence."
 level: warning
 scope: raw
 script: |
