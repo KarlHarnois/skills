@@ -1,6 +1,6 @@
 extends: occurrence
 message: "§6: this paragraph passes 140 words. Look for a joint. Length alone never forces a break."
 level: suggestion
-scope: paragraph
+scope: [paragraph, heading, list, blockquote, table]
 max: 140
 token: '\S+'
