@@ -204,6 +204,12 @@ two units to balance length. An enumeration breaks between its items, NEVER
 inside one. If an enumeration's items run about a line each, the list stays one
 paragraph at any length.
 
+**If two lists are separated by only a blank line, put a paragraph between
+them.** CommonMark joins the two lists into one.
+
+**Inside one list, put a blank line between every two adjacent items, or
+between none.**
+
 ## 7. Economy
 
 **If deleting a sentence changes nothing about the reader's behavior, delete
@@ -385,10 +391,12 @@ rule to any other file and reports it clean.
 
 2. Act on the linter's exit code, per the exit code table.
 3. Read the result whole, as §11 requires. A run with no alerts does not
-   clear the file. The linter matches words and sentence patterns, not
-   meaning. The linter also skips code blocks, including a prompt kept in one.
-   The linter matches only words in front matter, never sentence patterns.
-   Read each front matter sentence against this standard.
+   clear the file. The linter matches words, sentence patterns, and list
+   structure, not meaning. Check the result against every rule of this
+   standard whose test depends on meaning, which the linter cannot detect.
+   The linter also skips code blocks, including a prompt kept in one. The
+   linter matches only words in front matter, never sentence patterns. Read
+   each front matter sentence against this standard.
 
 **Act on the exit code:**
 

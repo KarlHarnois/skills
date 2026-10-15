@@ -1,0 +1,226 @@
+extends: script
+message: "§6: CommonMark joins the lists on both sides of this blank line into one list. If the lists are separate, put a paragraph between them. Otherwise, delete the blank line. If you delete the blank line in an ordered list, number its items in sequence."
+level: warning
+scope: raw
+script: |
+  text := import("text")
+
+  bullet_item := text.re_compile("^( *)([-*+])([ \t]+|$)")
+  ordered_item := text.re_compile("^( *)([0-9]{1,9})([.)])([ \t]+|$)")
+  fence_opener := text.re_compile("^ *(```+|~~~+)")
+  front_matter_delimiter := text.re_compile("^---[ \t\r]*$")
+  blank := text.re_compile("^[ \t\r]*$")
+  thematic_break := text.re_compile("^ *(?:(?:[*][ \t]*){3,}|(?:-[ \t]*){3,}|(?:_[ \t]*){3,})\r?$")
+  code_indent_step := 4
+  widest_marker_spacing := 4
+  missing_blank_message := "§6: most items in this list have a blank line between them, but this item has none before it. Put a blank line before this item."
+
+  front_matter_length := func(raw_lines) {
+    if !front_matter_delimiter.match(raw_lines[0]) { return 0 }
+    for i := 1; i < len(raw_lines); i++ {
+      if front_matter_delimiter.match(raw_lines[i]) { return i + 1 }
+    }
+    return 0
+  }
+
+  fence_closer := func(line) {
+    opener := fence_opener.find(line)
+    if is_undefined(opener) { return undefined }
+    fence := opener[0][1].text
+    return text.re_compile("^ *" + fence + text.substr(fence, 0, 1) + "*[ \t\r]*$")
+  }
+
+  indent_of := func(line) {
+    return len(line) - len(text.trim_left(line, " "))
+  }
+
+  content_column := func(prefix, spacing) {
+    width := len(spacing)
+    return len(prefix) - width + (width >= 1 && width <= widest_marker_spacing ? width : 1)
+  }
+
+  parse_bullet := func(line) {
+    found := bullet_item.find(line)
+    if is_undefined(found) { return undefined }
+    groups := found[0]
+    return {
+      kind: "item", indent: len(groups[1].text), marker: groups[2].text, number: undefined,
+      content: content_column(groups[0].text, groups[3].text)
+    }
+  }
+
+  parse_ordered := func(line) {
+    found := ordered_item.find(line)
+    if is_undefined(found) { return undefined }
+    groups := found[0]
+    return {
+      kind: "item", indent: len(groups[1].text), marker: groups[3].text, number: text.atoi(groups[2].text),
+      content: content_column(groups[0].text, groups[4].text)
+    }
+  }
+
+  parse_item := func(line) {
+    if thematic_break.match(line) { return undefined }
+    bullet := parse_bullet(line)
+    return is_undefined(bullet) ? parse_ordered(line) : bullet
+  }
+
+  classify := func(line, skipped) {
+    if blank.match(line) { return {kind: "blank", indent: 0} }
+    item := skipped ? undefined : parse_item(line)
+    if !is_undefined(item) { return item }
+    return {kind: "other", indent: indent_of(line)}
+  }
+
+  container_column := func(lines, indent) {
+    for i := len(lines) - 1; i >= 0; i-- {
+      line := lines[i]
+      if line.kind != "blank" && line.indent < indent {
+        return line.kind == "item" ? line.content : line.indent
+      }
+    }
+    return 0
+  }
+
+  indented_code_indent := func(lines, raw_line) {
+    follows_blank := len(lines) == 0 || lines[len(lines) - 1].kind == "blank"
+    if blank.match(raw_line) || !follows_blank { return -1 }
+    indent := indent_of(raw_line)
+    if indent < code_indent_step { return -1 }
+    code_indent := container_column(lines, indent) + code_indent_step
+    return indent >= code_indent ? code_indent : -1
+  }
+
+  code_scanner := func() {
+    closer := undefined
+    code_indent := -1
+    return func(lines, raw_line) {
+      if !is_undefined(closer) {
+        if closer.match(raw_line) { closer = undefined }
+        return true
+      }
+      if code_indent >= 0 && (blank.match(raw_line) || indent_of(raw_line) >= code_indent) { return true }
+      code_indent = indented_code_indent(lines, raw_line)
+      if code_indent >= 0 { return true }
+      closer = fence_closer(raw_line)
+      return !is_undefined(closer)
+    }
+  }
+
+  parse_lines := func(raw) {
+    raw_lines := text.split(raw, "\n")
+    front_matter := front_matter_length(raw_lines)
+    reads_code := code_scanner()
+    lines := []
+    begin := 0
+    for i, raw_line in raw_lines {
+      skipped := i < front_matter || reads_code(lines, raw_line)
+      line := classify(raw_line, skipped)
+      line.skipped = skipped
+      line.begin = begin
+      line.end = begin + len(raw_line) + 1
+      lines = append(lines, line)
+      begin = line.end
+    }
+    return lines
+  }
+
+  run_items := func(lines, start, step, indent) {
+    items := []
+    for i := start; i >= 0 && i < len(lines); i += step {
+      line := lines[i]
+      if line.kind == "blank" || line.indent < indent { break }
+      if line.indent > indent { continue }
+      if line.kind != "item" { break }
+      items = step > 0 ? append(items, line) : [line] + items
+    }
+    return items
+  }
+
+  next_nonblank := func(lines, start) {
+    for i := start; i < len(lines); i++ {
+      if lines[i].kind != "blank" { return i }
+    }
+    return -1
+  }
+
+  opens_gap := func(lines, i) {
+    return lines[i].kind == "blank" && !lines[i].skipped && lines[i - 1].kind != "blank"
+  }
+
+  joining_gap := func(lines, gap) {
+    next := next_nonblank(lines, gap)
+    if next < 0 || lines[next].kind != "item" { return undefined }
+    indent := lines[next].indent
+    before := run_items(lines, gap - 1, -1, indent)
+    after := run_items(lines, next, 1, indent)
+    if len(before) == 0 || before[len(before) - 1].marker != after[0].marker { return undefined }
+    return {line: lines[gap], before: before, after: after}
+  }
+
+  joining_gaps := func(lines) {
+    gaps := []
+    for i := 1; i < len(lines); i++ {
+      gap := opens_gap(lines, i) ? joining_gap(lines, i) : undefined
+      if !is_undefined(gap) { gaps = append(gaps, gap) }
+    }
+    return gaps
+  }
+
+  run_id := func(run) {
+    return string(run[0].begin)
+  }
+
+  chains_of := func(gaps) {
+    chains := []
+    chain_ending_at := {}
+    for gap in gaps {
+      chain := chain_ending_at[run_id(gap.before)]
+      if is_undefined(chain) {
+        chain = {runs: [gap.before], gaps: []}
+        chains = append(chains, chain)
+      }
+      chain.runs = append(chain.runs, gap.after)
+      chain.gaps = append(chain.gaps, gap)
+      chain_ending_at[run_id(gap.after)] = chain
+    }
+    return chains
+  }
+
+  is_loose := func(chain) {
+    single_item_runs := 0
+    for run in chain.runs {
+      if len(run) == 1 { single_item_runs++ }
+    }
+    return single_item_runs * 2 > len(chain.runs)
+  }
+
+  splits_lists := func(gap) {
+    if len(gap.before) < 2 && len(gap.after) < 2 { return false }
+    first := gap.after[0]
+    return is_undefined(first.number) || first.number == 1
+  }
+
+  missing_blank_matches := func(chain) {
+    found := []
+    for run in chain.runs {
+      for i := 1; i < len(run); i++ {
+        item := run[i]
+        found = append(found, {begin: item.begin + item.indent, end: item.end - 1, message: missing_blank_message})
+      }
+    }
+    return found
+  }
+
+  joined_list_matches := func(chain) {
+    found := []
+    for gap in chain.gaps {
+      if splits_lists(gap) { found = append(found, {begin: gap.line.begin, end: gap.line.end}) }
+    }
+    return found
+  }
+
+  matches := []
+  for chain in chains_of(joining_gaps(parse_lines(scope))) {
+    matches += is_loose(chain) ? missing_blank_matches(chain) : joined_list_matches(chain)
+  }
