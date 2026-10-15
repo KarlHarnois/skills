@@ -212,7 +212,7 @@ script: |
     return found
   }
 
-  run_on_matches := func(chain) {
+  joined_list_matches := func(chain) {
     found := []
     for gap in chain.gaps {
       if splits_lists(gap) { found = append(found, {begin: gap.line.begin, end: gap.line.end}) }
@@ -222,5 +222,5 @@ script: |
 
   matches := []
   for chain in chains_of(joining_gaps(parse_lines(scope))) {
-    matches += is_loose(chain) ? missing_blank_matches(chain) : run_on_matches(chain)
+    matches += is_loose(chain) ? missing_blank_matches(chain) : joined_list_matches(chain)
   }
