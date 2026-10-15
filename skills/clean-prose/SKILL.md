@@ -204,10 +204,11 @@ two units to balance length. An enumeration breaks between its items, NEVER
 inside one. If an enumeration's items run about a line each, the list stays one
 paragraph at any length.
 
-**If two lists sit next to each other, put a paragraph between them.**
-CommonMark joins two lists separated by only a blank line into one list.
-Inside one list, put a blank line between every two adjacent items, or between
-none.
+**If two lists are separated by only a blank line, put a paragraph between
+them.** CommonMark joins the two lists into one.
+
+**Inside one list, put a blank line between every two adjacent items, or
+between none.**
 
 ## 7. Economy
 
