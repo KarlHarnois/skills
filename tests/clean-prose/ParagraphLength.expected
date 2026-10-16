@@ -1,6 +1,0 @@
-tests/clean-prose/ParagraphLength.md:1:1:suggestion:CleanProse.ParagraphLength:§6: this paragraph passes 140 words. Look for a joint. Length alone never forces a break.
-tests/clean-prose/ParagraphLength.md:5:3:suggestion:CleanProse.ParagraphLength:§6: this paragraph passes 140 words. Look for a joint. Length alone never forces a break.
-tests/clean-prose/ParagraphLength.md:8:3:suggestion:CleanProse.ParagraphLength:§6: this paragraph passes 140 words. Look for a joint. Length alone never forces a break.
-tests/clean-prose/ParagraphLength.md:12:11:suggestion:CleanProse.ParagraphLength:§6: this paragraph passes 140 words. Look for a joint. Length alone never forces a break.
-tests/clean-prose/ParagraphLength.md:14:3:suggestion:CleanProse.ParagraphLength:§6: this paragraph passes 140 words. Look for a joint. Length alone never forces a break.
-tests/clean-prose/ParagraphLength.md:18:3:suggestion:CleanProse.ParagraphLength:§6: this paragraph passes 140 words. Look for a joint. Length alone never forces a break.

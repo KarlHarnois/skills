@@ -1,0 +1,4 @@
+tests/writing-instructions/LatinAbbreviation.md:1:34:error:WritingInstructions.LatinAbbreviation:§3: write 'for example' instead of 'e.g.'.
+tests/writing-instructions/LatinAbbreviation.md:3:33:error:WritingInstructions.LatinAbbreviation:§3: write 'that is' instead of 'i.e.'.
+tests/writing-instructions/LatinAbbreviation.md:5:14:error:WritingInstructions.LatinAbbreviation:§3: write 'versus' instead of 'vs'.
+tests/writing-instructions/LatinAbbreviation.md:7:14:error:WritingInstructions.LatinAbbreviation:§3: write 'versus' instead of 'vs.'.

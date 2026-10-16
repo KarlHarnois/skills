@@ -1,4 +1,4 @@
-.PHONY: all install uninstall status reinstall test test-node test-clean-prose vale
+.PHONY: all install uninstall status reinstall test test-node test-writing-instructions vale
 
 all: install
 
@@ -17,8 +17,8 @@ TESTS := $(shell find "$(SKILLS_SOURCE)" -name '*.test.mjs')
 
 NIX := nix --extra-experimental-features 'nix-command flakes' --option warn-dirty false
 VALE_GC_ROOT := $(REPO_ROOT).vale-gcroot
-CLEAN_PROSE_LINT := $(SKILLS_SOURCE)/clean-prose/scripts/lint.sh
-CLEAN_PROSE_FIXTURES := tests/clean-prose
+WRITING_INSTRUCTIONS_LINT := $(SKILLS_SOURCE)/writing-instructions/scripts/lint.sh
+WRITING_INSTRUCTIONS_FIXTURES := tests/writing-instructions
 
 define link_all
 @mkdir -p "$(2)"
@@ -73,19 +73,19 @@ vale:
 	@command -v nix >/dev/null || { echo "nix not found, see README"; exit 1; }
 	@$(NIX) build --quiet --out-link "$(VALE_GC_ROOT)" "$(abspath $(REPO_ROOT))#vale"
 
-test: test-node test-clean-prose
+test: test-node test-writing-instructions
 
 test-node:
 	node --test $(TESTS)
 
-test-clean-prose: vale
+test-writing-instructions: vale
 	@cd "$(REPO_ROOT)" && failed=0; \
-	for fixture in $(CLEAN_PROSE_FIXTURES)/*.md $(CLEAN_PROSE_FIXTURES)/*.markdown; do \
-		$(CLEAN_PROSE_LINT) "$$fixture" | diff -u "$${fixture%.*}.expected" - || failed=1; \
+	for fixture in $(WRITING_INSTRUCTIONS_FIXTURES)/*.md $(WRITING_INSTRUCTIONS_FIXTURES)/*.markdown; do \
+		$(WRITING_INSTRUCTIONS_LINT) "$$fixture" | diff -u "$${fixture%.*}.expected" - || failed=1; \
 	done; \
 	exit $$failed
-	$(call expect_lint_exit,2,$(CLEAN_PROSE_LINT) $(REPO_ROOT)$(CLEAN_PROSE_FIXTURES)/invalid/FrontMatter.md,invalid front matter)
-	$(call expect_lint_exit,4,$(CLEAN_PROSE_LINT) $(REPO_ROOT)$(CLEAN_PROSE_FIXTURES)/Missing.md,missing file)
-	$(call expect_lint_exit,3,env PATH=/nonexistent /bin/sh $(CLEAN_PROSE_LINT) $(REPO_ROOT)$(CLEAN_PROSE_FIXTURES)/Narrative.md,nix not on PATH)
-	$(call expect_lint_exit,5,env PATH="$(REPO_ROOT)$(CLEAN_PROSE_FIXTURES)/bin:$$PATH" $(CLEAN_PROSE_LINT) $(REPO_ROOT)$(CLEAN_PROSE_FIXTURES)/Narrative.md,nix build fails)
-	@echo "clean-prose lint fixtures pass"
+	$(call expect_lint_exit,2,$(WRITING_INSTRUCTIONS_LINT) $(REPO_ROOT)$(WRITING_INSTRUCTIONS_FIXTURES)/invalid/FrontMatter.md,invalid front matter)
+	$(call expect_lint_exit,4,$(WRITING_INSTRUCTIONS_LINT) $(REPO_ROOT)$(WRITING_INSTRUCTIONS_FIXTURES)/Missing.md,missing file)
+	$(call expect_lint_exit,3,env PATH=/nonexistent /bin/sh $(WRITING_INSTRUCTIONS_LINT) $(REPO_ROOT)$(WRITING_INSTRUCTIONS_FIXTURES)/Narrative.md,nix not on PATH)
+	$(call expect_lint_exit,5,env PATH="$(REPO_ROOT)$(WRITING_INSTRUCTIONS_FIXTURES)/bin:$$PATH" $(WRITING_INSTRUCTIONS_LINT) $(REPO_ROOT)$(WRITING_INSTRUCTIONS_FIXTURES)/Narrative.md,nix build fails)
+	@echo "writing-instructions lint fixtures pass"

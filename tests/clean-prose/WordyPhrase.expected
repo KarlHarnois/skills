@@ -1,9 +1,0 @@
-tests/clean-prose/WordyPhrase.md:1:19:error:CleanProse.WordyPhrase:§7: write 'to' instead of 'in order to'.
-tests/clean-prose/WordyPhrase.md:3:19:error:CleanProse.WordyPhrase:§7: write 'before' instead of 'prior to'.
-tests/clean-prose/WordyPhrase.md:5:1:error:CleanProse.WordyPhrase:§7: write 'use' instead of 'Utilize'.
-tests/clean-prose/WordyPhrase.md:7:1:error:CleanProse.WordyPhrase:§7: write 'use' instead of 'Leverage'.
-tests/clean-prose/WordyPhrase.md:9:19:error:CleanProse.WordyPhrase:§7: write 'if' instead of 'in the event that'.
-tests/clean-prose/WordyPhrase.md:11:11:error:CleanProse.WordyPhrase:§7: write 'can' instead of 'is able to'.
-tests/clean-prose/WordyPhrase.md:17:11:error:CleanProse.WordyPhrase:§7: write 'used' instead of 'utilized'.
-tests/clean-prose/WordyPhrase.md:25:15:error:CleanProse.WordyPhrase:§7: write 'about' instead of 'with regard to'.
-tests/clean-prose/WordyPhrase.md:27:11:error:CleanProse.WordyPhrase:§7: write 'used' instead of 'leveraged'.
