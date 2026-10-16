@@ -107,7 +107,8 @@ decoration, cut.
   or move the series into a list.
 - **Short sentences.** If a sentence passes 20 words, split it at a clause
   boundary or move its series into a list. If a sentence carries more than
-  three commas, split its clauses or move its series into a list.
+  three commas, split its clauses or move its series into a list. If the
+  series sits in a table cell, move the series to a list below the table.
 - **Condition first.** Write `If C, do X`, NEVER `Do X, in cases where C`. The
   reader needs to know whether the sentence applies before learning what it
   asks.
