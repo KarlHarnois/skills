@@ -5,6 +5,11 @@
 - In human instruction text, the reader is a person.
 - An **owner** is the person or team the reader asks or reports to.
 
+## 1. Every sentence has a form
+
+**One rule per sentence applies only to a sentence that binds the reader.** A
+sentence that describes a product, a tool, or a behavior MAY state two facts.
+
 ## 2. Force is a controlled vocabulary
 
 **Write every force word in lowercase:** a person reads a force word in all
