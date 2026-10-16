@@ -231,4 +231,4 @@ Outstanding: 2 findings not implemented, none critical.
 
 ### 4. Offer a pull request
 
-Use `AskUserQuestion` to offer a pull request. If the user accepts, invoke the `create-pr` skill. Otherwise, stop. Never push the branch unless the user accepts here.
+Use `AskUserQuestion` to offer a pull request. If the user accepts, invoke the `creating-prs` skill. Otherwise, stop. Never push the branch unless the user accepts here.

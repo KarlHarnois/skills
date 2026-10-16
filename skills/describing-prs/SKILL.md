@@ -8,7 +8,7 @@ allowed-tools: Bash(gh *), Bash(git *), Read, Grep, Glob, AskUserQuestion
 
 This skill produces the title and body for a pull request. It runs in one of two modes depending on whether a PR already exists for the current branch:
 
-- **Edit mode**: a PR exists. The skill rewrites the description and applies it via `gh pr edit`. This is the path `create-pr` invokes, since `create-pr` always opens the PR before delegating here.
+- **Edit mode**: a PR exists. The skill rewrites the description and applies it via `gh pr edit`. This is the path `creating-prs` invokes, since `creating-prs` always opens the PR before delegating here.
 - **Draft mode**: no PR yet. The skill shows the draft to the user without touching GitHub. Only reached when a user invokes `describing-prs` directly on a branch with no PR.
 
 ## Phase 1: Detect mode and resolve base
@@ -136,4 +136,4 @@ EOF
 
 On a fork, add `--repo <parent>`. Do not escape backticks, dollar signs, or quotes inside the body. The single-quoted `'EOF'` handles them. Return the PR URL.
 
-**Draft mode**: show the user the draft (title, then body) and note that `create-pr` will open the PR when they're ready.
+**Draft mode**: show the user the draft (title, then body) and note that `creating-prs` will open the PR when they're ready.
