@@ -25,6 +25,8 @@ a sentence meant.
   one kind of instruction text.
 - The **always-loaded instructions** are `CLAUDE.md`, `AGENTS.md`, and every
   file they import.
+- The **repository instructions** are the `CLAUDE.md` and `AGENTS.md` files in
+  the text's repository, and every file they import.
 - The **host** is the program that runs the orchestrator and its subagents,
   such as Claude Code.
 
@@ -82,6 +84,9 @@ rules. A reader file groups its rules under the headings of the sections they
 extend. A section citation covers that section in both files. On a conflict
 with this file, a reader file rule governs its kind of instruction text. The
 quoted text rules of §13 are the exception: they govern both kinds.
+
+**If the repository instructions set what the text covers, follow them over
+this standard.** Report each conflict to the user.
 
 ## 1. Every sentence has a form
 
