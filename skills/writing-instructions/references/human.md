@@ -41,6 +41,8 @@ a Definition whose predicate only expands or repeats its term.
 
 ## 6. Modular structure, formatted to be scanned
 
+**A step names only the effects the reader sees or acts on.**
+
 **Give a link or a path for every document, web page, and required tool the
 text names.** A required tool is a tool the text lists as a requirement. A
 command in a code span needs no link of its own. The reader reaches an item
