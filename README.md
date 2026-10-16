@@ -46,7 +46,7 @@ This runs two suites, and each has its own target:
 - `make test-node` runs every `*.test.mjs` under `skills/` with `node --test`,
   so it needs Node.
 - `make test-writing-instructions` runs the `writing-instructions` lint script
-  against the fixtures in `tests/writing-instructions/`. It diffs the alerts
-  against each `.expected` file, so it needs nix. The fixtures include lists
+  against the fixtures in `tests/writing-instructions/`, so it needs nix. It
+  diffs the alerts against each `.expected` file. The fixtures include lists
   and tables, which Vale skipped before 3.17, so run
   `make test-writing-instructions` after every `nix flake update`.
