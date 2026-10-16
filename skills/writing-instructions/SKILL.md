@@ -385,6 +385,7 @@ sentence to the user.
 cut the sentence or restate it:
 
 - states something false
+- states something true in only some of the cases it covers
 - repeats its subject in its predicate
 - tells the reader nothing new
 
