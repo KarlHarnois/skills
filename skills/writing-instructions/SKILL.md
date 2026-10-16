@@ -370,6 +370,19 @@ verbose" is not.
 
 **Edit one file per change.** Read the result whole.
 
+**After each restatement, compare the new sentence with the sentence it
+replaced and with what the text describes.** If the restatement changed a true
+claim, restore the old claim before you restate again. If the third
+restatement also changes a true claim, keep the old sentence and report the
+sentence to the user.
+
+**Read each sentence of the result alone.** If a sentence does any of these,
+cut the sentence or restate it:
+
+- states something false
+- repeats its subject in its predicate
+- tells the reader nothing new
+
 ## 12. A rule covers a defect class
 
 **A defect class is the property of an input that produces a failure, stated
@@ -422,16 +435,16 @@ rule to any other file and reports the file clean.
    root that pins the Vale build.
 
 2. Act on the linter's exit code, per the exit code table.
-3. Read the result whole, as §11 requires. A run with no alerts does not
-   clear the file, because the linter cannot detect meaning. Check every
-   sentence against every rule whose test depends on meaning. Check every
-   sentence the linter did not fully read against every rule. The linter
-   reads no code block and no file that is not Markdown. In front matter, the
-   linter reads words but no sentence pattern. A run that did not exit 0 or 1
-   read nothing. Skip quoted text and the code around a prompt. Restate each
-   defect this step finds in an edited block. Report the number of such
-   defects outside the edited blocks to the user. A sentence that breaks two
-   rules counts as two defects.
+3. Read the result whole, and run the §11 checks on every edited block. A run
+   with no alerts does not clear the file, because the linter cannot detect
+   meaning. Check every sentence against every rule whose test depends on
+   meaning. Check every sentence the linter did not fully read against every
+   rule. The linter reads no code block and no file that is not Markdown. In
+   front matter, the linter reads words but no sentence pattern. A run that did
+   not exit 0 or 1 read nothing. Skip quoted text and the code around a prompt.
+   Restate each defect this step finds in an edited block. Report the number of
+   such defects outside the edited blocks to the user. A sentence that breaks
+   two rules counts as two defects.
 
 **Act on the exit code:**
 
