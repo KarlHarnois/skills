@@ -59,12 +59,21 @@ step number already makes a sentence inside a numbered step findable.
 **An example MAY follow a rule:** a person generalizes from an example instead
 of copying its surface.
 
-**A README gives an overview.** If one of these shows a fact where the reader
-needs the fact, leave the fact out of the README:
+**A README gives an overview.** An overview covers these:
 
-- a command's help
+- what the project does
+- how to install and start using the project
+- a summary of each interface the project offers
+
+**If one of these shows a fact where the reader needs the fact, leave the fact
+out of the README:**
+
+- a program's help, in its `--help` output or on a help screen
 - an error message
 - a config file's comments
+
+**This rule outranks every rule of this standard that adds a fact to a
+README.**
 
 ## 8. What MUST survive
 
