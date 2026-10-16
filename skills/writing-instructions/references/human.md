@@ -74,7 +74,7 @@ out of the README:**
 - an error message
 - a config file's comments
 
-**This rule outranks every rule of this standard that adds a fact to a
+**This rule outranks every rule of this standard that adds content to a
 README.**
 
 ## 8. What MUST survive
