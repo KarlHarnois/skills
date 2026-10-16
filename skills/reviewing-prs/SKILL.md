@@ -1,5 +1,5 @@
 ---
-name: review-pr
+name: reviewing-prs
 description: Review a GitHub pull request, or the current branch when there is no PR, and print the review findings in the shell, without posting anything to GitHub. Use this skill whenever the user asks to review a PR, check a pull request, look at or look over code changes, review PR #123, give feedback on a branch or diff, or asks "anything wrong with this PR?", "what do you think of these changes?", or similar, even if they never say "code review". Also use it when they name a focus, like "review PR 12 for security" or "check this PR for N+1 queries".
 allowed-tools: Bash(*), Read, Grep, Glob, LS, AskUserQuestion
 ---
@@ -14,7 +14,7 @@ If the user names a focus (security, performance, a specific file), prioritize t
 
 ## Review Guidelines
 
-The user may keep personal review guidelines at `~/.config/review-pr/review_guide.md`. This is a file they write and maintain themselves; nothing creates it automatically, so it is fine if it does not exist. If it does:
+The user may keep personal review guidelines at `~/.config/reviewing-prs/review_guide.md`. This is a file they write and maintain themselves; nothing creates it automatically, so it is fine if it does not exist. If it does:
 1. Follow any custom review focus areas
 2. Do NOT flag issues matching categories listed under its "Skip These" section
 

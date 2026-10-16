@@ -1,13 +1,13 @@
 ---
 name: refine-pr
-description: Review a PR in a subagent, implement the findings worth keeping as small commits, and keep repeating so the PR gets better without getting bigger, until a round turns up nothing left in scope. Use this skill whenever the user wants a PR reviewed *and* fixed rather than just reported on, with phrasings like "review this PR and fix what it finds", "clean up PR 123", "keep reviewing and fixing until it's ready", "address the review feedback", "get this branch merge-ready", "loop the review until it's clean", or "iterate on this PR until it's good". Also use it for any request for repeated or iterative review passes on a branch, even when they never say "loop". For a single read-only review that changes no code and makes no commits, use `review-pr` instead.
+description: Review a PR in a subagent, implement the findings worth keeping as small commits, and keep repeating so the PR gets better without getting bigger, until a round turns up nothing left in scope. Use this skill whenever the user wants a PR reviewed *and* fixed rather than just reported on, with phrasings like "review this PR and fix what it finds", "clean up PR 123", "keep reviewing and fixing until it's ready", "address the review feedback", "get this branch merge-ready", "loop the review until it's clean", or "iterate on this PR until it's good". Also use it for any request for repeated or iterative review passes on a branch, even when they never say "loop". For a single read-only review that changes no code and makes no commits, use `reviewing-prs` instead.
 ---
 
 # Refine PR
 
 Refine a PR as far as it will go without letting it grow: review in a subagent, decide what to keep, implement the keepers as small commits, review again, and keep going.
 
-`review-pr` ends at printing findings, and this skill is what happens next. The repetition is the point. Fixing the first round's findings changes the diff, and the changed diff has problems of its own that nobody ever sees, because in practice the second review never gets requested. Reviewing again after each pass is the only way those second-order findings surface.
+`reviewing-prs` ends at printing findings, and this skill is what happens next. The repetition is the point. Fixing the first round's findings changes the diff, and the changed diff has problems of its own that nobody ever sees, because in practice the second review never gets requested. Reviewing again after each pass is the only way those second-order findings surface.
 
 You are not a rubber stamp for the reviewer. A good fraction of any review is worth pushing back on: misread code, concerns already handled elsewhere, refactors that belong in a different PR. Implementing everything a reviewer says produces a worse PR than implementing most of it and saying why for the rest. The report at the end exists so those pushbacks are visible and auditable rather than silent.
 
@@ -17,7 +17,7 @@ Invocation arguments, if any (a PR number, a review focus, a round budget): $ARG
 
 ### 1. Resolve the target
 
-Detect it the way `review-pr` does, so both skills agree on what "this PR" means:
+Detect it the way `reviewing-prs` does, so both skills agree on what "this PR" means:
 
 - A PR number in the prompt wins. Read its branches with `gh pr view <number> --json number,title,headRefName,baseRefName`.
 - Otherwise find the PR for the current branch: `gh pr list --head "$(git branch --show-current)" --json number,title,headRefName,baseRefName`.
@@ -41,9 +41,9 @@ If no command turns up, record "none detected" and carry it into the report. Say
 
 ### 3. Guards
 
-`review-pr` needs none of these because it never writes. This skill commits, so it does.
+`reviewing-prs` needs none of these because it never writes. This skill commits, so it does.
 
-**Refuse to run on the default branch.** `review-pr` falls back to reviewing the working tree there; this loop has nowhere to commit. Say so and offer to branch first.
+**Refuse to run on the default branch.** `reviewing-prs` falls back to reviewing the working tree there; this loop has nowhere to commit. Say so and offer to branch first.
 
 **A dirty tree stops the loop before it starts.** Check `git status --porcelain`, and do it *after* the baseline run in step 2, not before. Test and lint commands routinely write things back into the tree (caches, coverage files, snapshots, generated fixtures), so a check taken beforehand passes and then the same tree fails the identical check inside round 1, on artifacts the loop itself produced. Running first means whatever the tooling touches is visible at the one moment the user is being asked about it.
 
@@ -83,7 +83,7 @@ HEAD is still the branch under review, and `git status --porcelain` shows nothin
 
 **If subagents are available but the agent is not**: spawn one generic subagent with the same brief, and add to it the read-only constraints the agent file would have carried, namely that it must not edit files, move HEAD, or post to GitHub.
 
-**If subagents are not available**: invoke `review-pr` inline and note in the report that the reviews were not independent, since a reviewer that already knows which findings you rejected is a softer reviewer.
+**If subagents are not available**: invoke `reviewing-prs` inline and note in the report that the reviews were not independent, since a reviewer that already knows which findings you rejected is a softer reviewer.
 
 Spawn a fresh reviewer every round. Never continue the previous one. A reviewer that remembers being overruled last round argues less this round, and a loop that ends because the reviewer got tired has converged for the wrong reason.
 
@@ -102,7 +102,7 @@ on round 1 write "none, this is the first round"):
 Do not simply restate a point already answered here. If you think a reason is
 wrong, raise it again and say which part you disagree with.
 
-Invoke the `review-pr` skill and review BRANCH against BASE. Return its complete output
+Invoke the `reviewing-prs` skill and review BRANCH against BASE. Return its complete output
 verbatim: the summary table, every detail block with its failure scenario, and
 the closing summary block with the counts. That text is your whole return
 value. Do not summarize it and do not add recommendations of your own.
@@ -117,7 +117,7 @@ For each finding, decide keep or push back, and write one line of reasoning eith
 - The reviewer misread the code, and the failure scenario it describes cannot actually happen.
 - The concern is real but already handled somewhere the reviewer did not look.
 - It belongs in a different PR: it would grow the diff rather than improve it. This is the most consequential call in the loop; more below.
-- It contradicts a convention stated in `CLAUDE.md` or `~/.config/review-pr/review_guide.md`.
+- It contradicts a convention stated in `CLAUDE.md` or `~/.config/reviewing-prs/review_guide.md`.
 - It is a preference this codebase has visibly and deliberately decided against.
 
 "It is only a nitpick" is not one of them. A correct nitpick that costs one line is worth taking, and the report counts nitpicks separately so cheap wins stay visible instead of being quietly dropped.
@@ -247,4 +247,4 @@ Adjust the closing line to what actually happened: if critical findings were pus
 
 If `gh` lookups fail, run `gh auth status`.
 
-If the reviewer returns a summary instead of the verbatim review, the tally cannot be built from it. Re-spawn once with the return contract restated. If it happens again, fall back to inline `review-pr` for that round and note it in the report.
+If the reviewer returns a summary instead of the verbatim review, the tally cannot be built from it. Re-spawn once with the return contract restated. If it happens again, fall back to inline `reviewing-prs` for that round and note it in the report.
