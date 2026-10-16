@@ -59,6 +59,13 @@ step number already makes a sentence inside a numbered step findable.
 **An example MAY follow a rule:** a person generalizes from an example instead
 of copying its surface.
 
+**A README gives an overview.** If one of these shows a fact where the reader
+needs the fact, leave the fact out of the README:
+
+- a command's help
+- an error message
+- a config file's comments
+
 ## 8. What MUST survive
 
 **Also keep a reason that names what a rule protects.** A person uses what
