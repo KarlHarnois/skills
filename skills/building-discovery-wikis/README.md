@@ -1,4 +1,4 @@
-# discovery-wiki
+# building-discovery-wikis
 
 Bootstraps a project knowledge base: fans discovery out across surfaces
 (email, drive, chat, tracker, code, web, dropped documents, and more),

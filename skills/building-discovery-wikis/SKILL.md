@@ -1,5 +1,5 @@
 ---
-name: discovery-wiki
+name: building-discovery-wikis
 description: Bootstrap a project knowledge base by running discovery across every available surface (email, cloud drive, chat, calendar, local files, the web) and writing one index file per surface, with summaries plus links to the evidence, stitched together by a top-level index. The result is a wiki-like directory that gives future agent sessions cheap, progressive-disclosure context on the topic. Use this whenever the user kicks off a new project, vendor, engagement, or topic and wants context gathered about it, with phrases like "gather everything about X", "find all the evidence on", "crawl my email/drive/slack for", "build context on", "set up a wiki for", "what do we know about", "pull together what we have on", even when casually phrased. Also use it when asked to refresh or re-crawl an existing discovery directory, to index documents dropped into one, or to answer questions and brief agents from a wiki that already exists ("what do we know about X", "give the agent context on Y").
 ---
 
