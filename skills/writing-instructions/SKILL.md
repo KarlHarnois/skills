@@ -442,9 +442,11 @@ rule to any other file and reports the file clean.
    rule. The linter reads no code block and no file that is not Markdown. In
    front matter, the linter reads words but no sentence pattern. A run that did
    not exit 0 or 1 read nothing. Skip quoted text and the code around a prompt.
-   Restate each defect this step finds in an edited block. Report the number of
-   such defects outside the edited blocks to the user. A sentence that breaks
-   two rules counts as two defects.
+
+   For each defect this step finds in an edited block, apply the §7 deletion
+   test first. If the text survives the test, restate the text. Report the
+   number of such defects outside the edited blocks to the user. A sentence
+   that breaks two rules counts as two defects.
 
 **Act on the exit code:**
 
@@ -477,8 +479,8 @@ to the user instead.** The linter checks code spans in front matter too.
 
 | Level | Action |
 | --- | --- |
-| `error` | Restate the flagged text so it meets the cited section. |
-| `warning` or `suggestion` | Read the cited section. If its rule holds for the flagged text, restate the text. Otherwise, leave the text. |
+| `error` | Apply the §7 deletion test to the flagged text first. If the text survives the test, restate the text so it meets the cited section. |
+| `warning` or `suggestion` | Read the cited section. If its rule does not hold for the flagged text, leave the text. Otherwise, apply the §7 deletion test first. If the text survives the test, restate the text. |
 
 **NEVER swap in a synonym that breaks the cited rule to clear an alert.** The
 synonym hides the break from the linter.
