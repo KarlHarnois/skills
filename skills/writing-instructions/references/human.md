@@ -60,10 +60,10 @@ path, per §6.**
 ## 13. Lint the edited file
 
 **If a `WritingInstructions.LowercaseForce` alert flags a word with the meaning
-of a §2 row, write that row's force word.** Write the force word in the case §2 sets.
-The alert names the force words in all capitals, which human instruction text
-never uses. If the flagged word is a force word in its ordinary sense, restate
-the sentence per §2. Otherwise, leave the text.
+of a §2 row, write that row's force word.** Write the force word in the case §2
+sets. The alert names the force words in all capitals, which human instruction
+text never uses. If the flagged word is a force word in its ordinary sense,
+restate the sentence per §2. Otherwise, leave the text.
 
 **Check each edited block by reading for four defects the linter misses:**
 

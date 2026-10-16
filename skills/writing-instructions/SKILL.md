@@ -402,10 +402,11 @@ Inputs vary without limit, and a rule fitted to one input breaks on the next.
 WritingInstructions style in this skill's `vale/` directory.** An **alert** is
 one line of the linter's output, in the form
 `file:line:column:level:rule:message`. An alert's message cites the section of
-this standard that the alert enforces. An **edited block** is a top-level block that the edit wrote, changed, or deleted
-text from. A top-level block is any block that no other block contains.
-Headings, paragraphs, lists, and tables are top-level blocks. In a file that
-is not Markdown, the top-level blocks are the paragraphs of its prompt text.
+this standard that the alert enforces. An **edited block** is a top-level block
+that the edit wrote, changed, or deleted text from. A top-level block is any
+block that no other block contains. Headings, paragraphs, lists, and tables are
+top-level blocks. In a file that is not Markdown, the top-level blocks are the
+paragraphs of its prompt text.
 
 **After each edit to instruction text, run these steps.** If the edited file's
 extension is not `.md` or `.markdown`, start at step 3. The linter applies no
