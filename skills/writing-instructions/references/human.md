@@ -28,6 +28,11 @@ the owner's contact.** If you cannot name the owner or the owner's contact, ask
 the user for the missing part. If the user does not supply the missing part,
 keep the step and report the missing part to the user.
 
+## 4. Every action states its failure branch
+
+**§4 applies to the steps of a procedure.** A sentence that describes a
+product, a tool, or a behavior needs no failure branch.
+
 ## 6. Modular structure, formatted to be scanned
 
 **Give a link or a path for every document, web page, and required tool the
