@@ -33,6 +33,12 @@ keep the step and report the missing part to the user.
 **§4 applies to the steps of a procedure.** A sentence that describes a
 product, a tool, or a behavior needs no failure branch.
 
+## 5. One concept, one term
+
+**A term the reader already knows needs no Definition sentence.** A term the
+reader already knows is a term in common use in the reader's field. NEVER write
+a Definition whose predicate only expands or repeats its term.
+
 ## 6. Modular structure, formatted to be scanned
 
 **Give a link or a path for every document, web page, and required tool the
