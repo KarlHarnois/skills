@@ -1,5 +1,5 @@
 ---
-name: clean-code
+name: writing-clean-code
 description: Enforces Robert Martin's Clean Code principles on all code produced during a conversation. Use this skill whenever your response will include code in any programming language. This covers writing new code, modifying existing code, fixing bugs, adding features, refactoring, prototyping, and any other task where code appears in the output. If code is being produced, this skill applies. Even for small changes like adding a method or fixing a one-liner, consult this skill to ensure the surrounding code context follows clean code principles.
 ---
 
