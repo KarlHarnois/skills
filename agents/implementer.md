@@ -1,6 +1,6 @@
 ---
 name: implementer
-description: Writes the code and tests for an approved build-feature spec (BUILD mode), or triages one round of review findings and commits the fixes it keeps (APPLY mode). Spawned by the build-feature pipeline, once to build and once per review round. Commits on the checked-out branch. Not for reviewing, pushing, or opening PRs.
+description: Writes the code and tests for an approved spec from the building-features skill (BUILD mode), or triages one round of review findings and commits the fixes it keeps (APPLY mode). Spawned by the building-features pipeline, once to build and once per review round. Commits on the checked-out branch. Not for reviewing, pushing, or opening PRs.
 model: inherit
 tools: Bash, Read, Edit, Write, Grep, Glob, Skill
 ---

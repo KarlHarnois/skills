@@ -1,4 +1,0 @@
-tests/clean-prose/Scopes.md:1:3:error:CleanProse.PreferOver:§2: PREFER needs OVER in the same sentence: PREFER X OVER Y.
-tests/clean-prose/Scopes.md:5:11:error:CleanProse.PreferOver:§2: PREFER needs OVER in the same sentence: PREFER X OVER Y.
-tests/clean-prose/Scopes.md:7:3:error:CleanProse.PreferOver:§2: PREFER needs OVER in the same sentence: PREFER X OVER Y.
-tests/clean-prose/Scopes.md:9:22:suggestion:CleanProse.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.

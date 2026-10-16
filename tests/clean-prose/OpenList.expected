@@ -1,1 +1,0 @@
-tests/clean-prose/OpenList.md:1:30:error:CleanProse.OpenList:§3: 'etc.' leaves the list open. Write the full list, or name the property every item shares.

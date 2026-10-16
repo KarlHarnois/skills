@@ -1,0 +1,4 @@
+tests/writing-instructions/Scopes.md:1:3:error:WritingInstructions.PreferOver:§2: PREFER needs OVER in the same sentence: PREFER X OVER Y.
+tests/writing-instructions/Scopes.md:5:11:error:WritingInstructions.PreferOver:§2: PREFER needs OVER in the same sentence: PREFER X OVER Y.
+tests/writing-instructions/Scopes.md:7:3:error:WritingInstructions.PreferOver:§2: PREFER needs OVER in the same sentence: PREFER X OVER Y.
+tests/writing-instructions/Scopes.md:9:22:suggestion:WritingInstructions.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
