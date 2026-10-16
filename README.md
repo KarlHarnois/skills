@@ -30,8 +30,9 @@ skill lints instruction text with [Vale](https://vale.sh), and this repo's
 flake pins the Vale build, so every machine runs the same version. Apple
 Silicon Macs work. Intel Macs do not, since nixpkgs-unstable dropped them.
 
-Without nix, the skill reports that the linter is unavailable and reviews the
-text by reading it.
+Without nix, `make install` stops with `nix not found, see README` before it
+links anything. If the linter cannot run later, the `clean-prose` skill
+reports the failure and checks the text by hand.
 
 ## Testing
 

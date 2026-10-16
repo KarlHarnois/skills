@@ -1,26 +1,28 @@
 ---
 name: clean-prose
-description: "This skill is the prose standard for instruction text, the prose a model executes. Instruction text includes CLAUDE.md, AGENTS.md, and the files they import, plus SKILL.md files and their reference files. Instruction text also includes agent definitions, slash commands, and prompts a program sends to a model. Use this skill before writing, editing, or reviewing instruction text, including a one-sentence change. Prose written for people is out of scope: READMEs, documentation, PR descriptions, and commit messages."
+description: "This skill is the prose standard for instruction text. Instruction text comes in two kinds: model instruction text and human instruction text. Model instruction text includes CLAUDE.md, AGENTS.md, and the files they import, plus SKILL.md files and their reference files. Model instruction text also includes agent definitions, slash commands, and prompts a program sends to a model. Any other file written for a model to follow is model instruction text too. Human instruction text is READMEs, runbooks, and every guide that tells a person how to do a task. Use this skill before writing, editing, or reviewing instruction text, including a one-sentence change. Every other text is out of scope. Out-of-scope texts include PR descriptions, commit messages, design docs, and reviews."
 allowed-tools: Bash(${CLAUDE_SKILL_DIR}/scripts/lint.sh *)
 ---
 
 # Clean Prose
 
 **Each sentence alone MUST tell its reader whether it binds them and what it
-makes them do.** The orchestrator and subagents execute instruction text, and
-neither can ask what a sentence meant.
+makes them do.** A reader follows instruction text with no author to ask what
+a sentence meant.
 
 ## Terms
 
 - The **orchestrator** is the session that talks to the user and dispatches
   subagents.
-- A **subagent** is an agent the orchestrator dispatches.
-- A **fork** is a subagent that inherits the orchestrator's whole
-  conversation.
+- The **user** is the person the orchestrator talks to.
+- A **subagent** is an agent that the orchestrator or a workflow script
+  dispatches.
 - An **agent definition** is the file that defines one subagent: its
   frontmatter and its instructions.
-- A **reader** is any model that executes instruction text: the orchestrator
-  or a subagent.
+- A **reader** is the model or person that follows instruction text.
+- A **reference file** is a file in a skill's directory that the skill loads.
+- A **reader file** is a reference file of this skill that holds the rules for
+  one kind of instruction text.
 - The **always-loaded instructions** are `CLAUDE.md`, `AGENTS.md`, and every
   file they import.
 - The **host** is the program that runs the orchestrator and its subagents,
@@ -28,27 +30,64 @@ neither can ask what a sentence meant.
 
 ## Scope
 
-**Instruction text is prose a model executes.** This skill applies to:
+**Instruction text is any text in the two lists below, one list per kind.**
+
+**Model instruction text is any text in this list:**
 
 - the always-loaded instructions
-- every `SKILL.md` and every reference file a skill loads
+- every `SKILL.md` and every reference file
 - every agent definition
 - every slash command
 - every prompt a program sends to a model, such as a workflow script's prompt
   string or an application's system prompt. This skill governs the prompt's
-  text and not the code around it.
+  text and not the code around the prompt.
+- every other file written for a model to follow
 
-**§9 applies the standard to the orchestrator's explanation of its own work
-in chat.**
+**Human instruction text is any text in this list:**
 
-**Prose written for people is out of scope:** READMEs, documentation, PR
-descriptions, and commit messages.
+- READMEs
+- runbooks
+- every guide that tells a person how to do a task
+
+**A text in the model list is model instruction text, even when another list
+also covers the text.** Neither a person nor a model changes a text's kind by
+following the text.
+
+**§9 governs the orchestrator's explanation of its own work in chat.**
+
+**Every other text is out of scope.**
+
+**These texts are out of scope, even when part of one tells a person how to do
+a task:**
+
+- PR descriptions
+- commit messages
+- design docs
+- reviews
+
+## Reader files
+
+**Before writing, editing, or reviewing instruction text, read the reader file
+for its kind:**
+
+| Kind | Reader file |
+| --- | --- |
+| Model instruction text | `references/model.md` |
+| Human instruction text | `references/human.md` |
+
+If you cannot read the reader file, report its path to the user and stop.
+
+**The standard is this file plus the reader file.** This file holds the shared
+rules. A reader file groups its rules under the headings of the sections they
+extend. A section citation covers that section in both files. On a conflict
+with this file, a reader file rule governs its kind of instruction text. The
+quoted text rules of §13 are the exception: they govern both kinds.
 
 ## 1. Every sentence has a form
 
 **Each sentence of instruction text MUST take one of five forms.** A sentence
-that takes none of them is either rationale, recast per §8, or decoration,
-cut.
+that takes none of them is either a reason, kept or cut per §8, or
+decoration, cut.
 
 | Form | Shape |
 | --- | --- |
@@ -56,24 +95,30 @@ cut.
 | Prohibition | Never X. |
 | Conditional | If C, do X. / Unless C, do X. |
 | Definition | X is Y. |
-| Invariant | X is always true. |
+| Invariant | X is true in every case. |
 
-- **One rule per sentence.** A sentence carrying two obligations hides the
-  second: split it. NEVER write a semicolon: split the clauses into sentences,
+- **One rule per sentence.** A sentence carrying two rules hides the second:
+  split it. NEVER write a semicolon: split the clauses into sentences,
   or move the series into a list.
 - **Short sentences.** If a sentence passes 20 words, split it at a clause
   boundary or move its series into a list. If a sentence carries more than
   three commas, split its clauses or move its series into a list.
-- **Condition first.** Write `If C, do X`, never `Do X, in cases where C`. The
+- **Condition first.** Write `If C, do X`, NEVER `Do X, in cases where C`. The
   reader needs to know whether the sentence applies before learning what it
   asks.
-- **Bind every antecedent.** Replace *this*, *it*, and *that* with the noun
-  wherever the referent is not the immediately preceding subject. No reader
-  can ask the author what was meant.
+- **Bind every antecedent.** If the referent of *this*, *it*, or *that* is not
+  the immediately preceding subject, replace the pronoun with the noun.
 
 ## 2. Force is a controlled vocabulary
 
-**State obligation with these words.** Each has one meaning.
+**State force with these words.** A **force word** is a word in the Word
+column of this table, in any sense. OVER is a force word only where it
+completes PREFER X OVER Y. Each force word has one meaning when it states
+force. If `ALWAYS` or `NEVER` only says how often a fact holds, the word is in
+its ordinary sense. If a sentence names a force word instead of using the word,
+the word is in neither sense. If a force word carries the meaning its row
+gives, the word states force in every form. Otherwise, the word is in its
+ordinary sense. The reader file sets the case of each word.
 
 | Word | Meaning |
 | --- | --- |
@@ -84,8 +129,8 @@ cut.
 | **PREFER X OVER Y** | X is the default, Y is available, and the sentence that follows says when Y wins. |
 
 **A bare imperative (Command form) carries MUST.** A bare `Never X`
-(Prohibition form) carries NEVER. Write the capitalized word when the sentence
-would otherwise read as advice.
+(Prohibition form) carries NEVER. If the sentence would otherwise read as
+advice, write the force word.
 
 **NEVER attach a force word to a passive verb.** Name the actor as the
 subject: a passive verb hides who acts.
@@ -118,18 +163,28 @@ property every item shares. Replace each other abbreviation with its plain form:
 | `i.e.` | that is |
 | `vs.` | versus |
 
-If the table has no row for an abbreviation, write the English words it stands
-for.
+If the table has no row for an abbreviation, write the English words
+the abbreviation stands for.
 
 **If any branch can reach a destructive or unrecoverable action, the default
-MUST be `Otherwise, stop and ask the user`.**
+MUST be to stop and ask.** The reader file names whom the reader asks.
 
 ## 4. Every action states its failure branch
 
-**An instruction that can fail MUST say what happens when it does.** Choose
-one and write it: stop and ask, fall back to a named alternative, or report
-and continue. A reader that hits an unhandled failure improvises, and
-improvisation at a step whose writes cannot be undone is unrecoverable.
+**An instruction that can fail MUST say what happens when it does.** A reader
+that hits an unhandled failure improvises, and improvisation at a step whose
+writes cannot be undone is unrecoverable. Write one of these branches:
+
+- stop and ask
+- fall back to a named alternative
+- fix the cause and retry
+- report and continue
+
+**A subagent contacts the user only through the message it returns when its
+run ends.** To report and continue, a subagent puts the report in that message
+and keeps working. A subagent gets no answer within its run. If a rule has a
+subagent ask the user, the subagent takes the branch for no answer. The
+subagent puts the question in its message.
 
 ## 5. One concept, one term
 
@@ -142,8 +197,8 @@ definition rather than restating it.
 for more than one word.
 
 **A vocabulary is the project's table of fixed terms.** It has one row per
-term and three columns: the term, what it means, and its banned synonyms. A
-banned synonym NEVER appears in place of its term.
+term and three columns: the term, what the term means, and its banned synonyms.
+NEVER write a banned synonym in place of its term.
 
 - If the always-loaded instructions name a vocabulary file, read the
   vocabulary file before the edit and use its terms. If the edit introduces a
@@ -152,9 +207,9 @@ banned synonym NEVER appears in place of its term.
   distinction.
 - If the named vocabulary file does not exist, report the missing file to the
   user. Then define each new load-bearing term with a Definition sentence in
-  the file that introduces it.
+  the file that introduces the term.
 - Otherwise, define each new load-bearing term with a Definition sentence in
-  the file that introduces it.
+  the file that introduces the term.
 
 **A banned synonym MAY appear in two places:**
 
@@ -178,11 +233,8 @@ procedures is three copies to drift.
 - **Split a procedure on its mode.** If a procedure branches on the same
   condition at more than one step, write one procedure per branch. Choose
   between the procedures at the top.
-- **Reference only what the reader loads.** A file MAY reference the
-  always-loaded instructions and the reference files it names. If the file is
-  an agent definition, NEVER reference anything its subagent does not load,
-  per §8. If a rule depends on another skill, the rule tells the reader to
-  invoke that skill. A reader cannot apply a skill it has not loaded.
+- **Reference only what the reader can reach.** The reader file says what the
+  reader can reach.
 
 ### Formatting
 
@@ -193,16 +245,16 @@ paragraph:**
 - Sequences go in **numbered steps**.
 - A paragraph opens with a **bold rule-head** stating the rule. What follows is
   its detail.
-- Reserve flowing paragraphs for recast rationale (§8).
+- Reserve flowing paragraphs for kept reasons (§8).
 - One section covers one decision. A section that covers three is three
   sections.
 
 **Break a paragraph at its joints.** One paragraph carries one unit of the
 argument. Where the text turns to the next unit, break. If a paragraph passes
-140 words, look for a joint. Length alone NEVER forces a break. NEVER merge
-two units to balance length. An enumeration breaks between its items, NEVER
-inside one. If an enumeration's items run about a line each, the list stays one
-paragraph at any length.
+140 words, look for a joint. NEVER break a paragraph for length alone. NEVER
+merge two units to balance length. NEVER break an enumeration inside an item.
+If an enumeration's items run about a line each, the list stays one paragraph
+at any length.
 
 **If two lists are separated by only a blank line, put a paragraph between
 them.** CommonMark joins the two lists into one.
@@ -219,7 +271,8 @@ you edit past.
 **NEVER write these into instruction text:**
 
 - **Narrative:** scenarios, anecdotes, incidents.
-- **Self-explanation:** a sentence justifying the sentence before it.
+- **Self-explanation:** a sentence justifying the sentence before it. A reason
+  §8 keeps is not self-explanation.
 - **Throat-clearing:** announcing what the next section will do.
 - **Qualification longer than the rule it qualifies.** Name the rare case in
   one clause.
@@ -242,11 +295,7 @@ plain form:
 | `with regard to` | about |
 | `is able to`, `has the ability to` | can |
 
-**PREFER tightening the rule OVER adding an example:** a reader copies an
-example's surface into the rule. An example wins only when the tightened rule
-is still ambiguous. If an example wins, write a contrasting pair: one case the
-rule covers and one it excludes. Make the two cases differ only in the property
-the rule tests.
+**The reader file sets when an example MAY follow a rule.**
 
 **Data that parameterizes a rule is specification, not example.** Such data
 includes an enumeration of any of these:
@@ -257,37 +306,20 @@ includes an enumeration of any of these:
 - sentence shapes
 - name-shapes
 
-## 8. What must survive
+## 8. What MUST survive
 
-Guarding rationale and repetition across a delegation boundary read like
-waste and are load-bearing. Cutting them is the characteristic failure of a
-tightening pass, and it is silent.
-
-**Keep a guard-dependent rule's reason.** A rule is *guard-dependent* if
-someone editing the text without knowing its reason would plausibly revert it.
+**Keep a guard-dependent rule's reason:** the reason reads like waste, and
+cutting it fails silently. A rule is *guard-dependent* if someone editing the
+text without knowing its reason would plausibly revert it.
 Place the kept reason directly after the rule, as one clause
-(`NEVER X: <reason>`) or one sentence. Cut every other reason. Cut the story
-behind every reason: the history, the incident, the alternatives weighed.
-
-**Duplication is a defect only within a single context.** A restatement is a
-copy of a rule in an agent definition or in the prompt a subagent is sent. If
-the subagent also loads the rule's source, the restatement is a duplicate.
-Otherwise, the restatement is necessary.
-
-**A fork loads everything the orchestrator has loaded.** Every other subagent
-loads the items below. If its agent definition sets `omitClaudeMd: true`, the
-subagent does not load the always-loaded instructions.
-
-- its agent definition
-- the prompt it is sent
-- every skill its agent definition lists in its `skills` field
-- every reference file it reads in the run
-- the always-loaded instructions
+(`NEVER X: <reason>`) or one sentence. The reader file says which other
+reasons survive. Cut the story behind every reason: the history, the incident,
+the alternatives weighed.
 
 ## 9. Chat register
 
 **This section governs procedural explanation:** what the orchestrator is
-doing and why. It does NOT govern the substance of an answer. If the host's
+doing and why. It does not govern the substance of an answer. If the host's
 own chat guidance fixes a format, keep the order below inside that format.
 
 **The orchestrator's explanation of its own work MUST carry the structure of
@@ -326,18 +358,13 @@ and…`, `I'll just…`, or `Now I'll…`.
 
 ## 10. Priority
 
-**Weight a finding by how often its text loads.** The always-loaded
-instructions, every skill `description`, and every agent `description` load in
-every session. A skill body loads only when the skill is invoked. Fix the text
-that loads in every session first.
-
 **Within a file, rank by consequence:** an unstated failure branch or an
 uncovered case outranks a wordy sentence. The first two change what the reader
-does, and the third only costs tokens.
+does, and the third only adds length.
 
 ## 11. How to change instruction text
 
-**State every proposed change as replacement text, never as a verdict.**
+**State every proposed change as replacement text, NEVER as a verdict.**
 "These 40 words say what these 12 do" is actionable, and "this section is
 verbose" is not.
 
@@ -377,11 +404,12 @@ of the linter's output, in the form `file:line:column:level:rule:message`. An
 alert's message cites the section of this standard that the alert enforces. An
 **edited block** is a top-level block that the edit wrote, changed, or deleted
 text from. A top-level block is any block that no other block contains.
-Headings, paragraphs, lists, and tables are top-level blocks.
+Headings, paragraphs, lists, and tables are top-level blocks. In a file that
+is not Markdown, the top-level blocks are the paragraphs of its prompt text.
 
 **After each edit to instruction text, run these steps.** If the edited file's
 extension is not `.md` or `.markdown`, start at step 3. The linter applies no
-rule to any other file and reports it clean.
+rule to any other file and reports the file clean.
 
 1. Run the linter on the file's absolute path:
 
@@ -389,14 +417,20 @@ rule to any other file and reports it clean.
    ${CLAUDE_SKILL_DIR}/scripts/lint.sh <absolute path>
    ```
 
+   The run also writes `.vale-gcroot`, a gitignored link at the repository
+   root that pins the Vale build.
+
 2. Act on the linter's exit code, per the exit code table.
 3. Read the result whole, as §11 requires. A run with no alerts does not
-   clear the file. The linter matches words, sentence patterns, and list
-   structure, not meaning. Check the result against every rule of this
-   standard whose test depends on meaning, which the linter cannot detect.
-   The linter also skips code blocks, including a prompt kept in one. The
-   linter matches only words in front matter, never sentence patterns. Read
-   each front matter sentence against this standard.
+   clear the file, because the linter cannot detect meaning. Check every
+   sentence against every rule whose test depends on meaning. Check every
+   sentence the linter did not fully read against every rule. The linter
+   reads no code block and no file that is not Markdown. In front matter, the
+   linter reads words but no sentence pattern. A run that did not exit 0 or 1
+   read nothing. Skip quoted text and the code around a prompt. Restate each
+   defect this step finds in an edited block. Report the number of such
+   defects outside the edited blocks to the user. A sentence that breaks two
+   rules counts as two defects.
 
 **Act on the exit code:**
 
@@ -404,7 +438,7 @@ rule to any other file and reports it clean.
 | --- | --- | --- |
 | 0 or 1 | The linter ran. Code 1 means at least one `error` alert in the file. | Handle each alert in an edited block, per the rules that follow this table. Report the number of alerts outside the edited blocks to the user. |
 | 2 | Vale failed, for example on invalid YAML front matter. | If the edit changed the front matter, fix its YAML and rerun step 1 once. Otherwise, or if the rerun exits 2, report Vale's error message to the user. |
-| 3 | nix is not installed. | Tell the user the linter needs nix. |
+| 3 | nix is not installed. | Report to the user that the linter needs nix. |
 | 4 | The path does not exist. | Rerun step 1 once with the edited file's absolute path. If the rerun exits 4, report the path to the user. |
 | 5 | nix could not build Vale. | Report the error message to the user. |
 | Any other code | The linter could not run. | Report the exit code and the output to the user. |
@@ -413,12 +447,12 @@ rule to any other file and reports it clean.
 block.** The linter skips code, so its rules stay on for the rest of the
 block.
 
-**Quoted text is text whose exact wording the reader must keep.** Quoted text
-includes:
+**Quoted text is text whose exact wording the reader MUST keep.** NEVER
+restate quoted text to meet a rule of this standard. Quoted text includes:
 
 - a quotation that states its own ban
 - a message template the reader sends to a person
-- a message a tool prints that the reader must recognize
+- a message a tool prints that the reader MUST recognize
 
 A prompt sent to a model is instruction text, never quoted text.
 
@@ -432,8 +466,8 @@ to the user instead.** The linter checks code spans in front matter too.
 | `error` | Restate the flagged text so it meets the cited section. |
 | `warning` or `suggestion` | Read the cited section. If its rule holds for the flagged text, restate the text. Otherwise, leave the text. |
 
-**NEVER swap in a synonym to clear an alert.** The synonym breaks the same
-rule and hides the break from the linter.
+**NEVER swap in a synonym that breaks the cited rule to clear an alert.** The
+synonym hides the break from the linter.
 
 **NEVER cut a reason §8 keeps to clear an alert:** the linter cannot tell a
 kept reason from self-explanation.
