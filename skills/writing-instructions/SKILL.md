@@ -388,6 +388,9 @@ cut the sentence or restate it:
 - repeats its subject in its predicate
 - tells the reader nothing new
 
+**If you cannot verify a sentence's claim, keep the sentence and report the
+sentence to the user.**
+
 ## 12. A rule covers a defect class
 
 **A defect class is the property of an input that produces a failure, stated
