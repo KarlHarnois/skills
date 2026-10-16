@@ -1,1 +1,1 @@
-tests/writing-instructions/Semicolon.md:1:18:error:WritingInstructions.Semicolon:§1: NEVER write a semicolon. Split the clauses into sentences, or move the series into a list.
+tests/writing-instructions/Semicolon.md:1:18:error:WritingInstructions.Semicolon:§1: NEVER write a semicolon. Cut the text that §7 would delete. If a semicolon remains, split the clauses into sentences, or move the series into a list.

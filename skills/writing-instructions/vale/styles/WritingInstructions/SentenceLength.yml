@@ -1,5 +1,5 @@
 extends: occurrence
-message: "§1: this sentence passes 20 words. Split it at a clause boundary, or move its series into a list."
+message: "§1: this sentence passes 20 words. Cut the text that §7 would delete. If the sentence still passes 20 words, split it at a clause boundary, or move its series into a list."
 level: suggestion
 scope: sentence
 max: 20
