@@ -1,12 +1,12 @@
 ---
 name: create-pr
-description: Create a GitHub pull request with a brief, high-level description. Use this skill when the user asks to create a PR, open a pull request, push a PR up, or anything involving authoring a new pull request on GitHub. Delegates the title and body drafting to the `describe-pr` skill.
+description: Create a GitHub pull request with a brief, high-level description. Use this skill when the user asks to create a PR, open a pull request, push a PR up, or anything involving authoring a new pull request on GitHub. Delegates the title and body drafting to the `describing-prs` skill.
 allowed-tools: Bash(gh *), Bash(git *), Read, Grep, Glob, AskUserQuestion, Skill
 ---
 
 # Create PR Skill
 
-This skill opens the PR first with a bootstrap title/body, then invokes `describe-pr` in edit mode to replace them with a proper draft. The order is deliberate: if anything goes wrong between the two phases, the PR still exists and the user can rerun `describe-pr` to fix the description. The previous design drafted first and created second, which meant a turn that ended after drafting left the user with no PR at all.
+This skill opens the PR first with a bootstrap title/body, then invokes `describing-prs` in edit mode to replace them with a proper draft. The order is deliberate: if anything goes wrong between the two phases, the PR still exists and the user can rerun `describing-prs` to fix the description. The previous design drafted first and created second, which meant a turn that ended after drafting left the user with no PR at all.
 
 ## Phase 1: Pre-flight checks
 
@@ -35,7 +35,7 @@ gh pr list --repo <parent> --head <forkOwner>:<branch> --json number,url
 
 **Stop conditions**, check before continuing:
 - Current branch equals the resolved base → tell the user to switch to a feature branch.
-- Either `gh pr list` call returned a PR → tell the user, surface the PR URL. If they want to rewrite the description, point them at the `describe-pr` skill.
+- Either `gh pr list` call returned a PR → tell the user, surface the PR URL. If they want to rewrite the description, point them at the `describing-prs` skill.
 - `git status` shows uncommitted changes → tell the user to commit first.
 
 **Resolve the remote.** If not a fork, use `origin`. If a fork, match `parent.nameWithOwner` against `git remote -v` to find the canonical remote:
@@ -58,7 +58,7 @@ Push the branch:
 git push -u <remote> HEAD
 ```
 
-Open the PR with `--fill-first`, which uses the first commit's subject and body as a temporary title/body. `describe-pr` will replace both in Phase 3.
+Open the PR with `--fill-first`, which uses the first commit's subject and body as a temporary title/body. `describing-prs` will replace both in Phase 3.
 
 ```bash
 gh pr create --assignee @me --fill-first
@@ -72,6 +72,6 @@ Do not ask the user for confirmation before creating. The placeholder is meant t
 
 ## Phase 3: Replace the description
 
-Invoke the `describe-pr` skill via the Skill tool. It detects the freshly-opened PR and runs in edit mode, overwriting the bootstrap title and body with a proper draft. Do not draft the title and body inline; the drafting rules and self-review live in `describe-pr` and only apply when it actually runs.
+Invoke the `describing-prs` skill via the Skill tool. It detects the freshly-opened PR and runs in edit mode, overwriting the bootstrap title and body with a proper draft. Do not draft the title and body inline; the drafting rules and self-review live in `describing-prs` and only apply when it actually runs.
 
 Return the PR URL when done.

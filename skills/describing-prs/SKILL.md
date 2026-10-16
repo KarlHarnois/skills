@@ -1,5 +1,5 @@
 ---
-name: describe-pr
+name: describing-prs
 description: Draft or rewrite a GitHub pull request title and body for the current branch. Use this skill whenever the user asks to write, generate, update, rewrite, edit, or regenerate a PR description, with phrasings like "describe this PR", "write the PR body", "update the PR description", "rewrite the description", or "fix up the PR body". If a PR already exists for the branch, the skill applies the new description via `gh pr edit`. Otherwise, it shows the draft to the user. Enforces a terse, bird's-eye-view style over diff enumeration.
 allowed-tools: Bash(gh *), Bash(git *), Read, Grep, Glob, AskUserQuestion
 ---
@@ -9,7 +9,7 @@ allowed-tools: Bash(gh *), Bash(git *), Read, Grep, Glob, AskUserQuestion
 This skill produces the title and body for a pull request. It runs in one of two modes depending on whether a PR already exists for the current branch:
 
 - **Edit mode**: a PR exists. The skill rewrites the description and applies it via `gh pr edit`. This is the path `create-pr` invokes, since `create-pr` always opens the PR before delegating here.
-- **Draft mode**: no PR yet. The skill shows the draft to the user without touching GitHub. Only reached when a user invokes `describe-pr` directly on a branch with no PR.
+- **Draft mode**: no PR yet. The skill shows the draft to the user without touching GitHub. Only reached when a user invokes `describing-prs` directly on a branch with no PR.
 
 ## Phase 1: Detect mode and resolve base
 

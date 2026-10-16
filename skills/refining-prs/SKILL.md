@@ -177,7 +177,7 @@ Stop early and explain if the reviewer fails twice in a row, or the tree cannot 
 
 ## Phase 3: Wrap up
 
-Refresh the PR body by invoking the `describe-pr` skill via the Skill tool. The diff has moved since the description was written, so leaving it stale means the reviewer on GitHub reads a description of a PR that no longer exists. Do not draft it inline; the drafting rules live in that skill. Skip this in branch mode with no PR.
+Refresh the PR body by invoking the `describing-prs` skill via the Skill tool. The diff has moved since the description was written, so leaving it stale means the reviewer on GitHub reads a description of a PR that no longer exists. Do not draft it inline; the drafting rules live in that skill. Skip this in branch mode with no PR.
 
 Then write `report.md` and print the same text.
 
@@ -236,7 +236,7 @@ Reverted (1)
                           the finding still stands.
 
 Outstanding: 8 findings not implemented, none critical.
-PR description refreshed via describe-pr.
+PR description refreshed via describing-prs.
 ```
 
 Keep the two kinds of pushback apart. `Pushed back` is for findings judged wrong or already handled: they are closed. `Deferred` is for findings that are correct but outside this PR, and that section is a to-do list the user may want to open tickets from, so it is worth stating what each one would take. Both sections list the reason. Together they are the whole audit trail for the decisions made without asking, and a report showing only what was implemented hides exactly the part worth checking.
