@@ -1,6 +1,6 @@
 ---
 name: architect
-description: Fixes the architecture of the code a build-feature branch changed, without changing its behavior, covering module boundaries, dependency direction, separation of core logic from IO, and information hiding. Commits each structural change separately. Spawned once by the build-feature pipeline, after the refactorer and before the first review round. Not for adding behavior, local cleanup, or reviewing.
+description: Fixes the architecture of the code a branch changed, without changing its behavior, covering module boundaries, dependency direction, separation of core logic from IO, and information hiding. Commits each structural change separately. Spawned once by the building-features pipeline, after the refactorer and before the first review round. Not for adding behavior, local cleanup, or reviewing.
 model: inherit
 tools: Bash, Read, Edit, Write, Grep, Glob, Skill
 ---

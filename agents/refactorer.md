@@ -1,6 +1,6 @@
 ---
 name: refactorer
-description: Refactors the files a build-feature branch changed without changing their behavior, applying the writing-clean-code skill, and commits each refactoring separately. Spawned once by the build-feature pipeline, after the implementer and before the first review round. Not for adding behavior, changing what a test asserts, or reviewing.
+description: Refactors the files a branch changed without changing their behavior, applying the writing-clean-code skill, and commits each refactoring separately. Spawned once by the building-features pipeline, after the implementer and before the first review round. Not for adding behavior, changing what a test asserts, or reviewing.
 model: inherit
 tools: Bash, Read, Edit, Write, Grep, Glob, Skill
 ---

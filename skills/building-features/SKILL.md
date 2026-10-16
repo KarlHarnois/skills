@@ -1,6 +1,6 @@
 ---
-name: build-feature
-description: Build a feature with a pipeline of agents. Write a spec, get the user's approval, then launch a Workflow that implements the spec, refactors it, fixes its architecture, and loops review and fixes until no finding is left in scope. Use this skill whenever the user wants agents to implement a feature, change, or fix from a description, with phrasings like "build this feature", "implement X with the pipeline", "spec it, build it, review it", "run the implementer and reviewer on this", or "/build-feature <task>". For a branch whose code already exists and needs review and fixes, use `refining-prs` instead.
+name: building-features
+description: Build a feature with a pipeline of agents. Write a spec, get the user's approval, then launch a Workflow that implements the spec, refactors it, fixes its architecture, and loops review and fixes until no finding is left in scope. Use this skill whenever the user wants agents to implement a feature, change, or fix from a description, with phrasings like "build this feature", "implement X with the pipeline", "spec it, build it, review it", "run the implementer and reviewer on this", or "/building-features <task>". For a branch whose code already exists and needs review and fixes, use `refining-prs` instead.
 ---
 
 # Build Feature
@@ -16,7 +16,7 @@ Invocation arguments, if any (the task, a round budget): $ARGUMENTS
 | task | What the user wants built, in their words. |
 | repository root | The output of `git rev-parse --show-toplevel`, run in the directory the task names by path, or in the session's working directory if the task names none. |
 | base branch | The branch the work merges into, resolved in Phase 1. |
-| workspace | `<git-dir>/build-feature/<branch-slug>/`, where `<git-dir>` is the output of `git rev-parse --absolute-git-dir` and `<branch-slug>` is the branch name with every `/` replaced by `-`. |
+| workspace | `<git-dir>/building-features/<branch-slug>/`, where `<git-dir>` is the output of `git rev-parse --absolute-git-dir` and `<branch-slug>` is the branch name with every `/` replaced by `-`. |
 | spec | `spec.md` in the workspace. |
 | verification commands | The commands that lint, typecheck, and test the project. |
 | baseline | The result of the verification commands before any work on the spec. |
@@ -127,7 +127,7 @@ If `git status --porcelain --untracked-files=all` shows paths other than the ver
 ```
 
 2. Write `state.json` in the workspace with the launch args and no run result.
-3. Copy the pipeline into the scratchpad directory your system prompt names, with `cp <pipeline> <scratchpad>/build-feature-pipeline.js`: the Workflow tool rejects a `scriptPath` outside the working directory and the directories added to the session, and this skill's base directory is neither.
+3. Copy the pipeline into the scratchpad directory your system prompt names, with `cp <pipeline> <scratchpad>/building-features-pipeline.js`: the Workflow tool rejects a `scriptPath` outside the working directory and the directories added to the session, and this skill's base directory is neither.
 4. Call the Workflow tool with `scriptPath` set to the copy and `args` set to the launch args as a JSON object, never as a JSON-encoded string.
 5. If the session has no scratchpad directory, the copy fails, or the Workflow tool rejects the copy's path, read the pipeline and pass its whole content unchanged through the Workflow tool's `script` input instead.
 6. If the Workflow call returns any other error, report its message to the user and stop.

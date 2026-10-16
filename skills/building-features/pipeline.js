@@ -1,5 +1,5 @@
 export const meta = {
-  name: 'build-feature',
+  name: 'building-features',
   description: 'Implement an approved spec, refactor it, fix its architecture, then review and apply fixes until nothing in scope is left',
   phases: [
     { title: 'Implement', detail: 'implementer writes the code and tests for the spec' },
@@ -121,12 +121,12 @@ class RunSettings {
     const invalid = Object.entries(ARG_TYPE_CHECKS)
       .filter(([name, hasValidType]) => input[name] !== undefined && !hasValidType(input[name]))
       .map(([name]) => name)
-    if (invalid.length > 0) throw new Error(`build-feature pipeline args have the wrong type: ${invalid.join(', ')}`)
+    if (invalid.length > 0) throw new Error(`building-features pipeline args have the wrong type: ${invalid.join(', ')}`)
   }
 
   requireFields(input, names) {
     const missing = names.filter(name => !input?.[name])
-    if (missing.length > 0) throw new Error(`build-feature pipeline args are missing: ${missing.join(', ')}`)
+    if (missing.length > 0) throw new Error(`building-features pipeline args are missing: ${missing.join(', ')}`)
   }
 }
 

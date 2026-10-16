@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs'
 
 const LAUNCH_ARGS = {
   repoPath: '/work/wordstats',
-  specPath: '/repo/.git/build-feature/feature-slugify/spec.md',
+  specPath: '/repo/.git/building-features/feature-slugify/spec.md',
   branch: 'feature/slugify',
   baseBranch: 'main',
   startCommit: 'f36e958',
@@ -96,7 +96,7 @@ class Replies {
 
 const pipeline = new PipelineScript()
 
-describe('build-feature pipeline', () => {
+describe('building-features pipeline', () => {
   test('runs implement, refactor, architect, then review rounds until a round keeps nothing', async () => {
     const agents = new ScriptedAgents({
       implementer: [Replies.stageDone(), Replies.triage('implemented'), Replies.triage('pushed_back')],
