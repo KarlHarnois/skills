@@ -1,6 +1,6 @@
 ---
 name: build-feature
-description: Build a feature with a pipeline of agents. Write a spec, get the user's approval, then launch a Workflow that implements the spec, refactors it, fixes its architecture, and loops review and fixes until no finding is left in scope. Use this skill whenever the user wants agents to implement a feature, change, or fix from a description, with phrasings like "build this feature", "implement X with the pipeline", "spec it, build it, review it", "run the implementer and reviewer on this", or "/build-feature <task>". For a branch whose code already exists and needs review and fixes, use `refine-pr` instead.
+description: Build a feature with a pipeline of agents. Write a spec, get the user's approval, then launch a Workflow that implements the spec, refactors it, fixes its architecture, and loops review and fixes until no finding is left in scope. Use this skill whenever the user wants agents to implement a feature, change, or fix from a description, with phrasings like "build this feature", "implement X with the pipeline", "spec it, build it, review it", "run the implementer and reviewer on this", or "/build-feature <task>". For a branch whose code already exists and needs review and fixes, use `refining-prs` instead.
 ---
 
 # Build Feature

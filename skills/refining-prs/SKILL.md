@@ -1,5 +1,5 @@
 ---
-name: refine-pr
+name: refining-prs
 description: Review a PR in a subagent, implement the findings worth keeping as small commits, and keep repeating so the PR gets better without getting bigger, until a round turns up nothing left in scope. Use this skill whenever the user wants a PR reviewed *and* fixed rather than just reported on, with phrasings like "review this PR and fix what it finds", "clean up PR 123", "keep reviewing and fixing until it's ready", "address the review feedback", "get this branch merge-ready", "loop the review until it's clean", or "iterate on this PR until it's good". Also use it for any request for repeated or iterative review passes on a branch, even when they never say "loop". For a single read-only review that changes no code and makes no commits, use `reviewing-prs` instead.
 ---
 
@@ -56,13 +56,13 @@ Record the paths the verification commands touch. Those are expected to reappear
 ### 4. Open the workspace
 
 ```bash
-mkdir -p .git/refine-pr/<branch-slug>
+mkdir -p .git/refining-prs/<branch-slug>
 ```
 
 It lives inside `.git` because git never tracks that directory, so the loop's own log cannot end up in one of the loop's own commits. It is per-repo and per-branch, and it outlives the session, so an interrupted run can be resumed by reading `state.json` and continuing from the next round.
 
 ```
-.git/refine-pr/<branch-slug>/
+.git/refining-prs/<branch-slug>/
 ├── state.json          # round counter, per-round tallies, exit reason
 ├── round-1-review.md   # the reviewer's output, verbatim
 ├── round-1-triage.md   # every finding, the decision, the reason, the commit sha
