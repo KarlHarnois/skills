@@ -161,7 +161,8 @@ case is an instruction to guess, and different readers guess differently.
 
 **NEVER write a Latin abbreviation.** An `etc.` leaves a list open, and an
 open list is an uncovered case. Replace `etc.` with the full list, or with the
-property every item shares. Replace each other abbreviation with its plain form:
+property every item shares. Replace each other Latin abbreviation with its
+plain form:
 
 | Abbreviation | Plain form |
 | --- | --- |
@@ -169,8 +170,8 @@ property every item shares. Replace each other abbreviation with its plain form:
 | `i.e.` | that is |
 | `vs.` | versus |
 
-If the table has no row for an abbreviation, write the English words
-the abbreviation stands for.
+If the table has no row for a Latin abbreviation, write the English words the
+abbreviation stands for.
 
 **If any branch can reach a destructive or unrecoverable action, the default
 MUST be to stop and ask.** The reader file names whom the reader asks.
