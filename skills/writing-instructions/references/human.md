@@ -49,12 +49,12 @@ a Definition whose predicate only expands or repeats its term.
 **A step names only the effects the reader sees or acts on.**
 
 **Give a link or a path for every document, web page, and required tool the
-text names.** A required tool is a tool the text lists as a requirement. A
-command in a code span needs no link of its own. The reader reaches an item
-through a link or a path the reader can open. If the reader can open neither,
-the reader reaches the item through its exact name. If you cannot find a link
-or a path the reader can open, ask the user for one. If the user supplies
-neither, write the item's exact name and report the item to the user.
+text names.** A required tool is a tool that a step of the text cannot run
+without. A command in a code span needs no link of its own. The reader reaches
+an item through a link or a path the reader can open. If the reader can open
+neither, the reader reaches the item through its exact name. If you cannot find
+a link or a path the reader can open, ask the user for one. If the user
+supplies neither, write the item's exact name and report the item to the user.
 
 **If a paragraph outside a numbered step opens with a sentence that binds the
 reader, bold that sentence.** Otherwise, leave the paragraph without a
