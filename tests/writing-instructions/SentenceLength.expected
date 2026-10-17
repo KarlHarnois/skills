@@ -1,2 +1,2 @@
-tests/writing-instructions/SentenceLength.md:1:1:suggestion:WritingInstructions.SentenceLength:§1: this sentence passes 20 words. Split it at a clause boundary, or move its series into a list.
-tests/writing-instructions/SentenceLength.md:7:1:suggestion:WritingInstructions.SentenceLength:§1: this sentence passes 20 words. Split it at a clause boundary, or move its series into a list.
+tests/writing-instructions/SentenceLength.md:1:1:suggestion:WritingInstructions.SentenceLength:§1: this sentence passes 20 words. Cut the text that §7 would delete. If the sentence still passes 20 words, split it at a clause boundary, or move its series into a list.
+tests/writing-instructions/SentenceLength.md:7:1:suggestion:WritingInstructions.SentenceLength:§1: this sentence passes 20 words. Cut the text that §7 would delete. If the sentence still passes 20 words, split it at a clause boundary, or move its series into a list.

@@ -1,5 +1,5 @@
 extends: occurrence
-message: "§6: this paragraph passes 140 words. Look for a joint. Length alone never forces a break."
+message: "§6: this paragraph passes 140 words. Cut the text that §7 would delete. If the paragraph still passes 140 words, look for a joint. Length alone never forces a break."
 level: suggestion
 scope: [paragraph, heading, list, blockquote, table]
 max: 140
