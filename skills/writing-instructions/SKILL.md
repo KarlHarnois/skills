@@ -25,6 +25,8 @@ a sentence meant.
   one kind of instruction text.
 - The **always-loaded instructions** are `CLAUDE.md`, `AGENTS.md`, and every
   file they import.
+- The **repository instructions** are the `CLAUDE.md` and `AGENTS.md` files in
+  the text's repository, and every file they import.
 - The **host** is the program that runs the orchestrator and its subagents,
   such as Claude Code.
 
@@ -83,6 +85,9 @@ extend. A section citation covers that section in both files. On a conflict
 with this file, a reader file rule governs its kind of instruction text. The
 quoted text rules of §13 are the exception: they govern both kinds.
 
+**If the repository instructions set what the text covers, follow them over
+this standard.** Report each conflict to the user.
+
 ## 1. Every sentence has a form
 
 **Each sentence of instruction text MUST take one of five forms.** A sentence
@@ -102,7 +107,8 @@ decoration, cut.
   or move the series into a list.
 - **Short sentences.** If a sentence passes 20 words, split it at a clause
   boundary or move its series into a list. If a sentence carries more than
-  three commas, split its clauses or move its series into a list.
+  three commas, split its clauses or move its series into a list. If the
+  series sits in a table cell, move the series to a list below the table.
 - **Condition first.** Write `If C, do X`, NEVER `Do X, in cases where C`. The
   reader needs to know whether the sentence applies before learning what it
   asks.
@@ -155,7 +161,8 @@ case is an instruction to guess, and different readers guess differently.
 
 **NEVER write a Latin abbreviation.** An `etc.` leaves a list open, and an
 open list is an uncovered case. Replace `etc.` with the full list, or with the
-property every item shares. Replace each other abbreviation with its plain form:
+property every item shares. Replace each other Latin abbreviation with its
+plain form:
 
 | Abbreviation | Plain form |
 | --- | --- |
@@ -163,8 +170,8 @@ property every item shares. Replace each other abbreviation with its plain form:
 | `i.e.` | that is |
 | `vs.` | versus |
 
-If the table has no row for an abbreviation, write the English words
-the abbreviation stands for.
+If the table has no row for a Latin abbreviation, write the English words the
+abbreviation stands for.
 
 **If any branch can reach a destructive or unrecoverable action, the default
 MUST be to stop and ask.** The reader file names whom the reader asks.
@@ -370,6 +377,23 @@ verbose" is not.
 
 **Edit one file per change.** Read the result whole.
 
+**After each restatement, compare the new sentence with the sentence it
+replaced and with what the text describes.** If the restatement changed a true
+claim, restore the old claim before you restate again. If the third
+restatement also changes a true claim, keep the old sentence and report the
+sentence to the user.
+
+**Read each sentence of the result alone.** If a sentence does any of these,
+cut the sentence or restate it:
+
+- states something false
+- states something true in only some of the cases it covers
+- repeats its subject in its predicate
+- tells the reader nothing new
+
+**If you cannot verify a sentence's claim, keep the sentence and report the
+sentence to the user.**
+
 ## 12. A rule covers a defect class
 
 **A defect class is the property of an input that produces a failure, stated
@@ -422,16 +446,18 @@ rule to any other file and reports the file clean.
    root that pins the Vale build.
 
 2. Act on the linter's exit code, per the exit code table.
-3. Read the result whole, as §11 requires. A run with no alerts does not
-   clear the file, because the linter cannot detect meaning. Check every
-   sentence against every rule whose test depends on meaning. Check every
-   sentence the linter did not fully read against every rule. The linter
-   reads no code block and no file that is not Markdown. In front matter, the
-   linter reads words but no sentence pattern. A run that did not exit 0 or 1
-   read nothing. Skip quoted text and the code around a prompt. Restate each
-   defect this step finds in an edited block. Report the number of such
-   defects outside the edited blocks to the user. A sentence that breaks two
-   rules counts as two defects.
+3. Read the result whole, and run the §11 checks on every edited block. A run
+   with no alerts does not clear the file, because the linter cannot detect
+   meaning. Check every sentence against every rule whose test depends on
+   meaning. Check every sentence the linter did not fully read against every
+   rule. The linter reads no code block and no file that is not Markdown. In
+   front matter, the linter reads words but no sentence pattern. A run that did
+   not exit 0 or 1 read nothing. Skip quoted text and the code around a prompt.
+
+   For each defect this step finds in an edited block, apply the §7 deletion
+   test first. If the text survives the test, restate the text. Report the
+   number of such defects outside the edited blocks to the user. A sentence
+   that breaks two rules counts as two defects.
 
 **Act on the exit code:**
 
@@ -464,8 +490,8 @@ to the user instead.** The linter checks code spans in front matter too.
 
 | Level | Action |
 | --- | --- |
-| `error` | Restate the flagged text so it meets the cited section. |
-| `warning` or `suggestion` | Read the cited section. If its rule holds for the flagged text, restate the text. Otherwise, leave the text. |
+| `error` | Apply the §7 deletion test to the flagged text first. If the text survives the test, restate the text so it meets the cited section. |
+| `warning` or `suggestion` | Read the cited section. If its rule does not hold for the flagged text, leave the text. Otherwise, apply the §7 deletion test first. If the text survives the test, restate the text. |
 
 **NEVER swap in a synonym that breaks the cited rule to clear an alert.** The
 synonym hides the break from the linter.

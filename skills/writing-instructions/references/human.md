@@ -5,6 +5,11 @@
 - In human instruction text, the reader is a person.
 - An **owner** is the person or team the reader asks or reports to.
 
+## 1. Every sentence has a form
+
+**One rule per sentence applies only to a sentence that binds the reader.** A
+sentence that describes a product, a tool, or a behavior MAY state two facts.
+
 ## 2. Force is a controlled vocabulary
 
 **Write every force word in lowercase:** a person reads a force word in all
@@ -28,15 +33,28 @@ the owner's contact.** If you cannot name the owner or the owner's contact, ask
 the user for the missing part. If the user does not supply the missing part,
 keep the step and report the missing part to the user.
 
+## 4. Every action states its failure branch
+
+**§4 applies to the steps of a procedure.** A sentence that describes a
+product, a tool, or a behavior needs no failure branch.
+
+## 5. One concept, one term
+
+**A term the reader already knows needs no Definition sentence.** A term the
+reader already knows is a term in common use in the reader's field. NEVER write
+a Definition whose predicate only expands or repeats its term.
+
 ## 6. Modular structure, formatted to be scanned
 
+**A step names only the effects the reader sees or acts on.**
+
 **Give a link or a path for every document, web page, and required tool the
-text names.** A required tool is a tool the text lists as a requirement. A
-command in a code span needs no link of its own. The reader reaches an item
-through a link or a path the reader can open. If the reader can open neither,
-the reader reaches the item through its exact name. If you cannot find a link
-or a path the reader can open, ask the user for one. If the user supplies
-neither, write the item's exact name and report the item to the user.
+text names.** A required tool is a tool that a step of the text cannot run
+without. A command in a code span needs no link of its own. The reader reaches
+an item through a link or a path the reader can open. If the reader can open
+neither, the reader reaches the item through its exact name. If you cannot find
+a link or a path the reader can open, ask the user for one. If the user
+supplies neither, write the item's exact name and report the item to the user.
 
 **If a paragraph outside a numbered step opens with a sentence that binds the
 reader, bold that sentence.** Otherwise, leave the paragraph without a
@@ -47,6 +65,22 @@ step number already makes a sentence inside a numbered step findable.
 
 **An example MAY follow a rule:** a person generalizes from an example instead
 of copying its surface.
+
+**A README gives an overview.** An overview covers these:
+
+- what the project does
+- how to install and start using the project
+- a summary of each interface the project offers
+
+**If one of these shows a fact where the reader needs the fact, leave the fact
+out of the README:**
+
+- a program's help, in its `--help` output or on a help screen
+- an error message
+- a config file's comments
+
+**This rule outranks every rule of this standard that adds content to a
+README.**
 
 ## 8. What MUST survive
 
