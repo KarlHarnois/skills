@@ -36,7 +36,7 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
 
 1. Run `ringleader list --json`. If `ringleader` is not on PATH, ask the user for the path of the binary, and run that path instead. If the listing fails, stop and tell the user that this skill runs only inside a Ringleader session. NEVER fall back to in-process subagents. A subagent dies with the manager, runs on the manager's model, and shows the user no pane.
 2. Invoke the Ringleader skill. Find the current session, per its "Find the current session" steps.
-3. Invoke `/instructions:writing-instructions`. If the invocation fails, stop and tell the user to install the `instructions` plugin from the `karl-skills` marketplace. Every handoff is model instruction text.
+3. Invoke `/instructions:writing-model-instructions`. If the invocation fails, stop and tell the user to install the `instructions` plugin from the `karl-skills` marketplace. Every handoff is model instruction text.
 4. If `$ARGUMENTS` names a state file, use that file. Otherwise, look for `state.md` in each folder of the default state directory's parent. If more than one exists, ask the user which roadmap to run.
 5. If a state file exists, run Resume. Otherwise, run Setup.
 
@@ -71,7 +71,7 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
 
 | Kind | Use it when | What the worker does | Template | Name prefix |
 | --- | --- | --- | --- | --- |
-| Research | The item touches a core area of the profile, or the cause of its problem is unknown. | Tests the manager's hypotheses with staged prototype commits. Reports and never decides. | `references/handoff-research.md` | `research-` |
+| Research | The item touches a core area of the profile, or the cause of its problem is unknown. | Tests the manager's hypotheses with staged prototype commits. Reports and NEVER decides. | `references/handoff-research.md` | `research-` |
 | Design pilot | The item has an open design outside the core areas. | Writes options and a recommendation, checks them against the settled rules, and prototypes the recommendation. | `references/handoff-design.md` | `design-` |
 | Build | The research or design is accepted, or the settled rules decide every choice of the item. | Builds the change one logical commit at a time and opens one pull request. | `references/handoff-build.md` | `build-` |
 | Fix list | A review found a blocking defect, or the gate failed on a pull request. | Applies numbered steps in the same session. | `references/handoff-fix-list.md` | `fix-`, for a fresh session only |
@@ -83,7 +83,7 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
 
 1. Pick the next items, per Parallelism.
 2. Write each handoff, per `references/prompt-standards.md` and the template of its kind. Save the handoff as `<state directory>/handoffs/<session name>-<round>.md`, where the round counts the handoffs sent to that session.
-3. Lint each handoff, and handle each alert, per the `writing-instructions` skill.
+3. Lint each handoff, and handle each alert, per the `instructions:writing-model-instructions` skill.
 4. Dispatch each handoff, per Transport.
 5. Record each dispatch in the state file, per `references/state-file.md`.
 6. Start the watcher of each dispatched worker, per Transport.
