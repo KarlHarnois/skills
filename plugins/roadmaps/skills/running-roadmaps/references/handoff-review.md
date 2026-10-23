@@ -20,11 +20,12 @@
 
 **Goal: find every defect that blocks the merge of pull request <number>, and send the findings to the manager.**
 
-Your worktree is on the pull request's branch. The base branch is `<remote>/<base branch>`.
+Your worktree is on a branch of its own, which starts at the head of the pull request's branch `<branch>`. The base branch is `<remote>/<base branch>`.
 
 ## Rules
 
 - Keep every scratch file under `<scratch directory>` in your worktree. NEVER read or write a path outside your worktree.
+- NEVER switch branches or run `gh pr checkout`: the worker holds `<branch>` in its own worktree.
 - NEVER trust the report below. It is the worker's claim about its work. Check each claim against the diff.
 - NEVER run the gate. The manager runs the gate before the merge.
 - Grade each finding as blocking or minor, per the Severity section.
@@ -32,7 +33,7 @@ Your worktree is on the pull request's branch. The base branch is `<remote>/<bas
 ## Steps
 
 1. Run `git fetch <remote>`, then `git diff <remote>/<base branch>...HEAD`. Read every changed line.
-2. If you can invoke the `prs:reviewing-prs` skill, invoke it on pull request <number>, and add its findings to yours.
+2. If you can invoke the `prs:reviewing-prs` skill, invoke it with no pull request number, so that it reviews your current branch. Add its findings to yours.
 3. Check the diff against the build task, the fix lists, and the Checklist.
 4. Check each claim of the report against the diff.
 5. Write the findings, per the Findings section, and send them, per the Done section.
