@@ -1,6 +1,6 @@
 ---
 name: writing-model-instructions
-description: "This skill is the prose standard for model instruction text, the text a model loads to follow. Model instruction text includes CLAUDE.md, AGENTS.md, and the files they import, plus SKILL.md files and their reference files. It also includes agent definitions, slash commands, and prompts a program sends to a model. Use this skill before writing, editing, or reviewing model instruction text, including a one-sentence change. READMEs, runbooks, and guides for people are human instruction text: use writing-human-instructions for them. PR descriptions, commit messages, design docs, and reviews are out of scope."
+description: "This skill is the prose standard for model instruction text, the text a model loads to follow. Model instruction text includes CLAUDE.md, AGENTS.md, and the files they import, plus SKILL.md files and their reference files. It also includes agent definitions, slash commands, and prompts a program sends to a model. Use this skill before writing, editing, or reviewing model instruction text, including a one-sentence change. READMEs, runbooks, and guides for people are human instruction text: use instructions:writing-human-instructions for them. PR descriptions, commit messages, design docs, and reviews are out of scope."
 allowed-tools: Bash(${CLAUDE_SKILL_DIR}/scripts/lint.sh *)
 ---
 
