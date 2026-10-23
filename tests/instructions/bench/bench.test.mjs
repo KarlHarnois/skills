@@ -127,6 +127,11 @@ describe('BlindPanel', () => {
   test('refuses a ranking that leaves out a rewrite', () => {
     assert.throws(() => panel.unmask({ rewrites: [verdict('A'), verdict('B')], ranking: ['A'] }), /ranking leaves out B/)
   })
+
+  test('refuses scores that name one rewrite twice', () => {
+    const twice = { rewrites: [verdict('A'), verdict('A/'), verdict('B')], ranking: ['A', 'B'] }
+    assert.throws(() => panel.unmask(twice), /scores name A more than once/)
+  })
 })
 
 describe('PromptTemplate', () => {

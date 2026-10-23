@@ -108,5 +108,7 @@ export class BlindPanel {
   requireEveryLabel(labels, part) {
     const missing = [...this.rewriteByLabel.keys()].filter(label => !labels.includes(label))
     if (missing.length) throw new Error(`judge ${part} leaves out ${missing.join(', ')}`)
+    const repeated = [...new Set(labels.filter((label, index) => labels.indexOf(label) !== index))]
+    if (repeated.length) throw new Error(`judge ${part} name ${repeated.join(', ')} more than once`)
   }
 }
