@@ -1,0 +1,3 @@
+tests/instructions/model/Narrative.md:1:1:suggestion:WritingInstructions.Narrative:§7: first person 'We' reads as narrative. State the rule, not the story behind it.
+tests/instructions/model/Narrative.md:7:20:suggestion:WritingInstructions.Narrative:§7: first person 'we' reads as narrative. State the rule, not the story behind it.
+tests/instructions/model/Narrative.md:9:20:suggestion:WritingInstructions.Narrative:§7: first person 'we' reads as narrative. State the rule, not the story behind it.

@@ -1,0 +1,9 @@
+extends: existence
+message: "§2: '%s' is outside the force vocabulary. If it states obligation, permission, or preference, write the §2 force word for that meaning. If it does not, leave it."
+level: suggestion
+tokens:
+  - shall
+  - required\s+to
+  - needs?\s+to
+  - ha(?:ve|s)\s+to
+  - ought\s+to

@@ -1,0 +1,7 @@
+extends: existence
+message: "§2: '%s' is a force word in lowercase. If it states force, write it in all capitals. If it is in its ordinary sense, leave it."
+level: suggestion
+tokens:
+  - should
+  - may
+  - '[Pp]refer'

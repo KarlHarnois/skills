@@ -1,0 +1,16 @@
+tests/instructions/model/ConditionLast.md:1:19:suggestion:WritingInstructions.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
+tests/instructions/model/ConditionLast.md:11:14:suggestion:WritingInstructions.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
+tests/instructions/model/ConditionLast.md:17:9:suggestion:WritingInstructions.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
+tests/instructions/model/ConditionLast.md:23:12:suggestion:WritingInstructions.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
+tests/instructions/model/ConditionLast.md:25:23:suggestion:WritingInstructions.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
+tests/instructions/model/ConditionLast.md:27:22:suggestion:WritingInstructions.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
+tests/instructions/model/ConditionLast.md:29:14:suggestion:WritingInstructions.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
+tests/instructions/model/ConditionLast.md:31:29:suggestion:WritingInstructions.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
+tests/instructions/model/ConditionLast.md:33:18:error:WritingInstructions.Semicolon:§1: NEVER write a semicolon. Cut the text that §7 would delete. If a semicolon remains, split the clauses into sentences, or move the series into a list.
+tests/instructions/model/ConditionLast.md:33:25:suggestion:WritingInstructions.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
+tests/instructions/model/ConditionLast.md:39:14:suggestion:WritingInstructions.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
+tests/instructions/model/ConditionLast.md:45:28:suggestion:WritingInstructions.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
+tests/instructions/model/ConditionLast.md:47:19:suggestion:WritingInstructions.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
+tests/instructions/model/ConditionLast.md:49:19:suggestion:WritingInstructions.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
+tests/instructions/model/ConditionLast.md:51:19:suggestion:WritingInstructions.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.
+tests/instructions/model/ConditionLast.md:53:19:suggestion:WritingInstructions.ConditionLast:§1: the condition follows the action. Write 'If C, do X', not 'Do X if C'.

@@ -1,0 +1,2 @@
+tests/instructions/human/ForceSynonym.md:1:5:suggestion:WritingInstructions.ForceSynonym:§2: 'need to' is outside the force vocabulary. If it states obligation, permission, or preference, write the §2 force word for that meaning. If it does not, leave it.
+tests/instructions/human/ForceSynonym.md:3:9:suggestion:WritingInstructions.ForceSynonym:§2: 'shall' is outside the force vocabulary. If it states obligation, permission, or preference, write the §2 force word for that meaning. If it does not, leave it.

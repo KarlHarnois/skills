@@ -1,5 +1,0 @@
-tests/writing-instructions/ForcePassive.md:1:11:warning:WritingInstructions.ForcePassive:§2: 'MUST be cleared' attaches force to a passive verb. Name the actor and make it the subject.
-tests/writing-instructions/ForcePassive.md:3:11:warning:WritingInstructions.ForcePassive:§2: 'must be cleared' attaches force to a passive verb. Name the actor and make it the subject.
-tests/writing-instructions/ForcePassive.md:5:12:warning:WritingInstructions.ForcePassive:§2: 'MUST NOT be merged' attaches force to a passive verb. Name the actor and make it the subject.
-tests/writing-instructions/ForcePassive.md:7:12:warning:WritingInstructions.ForcePassive:§2: 'MUST be rewritten' attaches force to a passive verb. Name the actor and make it the subject.
-tests/writing-instructions/ForcePassive.md:9:11:warning:WritingInstructions.ForcePassive:§2: 'MUST always be rebuilt' attaches force to a passive verb. Name the actor and make it the subject.
