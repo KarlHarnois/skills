@@ -1,4 +1,5 @@
-const UPPERCASE_FORCE_WORD = /\b(?:MUST|NEVER|ALWAYS|SHOULD|MAY)\b/
+const ABSOLUTE_FORCE_WORD = /\b(?:MUST|NEVER|ALWAYS)\b/
+const WEAKER_FORCE_WORD = /\b(?:SHOULD|MAY)\b/
 
 export const Verdict = Object.freeze({
   CORRECT: 'correct',
@@ -19,11 +20,14 @@ export class ForceSiteCheck {
     if (prose.length === 0) return Verdict.LOST
     const match = prose.map(line => this.matchIn(line.text)).find(Boolean)
     if (match) return this.accepts(match) ? Verdict.CORRECT : Verdict.WRONG
-    return this.restatedWithForce(prose) ? Verdict.CORRECT : Verdict.REWORDED
+    return this.judgeRestatement(prose)
   }
 
-  restatedWithForce(lines) {
-    return this.statesForce && lines.some(line => UPPERCASE_FORCE_WORD.test(line.text))
+  judgeRestatement(lines) {
+    if (!this.statesForce) return Verdict.REWORDED
+    if (lines.some(line => ABSOLUTE_FORCE_WORD.test(line.text))) return Verdict.CORRECT
+    if (lines.some(line => WEAKER_FORCE_WORD.test(line.text))) return Verdict.WRONG
+    return Verdict.REWORDED
   }
 
   matchIn(text) {

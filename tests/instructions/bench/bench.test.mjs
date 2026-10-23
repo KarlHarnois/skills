@@ -69,6 +69,11 @@ describe('ForceSiteCheck', () => {
     assert.equal(ordinary.judge(Fixture.tree('Amounts MUST be in cents.')), Verdict.REWORDED)
   })
 
+  test('rejects a force-stating site weakened to SHOULD or MAY', () => {
+    assert.equal(stating.judge(Fixture.tree('You SHOULD NOT push the archive.')), Verdict.WRONG)
+    assert.equal(stating.judge(Fixture.tree('You MAY skip the archive.')), Verdict.WRONG)
+  })
+
   test('reports a site whose word was reworded or whose anchor was lost', () => {
     assert.equal(stating.judge(Fixture.tree('Do not push the archive.')), Verdict.REWORDED)
     assert.equal(stating.judge(Fixture.tree('Do not push.')), Verdict.LOST)
