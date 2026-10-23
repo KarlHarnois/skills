@@ -4,7 +4,7 @@
 
 ## Template
 
-Write the state file from `templates/state.md`. Keep the section order.
+**Write the state file from `templates/state.md`.** Keep the section order.
 
 ## Sections
 

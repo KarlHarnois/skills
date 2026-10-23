@@ -1,6 +1,6 @@
 ---
 name: running-roadmaps
-description: Run a roadmap as its engineering manager. Agree the roadmap and its design decisions with the user, then dispatch Ringleader worker sessions for research, design pilots and builds. Review each pull request with a fresh reviewer session, send fix lists, merge behind a gate, and dispatch the next item without asking. Stop only for decisions the user owns. Use this skill when the user asks this session to manage, orchestrate, or run a roadmap, a plan, or a set of phases through other Ringleader sessions, with phrasings like "be the engineering manager", "dispatch sessions for each phase", "run this plan with workers", or "/running-roadmaps". Also use it after a compaction when a roadmap state file names this session as its manager. For one task in one session, use `building-features` instead.
+description: Run a roadmap as its engineering manager through Ringleader worker sessions. Agree the roadmap and its decisions with the user, then dispatch workers for research, design pilots and builds. Review each pull request with a fresh reviewer, send fix lists, and merge behind a gate. Stop only for decisions the user owns. Use this skill when the user asks this session to run a roadmap or a plan through other Ringleader sessions. Trigger phrases include "be the engineering manager", "dispatch sessions for each phase", and "/running-roadmaps". Also use it after a compaction when a roadmap state file names this session as its manager. For one task in one session, use `building-features` instead.
 ---
 
 # Running roadmaps
@@ -107,7 +107,7 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
 
 ## Handle a stop
 
-The first line the watcher prints is `<session name>: <reason>`.
+**The first line the watcher prints is `<session name>: <reason>`.**
 
 | Reason | Action |
 | --- | --- |

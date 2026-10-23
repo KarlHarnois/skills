@@ -75,14 +75,14 @@
 | Departures | each place where the worker departed from the handoff, and why |
 | Undone | each step the worker did not finish, and why |
 
-The status words:
+**The status words:**
 
 - `DONE`: every step finished.
 - `DONE_WITH_CONCERNS`: every step finished, and the worker doubts part of the result.
 - `BLOCKED`: a failure branch stopped the task.
 - `NEEDS_CONTEXT`: the handoff lacks a fact that the task needs.
 
-The rules of a report:
+**The rules of a report:**
 
 - Tell the worker to NEVER paste test output.
 - Cap a report sent as a message at 30 lines. Cap a report file at 15 KB.
@@ -100,7 +100,7 @@ The rules of a report:
 
 **NEVER put a backtick, a dollar sign, or a double quote in a handoff title.** The shell expands those characters in the send command.
 
-The template of each kind holds its Done section. `templates/build.md` and `templates/fix-list.md` show the form that holds the report.
+**The template of each kind holds its Done section.** `templates/build.md` and `templates/fix-list.md` show the form that holds the report.
 
 ## Opener and skeleton
 

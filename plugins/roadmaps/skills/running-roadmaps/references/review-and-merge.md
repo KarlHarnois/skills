@@ -56,15 +56,15 @@
    | Exit code | Verdict | Action |
    | --- | --- | --- |
    | 0 | `ready` | Go to step 3. |
-   | 4 | `ready-after-rebase` | Run the push command that the merge gate printed. Then run step 1 again. |
+   | 4 | `ready-after-rebase` | Run the push command that the merge gate printed. Then run step 1 again. If step 1 returns 4 a third time, tell the user. |
    | 1 | `gate-failed` | Find the cause, and send a fix list with the failing command, the log tail, and the cause. If the branch was not based on the base branch, its first step rebases. |
    | 3 | `conflict` | Send a fix list that rebases onto `<remote>/<base branch>`. Read both sides of each conflicting path, and name the side to keep. |
    | 5 | `git-failed` | If the branch is missing from the remote, send a fix list that pushes it. Otherwise, fix the cause and run step 1 again, at most twice. If it still fails, tell the user. |
-   | 2 | usage | Fix the command and run step 1 again, once. |
+   | 2 | usage | Fix the command and run step 1 again, once. If it exits 2 again, tell the user. |
 
-3. If the profile requires CI, run `gh pr checks <number>`. If a check fails, send a fix list that names the check. If a check is still running, wait for it, and run this step again. Run this step after the merge gate: a push of rebased commits starts a new CI run.
+3. If the profile requires CI, run `gh pr checks <number>`. If a check fails, send a fix list that names the check. If a check is still running, wait five minutes and run this step again, at most six times. If a check still runs after that, tell the user. Run this step after the merge gate: a push of rebased commits starts a new CI run.
 4. Run `gh pr merge <number> --<merge method>` as its own command, after you read exit code 0 and step 3 passes. NEVER run the merge gate and the merge in one command line: the merge could run after a failed check.
-5. If `gh pr merge` fails because the base branch moved, run step 1 again. If it fails for another reason, tell the user its output.
+5. If `gh pr merge` fails because the base branch moved, run step 1 again, at most twice. If it fails for another reason, tell the user its output.
 6. If the main checkout is on the base branch and `git status --porcelain` prints nothing there, run `git pull --ff-only` in it. Otherwise, leave the main checkout as it is. If the pull fails, tell the user. NEVER switch the branch of the main checkout: it is the user's directory.
 7. Run `git fetch <remote>`. Compare `git rev-parse '<remote>/<base branch>^{tree}'` with the tree that the merge gate printed. If the trees differ, run Gate the base branch.
 8. Record the merge and the tree that passed the gate in the Log section of the state file.
@@ -74,7 +74,7 @@
 
 **NEVER run a gate command in the working tree of the main checkout.** The main checkout is the user's directory, and its uncommitted and ignored files change the result.
 
-The base-branch gate is this command. Run it from the main checkout, with one `--gate` per gate command:
+**The base-branch gate is this command.** Run it from the main checkout, with one `--gate` per gate command:
 
 ```sh
 <this skill's base directory>/scripts/merge-gate.sh --remote <remote> --base <base branch> --branch <base branch> --gate '<gate command>'
@@ -93,7 +93,7 @@ The base-branch gate is this command. Run it from the main checkout, with one `-
 
 **If the gate fails on the base branch, NEVER merge or dispatch anything else until it passes again.**
 
-If a gate command fails because of the machine and not the code, tell the user and stop. A build cannot repair the machine. Otherwise, follow these steps:
+**If a gate command fails because of the machine and not the code, tell the user and stop.** A build cannot repair the machine. Otherwise, follow these steps:
 
 1. Find the commits since the last tree that passed the gate, per the Log section of the state file. If the Log records no such tree, tell the user and stop.
 2. Dispatch a build that fixes the failure, with the prefix `fix-`. Name the failing command, its output tail, and those commits in the handoff.

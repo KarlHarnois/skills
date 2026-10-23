@@ -21,7 +21,7 @@
 | Roadmap | The roadmap adapter and its location, per `roadmap-adapters.md`. | ask the user |
 | Authority | The actions the manager takes without asking, per Authority below. | ask the user |
 
-The profile also holds these lists, one section each:
+**The profile also holds these lists, one section each:**
 
 | List | Meaning | Where to find it |
 | --- | --- | --- |
@@ -36,7 +36,7 @@ The profile also holds these lists, one section each:
 
 **If the Authority field lists an action, the manager takes the action without asking.** Ask the user before every other action that changes a remote, deletes something, or merges.
 
-Offer the user this grant, and record the grant the user gives:
+**Offer the user this grant, and record the grant the user gives:**
 
 - merge pull requests that pass the gate
 - delete the worker sessions and branches that this manager created

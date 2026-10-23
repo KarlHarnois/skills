@@ -54,7 +54,7 @@ Give each commit a description of two or three sentences.
 2. Push the branch.
 3. Open the pull request with `gh pr create --assignee @me`, the title `<pull request title>`, and this description:
 
-   ```markdown
+   ```text
    ## Summary
    <two or three plain sentences: what the code does now, and why>
 

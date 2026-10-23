@@ -2,7 +2,7 @@
 
 **An adapter is the way the manager reads and changes the roadmap.** The Roadmap field of the profile names the adapter and its location.
 
-Every adapter supports these four operations:
+**Every adapter supports these four operations:**
 
 | Operation | Effect |
 | --- | --- |
@@ -32,4 +32,4 @@ Every adapter supports these four operations:
 4. Tick an item by setting its `checked` attribute.
 5. After each change, record the document's new revision in the Log section.
 
-If a Claude Docs call fails, retry it once. If it fails again, record the operation under NEXT in the state file, and tell the user.
+**If a Claude Docs call fails, retry it once.** If it fails again, record the operation under NEXT in the state file, and tell the user.
