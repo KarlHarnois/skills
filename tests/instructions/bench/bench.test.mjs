@@ -4,6 +4,7 @@ import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { BenchCase } from './lib/bench-case.mjs'
 import { BenchReport } from './lib/bench-report.mjs'
+import { BlindPanel } from './lib/blind-panel.mjs'
 import { ForceSiteCheck, PlacementCheck, Verdict } from './lib/checks.mjs'
 import { MarkdownTree } from './lib/markdown-tree.mjs'
 import { PromptTemplate } from './lib/prompt-template.mjs'
@@ -101,6 +102,24 @@ describe('bench cases', () => {
     const { verdicts } = Fixture.case('prompt-templates')
     assert.deepEqual(Object.values(verdicts.templates), [Verdict.WRONG, Verdict.WRONG])
     assert.deepEqual(Object.values(verdicts.fencedControls), [Verdict.CORRECT])
+  })
+})
+
+describe('BlindPanel', () => {
+  const panel = new BlindPanel({
+    benchCase: { name: 'force-words' },
+    rewrites: [{ id: 'force-words/base-1' }, { id: 'force-words/head-1' }],
+    root: '/unused',
+  })
+  const verdict = label => ({ label, fidelity: 8, usefulness: 8, concision: 8, clarity: 8, invented: 0, wrong: 0, harmful: 0, note: '' })
+
+  test('reads a label written as its directory name', () => {
+    const ranks = panel.unmask({ rewrites: [verdict('A/'), verdict('B')], ranking: ['B/', 'A'] }).map(({ rank }) => rank)
+    assert.deepEqual(ranks, [2, 1])
+  })
+
+  test('refuses a ranking that leaves out a rewrite', () => {
+    assert.throws(() => panel.unmask({ rewrites: [verdict('A'), verdict('B')], ranking: ['A'] }), /ranking leaves out B/)
   })
 })
 

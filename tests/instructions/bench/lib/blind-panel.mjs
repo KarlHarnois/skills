@@ -85,15 +85,28 @@ export class BlindPanel {
   }
 
   unmask({ rewrites, ranking }) {
-    return rewrites
+    const rankedLabels = ranking.map(BlindPanel.bareLabel)
+    this.requireEveryLabel(rankedLabels, 'ranking')
+    const verdicts = rewrites.map(verdict => ({ ...verdict, label: BlindPanel.bareLabel(verdict.label) }))
+    this.requireEveryLabel(verdicts.map(({ label }) => label), 'scores')
+    return verdicts
       .filter(({ label }) => this.rewriteByLabel.has(label))
       .map(({ label, fidelity, usefulness, concision, clarity, invented, wrong, harmful, note }) => ({
         id: this.rewriteByLabel.get(label).id,
         total: fidelity + usefulness + concision + clarity,
         scores: { fidelity, usefulness, concision, clarity },
         counts: { invented, wrong, harmful },
-        rank: ranking.indexOf(label) + 1,
+        rank: rankedLabels.indexOf(label) + 1,
         note,
       }))
+  }
+
+  static bareLabel(label) {
+    return label.replace(/[`/\s]/g, '')
+  }
+
+  requireEveryLabel(labels, part) {
+    const missing = [...this.rewriteByLabel.keys()].filter(label => !labels.includes(label))
+    if (missing.length) throw new Error(`judge ${part} leaves out ${missing.join(', ')}`)
   }
 }
