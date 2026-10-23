@@ -1,7 +1,7 @@
 import { describe, test, beforeEach, afterEach } from 'node:test'
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { chmodSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
@@ -63,6 +63,12 @@ class RepositoryWithRemote {
     this.switchTo('main')
     this.commit(path, contents, `Change ${path} on main`)
     this.push('main')
+  }
+
+  refuseRebases() {
+    const hook = join(this.checkout, '.git', 'hooks', 'pre-rebase')
+    writeFileSync(hook, '#!/bin/sh\nexit 1\n')
+    chmodSync(hook, 0o755)
   }
 
   worktreeCount() {
@@ -164,6 +170,15 @@ describe('merge-gate.sh', () => {
     const verdict = new Verdict(repository.runGate(COUNT_GATE))
     assert.equal(verdict.status, 3)
     assert.match(verdict.last, /^conflict: .*names\.txt/)
+  })
+
+  test('reports a rebase that fails without a conflict as a git failure', () => {
+    repository.addSecondNameOnBranch()
+    repository.moveMainWithFile('README.md', 'names\n')
+    repository.refuseRebases()
+    const verdict = new Verdict(repository.runGate(COUNT_GATE))
+    assert.equal(verdict.status, 5)
+    assert.match(verdict.last, /^git-failed: `git rebase origin\/main` failed without a conflict, full log: /)
   })
 
   test('fails the gate on the rebased tree, not on the branch alone', () => {

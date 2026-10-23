@@ -86,12 +86,16 @@ gate_rebased_branch() {
 }
 
 rebase_onto_base() {
-  if ! git -C "$scratch_worktree" rebase --quiet "$base_ref" >"$gate_log" 2>&1; then
-    local conflicting_paths
-    conflicting_paths=$(git -C "$scratch_worktree" diff --name-only --diff-filter=U | tr '\n' ' ')
-    git -C "$scratch_worktree" rebase --abort >/dev/null 2>&1 || true
-    stop "$EXIT_CONFLICT" "conflict: $branch does not rebase cleanly onto $base_ref, conflicting paths: $conflicting_paths"
-  fi
+  git -C "$scratch_worktree" rebase --quiet "$base_ref" >"$gate_log" 2>&1 || stop_failed_rebase
+}
+
+stop_failed_rebase() {
+  local conflicting_paths
+  conflicting_paths=$(git -C "$scratch_worktree" diff --name-only --diff-filter=U | tr '\n' ' ')
+  git -C "$scratch_worktree" rebase --abort >/dev/null 2>&1 || true
+  [ -n "$conflicting_paths" ] ||
+    stop "$EXIT_GIT_FAILED" "git-failed: \`git rebase $base_ref\` failed without a conflict, full log: $gate_log"
+  stop "$EXIT_CONFLICT" "conflict: $branch does not rebase cleanly onto $base_ref, conflicting paths: $conflicting_paths"
 }
 
 run_gate() {
