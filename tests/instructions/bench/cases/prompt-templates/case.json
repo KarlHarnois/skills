@@ -1,0 +1,12 @@
+{
+  "entry": "SKILL.md",
+  "role": "a skill that a coding model loads when the user asks it to triage invoice disputes, with one reference file",
+  "forceSites": [
+    { "anchor": "dispute queue", "word": "never", "statesForce": true },
+    { "anchor": "invoice number", "word": "must", "statesForce": true },
+    { "anchor": "policy line", "word": "always", "statesForce": true },
+    { "anchor": "approve a refund", "word": "never", "statesForce": true }
+  ],
+  "templates": ["Summary: {customer}", "Review: {customer}"],
+  "fencedControls": ["bin/dispatch --worker"]
+}

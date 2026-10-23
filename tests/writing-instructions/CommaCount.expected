@@ -1,1 +1,0 @@
-tests/writing-instructions/CommaCount.md:1:18:suggestion:WritingInstructions.CommaCount:§1: this sentence carries more than three commas. Cut the text that §7 would delete. If the sentence keeps more than three commas, split its clauses into sentences, or move its series into a list.

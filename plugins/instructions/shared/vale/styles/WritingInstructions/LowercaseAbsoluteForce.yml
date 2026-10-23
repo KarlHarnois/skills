@@ -1,0 +1,7 @@
+extends: existence
+message: "§2: Does '%s' state force? If it does, write it in all capitals. If it is in its ordinary sense, leave it."
+level: suggestion
+tokens:
+  - '[Mm]ust(?!-)'
+  - '[Aa]lways(?!-)'
+  - never(?!-)

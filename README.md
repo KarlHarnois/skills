@@ -8,7 +8,7 @@ named `karl-skills`. The skills are grouped by area into plugins under
 | Plugin | Skills | Agents | Depends on |
 | --- | --- | --- | --- |
 | `clean-code` | `writing-clean-code` | none | none |
-| `instructions` | `writing-instructions` | none | none |
+| `instructions` | `writing-model-instructions`, `writing-human-instructions` | none | none |
 | `prs` | the four PR skills listed below | `reviewer` | none |
 | `features` | `building-features` | the three agents listed below | `prs`, `clean-code`, `instructions` |
 | `wikis` | `building-discovery-wikis` | `surface-crawler` | none |
@@ -97,14 +97,14 @@ make uninstall
 
 `make install` needs the [`claude` CLI](https://code.claude.com/docs/en/setup)
 and [Nix](https://nixos.org/download).
-The `writing-instructions` skill lints instruction text with
+Both `instructions` skills lint instruction text with
 [Vale](https://vale.sh). The flake in `plugins/instructions/` pins
 the Vale build, so every machine runs the same version. Apple Silicon Macs
 work. Intel Macs do not, since nixpkgs-unstable dropped them.
 
 Without nix, `make install` stops with `nix not found, see README` before it
-installs anything. If the linter cannot run later, the `writing-instructions`
-skill reports the failure and checks the text by hand.
+installs anything. If the linter cannot run later, the `instructions` skills
+report the failure and check the text by hand.
 
 ## Testing
 
@@ -114,13 +114,39 @@ make test
 
 This runs two suites, and each has its own target:
 
-- `make test-node` runs every `*.test.mjs` under `plugins/` with
+- `make test-node` runs every `*.test.mjs` under `plugins/` and `tests/` with
   `node --test`, so it needs [Node](https://nodejs.org).
-- `make test-writing-instructions` runs the `writing-instructions` lint script
-  against the fixtures in `tests/writing-instructions/`, so it needs nix. It
-  diffs the alerts against each `.expected` file. The fixtures include lists
-  and tables, which Vale skipped before 3.17. After every `nix flake update`,
-  run `make test-writing-instructions`.
+- `make test-instructions` lints the fixtures in `tests/instructions/<kind>/`
+  with that kind's Vale config, so it needs nix. It diffs the alerts
+  against each `.expected` file. The fixtures include lists and tables, which
+  Vale skipped before 3.17. After every `nix flake update`, run
+  `make test-instructions`.
 
 `make validate` runs `claude plugin validate --strict` on the marketplace and
 on every plugin.
+
+### Bench the instruction standard
+
+```sh
+make bench BENCH_BASE=master BENCH_HEAD=HEAD BENCH_RUNS=3
+```
+
+The bench measures how a change to the model instruction standard changes
+what a model writes. It snapshots the standard at both refs and has
+`claude -p` apply each snapshot to every case in
+`tests/instructions/bench/cases/`, `BENCH_RUNS` times. It grades each
+rewrite on the known sites of its case and counts its alerts under both
+linters. Two blind judges then score the rewrites of each case. The bench
+writes `report.md` to a new directory in the system temporary directory, and
+prints its path.
+
+**To choose the directory, pass `--out` to
+`tests/instructions/bench/bench.mjs`.** Keep the directory outside the
+repository: nix refuses a flake that sits untracked inside a git repository.
+
+At the defaults, the bench calls the model 16 times, so `make test` and CI
+leave it out.
+
+**To add a case, create a directory in `tests/instructions/bench/cases/`.** Put
+the files to rewrite in its `input/` directory, and list the sites to grade in
+its `case.json`.
