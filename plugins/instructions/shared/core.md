@@ -1,88 +1,25 @@
----
-name: writing-instructions
-description: "This skill is the prose standard for instruction text. Instruction text comes in two kinds: model instruction text and human instruction text. Model instruction text includes CLAUDE.md, AGENTS.md, and the files they import, plus SKILL.md files and their reference files. Model instruction text also includes agent definitions, slash commands, and prompts a program sends to a model. Any other file written for a model to follow is model instruction text too. Human instruction text is READMEs, runbooks, and every guide that tells a person how to do a task. Use this skill before writing, editing, or reviewing instruction text, including a one-sentence change. Every other text is out of scope. Out-of-scope texts include PR descriptions, commit messages, design docs, and reviews."
-allowed-tools: Bash(${CLAUDE_SKILL_DIR}/scripts/lint.sh *)
----
-
-# Writing Instructions
+# Instruction text core
 
 **Each sentence alone MUST tell its reader whether it binds them and what it
 makes them do.** A reader follows instruction text with no author to ask what
 a sentence meant.
 
+**Apply this file together with the `SKILL.md` that told you to read it.** That
+`SKILL.md` adds the rules for one kind of instruction text, under the section
+headings of this file. A section citation covers that section in both files.
+
+**If the repository instructions set what the text covers, follow them over
+this standard.** Report each conflict to the user.
+
 ## Terms
 
-- The **orchestrator** is the session that talks to the user and dispatches
-  subagents.
+- The **orchestrator** is the session that talks to the user.
 - The **user** is the person the orchestrator talks to.
-- A **subagent** is an agent that the orchestrator or a workflow script
-  dispatches.
-- An **agent definition** is the file that defines one subagent: its
-  frontmatter and its instructions.
 - A **reader** is the model or person that follows instruction text.
-- A **reference file** is a file in a skill's directory that the skill loads.
-- A **reader file** is a reference file of this skill that holds the rules for
-  one kind of instruction text.
 - The **always-loaded instructions** are `CLAUDE.md`, `AGENTS.md`, and every
   file they import.
 - The **repository instructions** are the `CLAUDE.md` and `AGENTS.md` files in
   the text's repository, and every file they import.
-
-## Scope
-
-**Instruction text is any text in the two lists below, one list per kind.**
-
-**Model instruction text is any text in this list:**
-
-- the always-loaded instructions
-- every `SKILL.md` and every reference file
-- every agent definition
-- every slash command
-- every prompt a program sends to a model, such as a workflow script's prompt
-  string or an application's system prompt. This skill governs the prompt's
-  text and not the code around the prompt.
-- every other file written for a model to follow
-
-**Human instruction text is any text in this list:**
-
-- READMEs
-- runbooks
-- every guide that tells a person how to do a task
-
-**A text in the model list is model instruction text, even when another list
-also covers the text.** Neither a person nor a model changes a text's kind by
-following the text.
-
-**Every other text is out of scope.**
-
-**These texts are out of scope, even when part of one tells a person how to do
-a task:**
-
-- PR descriptions
-- commit messages
-- design docs
-- reviews
-
-## Reader files
-
-**Before writing, editing, or reviewing instruction text, read the reader file
-for its kind:**
-
-| Kind | Reader file |
-| --- | --- |
-| Model instruction text | `references/model.md` |
-| Human instruction text | `references/human.md` |
-
-If you cannot read the reader file, report its path to the user and stop.
-
-**The standard is this file plus the reader file.** This file holds the shared
-rules. A reader file groups its rules under the headings of the sections they
-extend. A section citation covers that section in both files. On a conflict
-with this file, a reader file rule governs its kind of instruction text. The
-quoted text rules of §12 are the exception: they govern both kinds.
-
-**If the repository instructions set what the text covers, follow them over
-this standard.** Report each conflict to the user.
 
 ## 1. Every sentence has a form
 
@@ -98,9 +35,8 @@ decoration, cut.
 | Definition | X is Y. |
 | Invariant | X is true in every case. |
 
-- **One rule per sentence.** A sentence carrying two rules hides the second:
-  split it. NEVER write a semicolon: split the clauses into sentences,
-  or move the series into a list.
+- **No semicolons.** NEVER write a semicolon: split the clauses into
+  sentences, or move the series into a list.
 - **Short sentences.** If a sentence passes 20 words, split it at a clause
   boundary or move its series into a list. If a sentence carries more than
   three commas, split its clauses or move its series into a list. If the
@@ -114,13 +50,13 @@ decoration, cut.
 ## 2. Force is a controlled vocabulary
 
 **State force with these words.** A **force word** is a word in the Word
-column of this table, in any sense. OVER is a force word only where it
-completes PREFER X OVER Y. Each force word has one meaning when it states
-force. If `ALWAYS` or `NEVER` only says how often a fact holds, the word is in
-its ordinary sense. If a sentence names a force word instead of using the word,
-the word is in neither sense. If a force word carries the meaning its row
-gives, the word states force in every form. Otherwise, the word is in its
-ordinary sense. The reader file sets the case of each word.
+column of this table, in any sense and in any case. OVER is a force word only
+where it completes PREFER X OVER Y. Each force word has one meaning when it
+states force. If `ALWAYS` or `NEVER` only says how often a fact holds, the
+word is in its ordinary sense. If a sentence names a force word instead of
+using the word, the word is in neither sense. If a force word carries the
+meaning its row gives, the word states force in every form. Otherwise, the
+word is in its ordinary sense.
 
 | Word | Meaning |
 | --- | --- |
@@ -170,24 +106,19 @@ If the table has no row for a Latin abbreviation, write the English words the
 abbreviation stands for.
 
 **If any branch can reach a destructive or unrecoverable action, the default
-MUST be to stop and ask.** The reader file names whom the reader asks.
+MUST be to stop and ask.**
 
 ## 4. Every action states its failure branch
 
-**An instruction that can fail MUST say what happens when it does.** A reader
-that hits an unhandled failure improvises, and improvisation at a step whose
-writes cannot be undone is unrecoverable. Write one of these branches:
+**A failure branch is what an instruction tells the reader to do when the
+instruction fails.** A reader that hits an unhandled failure improvises, and
+improvisation at a step whose writes cannot be undone is unrecoverable. Write
+one of these branches:
 
 - stop and ask
 - fall back to a named alternative
 - fix the cause and retry
 - report and continue
-
-**A subagent contacts the user only through the message it returns when its
-run ends.** To report and continue, a subagent puts the report in that message
-and keeps working. A subagent gets no answer within its run. If a rule has a
-subagent ask the user, the subagent takes the branch for no answer. The
-subagent puts the question in its message.
 
 ## 5. One concept, one term
 
@@ -231,13 +162,9 @@ procedures is three copies to drift.
   sequence, then what the procedure guarantees on completion.
 - **Keep a procedure's steps at one level of detail.** If a step needs steps
   of its own, make it a named procedure and reference it from the step.
-- **A step names every effect it has.** If a step writes, deletes, or sends
-  something, the step's text names that action.
 - **Split a procedure on its mode.** If a procedure branches on the same
   condition at more than one step, write one procedure per branch. Choose
   between the procedures at the top.
-- **Reference only what the reader can reach.** The reader file says what the
-  reader can reach.
 
 ### Formatting
 
@@ -246,8 +173,6 @@ paragraph:**
 
 - Enumerable rules go in a **table**.
 - Sequences go in **numbered steps**.
-- A paragraph opens with a **bold rule-head** stating the rule. What follows is
-  its detail.
 - Reserve flowing paragraphs for kept reasons (§8).
 - One section covers one decision. A section that covers three is three
   sections.
@@ -298,8 +223,6 @@ plain form:
 | `with regard to` | about |
 | `is able to`, `has the ability to` | can |
 
-**The reader file sets when an example MAY follow a rule.**
-
 **Data that parameterizes a rule is specification, not example.** Such data
 includes an enumeration of any of these:
 
@@ -315,9 +238,8 @@ includes an enumeration of any of these:
 cutting it fails silently. A rule is *guard-dependent* if someone editing the
 text without knowing its reason would plausibly revert it.
 Place the kept reason directly after the rule, as one clause
-(`NEVER X: <reason>`) or one sentence. The reader file says which other
-reasons survive. Cut the story behind every reason: the history, the incident,
-the alternatives weighed.
+(`NEVER X: <reason>`) or one sentence. Cut the story behind every reason: the
+history, the incident, the alternatives weighed.
 
 ## 9. Priority
 
@@ -378,29 +300,23 @@ Inputs vary without limit, and a rule fitted to one input breaks on the next.
 
 ## 12. Lint the edited file
 
-**The linter is `scripts/lint.sh`, which runs a pinned build of Vale with the
-WritingInstructions style in the plugin's `shared/vale/` directory.** An **alert** is
-one line of the linter's output, in the form
-`file:line:column:level:rule:message`. An alert's message cites the section of
-this standard that the alert enforces. An **edited block** is a top-level block
-that the edit wrote, changed, or deleted text from. A top-level block is any
-block that no other block contains. Headings, paragraphs, lists, and tables are
-top-level blocks. In a file that is not Markdown, the top-level blocks are the
-paragraphs of its prompt text.
+**The linter is the command that §12 of `SKILL.md` gives.** It runs a pinned
+Vale build with the WritingInstructions style and the config for the skill's
+kind of instruction text. An **alert** is one line of the linter's
+output, in the form `file:line:column:level:rule:message`. An alert's message
+cites the section of this standard that the alert enforces. An **edited block**
+is a top-level block that the edit wrote, changed, or deleted text from. A
+top-level block is any block that no other block contains. Headings,
+paragraphs, lists, and tables are top-level blocks. In a file that is not
+Markdown, the top-level blocks are the paragraphs of its prompt text.
 
 **After each edit to instruction text, run these steps.** If the edited file's
 extension is not `.md` or `.markdown`, start at step 3. The linter applies no
 rule to any other file and reports the file clean.
 
-1. Run the linter on the file's absolute path:
-
-   ```sh
-   ${CLAUDE_SKILL_DIR}/scripts/lint.sh <absolute path>
-   ```
-
-   The run also writes `.vale-gcroot`, a gitignored link at the plugin root
-   that pins the Vale build.
-
+1. Run the linter on the file's absolute path. The run also writes
+   `.vale-gcroot`, a gitignored link at the plugin root that pins the Vale
+   build.
 2. Act on the linter's exit code, per the exit code table.
 3. Read the result whole, and run the §10 checks on every edited block. A run
    with no alerts does not clear the file, because the linter cannot detect

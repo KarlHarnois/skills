@@ -30,7 +30,7 @@ Invocation arguments, if any (the task, a round budget): $ARGUMENTS
 
 **Run every command in this skill from the repository root:** the session's shell can start in a different repository.
 
-**Every write to the spec MUST meet the `writing-instructions` standard:** the implementer and the reviewer execute the spec. If the session has not invoked the `instructions:writing-instructions` skill, invoke it before the write. If the invocation fails, stop and tell the user to install the `instructions` plugin from the `karl-skills` marketplace.
+**Every write to the spec MUST meet the `writing-model-instructions` standard:** the implementer and the reviewer execute the spec. If the session has not invoked the `instructions:writing-model-instructions` skill, invoke it before the write. If the invocation fails, stop and tell the user to install the `instructions` plugin from the `karl-skills` marketplace.
 
 ## Phase 1: Setup
 

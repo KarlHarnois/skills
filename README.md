@@ -8,7 +8,7 @@ named `karl-skills`. The skills are grouped by area into plugins under
 | Plugin | Skills | Agents | Depends on |
 | --- | --- | --- | --- |
 | `clean-code` | `writing-clean-code` | none | none |
-| `instructions` | `writing-instructions` | none | none |
+| `instructions` | `writing-model-instructions`, `writing-human-instructions` | none | none |
 | `prs` | the four PR skills listed below | `reviewer` | none |
 | `features` | `building-features` | the three agents listed below | `prs`, `clean-code`, `instructions` |
 | `wikis` | `building-discovery-wikis` | `surface-crawler` | none |
@@ -96,14 +96,14 @@ make uninstall
 
 `make install` needs the [`claude` CLI](https://code.claude.com/docs/en/setup)
 and [Nix](https://nixos.org/download).
-The `writing-instructions` skill lints instruction text with
+Both `instructions` skills lint instruction text with
 [Vale](https://vale.sh). The flake in `plugins/instructions/` pins
 the Vale build, so every machine runs the same version. Apple Silicon Macs
 work. Intel Macs do not, since nixpkgs-unstable dropped them.
 
 Without nix, `make install` stops with `nix not found, see README` before it
-installs anything. If the linter cannot run later, the `writing-instructions`
-skill reports the failure and checks the text by hand.
+installs anything. If the linter cannot run later, the `instructions` skills
+report the failure and check the text by hand.
 
 ## Testing
 
