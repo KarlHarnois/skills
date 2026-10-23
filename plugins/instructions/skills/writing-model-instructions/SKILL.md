@@ -129,6 +129,10 @@ copy of a rule in an agent definition or in the prompt a subagent is sent. If
 the subagent also loads the rule's source, the restatement is a duplicate.
 Otherwise, the restatement is necessary.
 
+**A rule that tells the reader to invoke a skill or read a file is a
+reference, not a duplicate.** Cutting it as a copy of what the skill or file
+says loses the trigger.
+
 **A fork loads everything the orchestrator has loaded.** Every other subagent
 loads the items below. If its agent definition sets `omitClaudeMd: true`, the
 subagent does not load the always-loaded instructions.
