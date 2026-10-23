@@ -66,10 +66,29 @@ If the profile requires CI, run `gh pr checks <number>` first. If a check fails,
 
 3. Run `gh pr merge <number> --<merge method>` as its own command, after you read exit code 0. NEVER join the merge gate and the merge in one command line: a failed check must stop the merge.
 4. If `gh pr merge` fails because the base branch moved, run step 1 again. If it fails for another reason, tell the user its output.
-5. In the main checkout, run `git switch <base branch>`, then `git pull --ff-only`. If the pull fails, tell the user.
-6. Compare `git rev-parse 'HEAD^{tree}'` with the tree that the merge gate printed. If the trees differ, run the gate on the base branch. If the gate fails, run Repair the base branch.
+5. If the main checkout is on the base branch and `git status --porcelain` prints nothing there, run `git pull --ff-only` in it. Otherwise, leave the main checkout as it is. If the pull fails, tell the user. NEVER switch the branch of the main checkout: it is the user's directory.
+6. Run `git fetch <remote>`. Compare `git rev-parse '<remote>/<base branch>^{tree}'` with the tree that the merge gate printed. If the trees differ, run Gate the base branch.
 7. Record the merge and the tree that passed the gate in the Log section of the state file.
 8. Run Close an item, per `SKILL.md`.
+
+## Gate the base branch
+
+**NEVER run a gate command in the working tree of the main checkout.** The main checkout is the user's directory, and its uncommitted and ignored files change the result.
+
+The base-branch gate is this command. Run it from the main checkout, with one `--gate` per gate command:
+
+```sh
+<this skill's base directory>/scripts/merge-gate.sh --remote <remote> --base <base branch> --branch <base branch> --gate '<gate command>'
+```
+
+1. Run the base-branch gate.
+2. Act on its exit code:
+
+   | Exit code | Action |
+   | --- | --- |
+   | 0 | Record the tree that it printed in the Log section of the state file. |
+   | 1 | Run Repair the base branch. |
+   | Any other code | Fix the cause and run step 1 again, at most twice. If it still fails, tell the user. |
 
 ## Repair the base branch
 

@@ -64,7 +64,7 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
    | `waiting` | If its report reached this conversation, act on the report per Events. Otherwise, read its fallback report. If no fallback report exists, nudge the worker, per Session hygiene. |
    | `exited`, `stopped`, or not listed | Tell the user the session name, its state, and its item. |
 
-5. Run the gate on the base branch in the main checkout. If the gate fails, run Repair the base branch, in `references/review-and-merge.md`, before you dispatch anything.
+5. Run Gate the base branch, in `references/review-and-merge.md`, before you dispatch anything.
 6. Continue from the NEXT section of the state file.
 
 ## Work kinds
@@ -226,4 +226,4 @@ The first line the watcher prints is `<session name>: <reason>`.
 | `references/handoff-build.md` | write a build handoff |
 | `references/handoff-fix-list.md` | write a fix list |
 | `references/handoff-review.md` | write a reviewer handoff |
-| `references/review-and-merge.md` | review, merge, or repair the base branch |
+| `references/review-and-merge.md` | review, merge, gate the base branch, or repair the base branch |

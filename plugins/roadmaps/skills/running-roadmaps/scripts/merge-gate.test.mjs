@@ -184,6 +184,12 @@ describe('merge-gate.sh', () => {
     assert.equal(repository.worktreeCount(), 1)
   })
 
+  test('gates the base branch itself', () => {
+    const verdict = new Verdict(repository.runMergeGate('--base', 'main', '--branch', 'main', '--gate', 'test -f names.txt'))
+    assert.equal(verdict.status, 0)
+    assert.match(verdict.last, /^ready: origin\/main is based on origin\/main, and the gate passed on tree [0-9a-f]{40}$/)
+  })
+
   test('reports a branch missing from the remote', () => {
     assert.equal(repository.runGate('true').status, 5)
   })
