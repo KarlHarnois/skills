@@ -13,13 +13,14 @@ git -C "$SANDBOX/app" switch -q -c fix-parser
 commit_file parser.py 'def parse(text):
     return [value.strip() for value in text.split(",")]' "Trim spaces around parsed values"
 git -C "$SANDBOX/app" push -q origin fix-parser
+fix_commit=$(git -C "$SANDBOX/app" rev-parse --short fix-parser)
 git -C "$SANDBOX/app" switch -q main
 
 mkdir -p "$SANDBOX/fix-parser/.scratch" "$SANDBOX/design-cache"
-cat >"$SANDBOX/fix-parser/.scratch/report.md" <<'REPORT'
+sed -e "s|@COMMIT@|$fix_commit|" >"$SANDBOX/fix-parser/.scratch/report.md" <<'REPORT'
 Status: DONE
 
-- Branch `fix-parser`, commit `1a2b3c4` "Trim spaces around parsed values", amended per fix list 1.
+- Branch `fix-parser`, commit `@COMMIT@` "Trim spaces around parsed values", amended per fix list 1.
 - Pull request: https://github.com/example/app/pull/12
 - `sh check.sh`: pass.
 - Departures: none.
@@ -28,5 +29,6 @@ REPORT
 
 state_dir=$(install_state_file "$EVAL_FILES/resume/state.md" parsing)
 cp "$EVAL_FILES/resume/roadmap.md" "$state_dir/roadmap.md"
+cp -R "$EVAL_FILES/resume/handoffs" "$EVAL_FILES/resume/reports" "$state_dir/"
 echo '[{"name":"manager","state":"working","worktree":"'"$SANDBOX/app"'","branch":"main","agent":"claude","repo":"app","diff":""},{"name":"fix-parser","state":"waiting","worktree":"'"$SANDBOX/fix-parser"'","branch":"fix-parser","agent":"opencode","repo":"app","diff":""},{"name":"design-cache","state":"working","worktree":"'"$SANDBOX/design-cache"'","branch":"design-cache","agent":"opencode","repo":"app","diff":""}]' >"$SANDBOX/sessions.json"
 print_environment

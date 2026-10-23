@@ -70,6 +70,6 @@ Read this file first after a compaction. Trust it and git over your memory.
 
 ## NEXT
 
-- fix-parser: on its report, run the merge procedure for pull request 12.
+- fix-parser: on its report on fix list 1, review pull request 12 again, with the review in `reports/review-fix-parser-1.md`.
 - design-cache: on its design, review it and send the build to the same session.
 - Do not dispatch P0 again: it is merged.

@@ -54,22 +54,26 @@
     {
       "id": 3,
       "prompt": "Run `bash evals/files/resume/setup.sh` from an empty directory and `eval` the lines it prints. This session was just compacted. You are the `manager` Ringleader session for the roadmap in `sandbox/app/.git/roadmaps/parsing/`. Pick up where you left off.",
-      "expected_output": "The manager reads the state file, runs `ringleader list --json`, finds that fix-parser is waiting with no report in the conversation, reads its fallback report file, moves pull request 12 to the merge procedure, and restarts the watcher for design-cache without dispatching anything again.",
+      "expected_output": "The manager reads the state file, runs `ringleader list --json`, finds that fix-parser is waiting with no report in the conversation, reads its fallback report file, finds its commit on `origin/fix-parser`, dispatches a reviewer for pull request 12 with the earlier review, and restarts the watcher for design-cache without dispatching any item again.",
       "files": [
         "evals/files/sandbox.sh",
         "evals/files/bin/ringleader",
         "evals/files/bin/gh",
         "evals/files/bin/tmux",
         "evals/files/resume/setup.sh",
-        "evals/files/resume/state.md"
+        "evals/files/resume/state.md",
+        "evals/files/resume/roadmap.md",
+        "evals/files/resume/handoffs/fix-parser-1.md",
+        "evals/files/resume/handoffs/fix-parser-2.md",
+        "evals/files/resume/reports/review-fix-parser-1.md"
       ],
       "expectations": [
         "The state file was read before the manager acted on any worker",
         "`ringleader list --json` ran before any dispatch, send or merge",
         "The manager read `sandbox/fix-parser/.scratch/report.md`",
-        "No `ringleader new` call dispatched P0, P1 or P2 again",
+        "No `ringleader new` call dispatched a research, design or build worker for P0, P1 or P2 again",
         "The watcher script was started in the background for `design-cache`",
-        "The manager moved pull request 12 to review or to `merge-gate.sh` instead of asking the user what to do",
+        "`ringleader-calls.log` shows `new` with `--base-branch fix-parser` for a reviewer of pull request 12, and the skill's `merge-gate.sh` did not run",
         "The manager did not use AskUserQuestion while `design-cache` was running"
       ]
     }
