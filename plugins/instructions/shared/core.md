@@ -308,7 +308,7 @@ cites the section of this standard that the alert enforces. An **edited block**
 is a top-level block that the edit wrote, changed, or deleted text from. A
 top-level block is any block that no other block contains. Headings,
 paragraphs, lists, and tables are top-level blocks. In a file that is not
-Markdown, the top-level blocks are the paragraphs of its prompt text.
+Markdown, the top-level blocks are the paragraphs of its instruction text.
 
 **After each edit to instruction text, run these steps.** If the edited file's
 extension is not `.md` or `.markdown`, start at step 3. The linter applies no
@@ -324,7 +324,8 @@ rule to any other file and reports the file clean.
    meaning. Check every sentence the linter did not fully read against every
    rule. The linter reads no code block and no file that is not Markdown. In
    front matter, the linter reads words but no sentence pattern. A run that did
-   not exit 0 or 1 read nothing. Skip quoted text and the code around a prompt.
+   not exit 0 or 1 read nothing. Skip quoted text and the code around the
+   instruction text.
 
    For each defect this step finds in an edited block, apply the §7 deletion
    test first. If the text survives the test, restate the text. Report the
