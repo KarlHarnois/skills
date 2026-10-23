@@ -208,7 +208,7 @@ If the table has no row for a Latin abbreviation, write the English words the ab
 
 1. Run the linter on the file's absolute path. The run also writes `.vale-gcroot`, a gitignored link at the plugin root that pins the Vale build.
 2. Act on the linter's exit code, per the exit code table.
-3. Read the result whole, and run the §10 checks on every edited block. A run with no alerts does not clear the file, because the linter cannot detect meaning. Check every sentence against every rule whose test depends on meaning. Check every sentence the linter did not fully read against every rule. The linter reads no code block and no file that is not Markdown. In front matter, the linter reads words but no sentence pattern. A run that did not exit 0 or 1 read nothing. Skip quoted text and the code around the instruction text.
+3. Read the result whole, and run the §10 checks on every edited block. A run with no alerts does not clear the file, because the linter cannot detect meaning. Check every sentence against every rule whose test depends on meaning. Check every sentence the linter did not fully read against every rule. The linter reads no file that is not Markdown. It reads only the code blocks that §12 of the kind skill names. In front matter, the linter reads words but no sentence pattern. A run that did not exit 0 or 1 read nothing. Skip quoted text and the code around the instruction text.
 
    For each defect this step finds in an edited block, apply the §7 deletion test first. If the text survives the test, restate the text. Report the number of such defects outside the edited blocks to the user. A sentence that breaks two rules counts as two defects.
 
@@ -223,7 +223,7 @@ If the table has no row for a Latin abbreviation, write the English words the ab
 | 5 | nix could not build Vale. | Report the error message to the user. |
 | Any other code | The linter could not run. | Report the exit code and the output to the user. |
 
-**If the flagged text is quoted text, put it in a code span or a fenced code block.** The linter skips code, so its rules stay on for the rest of the block.
+**If the flagged text is quoted text, put it in code that the linter skips.** The linter skips every code span, and every fenced block that §12 of the kind skill does not name. Its rules stay on for the rest of the block.
 
 **Quoted text is text whose exact wording the reader MUST keep.** NEVER restate quoted text to meet a rule of this standard. Quoted text includes:
 

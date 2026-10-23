@@ -1,0 +1,15 @@
+{
+  "entry": "SKILL.md",
+  "role": "the SKILL.md of a skill that a coding model loads when the user asks it to export invoices",
+  "forceSites": [
+    { "anchor": "archive branch", "word": "never", "statesForce": true },
+    { "anchor": "dry run", "word": "always", "statesForce": true },
+    { "anchor": "ledger", "word": "never", "statesForce": true },
+    { "anchor": "release", "word": "must", "statesForce": true },
+    { "anchor": "cents", "word": "always", "statesForce": false },
+    { "anchor": "currency", "word": "never", "statesForce": false },
+    { "anchor": "upstream", "word": "must", "statesForce": false }
+  ],
+  "templates": [],
+  "fencedControls": []
+}
