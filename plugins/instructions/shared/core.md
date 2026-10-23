@@ -6,9 +6,9 @@ a sentence meant.
 
 **Apply this file together with the `SKILL.md` of the kind skill.** The **kind
 skill** is the skill of the `instructions` plugin whose Scope covers the text
-being written, edited, or reviewed. That `SKILL.md` adds the rules for one kind of instruction text, under
-the section headings of this file. A section citation covers that section in
-both files.
+being written, edited, or reviewed. That `SKILL.md` adds the rules for one kind
+of instruction text, under the section headings of this file. A section
+citation covers that section in both files.
 
 **If the repository instructions set what the text covers, follow them over
 this standard.** Report each conflict to the user.
