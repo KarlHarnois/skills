@@ -55,6 +55,11 @@ export class PlacementCheck {
   judge(tree) {
     const lines = tree.linesWith(this.anchor)
     if (lines.length === 0) return Verdict.LOST
-    return lines.some(line => line.fenced === this.belongsInFence) ? Verdict.CORRECT : Verdict.WRONG
+    return this.isPlaced(lines) ? Verdict.CORRECT : Verdict.WRONG
+  }
+
+  isPlaced(lines) {
+    if (this.belongsInFence) return lines.some(line => line.fenced)
+    return lines.every(line => !line.fenced)
   }
 }

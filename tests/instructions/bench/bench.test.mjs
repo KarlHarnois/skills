@@ -80,6 +80,14 @@ describe('PlacementCheck', () => {
     assert.equal(PlacementCheck.insideFence('bin/dispatch').judge(tree), Verdict.CORRECT)
     assert.equal(PlacementCheck.insideFence('Summarize the queue').judge(tree), Verdict.WRONG)
   })
+
+  test('rejects a template copied to its own file while a fenced copy remains', () => {
+    const copied = new MarkdownTree([
+      { file: 'summary.md', text: 'Summarize the queue.' },
+      { file: 'dispatch.md', text: '```markdown\nSummarize the queue.\n```' },
+    ])
+    assert.equal(PlacementCheck.outsideFence('Summarize the queue').judge(copied), Verdict.WRONG)
+  })
 })
 
 describe('bench cases', () => {
