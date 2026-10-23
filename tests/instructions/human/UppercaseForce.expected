@@ -4,3 +4,4 @@ tests/instructions/human/UppercaseForce.md:5:9:error:WritingInstructions.Upperca
 tests/instructions/human/UppercaseForce.md:7:5:error:WritingInstructions.UppercaseForce:§2: 'MAY' is a force word in all capitals. Write it in lowercase.
 tests/instructions/human/UppercaseForce.md:9:1:error:WritingInstructions.UppercaseForce:§2: 'ALWAYS' is a force word in all capitals. Write it in lowercase.
 tests/instructions/human/UppercaseForce.md:11:1:error:WritingInstructions.UppercaseForce:§2: 'PREFER' is a force word in all capitals. Write it in lowercase.
+tests/instructions/human/UppercaseForce.md:17:25:error:WritingInstructions.UppercaseForce:§2: 'OVER' is a force word in all capitals. Write it in lowercase.
