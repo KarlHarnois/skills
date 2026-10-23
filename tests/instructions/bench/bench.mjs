@@ -24,7 +24,7 @@ const OPTIONS = {
   out: { type: 'string' },
 }
 
-class Bench {
+export class Bench {
   constructor(options) {
     this.refs = { base: options.base, head: options.head }
     this.runs = Bench.positiveInteger('runs', options.runs)
@@ -55,8 +55,9 @@ class Bench {
   async run() {
     const standards = this.snapshotStandards()
     const rewrites = await this.performRewrites(standards)
-    const measurements = rewrites.map(rewrite => rewrite.measure(standards))
-    const { verdicts, judgeCostUsd } = await this.judge(rewrites)
+    const measured = this.measureAll(rewrites, standards)
+    const measurements = measured.map(({ measurement }) => measurement)
+    const { verdicts, judgeCostUsd } = await this.judge(measured.map(({ rewrite }) => rewrite))
     return this.writeReport({ standards, measurements, verdicts, judgeCostUsd })
   }
 
@@ -75,6 +76,17 @@ class Bench {
     const finished = await this.pool.map(planned, rewrite => this.attempt(`rewrite ${rewrite.id}`, () =>
       rewrite.perform(this.cli, this.rewriteTemplate).then(() => rewrite)))
     return finished.filter(Boolean)
+  }
+
+  measureAll(rewrites, standards) {
+    return rewrites.flatMap(rewrite => {
+      try {
+        return [{ rewrite, measurement: rewrite.measure(standards) }]
+      } catch (error) {
+        this.recordFailure(`measure ${rewrite.id}`, error)
+        return []
+      }
+    })
   }
 
   async judge(rewrites) {
@@ -100,10 +112,14 @@ class Bench {
       Bench.log(`done ${label}`)
       return result
     } catch (error) {
-      this.failures.push(`${label}: ${error.message}`)
-      Bench.log(`failed ${label}: ${error.message}`)
+      this.recordFailure(label, error)
       return null
     }
+  }
+
+  recordFailure(label, error) {
+    this.failures.push(`${label}: ${error.message}`)
+    Bench.log(`failed ${label}: ${error.message}`)
   }
 
   writeReport(results) {
@@ -119,7 +135,9 @@ class Bench {
   }
 }
 
-const { values } = parseArgs({ options: OPTIONS })
-const bench = new Bench(values)
-mkdirSync(bench.root, { recursive: true })
-console.log(await bench.run())
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  const { values } = parseArgs({ options: OPTIONS })
+  const bench = new Bench(values)
+  mkdirSync(bench.root, { recursive: true })
+  console.log(await bench.run())
+}

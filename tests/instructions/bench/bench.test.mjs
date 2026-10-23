@@ -1,7 +1,9 @@
 import { describe, test } from 'node:test'
 import assert from 'node:assert/strict'
+import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { Bench } from './bench.mjs'
 import { BenchCase } from './lib/bench-case.mjs'
 import { BenchReport } from './lib/bench-report.mjs'
 import { BlindPanel } from './lib/blind-panel.mjs'
@@ -144,6 +146,17 @@ describe('BlindPanel', () => {
   test('refuses scores that name one rewrite twice', () => {
     const twice = { rewrites: [verdict('A'), verdict('A/'), verdict('B')], ranking: ['A', 'B'] }
     assert.throws(() => panel.unmask(twice), /scores name A more than once/)
+  })
+})
+
+describe('Bench', () => {
+  test('records a rewrite it cannot measure and keeps the others', () => {
+    const bench = new Bench({ base: 'master', head: 'HEAD', runs: '1', judges: '1', parallel: '1', out: join(tmpdir(), 'bench-test') })
+    const measurable = { id: 'force-words/head-1', measure: () => ({ id: 'force-words/head-1' }) }
+    const broken = { id: 'force-words/base-1', measure: () => { throw new Error('base linter exited 2') } }
+    const measured = bench.measureAll([broken, measurable], [])
+    assert.deepEqual(measured.map(({ rewrite }) => rewrite.id), ['force-words/head-1'])
+    assert.deepEqual(bench.failures, ['measure force-words/base-1: base linter exited 2'])
   })
 })
 
