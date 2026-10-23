@@ -1,2 +1,3 @@
 tests/instructions/model/SentenceLength.md:1:1:suggestion:WritingInstructions.SentenceLength:§1: this sentence passes 20 words. Cut the text that §7 would delete. If the sentence still passes 20 words, split it at a clause boundary, or move its series into a list.
 tests/instructions/model/SentenceLength.md:7:1:suggestion:WritingInstructions.SentenceLength:§1: this sentence passes 20 words. Cut the text that §7 would delete. If the sentence still passes 20 words, split it at a clause boundary, or move its series into a list.
+tests/instructions/model/SentenceLength.md:8:1:warning:WritingInstructions.LineWrap:§6: this line continues the paragraph or list item on the line above. Join the block's lines into one line.

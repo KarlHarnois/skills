@@ -1,0 +1,5 @@
+tests/instructions/model/LineWrap.md:12:1:warning:WritingInstructions.LineWrap:§6: this line continues the paragraph or list item on the line above. Join the block's lines into one line.
+tests/instructions/model/LineWrap.md:22:1:warning:WritingInstructions.LineWrap:§6: this line continues the paragraph or list item on the line above. Join the block's lines into one line.
+tests/instructions/model/LineWrap.md:24:1:warning:WritingInstructions.LineWrap:§6: this line continues the paragraph or list item on the line above. Join the block's lines into one line.
+tests/instructions/model/LineWrap.md:27:1:warning:WritingInstructions.LineWrap:§6: this line continues the paragraph or list item on the line above. Join the block's lines into one line.
+tests/instructions/model/LineWrap.md:33:1:warning:WritingInstructions.LineWrap:§6: this line continues the paragraph or list item on the line above. Join the block's lines into one line.

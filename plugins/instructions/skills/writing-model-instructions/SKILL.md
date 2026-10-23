@@ -68,6 +68,8 @@ allowed-tools: Bash(${CLAUDE_SKILL_DIR}/scripts/lint.sh *)
 
 **A paragraph opens with a bold rule-head stating the rule.** What follows is its detail.
 
+**Write each paragraph and each list item on one line.** A line break inside either costs tokens and makes exact-match edits fragile.
+
 **Reference only what the reader can reach.** The reader can reach only what it loads and the tools it can run. A model that is neither the orchestrator nor a subagent loads what it is sent with its prompt. That model also loads every file it reads and every skill it invokes in the run. A file MAY reference every file it tells the reader to read. For the orchestrator and a subagent, a file MAY also reference the always-loaded instructions. If the file is an agent definition, NEVER reference anything its subagent cannot reach. §8 lists what a subagent loads. If a rule depends on another skill, the rule tells the reader to invoke that skill. A reader cannot apply a skill it has not loaded.
 
 ## 7. Economy
