@@ -1,5 +1,5 @@
 extends: existence
-message: "§2: '%s' is outside the force vocabulary. If it states obligation, permission, or preference, write the force word (MUST, NEVER, SHOULD, MAY, PREFER X OVER Y). If it does not, leave it."
+message: "§2: '%s' is a force word in lowercase. If it states force, write it in all capitals. If it is in its ordinary sense, leave it."
 level: suggestion
 tokens:
   - should
