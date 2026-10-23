@@ -15,3 +15,5 @@ You must rebuild the cache. Never delete it. You should warm it, and you may ski
 The `MUST` in this code span is quoted text.
 
 Prefer the cached build OVER a clean build.
+
+The screen shows GAME OVER when the session ends.

@@ -1,11 +1,8 @@
 extends: existence
 message: "§2: '%s' is a force word in all capitals. Write it in lowercase."
 level: error
+scope: sentence
+nonword: true
 tokens:
-  - MUST
-  - NEVER
-  - SHOULD
-  - MAY
-  - ALWAYS
-  - PREFER
-  - OVER
+  - '\b(?:MUST|NEVER|SHOULD|MAY|ALWAYS|PREFER)\b'
+  - '(?<=\b(?i:prefer)\b.*)\bOVER\b'
