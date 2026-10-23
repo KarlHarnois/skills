@@ -129,9 +129,9 @@ copy of a rule in an agent definition or in the prompt a subagent is sent. If
 the subagent also loads the rule's source, the restatement is a duplicate.
 Otherwise, the restatement is necessary.
 
-**A skill body loads only when the reader invokes the skill.** If the reader can
-break a skill body's rule without invoking the skill, the always-loaded copy is
-necessary. Otherwise, the always-loaded copy is a duplicate.
+**If the reader can break a skill body's rule without invoking the skill, the
+always-loaded copy of the rule is necessary.** Otherwise, the always-loaded copy
+is a duplicate.
 
 **A rule that tells the reader to invoke a skill or read a file is a
 reference, not a duplicate.** Cutting it as a copy of what the skill or file
