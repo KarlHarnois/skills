@@ -49,7 +49,10 @@ Offer the user this grant, and record the grant the user gives:
 1. Fill each field from the place its row names.
 2. Show the user the fields you found, and ask for the fields marked "ask the user".
 3. If no worker runs yet, you MAY use AskUserQuestion. Otherwise, ask in plain text.
-4. Run each gate command once in the main checkout. If a command fails, show the user its output and ask how to make the gate pass. If every command passes, record the tree in the Log section of the state file.
+4. Run the base-branch gate, defined in `review-and-merge.md`. It runs the gate where every merge runs it: a scratch worktree that holds tracked files only.
+   - If it exits 0, record the tree that it printed in the Log section of the state file.
+   - If it exits 1, show the user its output and ask how to make the gate pass.
+   - If it exits with another code, show the user its output and stop.
 5. Write the profile into the state file, per `state-file.md`.
 
 **Change a field only when the user changes it or a lesson requires it.** Record each change in the Log section.
