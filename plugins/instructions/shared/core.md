@@ -4,9 +4,11 @@
 makes them do.** A reader follows instruction text with no author to ask what
 a sentence meant.
 
-**Apply this file together with the `SKILL.md` that told you to read it.** That
-`SKILL.md` adds the rules for one kind of instruction text, under the section
-headings of this file. A section citation covers that section in both files.
+**Apply this file together with the `SKILL.md` of the kind skill.** The **kind
+skill** is the skill of the `instructions` plugin whose Scope covers the edited
+text. That `SKILL.md` adds the rules for one kind of instruction text, under
+the section headings of this file. A section citation covers that section in
+both files.
 
 **If the repository instructions set what the text covers, follow them over
 this standard.** Report each conflict to the user.
@@ -300,9 +302,9 @@ Inputs vary without limit, and a rule fitted to one input breaks on the next.
 
 ## 12. Lint the edited file
 
-**The linter is the command that §12 of `SKILL.md` gives.** It runs a pinned
-Vale build with the WritingInstructions style and the config for the skill's
-kind of instruction text. An **alert** is one line of the linter's
+**The linter is the command that §12 of the kind skill's `SKILL.md` gives.** It
+runs a pinned Vale build with the WritingInstructions style and the config for
+the edited text's kind. An **alert** is one line of the linter's
 output, in the form `file:line:column:level:rule:message`. An alert's message
 cites the section of this standard that the alert enforces. An **edited block**
 is a top-level block that the edit wrote, changed, or deleted text from. A
