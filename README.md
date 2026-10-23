@@ -64,7 +64,7 @@ To release a plugin:
 2. Merge the change to `master`.
 3. From the plugin's directory on `master`, run `claude plugin tag --push`.
    The command creates and pushes a tag such as
-   `writing-clean-code--v1.1.0`. Dependency version ranges resolve against
+   `clean-code--v1.1.0`. Dependency version ranges resolve against
    these tags. If the command refuses, fix the problem it reports and run it
    again.
 
