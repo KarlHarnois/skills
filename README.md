@@ -3,7 +3,7 @@
 My collection of coding assistant skills, published as a
 [Claude Code plugin marketplace](https://code.claude.com/docs/en/plugin-marketplaces)
 named `karl-skills`. Each skill is its own plugin under `plugins/`, so a
-repository turns on only the skills it needs.
+repository enables only the skills it needs.
 
 | Plugin | Ships | Depends on |
 | --- | --- | --- |
@@ -22,8 +22,8 @@ every skill and agent with its plugin name, so the reviewer agent is
 
 ## Add skills to a repository
 
-Commit this to the repository's `.claude/settings.json`, and list only the
-plugins the repository needs:
+**Commit this to the repository's `.claude/settings.json`.** List only the
+plugins the repository needs under `enabledPlugins`:
 
 ```json
 {
@@ -55,7 +55,8 @@ To release a plugin:
 3. From the plugin's directory on `master`, run `claude plugin tag --push`.
    The command creates and pushes a tag such as
    `writing-clean-code--v1.1.0`. Dependency version ranges resolve against
-   these tags.
+   these tags. If the command refuses, fix the problem it reports and run it
+   again.
 
 ## Installation on your own machine
 
@@ -67,13 +68,13 @@ This registers this checkout as the `karl-skills` marketplace and installs
 every plugin at user scope. Claude Code reads the plugins from this checkout,
 so edits take effect at the next session start or after `/reload-plugins`.
 
-For a separate config profile, override the config directory:
+**To install into a separate config directory, set `CLAUDE_HOME`:**
 
 ```sh
 make install CLAUDE_HOME=~/.claude-work
 ```
 
-To remove the marketplace and its plugins:
+**To remove the marketplace and its plugins, run:**
 
 ```sh
 make uninstall
@@ -83,7 +84,8 @@ make uninstall
 
 ## Requirements
 
-`make install` needs the `claude` CLI and [Nix](https://nixos.org/download).
+`make install` needs the [`claude` CLI](https://code.claude.com/docs/en/setup)
+and [Nix](https://nixos.org/download).
 The `writing-instructions` skill lints instruction text with
 [Vale](https://vale.sh). The flake in `plugins/writing-instructions/` pins
 the Vale build, so every machine runs the same version. Apple Silicon Macs
@@ -102,12 +104,12 @@ make test
 This runs two suites, and each has its own target:
 
 - `make test-node` runs every `*.test.mjs` under `plugins/` with
-  `node --test`, so it needs Node.
+  `node --test`, so it needs [Node](https://nodejs.org).
 - `make test-writing-instructions` runs the `writing-instructions` lint script
   against the fixtures in `tests/writing-instructions/`, so it needs nix. It
   diffs the alerts against each `.expected` file. The fixtures include lists
-  and tables, which Vale skipped before 3.17, so run
-  `make test-writing-instructions` after every `nix flake update`.
+  and tables, which Vale skipped before 3.17. After every `nix flake update`,
+  run `make test-writing-instructions`.
 
 `make validate` runs `claude plugin validate --strict` on the marketplace and
 on every plugin.
