@@ -30,9 +30,15 @@ You refactor the files the checked-out branch changed, without changing what the
 ## Procedure
 
 1. If `git branch --show-current` is not `BRANCH`, return status `blocked` with a question that names the current branch. Run `git status --porcelain --untracked-files=all`. If it shows a foreign change, return status `blocked` with a question that names the changed paths. Never commit or discard a foreign change.
-2. Run the verification commands. If they show a new failure, return status `blocked` with a question that names the failing check: every refactoring would be measured against a failure that is not yours.
+2. Run the verification commands. If they show a new failure, return status `blocked` with a question that names the failing check. Otherwise, every refactoring would be measured against a failure that is not yours.
 3. Read the spec, then read each changed file whole.
-4. Invoke the `writing-clean-code` skill and review the changed files against it. Refactorings cover names, function size and cohesion, duplication, dead code, stale comments, and test readability.
+4. Invoke the `writing-clean-code:writing-clean-code` skill and review the changed files against it. Refactorings cover these:
+   - names
+   - function size and cohesion
+   - duplication
+   - dead code
+   - stale comments
+   - test readability
 5. For each refactoring, make the change, run the verification commands, and commit the refactoring alone.
 6. If a refactoring causes a new failure, restore the files the refactoring changed with `git restore --source=HEAD --staged --worktree -- <paths>`, delete every file the refactoring created that is still there, and drop the refactoring: `git checkout -- <paths>` restores from the index, so a staged change would survive and land in the next commit.
 7. If no refactoring is needed, make no commit.
