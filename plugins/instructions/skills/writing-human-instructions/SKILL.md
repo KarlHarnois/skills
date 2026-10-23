@@ -69,6 +69,15 @@ a force word as force. Write the replacement for the sense:
 
 ## 3. Branches are exhaustive
 
+**Unless the repository names an owner, write no step that asks or reports to
+an owner.** A named owner is a person or team the reader answers to, such as
+the escalation contact of a runbook. NEVER infer an owner from an author, a
+commit, or a project name. The reader of a personal repository is its owner.
+
+**If the repository names no owner, the reader decides at every stop.** A step
+that stops before a destructive or unrecoverable action names what the reader
+checks before going on.
+
 **If the text tells the reader to stop and ask or to report, name the owner and
 the owner's contact.** If you cannot name the owner or the owner's contact, ask
 the user for the missing part. If the user does not supply the missing part,
@@ -78,6 +87,10 @@ keep the step and report the missing part to the user.
 
 **A procedure step that can fail MUST state its failure branch.** A sentence
 that describes a product, a tool, or a behavior needs no failure branch.
+
+**If the command's own error message tells the reader what to fix, the step
+needs no failure branch.** Such a branch only repeats what the error message
+says.
 
 ## 5. One concept, one term
 

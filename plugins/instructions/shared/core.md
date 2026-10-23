@@ -108,7 +108,8 @@ If the table has no row for a Latin abbreviation, write the English words the
 abbreviation stands for.
 
 **If any branch can reach a destructive or unrecoverable action, the default
-MUST be to stop and ask.**
+MUST be to stop before the action.** §3 of the kind skill says whether the
+reader also asks someone, and whom.
 
 ## 4. Every action states its failure branch
 
