@@ -16,7 +16,8 @@ NIX := nix --extra-experimental-features 'nix-command flakes' --option warn-dirt
 INSTRUCTIONS_PLUGIN := $(PLUGINS_SOURCE)/instructions
 VALE_GC_ROOT := $(INSTRUCTIONS_PLUGIN)/.vale-gcroot
 INSTRUCTIONS_LINT := $(INSTRUCTIONS_PLUGIN)/shared/lint.sh
-MODEL_INSTRUCTIONS_LINT := $(INSTRUCTIONS_PLUGIN)/skills/writing-model-instructions/scripts/lint.sh
+INSTRUCTIONS_SKILL_LINT = $(INSTRUCTIONS_PLUGIN)/skills/writing-$(1)-instructions/scripts/lint.sh
+MODEL_INSTRUCTIONS_LINT := $(call INSTRUCTIONS_SKILL_LINT,model)
 INSTRUCTION_KINDS := model human
 INSTRUCTIONS_FIXTURES := tests/instructions
 MODEL_FIXTURES := $(INSTRUCTIONS_FIXTURES)/model
@@ -61,7 +62,7 @@ test-instructions: vale
 	for kind in $(INSTRUCTION_KINDS); do \
 		for fixture in $(INSTRUCTIONS_FIXTURES)/$$kind/*.md $(INSTRUCTIONS_FIXTURES)/$$kind/*.markdown; do \
 			[ -e "$$fixture" ] || continue; \
-			$(INSTRUCTIONS_LINT) $$kind "$$fixture" | diff -u "$${fixture%.*}.expected" - || failed=1; \
+			$(call INSTRUCTIONS_SKILL_LINT,$$kind) "$$fixture" | diff -u "$${fixture%.*}.expected" - || failed=1; \
 		done; \
 	done; \
 	exit $$failed
