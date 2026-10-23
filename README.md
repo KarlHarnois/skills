@@ -115,11 +115,11 @@ This runs two suites, and each has its own target:
 
 - `make test-node` runs every `*.test.mjs` under `plugins/` with
   `node --test`, so it needs [Node](https://nodejs.org).
-- `make test-writing-instructions` runs the `writing-instructions` lint script
-  against the fixtures in `tests/instructions/model/`, so it needs nix. It
-  diffs the alerts against each `.expected` file. The fixtures include lists
-  and tables, which Vale skipped before 3.17. After every `nix flake update`,
-  run `make test-writing-instructions`.
+- `make test-instructions` lints the fixtures in `tests/instructions/<kind>/`
+  with that kind's Vale config, so it needs nix. It diffs the alerts
+  against each `.expected` file. The fixtures include lists and tables, which
+  Vale skipped before 3.17. After every `nix flake update`, run
+  `make test-instructions`.
 
 `make validate` runs `claude plugin validate --strict` on the marketplace and
 on every plugin.

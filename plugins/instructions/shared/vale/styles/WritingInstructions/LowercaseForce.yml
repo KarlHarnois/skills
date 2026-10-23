@@ -3,10 +3,5 @@ message: "§2: '%s' is outside the force vocabulary. If it states obligation, pe
 level: suggestion
 tokens:
   - should
-  - shall
   - may
   - '[Pp]refer'
-  - required\s+to
-  - needs?\s+to
-  - ha(?:ve|s)\s+to
-  - ought\s+to

@@ -1,4 +1,4 @@
-.PHONY: all install uninstall status reinstall test test-node test-writing-instructions validate vale
+.PHONY: all install uninstall status reinstall test test-node test-instructions validate vale
 
 all: install
 
@@ -13,10 +13,13 @@ PLUGINS := $(shell find "$(PLUGINS_SOURCE)" -mindepth 1 -maxdepth 1 -type d -exe
 TESTS := $(shell find "$(PLUGINS_SOURCE)" -name '*.test.mjs')
 
 NIX := nix --extra-experimental-features 'nix-command flakes' --option warn-dirty false
-WRITING_INSTRUCTIONS_PLUGIN := $(PLUGINS_SOURCE)/instructions
-VALE_GC_ROOT := $(WRITING_INSTRUCTIONS_PLUGIN)/.vale-gcroot
-WRITING_INSTRUCTIONS_LINT := $(WRITING_INSTRUCTIONS_PLUGIN)/skills/writing-instructions/scripts/lint.sh
-WRITING_INSTRUCTIONS_FIXTURES := tests/instructions/model
+INSTRUCTIONS_PLUGIN := $(PLUGINS_SOURCE)/instructions
+VALE_GC_ROOT := $(INSTRUCTIONS_PLUGIN)/.vale-gcroot
+INSTRUCTIONS_LINT := $(INSTRUCTIONS_PLUGIN)/shared/lint.sh
+MODEL_INSTRUCTIONS_LINT := $(INSTRUCTIONS_PLUGIN)/skills/writing-instructions/scripts/lint.sh
+INSTRUCTION_KINDS := model human
+INSTRUCTIONS_FIXTURES := tests/instructions
+MODEL_FIXTURES := $(INSTRUCTIONS_FIXTURES)/model
 
 define expect_lint_exit
 @$(2) >/dev/null 2>&1; status=$$?; \
@@ -46,21 +49,25 @@ validate:
 
 vale:
 	@command -v nix >/dev/null || { echo "nix not found, see README"; exit 1; }
-	@$(NIX) build --quiet --out-link "$(VALE_GC_ROOT)" "$(WRITING_INSTRUCTIONS_PLUGIN)#vale"
+	@$(NIX) build --quiet --out-link "$(VALE_GC_ROOT)" "$(INSTRUCTIONS_PLUGIN)#vale"
 
-test: test-node test-writing-instructions
+test: test-node test-instructions
 
 test-node:
 	node --test $(TESTS)
 
-test-writing-instructions: vale
+test-instructions: vale
 	@cd "$(REPO_ROOT)" && failed=0; \
-	for fixture in $(WRITING_INSTRUCTIONS_FIXTURES)/*.md $(WRITING_INSTRUCTIONS_FIXTURES)/*.markdown; do \
-		$(WRITING_INSTRUCTIONS_LINT) "$$fixture" | diff -u "$${fixture%.*}.expected" - || failed=1; \
+	for kind in $(INSTRUCTION_KINDS); do \
+		for fixture in $(INSTRUCTIONS_FIXTURES)/$$kind/*.md $(INSTRUCTIONS_FIXTURES)/$$kind/*.markdown; do \
+			[ -e "$$fixture" ] || continue; \
+			$(INSTRUCTIONS_LINT) $$kind "$$fixture" | diff -u "$${fixture%.*}.expected" - || failed=1; \
+		done; \
 	done; \
 	exit $$failed
-	$(call expect_lint_exit,2,$(WRITING_INSTRUCTIONS_LINT) $(REPO_ROOT)$(WRITING_INSTRUCTIONS_FIXTURES)/invalid/FrontMatter.md,invalid front matter)
-	$(call expect_lint_exit,4,$(WRITING_INSTRUCTIONS_LINT) $(REPO_ROOT)$(WRITING_INSTRUCTIONS_FIXTURES)/Missing.md,missing file)
-	$(call expect_lint_exit,3,env PATH=/nonexistent /bin/sh $(WRITING_INSTRUCTIONS_LINT) $(REPO_ROOT)$(WRITING_INSTRUCTIONS_FIXTURES)/Narrative.md,nix not on PATH)
-	$(call expect_lint_exit,5,env PATH="$(REPO_ROOT)$(WRITING_INSTRUCTIONS_FIXTURES)/bin:$$PATH" $(WRITING_INSTRUCTIONS_LINT) $(REPO_ROOT)$(WRITING_INSTRUCTIONS_FIXTURES)/Narrative.md,nix build fails)
-	@echo "writing-instructions lint fixtures pass"
+	$(call expect_lint_exit,2,$(MODEL_INSTRUCTIONS_LINT) $(REPO_ROOT)$(MODEL_FIXTURES)/invalid/FrontMatter.md,invalid front matter)
+	$(call expect_lint_exit,4,$(MODEL_INSTRUCTIONS_LINT) $(REPO_ROOT)$(MODEL_FIXTURES)/Missing.md,missing file)
+	$(call expect_lint_exit,4,$(INSTRUCTIONS_LINT) unknown $(REPO_ROOT)$(MODEL_FIXTURES)/Narrative.md,unknown kind)
+	$(call expect_lint_exit,3,env PATH=/nonexistent /bin/sh $(MODEL_INSTRUCTIONS_LINT) $(REPO_ROOT)$(MODEL_FIXTURES)/Narrative.md,nix not on PATH)
+	$(call expect_lint_exit,5,env PATH="$(REPO_ROOT)$(MODEL_FIXTURES)/bin:$$PATH" $(MODEL_INSTRUCTIONS_LINT) $(REPO_ROOT)$(MODEL_FIXTURES)/Narrative.md,nix build fails)
+	@echo "instructions lint fixtures pass"

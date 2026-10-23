@@ -1,0 +1,10 @@
+extends: existence
+message: "§2: '%s' is a force word in all capitals. Write it in lowercase."
+level: error
+tokens:
+  - MUST
+  - NEVER
+  - SHOULD
+  - MAY
+  - ALWAYS
+  - PREFER
