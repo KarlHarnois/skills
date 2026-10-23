@@ -31,11 +31,19 @@ class Bench {
     this.judges = Number(options.judges)
     this.pool = new TaskPool(Number(options.parallel))
     this.cli = new ClaudeCli({ model: options.model })
-    this.root = options.out ?? join(tmpdir(), 'instructions-bench', new Date().toISOString().replace(/[:.]/g, '-'))
+    this.root = Bench.outputDirectory(options.out)
     this.cases = BenchCase.loadAll(join(BENCH_DIRECTORY, 'cases'))
     this.rewriteTemplate = PromptTemplate.read(join(BENCH_DIRECTORY, 'prompts/rewrite.md'))
     this.judgeTemplate = PromptTemplate.read(join(BENCH_DIRECTORY, 'prompts/judge.md'))
     this.failures = []
+  }
+
+  static outputDirectory(requested) {
+    const directory = requested ?? join(tmpdir(), 'instructions-bench', new Date().toISOString().replace(/[:.]/g, '-'))
+    if (/\s/.test(directory)) {
+      throw new Error(`output directory ${directory} contains whitespace: a quoted linter path never matches the rewriter's permission rule`)
+    }
+    return resolve(directory)
   }
 
   async run() {

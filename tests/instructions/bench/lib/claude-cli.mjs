@@ -14,7 +14,7 @@ export class ClaudeCli {
       '--no-session-persistence',
       '--disable-slash-commands',
       '--permission-mode', permissionMode,
-      '--allowedTools', allowedTools.join(' '),
+      '--allowedTools', ...allowedTools,
       ...readableDirectories.flatMap(readable => ['--add-dir', readable]),
       ...(this.model ? ['--model', this.model] : []),
       ...(jsonSchema ? ['--json-schema', JSON.stringify(jsonSchema)] : []),
