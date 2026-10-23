@@ -2,8 +2,8 @@
 
 My collection of coding assistant skills, published as a
 [Claude Code plugin marketplace](https://code.claude.com/docs/en/plugin-marketplaces)
-named `karl-skills`. Each skill is its own plugin under `plugins/`, so a
-repository enables only the skills it needs.
+named `karl-skills`. The skills are grouped by area into plugins under
+`plugins/`, so a repository enables only the areas it needs.
 
 | Plugin | Skills | Agents | Depends on |
 | --- | --- | --- | --- |
