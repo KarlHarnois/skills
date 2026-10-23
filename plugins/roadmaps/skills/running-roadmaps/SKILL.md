@@ -131,11 +131,20 @@ The first line the watcher prints is `<session name>: <reason>`.
 
 ## Close an item
 
-1. Delete the worker, per Transport. If its reviewer still runs, delete the reviewer too.
+1. Delete the worker, per Transport. If its reviewer still runs, delete the reviewer too. If the delete of the worker exits 3 and says that it would lose work, run Check a refused delete.
 2. Delete the local prototype branches of the item.
 3. Tick the item, per `references/roadmap-adapters.md`.
 4. Record the merge in the state file, and rewrite its NEXT section.
 5. Run Dispatch. If no decision blocks the next item, dispatch it without asking the user: the role grants that.
+
+## Check a refused delete
+
+**Ringleader refuses to delete a worker whose branch holds commits that no other ref holds.** After a `ready-after-rebase` merge, the worker's branch still holds the commits from before the rebase.
+
+1. Read the worker's branch from the `branch` field of `<ringleader> list --json`.
+2. In the main checkout, run `git cherry <remote>/<base branch> <worker branch>`.
+3. If every line it prints starts with `-`, the base branch holds each commit of the worker's branch. Run the delete again with `--force`. The delete authority of the profile covers this `--force`.
+4. Otherwise, stop and ask the user.
 
 ## Escalation
 
