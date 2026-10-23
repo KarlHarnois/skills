@@ -1,1 +1,2 @@
 tests/instructions/model/PreferOver.md:1:1:error:WritingInstructions.PreferOver:§2: PREFER needs OVER in the same sentence: PREFER X OVER Y.
+tests/instructions/model/PreferOver.md:6:1:warning:WritingInstructions.LineWrap:§6: this line continues the paragraph or list item on the line above. Join the block's lines into one line.

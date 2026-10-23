@@ -1,0 +1,101 @@
+extends: script
+message: "§6: this line continues the paragraph or list item on the line above. Join the block's lines into one line."
+level: warning
+scope: raw
+script: |
+  text := import("text")
+
+  front_matter_delimiter := text.re_compile("^---[ \t\r]*$")
+  fence_opener := text.re_compile("^ *(```+|~~~+)")
+  blank := text.re_compile("^[ \t\r]*$")
+  quote_marker := text.re_compile("^ {0,3}> ?")
+  item_with_text := text.re_compile("^ *([-*+]|[0-9]{1,9}[.)])[ \t]+[^ \t\r]")
+  block_opener := text.re_compile("^ {0,3}(#|\\||<|\\[[^\\]]+\\]:)|^ *([-*+]|[0-9]{1,9}[.)])([ \t]|\r?$)|^ {0,3}(([*] *){3,}|(- *){3,}|(_ *){3,}|=+ *)\r?$")
+  html_opener := text.re_compile("^ {0,3}<")
+  indented_code := text.re_compile("^( {4}|\t)")
+  hard_break := text.re_compile("( {2,}|\\\\)\r?$")
+
+  front_matter_length := func(raw_lines) {
+    if !front_matter_delimiter.match(raw_lines[0]) { return 0 }
+    for i := 1; i < len(raw_lines); i++ {
+      if front_matter_delimiter.match(raw_lines[i]) { return i + 1 }
+    }
+    return 0
+  }
+
+  fence_closer := func(line) {
+    opener := fence_opener.find(line)
+    if is_undefined(opener) { return undefined }
+    fence := opener[0][1].text
+    return text.re_compile("^ *" + fence + text.substr(fence, 0, 1) + "*[ \t\r]*$")
+  }
+
+  unquote := func(raw_line) {
+    depth := 0
+    line := raw_line
+    for quote_marker.match(line) {
+      line = text.substr(line, len(quote_marker.find(line)[0][0].text), len(line))
+      depth++
+    }
+    return {depth: depth, body: line}
+  }
+
+  skipped_block_scanner := func() {
+    closer := undefined
+    in_html := false
+    in_code := false
+    return func(previous_kind, body) {
+      if !is_undefined(closer) {
+        if closer.match(body) { closer = undefined }
+        return true
+      }
+      if in_html || in_code {
+        in_html = in_html && !blank.match(body)
+        in_code = in_code && (blank.match(body) || indented_code.match(body))
+        if in_html || in_code { return true }
+      }
+      closer = fence_closer(body)
+      in_html = html_opener.match(body)
+      in_code = previous_kind == "blank" && indented_code.match(body) && !item_with_text.match(body)
+      return !is_undefined(closer) || in_html || in_code
+    }
+  }
+
+  kind_of := func(body, skipped) {
+    if skipped { return "skipped" }
+    if blank.match(body) { return "blank" }
+    if item_with_text.match(body) { return "item" }
+    if block_opener.match(body) { return "opener" }
+    return "text"
+  }
+
+  continues := func(previous, line) {
+    open_block := previous.kind == "item" || previous.kind == "text" || previous.kind == "continuation"
+    return line.kind == "text" && open_block && previous.depth == line.depth && !hard_break.match(previous.body)
+  }
+
+  parse_lines := func(raw) {
+    raw_lines := text.split(raw, "\n")
+    front_matter := front_matter_length(raw_lines)
+    is_skipped := skipped_block_scanner()
+    previous := {kind: "blank", depth: 0, body: ""}
+    lines := []
+    begin := 0
+    for i, raw_line in raw_lines {
+      quoted := unquote(raw_line)
+      skipped := i < front_matter || is_skipped(previous.kind, quoted.body)
+      line := {kind: kind_of(quoted.body, skipped), depth: quoted.depth, body: quoted.body, begin: begin}
+      if continues(previous, line) { line.kind = "continuation" }
+      line.opens_wrap = line.kind == "continuation" && previous.kind != "continuation"
+      line.end = begin + len(raw_line)
+      lines = append(lines, line)
+      previous = line
+      begin = line.end + 1
+    }
+    return lines
+  }
+
+  matches := []
+  for line in parse_lines(scope) {
+    if line.opens_wrap { matches = append(matches, {begin: line.begin, end: line.end}) }
+  }
