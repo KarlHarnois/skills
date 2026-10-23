@@ -104,6 +104,12 @@ describe('watch-session.sh', () => {
     assert.match(run.stdout, /Access external directory/)
   })
 
+  test('stops on a Claude Code edit prompt while the session is still working', () => {
+    host.reportStates('working', 'working', 'exited')
+    host.showPane('Do you want to make this edit to review.md?')
+    assert.equal(host.watch(SESSION).stdout.split('\n')[0], `${SESSION}: permission-prompt`)
+  })
+
   test('prints the pane tail when it stops', () => {
     host.reportStates('waiting')
     host.showPane('Report sent to manager')
