@@ -39,11 +39,11 @@ class Bench {
   }
 
   static outputDirectory(requested) {
-    const directory = requested ?? join(tmpdir(), 'instructions-bench', new Date().toISOString().replace(/[:.]/g, '-'))
+    const directory = resolve(requested ?? join(tmpdir(), 'instructions-bench', new Date().toISOString().replace(/[:.]/g, '-')))
     if (/\s/.test(directory)) {
       throw new Error(`output directory ${directory} contains whitespace: a quoted linter path never matches the rewriter's permission rule`)
     }
-    return resolve(directory)
+    return directory
   }
 
   async run() {
