@@ -81,7 +81,7 @@ that describes a product, a tool, or a behavior needs no failure branch.
 
 ## 5. One concept, one term
 
-**A term the reader already knows is not a load-bearing term.** A term the
+**A term the reader already knows needs no Definition sentence.** A term the
 reader already knows is a term in common use in the reader's field. NEVER write
 a Definition whose predicate only expands or repeats its term.
 
