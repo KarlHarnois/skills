@@ -1,6 +1,6 @@
 ---
 name: writing-human-instructions
-description: "This skill is the prose standard for human instruction text: READMEs, runbooks, and every guide that tells a person how to do a task. Use this skill before writing, editing, or reviewing human instruction text, including a one-sentence change. A text written for a model to follow, such as a SKILL.md, a CLAUDE.md, or an agent definition, is model instruction text even when a person reads it: use instructions:writing-model-instructions for it. PR descriptions, commit messages, design docs, and reviews are out of scope."
+description: "This skill is the prose standard for human instruction text: READMEs, runbooks, and every guide that tells a person how to do a task. Use this skill before writing, editing, or reviewing human instruction text, including a one-sentence change. A CLAUDE.md or AGENTS.md and every file it imports, a SKILL.md, an agent definition, and every other text written for a model to follow are model instruction text even when a person reads them: use instructions:writing-model-instructions for them. PR descriptions, commit messages, design docs, and reviews are out of scope."
 allowed-tools: Bash(${CLAUDE_SKILL_DIR}/scripts/lint.sh *)
 ---
 
@@ -25,11 +25,15 @@ the user and stop.
 - runbooks
 - every guide that tells a person how to do a task
 
-**A text written for a model to follow is model instruction text, even when
-this list also covers the text.** Model instruction text includes `CLAUDE.md`,
-`AGENTS.md`, every `SKILL.md`, and every agent definition. If the text is model
-instruction text, invoke the `instructions:writing-model-instructions` skill
-instead.
+**A text that is model instruction text is not human instruction text, even
+when this list covers the text.** Model instruction text includes these texts:
+
+- the always-loaded instructions
+- every `SKILL.md` and every agent definition
+- every other file written for a model to follow
+
+**If the text is model instruction text, invoke the
+`instructions:writing-model-instructions` skill instead.**
 
 **Every other text is out of scope.**
 
