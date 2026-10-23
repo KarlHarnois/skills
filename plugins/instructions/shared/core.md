@@ -123,6 +123,10 @@ one of these branches:
 - fix the cause and retry
 - report and continue
 
+**If the command's own error message tells the reader what to fix, the step
+needs no failure branch.** Such a branch only repeats what the error message
+says.
+
 ## 5. One concept, one term
 
 **Fix a term and reuse it exactly, in every file.** NEVER vary the wording

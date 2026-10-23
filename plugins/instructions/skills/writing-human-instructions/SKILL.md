@@ -88,10 +88,6 @@ keep the step and report the missing part to the user.
 **A procedure step that can fail MUST state its failure branch.** A sentence
 that describes a product, a tool, or a behavior needs no failure branch.
 
-**If the command's own error message tells the reader what to fix, the step
-needs no failure branch.** Such a branch only repeats what the error message
-says.
-
 ## 5. One concept, one term
 
 **A term the reader already knows needs no Definition sentence.** A term the

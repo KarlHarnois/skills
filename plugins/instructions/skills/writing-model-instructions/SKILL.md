@@ -83,8 +83,8 @@ with the default `Otherwise, stop and ask the user`.**
 
 **An instruction that can fail MUST state its failure branch.**
 
-**Give every retry a limit:** without one, the reader can retry forever. Name
-the branch the reader takes when the retries run out.
+**Give every retry loop the text sets up a limit:** without one, the reader can
+retry forever. Name the branch the reader takes when the retries run out.
 
 **A subagent contacts the user only through the message it returns when its
 run ends.** To report and continue, a subagent puts the report in that message
