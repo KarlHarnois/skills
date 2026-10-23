@@ -71,17 +71,17 @@ subagent does not load the always-loaded instructions.
 - every file it reads in the run
 - the always-loaded instructions
 
-## 10. Priority
+## 9. Priority
 
 **Weight a finding by how often its text loads.** The always-loaded
 instructions, every skill `description`, and every agent `description` load in
 every session. A skill body loads only when the skill is invoked. Fix the text
 that loads in every session first.
 
-## 13. Lint the edited file
+## 12. Lint the edited file
 
 **Read each edited block for a `must`, `always`, or `never` that states force
 without all capitals.** The linter flags none of them. Write each such word in
 all capitals, except a `Never` that opens a Prohibition, per §2. Count each
 such word outside the edited blocks as one defect in the report of `SKILL.md`
-§13 step 3.
+§12 step 3.

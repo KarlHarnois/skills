@@ -27,8 +27,6 @@ a sentence meant.
   file they import.
 - The **repository instructions** are the `CLAUDE.md` and `AGENTS.md` files in
   the text's repository, and every file they import.
-- The **host** is the program that runs the orchestrator and its subagents,
-  such as Claude Code.
 
 ## Scope
 
@@ -54,8 +52,6 @@ a sentence meant.
 **A text in the model list is model instruction text, even when another list
 also covers the text.** Neither a person nor a model changes a text's kind by
 following the text.
-
-**§9 governs the orchestrator's explanation of its own work in chat.**
 
 **Every other text is out of scope.**
 
@@ -83,7 +79,7 @@ If you cannot read the reader file, report its path to the user and stop.
 rules. A reader file groups its rules under the headings of the sections they
 extend. A section citation covers that section in both files. On a conflict
 with this file, a reader file rule governs its kind of instruction text. The
-quoted text rules of §13 are the exception: they govern both kinds.
+quoted text rules of §12 are the exception: they govern both kinds.
 
 **If the repository instructions set what the text covers, follow them over
 this standard.** Report each conflict to the user.
@@ -323,53 +319,13 @@ Place the kept reason directly after the rule, as one clause
 reasons survive. Cut the story behind every reason: the history, the incident,
 the alternatives weighed.
 
-## 9. Chat register
-
-**This section governs procedural explanation:** what the orchestrator is
-doing and why. It does not govern the substance of an answer. If the host's
-own chat guidance fixes a format, keep the order below inside that format.
-
-**The orchestrator's explanation of its own work MUST carry the structure of
-the instruction it is following.** The user MUST be able to tell which rule
-produced an action without opening the rule.
-
-**State the trigger, then the rule, then the action, in that order.** NEVER
-state an action first and its reason afterwards.
-
-**Mirror the form of the instruction being followed:**
-
-| Instruction form | Explanation shape |
-| --- | --- |
-| Command | "\<rule\> requires X. Doing X." |
-| Prohibition | "X is prohibited by \<rule\>. Doing Y instead." |
-| Conditional | "C holds, so X follows." / "C does not hold, so X does not apply." |
-| Definition | "This is a Y, because \<criterion\>." |
-| Invariant | "X holds always, so Y." |
-
-**Name the branch not taken.** If a rule branches, say which branch did not
-apply and why. The user cannot audit a choice whose alternatives are invisible.
-
-**If an action fails, name the failure branch the instruction specifies.**
-NEVER improvise a recovery silently.
-
-**Mark judgment as judgment.** If no rule governs a choice, say so: "No rule
-covers this. Choosing X because Y." NEVER present a preference as a
-requirement. NEVER present a requirement as a preference.
-
-**If a recommendation reverses an earlier one, name what changed:** the rule,
-the measurement, or the fact. A reversal with no stated cause is
-indistinguishable from noise.
-
-**NEVER narrate an action without citing its reason**, as in `Let me go ahead
-and…`, `I'll just…`, or `Now I'll…`.
-
-## 10. Priority
+## 9. Priority
 
 **Within a file, rank by consequence:** an unstated failure branch or an
 uncovered case outranks a wordy sentence. The first two change what the reader
 does, and the third only adds length.
 
-## 11. How to change instruction text
+## 10. How to change instruction text
 
 **State every proposed change as replacement text, NEVER as a verdict.**
 "These 40 words say what these 12 do" is actionable, and "this section is
@@ -394,7 +350,7 @@ cut the sentence or restate it:
 **If you cannot verify a sentence's claim, keep the sentence and report the
 sentence to the user.**
 
-## 12. A rule covers a defect class
+## 11. A rule covers a defect class
 
 **A defect class is the property of an input that produces a failure, stated
 without naming the input.** An input is what an instruction acts on: a file, a
@@ -420,7 +376,7 @@ Inputs vary without limit, and a rule fitted to one input breaks on the next.
 - If a list in a rule gains one entry per failure, restate the rule so that it
   covers every entry.
 
-## 13. Lint the edited file
+## 12. Lint the edited file
 
 **The linter is `scripts/lint.sh`, which runs a pinned build of Vale with the
 WritingInstructions style in this skill's `vale/` directory.** An **alert** is
@@ -446,7 +402,7 @@ rule to any other file and reports the file clean.
    that pins the Vale build.
 
 2. Act on the linter's exit code, per the exit code table.
-3. Read the result whole, and run the §11 checks on every edited block. A run
+3. Read the result whole, and run the §10 checks on every edited block. A run
    with no alerts does not clear the file, because the linter cannot detect
    meaning. Check every sentence against every rule whose test depends on
    meaning. Check every sentence the linter did not fully read against every

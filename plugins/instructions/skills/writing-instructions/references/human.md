@@ -91,7 +91,7 @@ such reason as `SKILL.md` §8 places a kept reason.
 **If a document tells the story behind a reason, give the document's link or
 path, per §6.**
 
-## 13. Lint the edited file
+## 12. Lint the edited file
 
 **If a `WritingInstructions.LowercaseForce` alert flags a word with the meaning
 of a §2 row, write that row's force word.** Write the force word in the case §2
@@ -110,4 +110,4 @@ restate the sentence per §2. Otherwise, leave the text.
   sentence. Restate the sentence, per §2.
 
 Count each such defect outside the edited blocks in the report of `SKILL.md`
-§13 step 3.
+§12 step 3.
