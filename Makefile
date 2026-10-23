@@ -13,7 +13,7 @@ PLUGINS := $(shell find "$(PLUGINS_SOURCE)" -mindepth 1 -maxdepth 1 -type d -exe
 TESTS := $(shell find "$(PLUGINS_SOURCE)" -name '*.test.mjs')
 
 NIX := nix --extra-experimental-features 'nix-command flakes' --option warn-dirty false
-WRITING_INSTRUCTIONS_PLUGIN := $(PLUGINS_SOURCE)/writing-instructions
+WRITING_INSTRUCTIONS_PLUGIN := $(PLUGINS_SOURCE)/instructions
 VALE_GC_ROOT := $(WRITING_INSTRUCTIONS_PLUGIN)/.vale-gcroot
 WRITING_INSTRUCTIONS_LINT := $(WRITING_INSTRUCTIONS_PLUGIN)/skills/writing-instructions/scripts/lint.sh
 WRITING_INSTRUCTIONS_FIXTURES := tests/writing-instructions

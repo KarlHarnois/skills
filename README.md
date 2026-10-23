@@ -5,20 +5,30 @@ My collection of coding assistant skills, published as a
 named `karl-skills`. Each skill is its own plugin under `plugins/`, so a
 repository enables only the skills it needs.
 
-| Plugin | Ships | Depends on |
-| --- | --- | --- |
-| `writing-clean-code` | the `writing-clean-code` skill | none |
-| `writing-instructions` | the `writing-instructions` skill and its Vale linter | none |
-| `describing-prs` | the `describing-prs` skill | none |
-| `creating-prs` | the `creating-prs` skill | `describing-prs` |
-| `reviewing-prs` | the `reviewing-prs` skill and the `reviewer` agent | none |
-| `refining-prs` | the `refining-prs` skill | `reviewing-prs`, `describing-prs` |
-| `building-features` | the `building-features` skill and the `implementer`, `refactorer`, and `architect` agents | `reviewing-prs`, `creating-prs`, `writing-clean-code`, `writing-instructions` |
-| `building-discovery-wikis` | the `building-discovery-wikis` skill and the `surface-crawler` agent | none |
+| Plugin | Skills | Agents | Depends on |
+| --- | --- | --- | --- |
+| `clean-code` | `writing-clean-code` | none | none |
+| `instructions` | `writing-instructions` | none | none |
+| `prs` | the four PR skills listed below | `reviewer` | none |
+| `features` | `building-features` | the three agents listed below | `prs`, `clean-code`, `instructions` |
+| `wikis` | `building-discovery-wikis` | `surface-crawler` | none |
+
+The `prs` plugin ships these skills:
+
+- `creating-prs`
+- `describing-prs`
+- `reviewing-prs`
+- `refining-prs`
+
+The `features` plugin ships these agents:
+
+- `implementer`
+- `refactorer`
+- `architect`
 
 Claude Code installs a plugin's dependencies with the plugin. It prefixes
-every skill and agent with its plugin name, so the reviewer agent is
-`reviewing-prs:reviewer`.
+every skill and agent with its plugin name. The `reviewing-prs` skill runs as
+`/prs:reviewing-prs`, and the reviewer agent is `prs:reviewer`.
 
 ## Add skills to a repository
 
@@ -33,7 +43,7 @@ plugins the repository needs under `enabledPlugins`:
     }
   },
   "enabledPlugins": {
-    "writing-clean-code@karl-skills": true
+    "clean-code@karl-skills": true
   }
 }
 ```
@@ -87,7 +97,7 @@ make uninstall
 `make install` needs the [`claude` CLI](https://code.claude.com/docs/en/setup)
 and [Nix](https://nixos.org/download).
 The `writing-instructions` skill lints instruction text with
-[Vale](https://vale.sh). The flake in `plugins/writing-instructions/` pins
+[Vale](https://vale.sh). The flake in `plugins/instructions/` pins
 the Vale build, so every machine runs the same version. Apple Silicon Macs
 work. Intel Macs do not, since nixpkgs-unstable dropped them.
 

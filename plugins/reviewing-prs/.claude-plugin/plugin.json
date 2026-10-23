@@ -1,9 +1,0 @@
-{
-  "name": "reviewing-prs",
-  "version": "1.0.0",
-  "description": "Review a pull request or branch and print the findings, plus the reviewer agent",
-  "author": {
-    "name": "Karl Rivest Harnois"
-  },
-  "repository": "https://github.com/KarlHarnois/skills"
-}

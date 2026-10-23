@@ -1,9 +1,0 @@
-{
-  "name": "writing-instructions",
-  "version": "1.0.0",
-  "description": "The prose standard and Vale linter for model and human instruction text",
-  "author": {
-    "name": "Karl Rivest Harnois"
-  },
-  "repository": "https://github.com/KarlHarnois/skills"
-}
