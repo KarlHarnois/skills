@@ -1,0 +1,7 @@
+{
+  "entry": "SKILL.md",
+  "role": "a skill that a coding model loads when the user asks it to triage invoice disputes, with one reference file",
+  "forceSites": [],
+  "templates": ["Summary: {customer}", "Review: {customer}"],
+  "fencedControls": ["bin/dispatch --worker"]
+}
