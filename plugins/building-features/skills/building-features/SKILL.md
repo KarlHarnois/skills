@@ -30,13 +30,20 @@ Invocation arguments, if any (the task, a round budget): $ARGUMENTS
 
 **Run every command in this skill from the repository root:** the session's shell can start in a different repository.
 
-**Every write to the spec MUST meet the `writing-instructions` standard:** the implementer and the reviewer execute the spec. If the session has not invoked the `writing-instructions` skill, invoke the `writing-instructions` skill before the write. If the invocation fails, stop and tell the user to run `make install` in the skills repository.
+**Every write to the spec MUST meet the `writing-instructions` standard:** the implementer and the reviewer execute the spec. If the session has not invoked the `writing-instructions` skill, invoke the `writing-instructions` skill before the write. If the invocation fails, stop and tell the user to install the `writing-instructions` plugin from the `karl-skills` marketplace.
 
 ## Phase 1: Setup
 
 ### 1. Check the agents
 
-If the available agent types do not include all of `implementer`, `refactorer`, `architect`, and `reviewer`, stop and tell the user to run `make install` in the skills repository: the pipeline cannot spawn an agent type that is not installed.
+The pipeline spawns these agent types:
+
+- `building-features:implementer`
+- `building-features:refactorer`
+- `building-features:architect`
+- `reviewing-prs:reviewer`
+
+If any of the four is missing from the available agent types, stop. The pipeline cannot spawn an agent type that is not installed. Tell the user to install the `building-features` plugin from the `karl-skills` marketplace.
 
 ### 2. Check for a run to continue
 

@@ -79,7 +79,7 @@ HEAD is still the branch under review, and `git status --porcelain` shows nothin
 
 ### 2. Spawn one reviewer
 
-**If the `reviewer` agent is available** (it ships in this repo's `agents/` and installs to `~/.claude/agents/`; check the agent list): spawn one `reviewer` with the filled-in brief below as its task prompt. The agent carries the read-only tool set and sets the reviewer model in one place. It inherits the session model by default, because review quality here decides both what gets committed and when the loop declares the PR done.
+**If the agent list includes `reviewing-prs:reviewer`**, spawn one `reviewing-prs:reviewer` with the filled-in brief below as its task prompt. The `reviewing-prs` plugin ships this agent. The agent carries the read-only tool set and sets the reviewer model in one place. It inherits the session model by default. Review quality decides what gets committed and when the loop declares the PR done.
 
 **If subagents are available but the agent is not**: spawn one generic subagent with the same brief, and add to it the read-only constraints the agent file would have carried, namely that it must not edit files, move HEAD, or post to GitHub.
 

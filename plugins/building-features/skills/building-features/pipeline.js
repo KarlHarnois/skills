@@ -93,10 +93,17 @@ const TRIAGE_RESULT_SCHEMA = {
   required: ['status', 'question', 'findings', 'verification'],
 }
 
+const AGENT_TYPES = {
+  implementer: 'building-features:implementer',
+  refactorer: 'building-features:refactorer',
+  architect: 'building-features:architect',
+  reviewer: 'reviewing-prs:reviewer',
+}
+
 const BUILD_STAGES = [
-  { name: 'implement', phase: 'Implement', agentType: 'implementer', brief: prompts => prompts.build() },
-  { name: 'refactor', phase: 'Refactor', agentType: 'refactorer', brief: prompts => prompts.runContext() },
-  { name: 'architect', phase: 'Architect', agentType: 'architect', brief: prompts => prompts.runContext() },
+  { name: 'implement', phase: 'Implement', agentType: AGENT_TYPES.implementer, brief: prompts => prompts.build() },
+  { name: 'refactor', phase: 'Refactor', agentType: AGENT_TYPES.refactorer, brief: prompts => prompts.runContext() },
+  { name: 'architect', phase: 'Architect', agentType: AGENT_TYPES.architect, brief: prompts => prompts.runContext() },
 ]
 
 class RunSettings {
@@ -264,7 +271,7 @@ class ReviewLoop {
       const review = await agent(this.prompts.review(round, this.declined), {
         label: `review round ${round}, attempt ${attempt}`,
         phase: 'Review',
-        agentType: 'reviewer',
+        agentType: AGENT_TYPES.reviewer,
       })
       if (this.isCompleteReview(review)) return review
       log(`Round ${round}: reviewer attempt ${attempt} did not return a complete review`)
@@ -280,7 +287,7 @@ class ReviewLoop {
     return agent(this.prompts.apply(round, review, this.declined), {
       label: `apply round ${round}`,
       phase: 'Apply',
-      agentType: 'implementer',
+      agentType: AGENT_TYPES.implementer,
       schema: TRIAGE_RESULT_SCHEMA,
     })
   }

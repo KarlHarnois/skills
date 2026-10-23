@@ -32,9 +32,18 @@ class PipelineScript {
   }
 }
 
+const PLUGIN_AGENT_TYPES = {
+  implementer: 'building-features:implementer',
+  refactorer: 'building-features:refactorer',
+  architect: 'building-features:architect',
+  reviewer: 'reviewing-prs:reviewer',
+}
+
 class ScriptedAgents {
   constructor(replies) {
-    this.queues = Object.fromEntries(Object.entries(replies).map(([agentType, queue]) => [agentType, [...queue]]))
+    this.queues = Object.fromEntries(
+      Object.entries(replies).map(([agentName, queue]) => [PLUGIN_AGENT_TYPES[agentName], [...queue]]),
+    )
     this.calls = []
     this.logs = []
   }
@@ -334,7 +343,7 @@ describe('building-features pipeline', () => {
     await pipeline.run(agents, {})
 
     agents.calls
-      .filter(call => call.agentType !== 'reviewer')
+      .filter(call => call.agentType !== PLUGIN_AGENT_TYPES.reviewer)
       .forEach(call => assert.match(call.prompt, /f36e958/, call.label))
   })
 

@@ -58,7 +58,7 @@ Tell the user which surfaces you will crawl and which relevant-looking ones you 
 
 The crawl is where nearly all of a build's tokens go. Fill in the brief from `references/crawl-brief.md` once per surface with the scope from step 1, the surface assignment, and the output path, then:
 
-**If the `surface-crawler` agent is available** (it ships in this repo's `agents/` and installs to `~/.claude/agents/`; check the agent list): spawn one `surface-crawler` per surface, all in the same turn so they run in parallel, with the filled-in brief as its task prompt. The agent carries the read-only tool allowlist and sets the crawler model in one place. It inherits the session model by default: in testing, a cheaper crawler model cost more in missed evidence and format errors than it saved.
+**If the agent list includes `building-discovery-wikis:surface-crawler`**, spawn one per surface, all in the same turn so they run in parallel. Send each the filled-in brief as its task prompt. The `building-discovery-wikis` plugin ships this agent. The agent carries the read-only tool allowlist and sets the crawler model in one place. It inherits the session model by default. A cheaper crawler model costs more in missed evidence and format errors than it saves.
 
 **If subagents are available but the agent is not** (generic Claude Code, Cowork): spawn one generic subagent per surface, same turn, same filled-in brief.
 
@@ -137,10 +137,10 @@ Files in `sources/` are immutable source material: never edit them, never delete
 When asked to refresh an existing discovery directory:
 
 1. Read `index.md` scope and each surface's frontmatter (`crawled_at`, queries).
-2. Re-run the same queries filtered to items newer than `crawled_at`, plus any new key terms the user supplies, with the same fan-out mechanics as step 3 (the `surface-crawler` agent when available).
-3. Append new entries to the existing indexes (marking them `*(added YYYY-MM-DD)*`), update frontmatter, update `## Key findings` only if something changed materially, and log the operation.
-4. Never delete entries on a re-crawl; if a source is gone, mark it `*(link dead as of YYYY-MM-DD)*`.
-5. Spot-check link integrity while you're there: verify the links of the entries you touch plus a small sample of `Key evidence` links per surface, and mark dead ones as above. Full link audits only when the user asks for a wiki health check.
+2. Re-run the same queries, filtered to items newer than `crawled_at`. Add any new key terms the user supplies. Fan out as step 3 does.
+3. Append new entries to the existing indexes, and mark each `*(added YYYY-MM-DD)*`. Update the frontmatter and log the operation. If something changed materially, update `## Key findings`.
+4. Never delete entries on a re-crawl. If a source is gone, mark its entry `*(link dead as of YYYY-MM-DD)*`.
+5. Spot-check link integrity. Verify the links of the entries you touch, plus a small sample of `Key evidence` links per surface. Mark each dead link as step 4 does. If the user asks for a wiki health check, audit every link.
 
 ## Initialization and existing wikis
 
