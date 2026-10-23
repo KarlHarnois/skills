@@ -16,7 +16,7 @@ NIX := nix --extra-experimental-features 'nix-command flakes' --option warn-dirt
 WRITING_INSTRUCTIONS_PLUGIN := $(PLUGINS_SOURCE)/instructions
 VALE_GC_ROOT := $(WRITING_INSTRUCTIONS_PLUGIN)/.vale-gcroot
 WRITING_INSTRUCTIONS_LINT := $(WRITING_INSTRUCTIONS_PLUGIN)/skills/writing-instructions/scripts/lint.sh
-WRITING_INSTRUCTIONS_FIXTURES := tests/writing-instructions
+WRITING_INSTRUCTIONS_FIXTURES := tests/instructions/model
 
 define expect_lint_exit
 @$(2) >/dev/null 2>&1; status=$$?; \

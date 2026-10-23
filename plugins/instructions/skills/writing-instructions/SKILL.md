@@ -379,7 +379,7 @@ Inputs vary without limit, and a rule fitted to one input breaks on the next.
 ## 12. Lint the edited file
 
 **The linter is `scripts/lint.sh`, which runs a pinned build of Vale with the
-WritingInstructions style in this skill's `vale/` directory.** An **alert** is
+WritingInstructions style in the plugin's `shared/vale/` directory.** An **alert** is
 one line of the linter's output, in the form
 `file:line:column:level:rule:message`. An alert's message cites the section of
 this standard that the alert enforces. An **edited block** is a top-level block
