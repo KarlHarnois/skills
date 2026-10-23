@@ -66,12 +66,16 @@ export class BlindPanel {
     const reply = await cli.run({
       prompt: this.promptFrom(template),
       directory: this.visibleDirectory,
-      allowedTools: JUDGE_TOOLS,
+      allowedTools: this.visibleOnlyTools(),
       permissionMode: 'default',
       jsonSchema: VERDICT_SCHEMA,
     })
     writeFileSync(join(this.directory, `judge-${judgeNumber}.json`), JSON.stringify(reply.structured, null, 2))
     return { costUsd: reply.costUsd, verdicts: this.unmask(reply.structured) }
+  }
+
+  visibleOnlyTools() {
+    return JUDGE_TOOLS.map(tool => `${tool}(${this.visibleDirectory}/**)`)
   }
 
   promptFrom(template) {

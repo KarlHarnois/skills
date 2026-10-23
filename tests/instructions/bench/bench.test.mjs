@@ -128,6 +128,14 @@ describe('BlindPanel', () => {
     assert.throws(() => panel.unmask({ rewrites: [verdict('A'), verdict('B')], ranking: ['A'] }), /ranking leaves out B/)
   })
 
+  test('lets the judge read only its own directory', () => {
+    assert.deepEqual(panel.visibleOnlyTools(), [
+      'Read(/unused/force-words/visible/**)',
+      'Glob(/unused/force-words/visible/**)',
+      'Grep(/unused/force-words/visible/**)',
+    ])
+  })
+
   test('refuses scores that name one rewrite twice', () => {
     const twice = { rewrites: [verdict('A'), verdict('A/'), verdict('B')], ranking: ['A', 'B'] }
     assert.throws(() => panel.unmask(twice), /scores name A more than once/)
