@@ -12,6 +12,7 @@ named `karl-skills`. The skills are grouped by area into plugins under
 | `prs` | the four PR skills listed below | `reviewer` | none |
 | `features` | `building-features` | the three agents listed below | `prs`, `clean-code`, `instructions` |
 | `wikis` | `building-discovery-wikis` | `surface-crawler` | none |
+| `roadmaps` | `running-roadmaps` | none | `prs`, `instructions` |
 
 The `prs` plugin ships these skills:
 
