@@ -63,7 +63,7 @@
    | 2 | usage | Fix the command and run step 1 again, once. |
 
 3. If the profile requires CI, run `gh pr checks <number>`. If a check fails, send a fix list that names the check. If a check is still running, wait for it, and run this step again. Run this step after the merge gate: a push of rebased commits starts a new CI run.
-4. Run `gh pr merge <number> --<merge method>` as its own command, after you read exit code 0 and step 3 passes. NEVER join the merge gate and the merge in one command line: a failed check must stop the merge.
+4. Run `gh pr merge <number> --<merge method>` as its own command, after you read exit code 0 and step 3 passes. NEVER run the merge gate and the merge in one command line: the merge could run after a failed check.
 5. If `gh pr merge` fails because the base branch moved, run step 1 again. If it fails for another reason, tell the user its output.
 6. If the main checkout is on the base branch and `git status --porcelain` prints nothing there, run `git pull --ff-only` in it. Otherwise, leave the main checkout as it is. If the pull fails, tell the user. NEVER switch the branch of the main checkout: it is the user's directory.
 7. Run `git fetch <remote>`. Compare `git rev-parse '<remote>/<base branch>^{tree}'` with the tree that the merge gate printed. If the trees differ, run Gate the base branch.
