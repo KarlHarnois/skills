@@ -1,6 +1,6 @@
 # Prompt standards
 
-**Every handoff follows these standards, and each template applies them.** A handoff is model instruction text, so the `writing-instructions` standard binds it too.
+**Every handoff follows these standards, and each template applies them.** A handoff is model instruction text, so the `instructions:writing-model-instructions` standard binds it too.
 
 ## The handoff stands alone
 
@@ -100,22 +100,7 @@ The rules of a report:
 
 **NEVER put a backtick, a dollar sign, or a double quote in a handoff title.** The shell expands those characters in the send command.
 
-The template of each kind holds its Done section. A message that holds the report reads like this, filled in:
-
-````markdown
-## Done
-
-Send the report with this command, with a timeout of at least 90 seconds:
-
-```sh
-<ringleader> send <manager session> "$(cat <<'REPORT'
-<report>
-REPORT
-)"
-```
-
-If the command fails, write the report to `<scratch directory>/report.md`, wait two minutes, and run the command once more. If it fails again, stop.
-````
+The template of each kind holds its Done section. `templates/build.md` and `templates/fix-list.md` show the form that holds the report.
 
 ## Opener and skeleton
 

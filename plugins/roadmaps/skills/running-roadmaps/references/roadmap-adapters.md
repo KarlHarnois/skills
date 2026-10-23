@@ -13,21 +13,7 @@ Every adapter supports these four operations:
 
 ## Markdown
 
-**The roadmap is one Markdown file.** Write it from this template:
-
-````markdown
-# Roadmap: <roadmap name>
-
-## Items
-
-- [ ] <id> <title> (<kind>)
-
-## Decisions
-
-| Decision | Rule | Recorded |
-| --- | --- | --- |
-| D<n> | <rule> | <date> |
-````
+**The roadmap is one Markdown file.** Write it from `templates/roadmap.md`.
 
 | Location | Tick, Add, and Record |
 | --- | --- |
