@@ -113,9 +113,9 @@ reach. §8 lists what a subagent loads. If a rule depends on another skill, the
 rule tells the reader to invoke that skill. A reader cannot apply a skill it
 has not loaded.
 
-**Put each prompt template in its own `.md` file, NEVER in a code block:** the
-linter reads no code block. The step that sends the prompt tells the reader to
-read that file.
+**Fence each prompt template as `markdown`:** the linter reads a fenced block
+only when its label is `markdown` or `md`. Fence every other block of Markdown,
+such as a document format or an example, as `text`.
 
 ## 7. Economy
 
@@ -168,3 +168,6 @@ that loads in every session first.
 ```sh
 ${CLAUDE_SKILL_DIR}/scripts/lint.sh <absolute path>
 ```
+
+**The linter also reads every fenced block labeled `markdown` or `md` as
+instruction text.** It reports each alert at its line in the edited file.
