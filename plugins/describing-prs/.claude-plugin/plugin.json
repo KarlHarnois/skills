@@ -1,0 +1,9 @@
+{
+  "name": "describing-prs",
+  "version": "1.0.0",
+  "description": "Draft or rewrite a terse pull request title and body for the current branch",
+  "author": {
+    "name": "Karl Rivest Harnois"
+  },
+  "repository": "https://github.com/KarlHarnois/skills"
+}

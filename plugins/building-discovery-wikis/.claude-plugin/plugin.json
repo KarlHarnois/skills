@@ -1,0 +1,9 @@
+{
+  "name": "building-discovery-wikis",
+  "version": "1.0.0",
+  "description": "Crawl every available surface into a discovery wiki, plus the surface-crawler agent",
+  "author": {
+    "name": "Karl Rivest Harnois"
+  },
+  "repository": "https://github.com/KarlHarnois/skills"
+}

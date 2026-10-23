@@ -1,0 +1,49 @@
+{
+  "name": "karl-skills",
+  "description": "Karl Rivest Harnois's coding assistant skills, one plugin per skill",
+  "owner": {
+    "name": "Karl Rivest Harnois"
+  },
+  "plugins": [
+    {
+      "name": "writing-clean-code",
+      "source": "./plugins/writing-clean-code",
+      "description": "Robert Martin's Clean Code principles applied to every piece of code Claude writes"
+    },
+    {
+      "name": "writing-instructions",
+      "source": "./plugins/writing-instructions",
+      "description": "The prose standard and Vale linter for model and human instruction text"
+    },
+    {
+      "name": "describing-prs",
+      "source": "./plugins/describing-prs",
+      "description": "Draft or rewrite a terse pull request title and body for the current branch"
+    },
+    {
+      "name": "creating-prs",
+      "source": "./plugins/creating-prs",
+      "description": "Open a GitHub pull request and hand the description to describing-prs"
+    },
+    {
+      "name": "reviewing-prs",
+      "source": "./plugins/reviewing-prs",
+      "description": "Review a pull request or branch and print the findings, plus the reviewer agent"
+    },
+    {
+      "name": "refining-prs",
+      "source": "./plugins/refining-prs",
+      "description": "Loop review and fix rounds on a pull request until no finding is left in scope"
+    },
+    {
+      "name": "building-features",
+      "source": "./plugins/building-features",
+      "description": "Spec a feature, then run the implementer, refactorer, architect and reviewer pipeline"
+    },
+    {
+      "name": "building-discovery-wikis",
+      "source": "./plugins/building-discovery-wikis",
+      "description": "Crawl every available surface into a discovery wiki, plus the surface-crawler agent"
+    }
+  ]
+}

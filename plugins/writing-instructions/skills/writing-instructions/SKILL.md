@@ -442,8 +442,8 @@ rule to any other file and reports the file clean.
    ${CLAUDE_SKILL_DIR}/scripts/lint.sh <absolute path>
    ```
 
-   The run also writes `.vale-gcroot`, a gitignored link at the repository
-   root that pins the Vale build.
+   The run also writes `.vale-gcroot`, a gitignored link at the plugin root
+   that pins the Vale build.
 
 2. Act on the linter's exit code, per the exit code table.
 3. Read the result whole, and run the §11 checks on every edited block. A run

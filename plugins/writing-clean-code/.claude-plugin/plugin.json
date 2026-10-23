@@ -1,0 +1,9 @@
+{
+  "name": "writing-clean-code",
+  "version": "1.0.0",
+  "description": "Robert Martin's Clean Code principles applied to every piece of code Claude writes",
+  "author": {
+    "name": "Karl Rivest Harnois"
+  },
+  "repository": "https://github.com/KarlHarnois/skills"
+}

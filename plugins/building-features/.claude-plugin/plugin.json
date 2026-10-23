@@ -1,0 +1,15 @@
+{
+  "name": "building-features",
+  "version": "1.0.0",
+  "description": "Spec a feature, then run the implementer, refactorer, architect and reviewer pipeline",
+  "author": {
+    "name": "Karl Rivest Harnois"
+  },
+  "repository": "https://github.com/KarlHarnois/skills",
+  "dependencies": [
+    "reviewing-prs",
+    "creating-prs",
+    "writing-clean-code",
+    "writing-instructions"
+  ]
+}
