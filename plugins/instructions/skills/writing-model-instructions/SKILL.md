@@ -68,8 +68,8 @@ split it.
 tell the reader that the word states force. Leave a force word in its ordinary
 sense in lowercase. A force word in its ordinary sense that starts a sentence
 takes a capital first letter. A `Never` that opens a Prohibition MAY keep a
-capital first letter, per §2. A force word that a sentence names MAY take any
-case.
+capital first letter, per `core.md` §2. A force word that a sentence names MAY
+take any case.
 
 ## 3. Branches are exhaustive
 

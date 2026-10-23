@@ -125,7 +125,7 @@ README.**
 
 **Keep a reason that names what a rule protects.** A person uses what the rule
 protects to judge a situation the text does not name. Place each such reason
-as §8 places a kept reason.
+as `core.md` §8 places a kept reason.
 
 **If a document tells the story behind a reason, give the document's link or
 path, per §6.**
