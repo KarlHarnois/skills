@@ -164,8 +164,10 @@ describe('BenchReport', () => {
       standards: [standard('base'), standard('head')],
       measurements: [measurement('base', Verdict.WRONG), measurement('head', Verdict.CORRECT)],
       verdicts: [],
+      judgeCostUsd: 1.25,
       failures: [],
     }).markdown()
     assert.match(report, /\| Force-stating words capitalized \| 0\/1 \(1 wrong\) \| 1\/1 \|/)
+    assert.match(report, /Judge cost: 1\.25 USD\. Total cost: 1\.25 USD\./)
   })
 })

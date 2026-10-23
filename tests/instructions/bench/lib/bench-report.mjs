@@ -8,7 +8,7 @@ const GROUP_TITLES = {
 }
 
 export class BenchReport {
-  constructor({ standards, measurements, verdicts, failures }) {
+  constructor({ standards, measurements, verdicts, judgeCostUsd = 0, failures }) {
     this.standards = standards
     this.tallies = standards.map(standard => new StandardTally(
       measurements.filter(measurement => measurement.standard === standard.label),
@@ -17,6 +17,7 @@ export class BenchReport {
     this.measurements = measurements
     this.verdicts = verdicts
     this.failures = failures
+    this.judgeCostUsd = judgeCostUsd
   }
 
   markdown() {
@@ -25,6 +26,7 @@ export class BenchReport {
       this.standards.map(standard => `- ${standard.describe()}`).join('\n'),
       '## Summary',
       this.summaryTable(),
+      this.costLine(),
       '## Sites',
       this.siteTable(),
       '## Judge notes',
@@ -48,6 +50,12 @@ export class BenchReport {
       ['Measure', ...this.standards.map(standard => standard.label)],
       rows.map(([title, cell]) => [title, ...this.tallies.map(cell)]),
     )
+  }
+
+  costLine() {
+    const rewriteCostUsd = this.measurements.reduce((total, { costUsd }) => total + (costUsd ?? 0), 0)
+    const judgeCost = this.judgeCostUsd.toFixed(2)
+    return `Judge cost: ${judgeCost} USD. Total cost: ${(rewriteCostUsd + this.judgeCostUsd).toFixed(2)} USD.`
   }
 
   siteTable() {

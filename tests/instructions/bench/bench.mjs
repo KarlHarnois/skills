@@ -56,8 +56,8 @@ class Bench {
     const standards = this.snapshotStandards()
     const rewrites = await this.performRewrites(standards)
     const measurements = rewrites.map(rewrite => rewrite.measure(standards))
-    const verdicts = await this.judge(rewrites)
-    return this.writeReport({ standards, measurements, verdicts })
+    const { verdicts, judgeCostUsd } = await this.judge(rewrites)
+    return this.writeReport({ standards, measurements, verdicts, judgeCostUsd })
   }
 
   snapshotStandards() {
@@ -87,7 +87,11 @@ class Bench {
       `judge ${judgeNumber} of ${panel.benchCase.name}`,
       () => panel.judge(this.cli, this.judgeTemplate, judgeNumber),
     ))
-    return results.filter(Boolean).flatMap(result => result.verdicts)
+    const finished = results.filter(Boolean)
+    return {
+      verdicts: finished.flatMap(result => result.verdicts),
+      judgeCostUsd: finished.reduce((total, result) => total + result.costUsd, 0),
+    }
   }
 
   async attempt(label, task) {
