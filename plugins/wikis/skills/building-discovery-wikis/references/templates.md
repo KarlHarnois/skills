@@ -15,7 +15,7 @@ Entry-level references (a Key finding, Who's who, or Answers line citing specifi
 
 ## Surface index: `surfaces/<surface>.md`
 
-```markdown
+```text
 ---
 surface: email
 crawled_at: 2026-07-22
@@ -70,7 +70,7 @@ Rules:
 
 Same tiers as every other surface; question slugs as entry tags; plus an `## Answers` section (between the tiers and Coverage notes) resolving each question:
 
-```markdown
+```text
 ## Key evidence
 
 - **2026-07-22 · BetaShip pricing page** [alternatives] ([url](https://...))
@@ -101,7 +101,7 @@ Same tiers as every other surface; question slugs as entry tags; plus an `## Ans
 
 If a question crosses the volume trigger, its entries move to a sub-index and `web.md` keeps a roster entry. The roster entry sits in the tier of the sub-index's best entry (a sub-index whose strongest material is Supporting-grade gets a Supporting roster entry, not a Key evidence one):
 
-```markdown
+```text
 ## Key evidence
 
 - **2026-07-22 · Alternatives research (12 entries)** [alternatives] ([sub-index](web/alternatives.md))
@@ -115,7 +115,7 @@ The `## Answers` section always stays complete in `web.md`, regardless of splits
 
 Entries for files dropped in `sources/`. Short documents keep their section pointers inline:
 
-```markdown
+```text
 - **2023-04-10 · Acme MSA (executed)** ([sources/acme-msa-2023.pdf](../sources/acme-msa-2023.pdf))
   Governing agreement for the current term. Key sections:
   - Sec 3.1 Fees, p. 4: $86k/yr base, tiered overage schedule
@@ -125,7 +125,7 @@ Entries for files dropped in `sources/`. Short documents keep their section poin
 
 A document that crosses the volume trigger gets a sub-index at `surfaces/documents/<doc-slug>.md` holding the full section breakdown, and the roster entry in `documents.md` keeps only the top fact:
 
-```markdown
+```text
 - **2023-04-10 · Acme MSA (executed)** ([sub-index](documents/acme-msa-2023.md))
   Governing agreement; auto-renews absent 90-day notice (Sec 4.2, p. 11).
   Section-by-section breakdown in the sub-index.
@@ -137,7 +137,7 @@ Identical format to a surface index: same frontmatter fields (with `parent: <sur
 
 ## Top-level index: `index.md`
 
-```markdown
+```text
 ---
 topic: acme-renewal-2026
 created: 2026-07-22
@@ -203,7 +203,7 @@ Decision context: negotiate renewal terms; decide 1-yr vs 3-yr.
 
 One line per operation, append-only:
 
-```markdown
+```text
 - 2026-07-22 · initial crawl · email(4) drive(9) web(4) · by claude
 - 2026-07-22 · ingested document · documents(+1) · by claude
 - 2026-08-04 · re-crawl · email(+3) web(+1) · by claude

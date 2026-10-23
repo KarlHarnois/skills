@@ -1,0 +1,3 @@
+tests/instructions/model/FencedTemplate.md:8:32:suggestion:WritingInstructions.LowercaseAbsoluteForce:§2: Does 'never' state force? If it does, write it in all capitals. If it is in its ordinary sense, leave it.
+tests/instructions/model/FencedTemplate.md:14:30:suggestion:WritingInstructions.LowercaseAbsoluteForce:§2: Does 'must' state force? If it does, write it in all capitals. If it is in its ordinary sense, leave it.
+tests/instructions/model/FencedTemplate.md:28:11:suggestion:WritingInstructions.LowercaseForce:§2: 'should' is a force word in lowercase. If it states force, write it in all capitals. If it is in its ordinary sense, leave it.

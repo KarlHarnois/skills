@@ -1,4 +1,4 @@
-.PHONY: all install uninstall status reinstall test test-node test-instructions validate vale
+.PHONY: all install uninstall status reinstall test test-node test-instructions validate vale bench
 
 all: install
 
@@ -10,7 +10,7 @@ MARKETPLACE := karl-skills
 PLUGINS_SOURCE := $(REPO_ROOT)plugins
 PLUGINS := $(shell find "$(PLUGINS_SOURCE)" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;)
 
-TESTS := $(shell find "$(PLUGINS_SOURCE)" -name '*.test.mjs')
+TESTS := $(shell find "$(PLUGINS_SOURCE)" "$(REPO_ROOT)tests" -name '*.test.mjs')
 
 NIX := nix --extra-experimental-features 'nix-command flakes' --option warn-dirty false
 INSTRUCTIONS_PLUGIN := $(PLUGINS_SOURCE)/instructions
@@ -21,6 +21,10 @@ MODEL_INSTRUCTIONS_LINT := $(call INSTRUCTIONS_SKILL_LINT,model)
 INSTRUCTION_KINDS := model human
 INSTRUCTIONS_FIXTURES := tests/instructions
 MODEL_FIXTURES := $(INSTRUCTIONS_FIXTURES)/model
+
+BENCH_BASE ?= master
+BENCH_HEAD ?= HEAD
+BENCH_RUNS ?= 3
 
 define expect_lint_exit
 @$(2) >/dev/null 2>&1; status=$$?; \
@@ -47,6 +51,9 @@ validate:
 	@for plugin in $(PLUGINS); do \
 		claude plugin validate --strict "$(PLUGINS_SOURCE)/$$plugin" || exit 1; \
 	done
+
+bench: vale
+	node "$(REPO_ROOT)tests/instructions/bench/bench.mjs" --base "$(BENCH_BASE)" --head "$(BENCH_HEAD)" --runs "$(BENCH_RUNS)"
 
 vale:
 	@command -v nix >/dev/null || { echo "nix not found, see README"; exit 1; }

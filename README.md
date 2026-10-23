@@ -113,7 +113,7 @@ make test
 
 This runs two suites, and each has its own target:
 
-- `make test-node` runs every `*.test.mjs` under `plugins/` with
+- `make test-node` runs every `*.test.mjs` under `plugins/` and `tests/` with
   `node --test`, so it needs [Node](https://nodejs.org).
 - `make test-instructions` lints the fixtures in `tests/instructions/<kind>/`
   with that kind's Vale config, so it needs nix. It diffs the alerts
@@ -123,3 +123,29 @@ This runs two suites, and each has its own target:
 
 `make validate` runs `claude plugin validate --strict` on the marketplace and
 on every plugin.
+
+### Bench the instruction standard
+
+```sh
+make bench BENCH_BASE=master BENCH_HEAD=HEAD BENCH_RUNS=3
+```
+
+The bench measures how a change to the model instruction standard changes
+what a model writes. It snapshots the standard at both refs and has
+`claude -p` apply each snapshot to every case in
+`tests/instructions/bench/cases/`, `BENCH_RUNS` times. It grades each
+rewrite on the known sites of its case and counts its alerts under both
+linters. Two blind judges then score the rewrites of each case. The bench
+writes `report.md` to a new directory in the system temporary directory, and
+prints its path.
+
+**To choose the directory, pass `--out` to
+`tests/instructions/bench/bench.mjs`.** Keep the directory outside the
+repository: nix refuses a flake that sits untracked inside a git repository.
+
+At the defaults, the bench calls the model 16 times, so `make test` and CI
+leave it out.
+
+**To add a case, create a directory in `tests/instructions/bench/cases/`.** Put
+the files to rewrite in its `input/` directory, and list the sites to grade in
+its `case.json`.

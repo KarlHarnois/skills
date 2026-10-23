@@ -73,7 +73,7 @@ Act on the report:
 
 # Inside a fenced code block
 
-```markdown
+```text
 - Build the cache.
 - Run the linter.
 

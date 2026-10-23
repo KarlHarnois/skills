@@ -24,6 +24,8 @@ the user and stop.
 - An **agent definition** is the file that defines one subagent: its
   frontmatter and its instructions.
 - A **reference file** is a file in a skill's directory that the skill loads.
+- A **prompt template** is a prompt that the reader fills in and sends to
+  another model.
 
 ## Scope
 
@@ -111,6 +113,10 @@ reach. §8 lists what a subagent loads. If a rule depends on another skill, the
 rule tells the reader to invoke that skill. A reader cannot apply a skill it
 has not loaded.
 
+**Fence each prompt template as `markdown`:** the linter reads a fenced block
+only when its label is `markdown` or `md`. Fence every other block of Markdown,
+such as a document format or an example, as `text`.
+
 ## 7. Economy
 
 **PREFER tightening the rule OVER adding an example:** a reader copies an
@@ -163,7 +169,5 @@ that loads in every session first.
 ${CLAUDE_SKILL_DIR}/scripts/lint.sh <absolute path>
 ```
 
-**Read each edited block for a `must`, `always`, or `never` that states force
-without all capitals.** The linter flags none of them. Write each such word in
-all capitals, except a `Never` that opens a Prohibition, per §2. Count each
-such word outside the edited blocks as one defect in the report of §12 step 3.
+**The linter also reads every fenced block labeled `markdown` or `md` as
+instruction text.** It reports each alert at its line in the edited file.
