@@ -3,8 +3,8 @@ import { Verdict } from './checks.mjs'
 const GROUP_TITLES = {
   forceStating: 'Force-stating words capitalized',
   ordinarySense: 'Ordinary-sense words left lowercase',
-  templates: 'Templates outside fences',
-  fencedControls: 'Code kept in fences',
+  templates: 'Templates the linter reads',
+  fencedControls: 'Code the linter skips',
 }
 
 export class BenchReport {
@@ -110,7 +110,7 @@ class StandardTally {
   static verdictSummary(verdicts) {
     if (verdicts.length === 0) return 'n/a'
     const count = kind => verdicts.filter(verdict => verdict === kind).length
-    const misses = [Verdict.WRONG, Verdict.REWORDED, Verdict.LOST]
+    const misses = [Verdict.WRONG, Verdict.REWORDED, Verdict.UNREAD, Verdict.LOST]
       .filter(kind => count(kind) > 0)
       .map(kind => `${count(kind)} ${kind}`)
     const score = `${count(Verdict.CORRECT)}/${verdicts.length}`

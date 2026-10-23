@@ -5,6 +5,7 @@ export const Verdict = Object.freeze({
   CORRECT: 'correct',
   WRONG: 'wrong',
   REWORDED: 'reworded',
+  UNREAD: 'unread',
   LOST: 'lost',
 })
 
@@ -16,8 +17,10 @@ export class ForceSiteCheck {
   }
 
   judge(tree) {
-    const prose = tree.linesWith(this.anchor).filter(line => !line.fenced)
-    if (prose.length === 0) return Verdict.LOST
+    const anchored = tree.linesWith(this.anchor)
+    if (anchored.length === 0) return Verdict.LOST
+    const prose = anchored.filter(line => line.linted)
+    if (prose.length === 0) return Verdict.UNREAD
     const match = prose.map(line => this.matchIn(line.text)).find(Boolean)
     if (match) return this.accepts(match) ? Verdict.CORRECT : Verdict.WRONG
     return this.judgeRestatement(prose)
@@ -53,17 +56,17 @@ export class ForceSiteCheck {
 }
 
 export class PlacementCheck {
-  static outsideFence(anchor) {
-    return new PlacementCheck(anchor, false)
-  }
-
-  static insideFence(anchor) {
+  static readByLinter(anchor) {
     return new PlacementCheck(anchor, true)
   }
 
-  constructor(anchor, belongsInFence) {
+  static skippedByLinter(anchor) {
+    return new PlacementCheck(anchor, false)
+  }
+
+  constructor(anchor, belongsInLintedText) {
     this.anchor = anchor
-    this.belongsInFence = belongsInFence
+    this.belongsInLintedText = belongsInLintedText
   }
 
   judge(tree) {
@@ -73,7 +76,7 @@ export class PlacementCheck {
   }
 
   isPlaced(lines) {
-    if (this.belongsInFence) return lines.some(line => line.fenced)
-    return lines.every(line => !line.fenced)
+    if (this.belongsInLintedText) return lines.every(line => line.linted)
+    return lines.some(line => !line.linted)
   }
 }

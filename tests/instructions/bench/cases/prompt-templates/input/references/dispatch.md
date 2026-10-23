@@ -4,7 +4,7 @@
 
 ## Summary template
 
-```markdown
+```
 # Summary: {customer}
 
 Summarize the open invoice disputes for {customer}. You read the dispute queue and never change it.
@@ -18,7 +18,7 @@ End with one line per dispute that proposes a refund decision: refund, partial r
 
 ## Review template
 
-```markdown
+```
 # Review: {customer}
 
 Review the refund decisions below against the refund policy in `docs/refunds.md`. You always quote the policy line that backs each verdict.

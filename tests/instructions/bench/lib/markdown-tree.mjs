@@ -1,7 +1,8 @@
 import { readdirSync, readFileSync } from 'node:fs'
 import { join, relative } from 'node:path'
 
-const FENCE = /^\s*(`{3,}|~{3,})/
+const FENCE = /^\s*(`{3,}|~{3,})\s*([^\s`]*)/
+const LINTED_LABELS = new Set(['markdown', 'md'])
 
 export class MarkdownTree {
   static read(root) {
@@ -30,7 +31,7 @@ export class MarkdownTree {
       file,
       number: index + 1,
       text: line,
-      fenced: fences.advance(line),
+      ...fences.advance(line),
     }))
   }
 
@@ -51,16 +52,24 @@ export class MarkdownTree {
 class FenceTracker {
   constructor() {
     this.openMarker = null
+    this.innerFences = null
   }
 
   advance(line) {
-    const marker = line.match(FENCE)?.[1]
-    if (this.openMarker === null) {
-      if (marker) this.openMarker = marker
-      return Boolean(marker)
+    if (this.openMarker === null) return this.open(line)
+    if (this.closes(line)) {
+      this.openMarker = null
+      return { fenced: true, linted: false }
     }
-    if (this.closes(line)) this.openMarker = null
-    return true
+    return { fenced: true, linted: this.innerFences !== null && !this.innerFences.advance(line).fenced }
+  }
+
+  open(line) {
+    const [, marker, label] = line.match(FENCE) ?? []
+    if (!marker) return { fenced: false, linted: true }
+    this.openMarker = marker
+    this.innerFences = LINTED_LABELS.has(label.toLowerCase()) ? new FenceTracker() : null
+    return { fenced: true, linted: false }
   }
 
   closes(line) {

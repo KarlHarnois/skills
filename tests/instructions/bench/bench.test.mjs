@@ -81,26 +81,38 @@ describe('ForceSiteCheck', () => {
     assert.equal(stating.judge(Fixture.tree('Do not push.')), Verdict.LOST)
   })
 
-  test('ignores an anchor inside a fence', () => {
-    assert.equal(stating.judge(Fixture.tree('```\nYou NEVER push the archive.\n```')), Verdict.LOST)
+  test('reads an anchor inside a markdown fence and reports one the linter skips', () => {
+    assert.equal(stating.judge(Fixture.tree('```markdown\nYou NEVER push the archive.\n```')), Verdict.CORRECT)
+    assert.equal(stating.judge(Fixture.tree('```\nYou NEVER push the archive.\n```')), Verdict.UNREAD)
   })
 })
 
 describe('PlacementCheck', () => {
-  const tree = Fixture.tree('Summarize the queue.\n```sh\nbin/dispatch --worker summary\n```')
+  const tree = Fixture.tree('```markdown\nSummarize the queue.\n```\n```sh\nbin/dispatch --worker summary\n```')
 
-  test('expects a template outside a fence and a command inside one', () => {
-    assert.equal(PlacementCheck.outsideFence('Summarize the queue').judge(tree), Verdict.CORRECT)
-    assert.equal(PlacementCheck.insideFence('bin/dispatch').judge(tree), Verdict.CORRECT)
-    assert.equal(PlacementCheck.insideFence('Summarize the queue').judge(tree), Verdict.WRONG)
+  test('expects the linter to read a template and skip a command', () => {
+    assert.equal(PlacementCheck.readByLinter('Summarize the queue').judge(tree), Verdict.CORRECT)
+    assert.equal(PlacementCheck.skippedByLinter('bin/dispatch').judge(tree), Verdict.CORRECT)
+    assert.equal(PlacementCheck.readByLinter('bin/dispatch').judge(tree), Verdict.WRONG)
   })
 
-  test('rejects a template copied to its own file while a fenced copy remains', () => {
+  test('rejects a template whose fence the linter skips', () => {
+    const unlabeled = Fixture.tree('```\nSummarize the queue.\n```')
+    assert.equal(PlacementCheck.readByLinter('Summarize the queue').judge(unlabeled), Verdict.WRONG)
+  })
+
+  test('rejects a template that keeps one copy the linter skips', () => {
     const copied = new MarkdownTree([
       { file: 'summary.md', text: 'Summarize the queue.' },
-      { file: 'dispatch.md', text: '```markdown\nSummarize the queue.\n```' },
+      { file: 'dispatch.md', text: '```\nSummarize the queue.\n```' },
     ])
-    assert.equal(PlacementCheck.outsideFence('Summarize the queue').judge(copied), Verdict.WRONG)
+    assert.equal(PlacementCheck.readByLinter('Summarize the queue').judge(copied), Verdict.WRONG)
+  })
+
+  test('skips a code block nested in a markdown fence', () => {
+    const nested = Fixture.tree('````markdown\nRun this:\n```sh\nbin/dispatch --worker summary\n```\n````')
+    assert.equal(PlacementCheck.skippedByLinter('bin/dispatch').judge(nested), Verdict.CORRECT)
+    assert.equal(PlacementCheck.readByLinter('Run this').judge(nested), Verdict.CORRECT)
   })
 })
 
@@ -111,9 +123,10 @@ describe('bench cases', () => {
     assert.ok(Object.values(verdicts.ordinarySense).every(verdict => verdict === Verdict.CORRECT))
   })
 
-  test('the prompt-templates input keeps both templates in fences', () => {
+  test('the prompt-templates input hides both templates and their force words from the linter', () => {
     const { verdicts } = Fixture.case('prompt-templates')
     assert.deepEqual(Object.values(verdicts.templates), [Verdict.WRONG, Verdict.WRONG])
+    assert.ok(Object.values(verdicts.forceStating).every(verdict => verdict === Verdict.UNREAD))
     assert.deepEqual(Object.values(verdicts.fencedControls), [Verdict.CORRECT])
   })
 })

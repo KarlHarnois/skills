@@ -22,8 +22,8 @@ export class BenchCase {
     this.checkGroups = {
       forceStating: BenchCase.forceChecks(forceSites.filter(site => site.statesForce)),
       ordinarySense: BenchCase.forceChecks(forceSites.filter(site => !site.statesForce)),
-      templates: templates.map(anchor => [anchor, PlacementCheck.outsideFence(anchor)]),
-      fencedControls: fencedControls.map(anchor => [anchor, PlacementCheck.insideFence(anchor)]),
+      templates: templates.map(anchor => [anchor, PlacementCheck.readByLinter(anchor)]),
+      fencedControls: fencedControls.map(anchor => [anchor, PlacementCheck.skippedByLinter(anchor)]),
     }
   }
 
