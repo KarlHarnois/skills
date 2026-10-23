@@ -52,10 +52,16 @@ describe('ForceSiteCheck', () => {
     assert.equal(ordinary.judge(Fixture.tree('The API ALWAYS returns cents.')), Verdict.WRONG)
   })
 
-  test('accepts a capitalized first letter only where the site allows it', () => {
-    const prohibition = new ForceSiteCheck({ anchor: 'ledger', word: 'never', statesForce: true, allowsCapitalized: true })
-    assert.equal(prohibition.judge(Fixture.tree('Never edit the ledger.')), Verdict.CORRECT)
-    assert.equal(stating.judge(Fixture.tree('Never push the archive.')), Verdict.WRONG)
+  test('accepts a Never that opens a Prohibition at any force-stating never site', () => {
+    assert.equal(stating.judge(Fixture.tree('Never push the archive.')), Verdict.CORRECT)
+    assert.equal(stating.judge(Fixture.tree('- **Never push the archive.**')), Verdict.CORRECT)
+    assert.equal(stating.judge(Fixture.tree('Keep the cache. Never push the archive.')), Verdict.CORRECT)
+  })
+
+  test('rejects a capitalized first letter on every other force-stating word', () => {
+    const command = new ForceSiteCheck({ anchor: 'dry run', word: 'always', statesForce: true })
+    assert.equal(command.judge(Fixture.tree('Always run the dry run.')), Verdict.WRONG)
+    assert.equal(stating.judge(Fixture.tree('You push, Never the job, to the archive.')), Verdict.WRONG)
   })
 
   test('accepts a force-stating site restated with another capitalized force word', () => {

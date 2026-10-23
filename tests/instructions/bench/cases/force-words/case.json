@@ -4,7 +4,7 @@
   "forceSites": [
     { "anchor": "archive branch", "word": "never", "statesForce": true },
     { "anchor": "dry run", "word": "always", "statesForce": true },
-    { "anchor": "ledger", "word": "never", "statesForce": true, "allowsCapitalized": true },
+    { "anchor": "ledger", "word": "never", "statesForce": true },
     { "anchor": "release", "word": "must", "statesForce": true },
     { "anchor": "cents", "word": "always", "statesForce": false },
     { "anchor": "currency", "word": "never", "statesForce": false },

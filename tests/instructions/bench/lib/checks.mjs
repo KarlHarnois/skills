@@ -8,18 +8,17 @@ export const Verdict = Object.freeze({
 })
 
 export class ForceSiteCheck {
-  constructor({ anchor, word, statesForce, allowsCapitalized = false }) {
+  constructor({ anchor, word, statesForce }) {
     this.anchor = anchor
     this.word = word
     this.statesForce = statesForce
-    this.allowsCapitalized = allowsCapitalized
   }
 
   judge(tree) {
     const prose = tree.linesWith(this.anchor).filter(line => !line.fenced)
     if (prose.length === 0) return Verdict.LOST
-    const spelling = prose.map(line => this.spellingIn(line.text)).find(Boolean)
-    if (spelling) return this.accepts(spelling) ? Verdict.CORRECT : Verdict.WRONG
+    const match = prose.map(line => this.matchIn(line.text)).find(Boolean)
+    if (match) return this.accepts(match) ? Verdict.CORRECT : Verdict.WRONG
     return this.restatedWithForce(prose) ? Verdict.CORRECT : Verdict.REWORDED
   }
 
@@ -27,14 +26,25 @@ export class ForceSiteCheck {
     return this.statesForce && lines.some(line => UPPERCASE_FORCE_WORD.test(line.text))
   }
 
-  spellingIn(text) {
-    return text.match(new RegExp(`\\b${this.word}\\b`, 'i'))?.[0]
+  matchIn(text) {
+    const found = text.match(new RegExp(`\\b${this.word}\\b`, 'i'))
+    if (!found) return null
+    return { spelling: found[0], opensSentence: ForceSiteCheck.opensSentence(text.slice(0, found.index)) }
   }
 
-  accepts(spelling) {
+  static opensSentence(textBefore) {
+    const lead = textBefore.replace(/^\s*(?:[-*+]|\d+\.)?\s*/, '').replace(/[*_\s]+$/, '')
+    return lead === '' || /[.!?]$/.test(lead)
+  }
+
+  accepts({ spelling, opensSentence }) {
     if (spelling === this.word.toUpperCase()) return this.statesForce
     if (spelling === this.word) return !this.statesForce
-    return !this.statesForce || this.allowsCapitalized
+    return !this.statesForce || this.opensProhibition(opensSentence)
+  }
+
+  opensProhibition(opensSentence) {
+    return this.word === 'never' && opensSentence
   }
 }
 
