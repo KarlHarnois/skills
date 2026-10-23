@@ -27,15 +27,21 @@ const OPTIONS = {
 class Bench {
   constructor(options) {
     this.refs = { base: options.base, head: options.head }
-    this.runs = Number(options.runs)
-    this.judges = Number(options.judges)
-    this.pool = new TaskPool(Number(options.parallel))
+    this.runs = Bench.positiveInteger('runs', options.runs)
+    this.judges = Bench.positiveInteger('judges', options.judges)
+    this.pool = new TaskPool(Bench.positiveInteger('parallel', options.parallel))
     this.cli = new ClaudeCli({ model: options.model })
     this.root = Bench.outputDirectory(options.out)
     this.cases = BenchCase.loadAll(join(BENCH_DIRECTORY, 'cases'))
     this.rewriteTemplate = PromptTemplate.read(join(BENCH_DIRECTORY, 'prompts/rewrite.md'))
     this.judgeTemplate = PromptTemplate.read(join(BENCH_DIRECTORY, 'prompts/judge.md'))
     this.failures = []
+  }
+
+  static positiveInteger(option, value) {
+    const count = Number(value)
+    if (!Number.isInteger(count) || count < 1) throw new Error(`--${option} must be a positive integer, got ${value}`)
+    return count
   }
 
   static outputDirectory(requested) {
