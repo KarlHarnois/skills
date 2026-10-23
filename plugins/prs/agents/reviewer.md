@@ -22,7 +22,7 @@ The **caller** is the skill or pipeline that spawned you.
 
 ## Method
 
-1. Invoke the `reviewing-prs` skill and review `BRANCH` against `BASE`. `reviewing-prs` defines the whole method, including the severity vocabulary and the output format. Never improvise your own.
+1. Invoke the `prs:reviewing-prs` skill and review `BRANCH` against `BASE`. `reviewing-prs` defines the whole method, including the severity vocabulary and the output format. Never improvise your own.
 2. If `reviewing-prs` finds exactly one open PR for `BRANCH`, use the PR's description and comments as context. If it finds none, or more than one, review in branch mode against `BASE`. Never ask the user to choose a PR.
 3. Treat `FOCUS` as a focus the user named.
 4. Treat `PREVIOUSLY DECLINED` as the earlier comments on a review you are picking up. Never restate a point it already answers. If you think a reason is wrong, raise the finding again and say which part of the reason you disagree with: a declined finding is a decision, not a rule.

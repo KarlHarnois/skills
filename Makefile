@@ -1,77 +1,52 @@
-.PHONY: all install uninstall status reinstall test test-node test-writing-instructions vale
+.PHONY: all install uninstall status reinstall test test-node test-writing-instructions validate vale
 
 all: install
 
 REPO_ROOT := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 CLAUDE_HOME := $(HOME)/.claude
+CLAUDE := CLAUDE_CONFIG_DIR="$(CLAUDE_HOME)" claude
 
-SKILLS_SOURCE := $(REPO_ROOT)skills
-SKILLS_DESTINATION := $(CLAUDE_HOME)/skills
-SKILLS := $(shell find "$(SKILLS_SOURCE)" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;)
+MARKETPLACE := karl-skills
+PLUGINS_SOURCE := $(REPO_ROOT)plugins
+PLUGINS := $(shell find "$(PLUGINS_SOURCE)" -mindepth 1 -maxdepth 1 -type d -exec basename {} \;)
 
-AGENTS_SOURCE := $(REPO_ROOT)agents
-AGENTS_DESTINATION := $(CLAUDE_HOME)/agents
-AGENTS := $(shell find "$(AGENTS_SOURCE)" -mindepth 1 -maxdepth 1 -name '*.md' -exec basename {} \;)
-
-TESTS := $(shell find "$(SKILLS_SOURCE)" -name '*.test.mjs')
+TESTS := $(shell find "$(PLUGINS_SOURCE)" -name '*.test.mjs')
 
 NIX := nix --extra-experimental-features 'nix-command flakes' --option warn-dirty false
-VALE_GC_ROOT := $(REPO_ROOT).vale-gcroot
-WRITING_INSTRUCTIONS_LINT := $(SKILLS_SOURCE)/writing-instructions/scripts/lint.sh
+WRITING_INSTRUCTIONS_PLUGIN := $(PLUGINS_SOURCE)/instructions
+VALE_GC_ROOT := $(WRITING_INSTRUCTIONS_PLUGIN)/.vale-gcroot
+WRITING_INSTRUCTIONS_LINT := $(WRITING_INSTRUCTIONS_PLUGIN)/skills/writing-instructions/scripts/lint.sh
 WRITING_INSTRUCTIONS_FIXTURES := tests/writing-instructions
-
-define link_all
-@mkdir -p "$(2)"
-@for name in $(3); do \
-	ln -sfn "$(1)/$$name" "$(2)/$$name"; \
-done
-endef
-
-define unlink_all
-@for name in $(3); do \
-	if [ -e "$(2)/$$name" ] || [ -L "$(2)/$$name" ]; then \
-		rm -f "$(2)/$$name"; \
-		echo "removed $(4) $$name"; \
-	fi; \
-done
-@for link in "$(2)"/*; do \
-	if [ -L "$$link" ] && readlink "$$link" | grep -q "^$(1)/"; then \
-		echo "removed stale $(4) $$(basename $$link)"; \
-		rm -f "$$link"; \
-	fi; \
-done
-endef
 
 define expect_lint_exit
 @$(2) >/dev/null 2>&1; status=$$?; \
 [ $$status -eq $(1) ] || { echo "lint.sh exited $$status, expected $(1): $(3)"; exit 1; }
 endef
 
-define status_all
-@for name in $(2); do \
-	ls -ld "$(1)/$$name" 2>/dev/null || echo "$(3) $$name missing"; \
-done
-endef
-
 install: vale
-	$(call link_all,$(SKILLS_SOURCE),$(SKILLS_DESTINATION),$(SKILLS))
-	$(call link_all,$(AGENTS_SOURCE),$(AGENTS_DESTINATION),$(AGENTS))
-	@$(MAKE) --no-print-directory status
+	@$(CLAUDE) plugin marketplace add "$(REPO_ROOT)"
+	@for plugin in $(PLUGINS); do \
+		$(CLAUDE) plugin install "$$plugin@$(MARKETPLACE)" || exit 1; \
+	done
 
 uninstall:
-	$(call unlink_all,$(SKILLS_SOURCE),$(SKILLS_DESTINATION),$(SKILLS),skill)
-	$(call unlink_all,$(AGENTS_SOURCE),$(AGENTS_DESTINATION),$(AGENTS),agent)
+	@$(CLAUDE) plugin marketplace remove $(MARKETPLACE)
 	@rm -f "$(VALE_GC_ROOT)"
 
 status:
-	$(call status_all,$(SKILLS_DESTINATION),$(SKILLS),skill)
-	$(call status_all,$(AGENTS_DESTINATION),$(AGENTS),agent)
+	@$(CLAUDE) plugin list
 
 reinstall: uninstall install
 
+validate:
+	claude plugin validate --strict "$(REPO_ROOT)"
+	@for plugin in $(PLUGINS); do \
+		claude plugin validate --strict "$(PLUGINS_SOURCE)/$$plugin" || exit 1; \
+	done
+
 vale:
 	@command -v nix >/dev/null || { echo "nix not found, see README"; exit 1; }
-	@$(NIX) build --quiet --out-link "$(VALE_GC_ROOT)" "$(abspath $(REPO_ROOT))#vale"
+	@$(NIX) build --quiet --out-link "$(VALE_GC_ROOT)" "$(WRITING_INSTRUCTIONS_PLUGIN)#vale"
 
 test: test-node test-writing-instructions
 

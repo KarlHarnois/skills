@@ -1,0 +1,34 @@
+{
+  "name": "karl-skills",
+  "description": "Karl Rivest Harnois's coding assistant skills, grouped by area into plugins",
+  "owner": {
+    "name": "Karl Rivest Harnois"
+  },
+  "plugins": [
+    {
+      "name": "clean-code",
+      "source": "./plugins/clean-code",
+      "description": "Robert Martin's Clean Code principles applied to every piece of code Claude writes"
+    },
+    {
+      "name": "instructions",
+      "source": "./plugins/instructions",
+      "description": "The prose standard and Vale linter for model and human instruction text"
+    },
+    {
+      "name": "prs",
+      "source": "./plugins/prs",
+      "description": "Create, describe, review and refine GitHub pull requests, plus the reviewer agent"
+    },
+    {
+      "name": "features",
+      "source": "./plugins/features",
+      "description": "Spec a feature, then run the implementer, refactorer, architect and reviewer pipeline"
+    },
+    {
+      "name": "wikis",
+      "source": "./plugins/wikis",
+      "description": "Crawl every available surface into a discovery wiki, plus the surface-crawler agent"
+    }
+  ]
+}

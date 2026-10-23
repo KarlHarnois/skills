@@ -79,11 +79,11 @@ HEAD is still the branch under review, and `git status --porcelain` shows nothin
 
 ### 2. Spawn one reviewer
 
-**If the `reviewer` agent is available** (it ships in this repo's `agents/` and installs to `~/.claude/agents/`; check the agent list): spawn one `reviewer` with the filled-in brief below as its task prompt. The agent carries the read-only tool set and sets the reviewer model in one place. It inherits the session model by default, because review quality here decides both what gets committed and when the loop declares the PR done.
+**If the agent list includes `prs:reviewer`**, spawn one `prs:reviewer` with the filled-in brief below as its task prompt. The `prs` plugin ships this agent. The agent carries the read-only tool set and sets the reviewer model in one place. It inherits the session model by default. Review quality decides what gets committed and when the loop declares the PR done.
 
 **If subagents are available but the agent is not**: spawn one generic subagent with the same brief, and add to it the read-only constraints the agent file would have carried, namely that it must not edit files, move HEAD, or post to GitHub.
 
-**If subagents are not available**: invoke `reviewing-prs` inline and note in the report that the reviews were not independent, since a reviewer that already knows which findings you rejected is a softer reviewer.
+**If subagents are not available**, invoke `prs:reviewing-prs` inline. Note in the report that the reviews were not independent: a reviewer that already knows which findings you rejected is a softer reviewer.
 
 Spawn a fresh reviewer every round. Never continue the previous one. A reviewer that remembers being overruled last round argues less this round, and a loop that ends because the reviewer got tired has converged for the wrong reason.
 
@@ -102,7 +102,7 @@ on round 1 write "none, this is the first round"):
 Do not simply restate a point already answered here. If you think a reason is
 wrong, raise it again and say which part you disagree with.
 
-Invoke the `reviewing-prs` skill and review BRANCH against BASE. Return its complete output
+Invoke the `prs:reviewing-prs` skill and review BRANCH against BASE. Return its complete output
 verbatim: the summary table, every detail block with its failure scenario, and
 the closing summary block with the counts. That text is your whole return
 value. Do not summarize it and do not add recommendations of your own.
@@ -177,7 +177,7 @@ Stop early and explain if the reviewer fails twice in a row, or the tree cannot 
 
 ## Phase 3: Wrap up
 
-Refresh the PR body by invoking the `describing-prs` skill via the Skill tool. The diff has moved since the description was written, so leaving it stale means the reviewer on GitHub reads a description of a PR that no longer exists. Do not draft it inline; the drafting rules live in that skill. Skip this in branch mode with no PR.
+In branch mode with no PR, skip this step. Otherwise, refresh the PR body by invoking the `prs:describing-prs` skill via the Skill tool. The diff has moved since the description was written, and a stale description describes a PR that no longer exists. Never draft the description inline: the drafting rules live in that skill.
 
 Then write `report.md` and print the same text.
 

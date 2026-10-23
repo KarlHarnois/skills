@@ -22,3 +22,5 @@ jobs:
         with:
           node-version: lts/*
       - run: make test
+      - run: npm install --global @anthropic-ai/claude-code@2.1.309
+      - run: make validate

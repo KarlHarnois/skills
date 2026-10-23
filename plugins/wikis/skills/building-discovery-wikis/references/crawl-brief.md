@@ -1,6 +1,6 @@
 # Crawl Brief
 
-Use this as the prompt for a per-surface subagent, or as your own checklist when crawling a surface directly. Fill in every `{placeholder}`. With the `surface-crawler` agent installed, the filled-in brief is that agent's task prompt; without it, it is a generic subagent's prompt. Same text either way.
+Use this as the prompt for a per-surface subagent, or as your own checklist when crawling a surface directly. Fill in every `{placeholder}`. If the agent list includes `wikis:surface-crawler`, the filled-in brief is that agent's task prompt. Otherwise, the filled-in brief is a generic subagent's prompt.
 
 ---
 

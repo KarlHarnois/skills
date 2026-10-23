@@ -30,12 +30,12 @@ script_dir() {
 
 build_pinned_vale() {
   nix --extra-experimental-features 'nix-command flakes' --option warn-dirty false \
-    build --out-link "$REPO_ROOT/.vale-gcroot" --print-out-paths --quiet "$REPO_ROOT#vale" ||
-    fail "$EXIT_VALE_UNAVAILABLE" "nix could not build the pinned Vale from $REPO_ROOT/flake.nix"
+    build --out-link "$PLUGIN_ROOT/.vale-gcroot" --print-out-paths --quiet "$PLUGIN_ROOT#vale" ||
+    fail "$EXIT_VALE_UNAVAILABLE" "nix could not build the pinned Vale from $PLUGIN_ROOT/flake.nix"
 }
 
 SKILL_DIR=$(cd "$(script_dir)/.." && pwd -P)
-REPO_ROOT=$(cd "$SKILL_DIR/../.." && pwd -P)
+PLUGIN_ROOT=$(cd "$SKILL_DIR/../.." && pwd -P)
 
 require_files "$@"
 require_nix
