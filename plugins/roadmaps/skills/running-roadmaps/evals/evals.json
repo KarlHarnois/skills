@@ -1,0 +1,81 @@
+{
+  "skill_name": "running-roadmaps",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Run `bash evals/files/design-pilot/setup.sh` from an empty directory and `eval` the lines it prints. You are the `manager` Ringleader session for the roadmap in `sandbox/app/.git/roadmaps/reporting/`. Continue the roadmap.",
+      "expected_output": "The manager reads the state file, writes a design-pilot handoff for R2 that quotes AGENTS.md and D1, lints it, dispatches it with `ringleader new`, starts the watcher in the background, and records the dispatch, without asking the user anything.",
+      "files": [
+        "evals/files/sandbox.sh",
+        "evals/files/bin/ringleader",
+        "evals/files/bin/gh",
+        "evals/files/bin/tmux",
+        "evals/files/design-pilot/setup.sh",
+        "evals/files/design-pilot/state.md",
+        "evals/files/design-pilot/roadmap.md",
+        "evals/files/design-pilot/AGENTS.md"
+      ],
+      "expectations": [
+        "The state file was read before any other action on the roadmap",
+        "A handoff file for R2 was written under the state directory's `handoffs/` folder before `ringleader new` ran",
+        "The handoff quotes the AGENTS.md rule about JSON output and decision D1 verbatim under a settled-rules section",
+        "The handoff asks for two or three options, a recommendation, a Conformance section and a prototype on a local branch, and says the worker does not open a pull request",
+        "The handoff has a failure branch for the prototype steps and tells the worker to keep scratch files under `.scratch/` in its worktree and never write outside it",
+        "The handoff's Done section gives the exact `ringleader send manager` command and a fallback report file",
+        "`ringleader-calls.log` shows `new` with `--agent opencode` and without `--plan`",
+        "The watcher script was started with Bash `run_in_background`",
+        "The state file's Sessions table and Log record the new session",
+        "R3 was not dispatched, because the NEXT section sequences it after R2",
+        "The manager did not ask the user any question"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Run `bash evals/files/unbased-branch/setup.sh` from an empty directory and `eval` the lines it prints. You are the `manager` Ringleader session for the roadmap in `sandbox/app/.git/roadmaps/greetings/`. Two reports just arrived. From `review-add-greeting`: \"Status: DONE. Review of pull request 7: no blocking findings.\" From `add-greeting`: \"Status: DONE. Branch add-greeting, commits `Greet every name` and `Check the greeting count`, pull request https://github.com/example/app/pull/7, `sh check.sh`: pass.\"",
+      "expected_output": "The manager runs merge-gate.sh, which finds that the branch is not based on main and that the gate fails after the rebase. The manager does not merge, sends a fix list to `add-greeting`, and records it.",
+      "files": [
+        "evals/files/sandbox.sh",
+        "evals/files/bin/ringleader",
+        "evals/files/bin/gh",
+        "evals/files/bin/tmux",
+        "evals/files/unbased-branch/setup.sh",
+        "evals/files/unbased-branch/state.md"
+      ],
+      "expectations": [
+        "The skill's `merge-gate.sh` ran with `--base main`, `--branch add-greeting` and `--gate 'sh check.sh'`",
+        "`gh-calls.log` holds no `pr merge` call",
+        "The manager did not take the worker's `sh check.sh: pass` as evidence that the pull request can merge",
+        "`ringleader-calls.log` shows `send add-greeting` with a fix list that tells the worker to rebase onto `origin/main` and make `sh check.sh` pass with the third name",
+        "The fix list has numbered steps, failure branches and a Report section",
+        "`ringleader-calls.log` shows `delete review-add-greeting`",
+        "The state file's Log records the failed gate and the fix list"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Run `bash evals/files/resume/setup.sh` from an empty directory and `eval` the lines it prints. This session was just compacted. You are the `manager` Ringleader session for the roadmap in `sandbox/app/.git/roadmaps/parsing/`. Pick up where you left off.",
+      "expected_output": "The manager reads the state file, runs `ringleader list --json`, finds that fix-parser is waiting with no report in the conversation, reads its fallback report file, finds its commit on `origin/fix-parser`, dispatches a reviewer for pull request 12 with the earlier review, and restarts the watcher for design-cache without dispatching any item again.",
+      "files": [
+        "evals/files/sandbox.sh",
+        "evals/files/bin/ringleader",
+        "evals/files/bin/gh",
+        "evals/files/bin/tmux",
+        "evals/files/resume/setup.sh",
+        "evals/files/resume/state.md",
+        "evals/files/resume/roadmap.md",
+        "evals/files/resume/handoffs/fix-parser-1.md",
+        "evals/files/resume/handoffs/fix-parser-2.md",
+        "evals/files/resume/reports/review-fix-parser-1.md"
+      ],
+      "expectations": [
+        "The state file was read before the manager acted on any worker",
+        "`ringleader list --json` ran before any dispatch, send or merge",
+        "The manager read `sandbox/fix-parser/.scratch/report.md`",
+        "No `ringleader new` call dispatched a research, design or build worker for P0, P1 or P2 again",
+        "The watcher script was started in the background for `design-cache`",
+        "`ringleader-calls.log` shows `new` with `--base-branch fix-parser` for a reviewer of pull request 12, and the skill's `merge-gate.sh` did not run",
+        "The manager did not use AskUserQuestion while `design-cache` was running"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "roadmaps",
+  "version": "1.0.0",
+  "description": "Run a roadmap as its engineering manager through Ringleader worker sessions",
+  "author": {
+    "name": "Karl Rivest Harnois"
+  },
+  "repository": "https://github.com/KarlHarnois/skills",
+  "dependencies": [
+    "prs",
+    "instructions"
+  ]
+}

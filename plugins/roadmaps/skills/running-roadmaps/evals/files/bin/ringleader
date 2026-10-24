@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+calls_log="${RINGLEADER_CALLS:-$PWD/ringleader-calls.log}"
+sessions_file="${RINGLEADER_SESSIONS:-}"
+
+record_call() {
+  printf '%s\n' "$*" >>"$calls_log"
+}
+
+print_sessions() {
+  if [ -n "$sessions_file" ] && [ -r "$sessions_file" ]; then
+    cat "$sessions_file"
+  else
+    echo '[]'
+  fi
+}
+
+record_call "$@"
+case "${1:-}" in
+  list) print_sessions ;;
+  new) echo "created session ${3:-unknown}" ;;
+  *) ;;
+esac

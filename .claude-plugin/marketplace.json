@@ -29,6 +29,11 @@
       "name": "wikis",
       "source": "./plugins/wikis",
       "description": "Crawl every available surface into a discovery wiki, plus the surface-crawler agent"
+    },
+    {
+      "name": "roadmaps",
+      "source": "./plugins/roadmaps",
+      "description": "Run a roadmap as its engineering manager through Ringleader worker sessions"
     }
   ]
 }
