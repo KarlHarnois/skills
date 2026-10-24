@@ -16,6 +16,7 @@
 | Worker agent | The Ringleader agent name for research, design, build, and fix workers. | the `[[agents]]` entries of the Ringleader config, or ask the user |
 | Worker strictness | `prescriptive` or `goal-level`, per `prompt-standards.md`. | ask the user |
 | Reviewer agent | The Ringleader agent name for reviewers. | ask the user. PREFER the strongest model OVER the model of the worker agent. |
+| Worker skills | The skills that the worker agent and the reviewer agent can invoke. | For an opencode agent, the folder names under `~/.config/opencode/skills/`. For a Claude agent, the skills its enabled plugins and skill folders provide. If neither applies, ask the user. |
 | Maximum workers | How many workers MAY run at once. | ask the user. The default is 2. |
 | Scratch directory | A directory inside each worktree that git ignores, for worker scratch files. | `git check-ignore -v <directory>`. If the project ignores none, ask the user. |
 | Roadmap | The roadmap adapter and its location, per `roadmap-adapters.md`. | ask the user |
