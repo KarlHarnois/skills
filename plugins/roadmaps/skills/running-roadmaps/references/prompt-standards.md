@@ -8,7 +8,9 @@
 
 - Inline every rule, format, fact, and command the worker needs.
 - NEVER name a path outside the worker's worktree, such as a skill file, the state directory, or `/tmp`. Outside its worktree, a worker can stop at a permission prompt that only the user can answer.
-- NEVER tell a worker to follow a skill. An opencode worker loads no Claude skill. Inline the rules the skill would give.
+- If the Worker skills field lists a skill the task needs, tell the worker to invoke that skill by name.
+- If the Worker skills field does not list a skill the task needs, inline the rules that skill would give.
+- NEVER name a skill that the Worker skills field does not list.
 - Write the commands with the Ringleader binary and the manager session of the profile.
 
 ## Strictness

@@ -14,6 +14,7 @@ Read this file first after a compaction. Trust it and git over your memory.
 - Worker agent: `<agent>`
 - Worker strictness: <prescriptive or goal-level>
 - Reviewer agent: `<agent>`
+- Worker skills: <skills>
 - Maximum workers: <number>
 - Scratch directory: `<directory>/`
 - Roadmap: <adapter>, <location>
