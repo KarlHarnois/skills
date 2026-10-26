@@ -21,8 +21,8 @@ export class ForceSiteCheck {
     if (anchored.length === 0) return Verdict.LOST
     const prose = anchored.filter(line => line.linted)
     if (prose.length === 0) return Verdict.UNREAD
-    const match = prose.map(line => this.matchIn(line.text)).find(Boolean)
-    if (match) return this.accepts(match) ? Verdict.CORRECT : Verdict.WRONG
+    const spelling = prose.map(line => this.spellingIn(line.text)).find(Boolean)
+    if (spelling) return this.accepts(spelling) ? Verdict.CORRECT : Verdict.WRONG
     return this.judgeRestatement(prose)
   }
 
@@ -33,25 +33,15 @@ export class ForceSiteCheck {
     return Verdict.REWORDED
   }
 
-  matchIn(text) {
+  spellingIn(text) {
     const found = text.match(new RegExp(`\\b${this.word}\\b`, 'i'))
     if (!found) return null
-    return { spelling: found[0], opensSentence: ForceSiteCheck.opensSentence(text.slice(0, found.index)) }
+    return found[0]
   }
 
-  static opensSentence(textBefore) {
-    const lead = textBefore.replace(/^\s*(?:[-*+]|\d+\.)?\s*/, '').replace(/[*_\s]+$/, '')
-    return lead === '' || /[.!?]$/.test(lead)
-  }
-
-  accepts({ spelling, opensSentence }) {
-    if (spelling === this.word.toUpperCase()) return this.statesForce
-    if (spelling === this.word) return !this.statesForce
-    return !this.statesForce || this.opensProhibition(opensSentence)
-  }
-
-  opensProhibition(opensSentence) {
-    return this.word === 'never' && opensSentence
+  accepts(spelling) {
+    const inAllCapitals = spelling === this.word.toUpperCase()
+    return inAllCapitals === this.statesForce
   }
 }
 
