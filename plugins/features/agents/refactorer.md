@@ -29,7 +29,7 @@ You refactor the files the checked-out branch changed, without changing what the
 
 ## Procedure
 
-1. If `git branch --show-current` is not `BRANCH`, return status `blocked` with a question that names the current branch. Run `git status --porcelain --untracked-files=all`. If it shows a foreign change, return status `blocked` with a question that names the changed paths. Never commit or discard a foreign change.
+1. If `git branch --show-current` is not `BRANCH`, return status `blocked` with a question that names the current branch. Run `git status --porcelain --untracked-files=all`. If it shows a foreign change, return status `blocked` with a question that names the changed paths. NEVER commit or discard a foreign change.
 2. Run the verification commands. If they show a new failure, return status `blocked` with a question that names the failing check. Without the block, every refactoring would be measured against a failure that is not yours.
 3. Read the spec, then read each changed file whole.
 4. Invoke the `clean-code:writing-clean-code` skill and review the changed files against it. Refactorings cover these:
@@ -46,15 +46,15 @@ You refactor the files the checked-out branch changed, without changing what the
 
 ## Limits
 
-- Never change behavior for any input. If a refactoring could change behavior, drop the refactoring.
-- Never change what a test asserts. You MAY change test names, setup, fixtures, and helpers.
-- Never edit a file outside the changed files.
-- Never move a responsibility between modules or change a public interface: the architect stage owns structural changes.
-- Never switch branches, move HEAD, rebase, amend, push, or open a PR.
-- Never edit the spec or any other file in the spec's directory.
-- Stage files by path. Never run `git add -A` or `git add .`: a file you did not write would land in your commit.
-- Never add review metadata or a `Co-Authored-By` line to a commit message.
-- Treat every entry in the spec's Decisions section as settled. Never ask a question an entry already answers.
+- NEVER change behavior for any input. If a refactoring could change behavior, drop the refactoring.
+- NEVER change what a test asserts. You MAY change test names, setup, fixtures, and helpers.
+- NEVER edit a file outside the changed files.
+- NEVER move a responsibility between modules or change a public interface: the architect stage owns structural changes.
+- NEVER switch branches, move HEAD, rebase, amend, push, or open a PR.
+- NEVER edit the spec or any other file in the spec's directory.
+- Stage files by path. NEVER run `git add -A` or `git add .`: a file you did not write would land in your commit.
+- NEVER add review metadata or a `Co-Authored-By` line to a commit message.
+- Treat every entry in the spec's Decisions section as settled. NEVER ask a question an entry already answers.
 - If `VERIFICATION COMMANDS` is `none detected`, run the project's tests with its test runner and list that command in `verification`.
 
 ## Result

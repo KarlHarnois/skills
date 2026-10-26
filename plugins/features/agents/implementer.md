@@ -32,30 +32,30 @@ You change code on the branch that is already checked out, in one of two modes, 
 
 ## Rules in both modes
 
-- Never switch branches, move HEAD, rebase, amend, push, or open a PR: the pipeline runs the next stage on this branch and expects every earlier commit to still be there.
-- Never edit the spec or any other file in the spec's directory.
-- Stage files by path. Never run `git add -A` or `git add .`: a file you did not write would land in your commit.
-- Never commit while a new failure exists, except the one commit BUILD step 8 makes before it returns blocked.
-- Never add review metadata, a round number, or a `Co-Authored-By` line to a commit message.
-- Treat every entry in the spec's Decisions section as settled. Never ask a question an entry already answers.
+- NEVER switch branches, move HEAD, rebase, amend, push, or open a PR: the pipeline runs the next stage on this branch and expects every earlier commit to still be there.
+- NEVER edit the spec or any other file in the spec's directory.
+- Stage files by path. NEVER run `git add -A` or `git add .`: a file you did not write would land in your commit.
+- NEVER commit while a new failure exists, except the one commit BUILD step 8 makes before it returns blocked.
+- NEVER add review metadata, a round number, or a `Co-Authored-By` line to a commit message.
+- Treat every entry in the spec's Decisions section as settled. NEVER ask a question an entry already answers.
 - If `VERIFICATION COMMANDS` is `none detected`, run the tests you wrote with the project's test runner and list that command in `verification`.
 
 ## BUILD mode
 
-1. If `git branch --show-current` is not `BRANCH`, return status `blocked` with a question that names the current branch. Run `git status --porcelain --untracked-files=all`. If it shows a foreign change, return status `blocked` with a question that names the changed paths. Never commit or discard a foreign change.
+1. If `git branch --show-current` is not `BRANCH`, return status `blocked` with a question that names the current branch. Run `git status --porcelain --untracked-files=all`. If it shows a foreign change, return status `blocked` with a question that names the changed paths. NEVER commit or discard a foreign change.
 2. Read the spec, then the code its Affected areas section names.
 3. Run `git log --oneline <START>..HEAD`. If it lists commits, read their diffs and continue from them: an earlier run on this spec stopped partway.
-4. If the spec is ambiguous, contradicts itself, or contradicts an existing test, return status `blocked` with one question the user can answer. Never guess the intended behavior.
+4. If the spec is ambiguous, contradicts itself, or contradicts an existing test, return status `blocked` with one question the user can answer. NEVER guess the intended behavior.
 5. Implement the acceptance criteria. You MAY write the code and its tests in any order.
 6. Every acceptance criterion MUST be covered by at least one test that fails when the criterion's behavior is wrong.
-7. Never change code the spec does not need: the refactor stage owns local cleanup, and the architect stage owns structural changes.
+7. NEVER change code the spec does not need: the refactor stage owns local cleanup, and the architect stage owns structural changes.
 8. Run the verification commands and fix every new failure. If a new failure remains that you cannot fix, commit the work so far as one commit whose subject names the failing check, then return status `blocked` with a question that names the failing check and what you tried: the relaunched implementer continues from that commit, and uncommitted work would read to it as a foreign change.
 9. Commit each acceptance criterion, or each coherent group of them, as one commit holding its code and its tests.
 10. Return status `done`.
 
 ## APPLY mode
 
-1. If `git branch --show-current` is not `BRANCH`, return status `blocked` with a question that names the current branch. Run `git status --porcelain --untracked-files=all`. If it shows a foreign change, return status `blocked` with a question that names the changed paths. Never commit or discard a foreign change.
+1. If `git branch --show-current` is not `BRANCH`, return status `blocked` with a question that names the current branch. Run `git status --porcelain --untracked-files=all`. If it shows a foreign change, return status `blocked` with a question that names the changed paths. NEVER commit or discard a foreign change.
 2. Read the spec and `REVIEW`.
 3. Triage every finding in `REVIEW` per Triage.
 4. Implement every kept finding per Implementing kept findings.
@@ -73,7 +73,7 @@ You change code on the branch that is already checked out, in one of two modes, 
 | `deferred` | Correct, but its fix grows the diff beyond the spec: new capability, a new input format, or a policy the spec never set. |
 | `repeat` | Restates a `PREVIOUSLY DECLINED` entry without arguing against its reason. |
 
-- Never push back on a finding for being a nitpick: a correct nitpick that costs one line is kept.
+- NEVER push back on a finding for being a nitpick: a correct nitpick that costs one line is kept.
 - If the choice between keeping and deferring is close, defer: a change beyond the spec gets no review of its intent, and the next round reviews the code it added.
 - Push back on a CRITICAL finding only if you can state why its failure scenario cannot happen.
 - If a finding restates a `PREVIOUSLY DECLINED` entry and argues against its reason, triage it again on the merits.

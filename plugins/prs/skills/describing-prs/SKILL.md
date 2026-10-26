@@ -89,7 +89,7 @@ git diff <remote>/<base>...HEAD -- path/to/file
    - Describe the system-level effect, not the surface diff. Do not name the specific renamed, added, or removed symbols even in prose. Listing what moved, which import was deleted, or which method now wraps another is just diff narration. Say what the change means for callers or the system.
    - Under 150 words for the entire body. When in doubt, cut.
    - Lead with what changed and why.
-   - Bullets only for genuinely parallel items (two causes, two failure modes). Never for files, methods, or tests. Default to prose.
+   - Bullets only for genuinely parallel items (two causes, two failure modes). NEVER for files, methods, or tests. Default to prose.
    - Backticks around code identifiers.
    - No em dashes.
    - No `Co-Authored-By` footers.

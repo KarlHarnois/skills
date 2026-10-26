@@ -72,6 +72,6 @@ Do not ask the user for confirmation before creating. The placeholder is meant t
 
 ## Phase 3: Replace the description
 
-Invoke the `prs:describing-prs` skill via the Skill tool. It detects the new PR and runs in edit mode. It overwrites the bootstrap title and body with a proper draft. Never draft the title and body inline: the drafting rules and self-review live in `describing-prs` and apply only when it runs.
+Invoke the `prs:describing-prs` skill via the Skill tool. It detects the new PR and runs in edit mode. It overwrites the bootstrap title and body with a proper draft. NEVER draft the title and body inline: the drafting rules and self-review live in `describing-prs` and apply only when it runs.
 
 Return the PR URL when done.

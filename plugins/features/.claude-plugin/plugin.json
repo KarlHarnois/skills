@@ -1,6 +1,6 @@
 {
   "name": "features",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Spec a feature, then run the implementer, refactorer, architect and reviewer pipeline",
   "author": {
     "name": "Karl Rivest Harnois"
