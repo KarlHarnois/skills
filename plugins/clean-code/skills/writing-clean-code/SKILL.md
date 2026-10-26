@@ -25,7 +25,7 @@ elapsed_time_in_days = 5
 
 **Avoid disinformation.** Do not use names that hint at a meaning different from the actual one. Do not use `account_list` if the variable is not actually a `List`. Do not use names that vary in small ways (`XYZControllerForHandlingOfStrings` vs `XYZControllerForStorageOfStrings`).
 
-**Make meaningful distinctions.** Never use number series naming (`a1`, `a2`, `a3`). Never use noise words (`ProductInfo` vs `ProductData`, `theMessage` vs `message`). If names must be different, they should mean different things.
+**Make meaningful distinctions.** NEVER use number series naming (`a1`, `a2`, `a3`). NEVER use noise words (`ProductInfo` vs `ProductData`, `theMessage` vs `message`). If names must be different, they should mean different things.
 
 **Use pronounceable names.** If you cannot pronounce it, you cannot discuss it without sounding like a fool. No `genymdhms` when you mean `generation_timestamp`.
 
@@ -35,7 +35,7 @@ elapsed_time_in_days = 5
 
 **No encodings.** No Hungarian notation. No member prefixes (`m_`) or interface prefixes (`IShapeFactory`). Exception: follow established language conventions (e.g., `_private` in Python, `I` prefixes in C#/.NET). Modern tools make other encodings unnecessary.
 
-**Class names are nouns.** `Customer`, `WikiPage`, `Account`, `AddressParser`. Never a verb. Avoid vague names like `Manager`, `Processor`, `Data`, `Info`.
+**Class names are nouns.** `Customer`, `WikiPage`, `Account`, `AddressParser`. NEVER a verb. Avoid vague names like `Manager`, `Processor`, `Data`, `Info`.
 
 **Action methods are verbs.** `save`, `delete_page`, `post_payment`. Getters, setters, and predicates follow the target language's naming conventions (e.g., `get_name`/`is_active` in Java, `name`/`active?` in Ruby).
 
@@ -70,7 +70,7 @@ if employee.is_eligible_for_full_benefits():
 - **Explanation of intent.** When the code implements a non-obvious decision, a brief comment explaining *why* (not *what*) can be valuable. Example: a comparison function that puts a specific type first for a business reason.
 - **Clarification of obscure arguments.** When working with a standard library or third-party API whose arguments are not self-explanatory and cannot be wrapped.
 - **Warning of consequences.** `// This test takes 30 minutes to run` or `// Not thread-safe, must hold lock`.
-- **TODO comments.** Acceptable only when they reference a specific ticket or issue. Never open-ended.
+- **TODO comments.** Acceptable only when they reference a specific ticket or issue. NEVER open-ended.
 
 **Unacceptable comments (everything else):**
 
@@ -157,7 +157,7 @@ Code formatting is about communication, and communication is the professional de
 
 **Fail fast.** Detect and signal errors as early as possible. Validate inputs at the boundary, assert preconditions at the top of functions. The closer the error is raised to its cause, the easier it is to diagnose.
 
-**Never use exceptions for control flow.** Exceptions signal exceptional, unexpected failures. Using them for normal branching (e.g., catching an exception to check if a key exists) is slower, harder to follow, and obscures real errors.
+**NEVER use exceptions for control flow.** Exceptions signal exceptional, unexpected failures. Using them for normal branching (e.g., catching an exception to check if a key exists) is slower, harder to follow, and obscures real errors.
 
 **Provide context with errors.** Include the operation that failed and the type of failure. A caller should be able to determine the source and location of an error from the message alone.
 

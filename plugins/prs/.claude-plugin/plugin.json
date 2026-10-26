@@ -1,6 +1,6 @@
 {
   "name": "prs",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Create, describe, review and refine GitHub pull requests, plus the reviewer agent",
   "author": {
     "name": "Karl Rivest Harnois"

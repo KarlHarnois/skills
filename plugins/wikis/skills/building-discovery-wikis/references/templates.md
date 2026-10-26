@@ -4,7 +4,7 @@ Follow these formats exactly. Consistency is what lets a future agent parse any 
 
 ## Linking conventions
 
-All references between wiki files are standard markdown links with paths relative to the file containing them. Never use `[[wikilinks]]`: they need an app-specific resolver, collide on repeated names, and can't be mechanically validated. Two reference classes exist:
+All references between wiki files are standard markdown links with paths relative to the file containing them. NEVER use `[[wikilinks]]`: they need an app-specific resolver, collide on repeated names, and can't be mechanically validated. Two reference classes exist:
 
 - **Intra-wiki** (index to surface, surface to sub-index, documents index to `sources/` files): relative path links, e.g. `[email](surfaces/email.md)` from `index.md`, `(web/alternatives.md)` from `surfaces/web.md`, `(../sources/acme-msa-2023.pdf)` from `surfaces/documents.md`.
 - **External** (entry to its source): the most stable identifier the surface offers (doc ID, thread ID, permalink, absolute URL), as already required by the entry rules.

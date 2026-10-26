@@ -121,7 +121,7 @@ When volume warrants, a surface index delegates detail to sub-index files in a f
 - The surface index (`documents.md`, `web.md`) remains the single entry point. It keeps one roster entry per sub-index: the standard entry line, the single most decision-relevant fact, and a link to the sub-index file for the rest. The roster entry sits in the tier of the best entry inside its sub-index, so a sub-index of Supporting-grade material doesn't get promoted to Key evidence just for being large.
 - Sub-index files use the same entry format and tier structure as surface indexes, so any index file in the wiki parses the same way.
 - The web surface's `## Answers` section always lives in `web.md` itself, never in a sub-index; an agent that reads only `web.md` still gets every answer.
-- Never nest below a sub-index.
+- NEVER nest below a sub-index.
 
 ## Ingesting dropped documents
 
@@ -139,7 +139,7 @@ When asked to refresh an existing discovery directory:
 1. Read `index.md` scope and each surface's frontmatter (`crawled_at`, queries).
 2. Re-run the same queries, filtered to items newer than `crawled_at`. Add any new key terms the user supplies. Fan out as step 3 does.
 3. Append new entries to the existing indexes, and mark each `*(added YYYY-MM-DD)*`. Update the frontmatter and log the operation. If something changed materially, update `## Key findings`.
-4. Never delete entries on a re-crawl. If a source is gone, mark its entry `*(link dead as of YYYY-MM-DD)*`.
+4. NEVER delete entries on a re-crawl. If a source is gone, mark its entry `*(link dead as of YYYY-MM-DD)*`.
 5. Spot-check link integrity. Verify the links of the entries you touch, plus a small sample of `Key evidence` links per surface. Mark each dead link as step 4 does. If the user asks for a wiki health check, audit every link.
 
 ## Initialization and existing wikis

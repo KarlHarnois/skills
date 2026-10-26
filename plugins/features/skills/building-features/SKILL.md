@@ -71,14 +71,14 @@ If `$ARGUMENTS` or the conversation states the task, use it. Otherwise, ask the 
 
 1. Find the verification commands in `CLAUDE.md`, `Makefile` targets, `package.json` scripts, `pyproject.toml`, `Cargo.toml`, or the CI workflow. Record each exact invocation, including any container or credential wrapper.
 2. If a fast lint or typecheck command exists, list it before the test suite.
-3. If the test suite is expensive or needs live infrastructure, scope it with a selector naming the modules the task touches and their tests. Never drop the suite instead of scoping it.
-4. If no command is found, record `none detected`. Never invent a command.
+3. If the test suite is expensive or needs live infrastructure, scope it with a selector naming the modules the task touches and their tests. NEVER drop the suite instead of scoping it.
+4. If no command is found, record `none detected`. NEVER invent a command.
 5. Run `git status --porcelain --untracked-files=all` and record the `git hash-object` of every file it lists. Run the verification commands once, then run the same `git status` again. A path in the second listing that the first listing lacks is a verification artifact. If paths in both listings changed their `git hash-object` during the run, list them and ask the user which are tool output; only those are verification artifacts: a formatter in the verification commands also rewrites the user's own uncommitted files.
 6. Record the result as the baseline, naming every failing test or check: only failures the baseline lacks block a commit later.
 
 ### 6. Require a clean tree
 
-If `git status --porcelain --untracked-files=all` shows paths other than the verification artifacts, ask the user whether to commit those changes first or abort. If the user chooses commit, commit those paths and continue. Otherwise, stop. Never launch the pipeline with uncommitted work: the agents stop on any uncommitted change outside the verification artifacts.
+If `git status --porcelain --untracked-files=all` shows paths other than the verification artifacts, ask the user whether to commit those changes first or abort. If the user chooses commit, commit those paths and continue. Otherwise, stop. NEVER launch the pipeline with uncommitted work: the agents stop on any uncommitted change outside the verification artifacts.
 
 ### 7. Open the workspace
 
@@ -101,8 +101,8 @@ If `git status --porcelain --untracked-files=all` shows paths other than the ver
 | Verification | The verification commands and the baseline. |
 | Decisions | `None yet`. Entries are added per Recording a decision. |
 
-4. Never prescribe an implementation detail the task does not require: the implementer chooses the design, and the reviewer judges it.
-5. Never write a criterion that requires matching all existing behavior, such as "exactly as it does today": no test can check it, and every review round finds another case to restore. If existing behavior must stay the same, give each behavior that must stay its own criterion.
+4. NEVER prescribe an implementation detail the task does not require: the implementer chooses the design, and the reviewer judges it.
+5. NEVER write a criterion that requires matching all existing behavior, such as "exactly as it does today": no test can check it, and every review round finds another case to restore. If existing behavior must stay the same, give each behavior that must stay its own criterion.
 
 ### 9. Get approval
 
@@ -138,7 +138,7 @@ If `git status --porcelain --untracked-files=all` shows paths other than the ver
 4. Call the Workflow tool with `scriptPath` set to the copy and `args` set to the launch args as a JSON object, never as a JSON-encoded string.
 5. If the session has no scratchpad directory, the copy fails, or the Workflow tool rejects the copy's path, read the pipeline and pass its whole content unchanged through the Workflow tool's `script` input instead.
 6. If the Workflow call returns any other error, report its message to the user and stop.
-7. Tell the user the pipeline is running, that `/workflows` shows its progress, and that switching branches in this checkout before it finishes makes the next agent stop. Then end the turn. Never poll the pipeline: its completion arrives as a notification.
+7. Tell the user the pipeline is running, that `/workflows` shows its progress, and that switching branches in this checkout before it finishes makes the next agent stop. Then end the turn. NEVER poll the pipeline: its completion arrives as a notification.
 
 ## Phase 3: Wrap up
 
@@ -198,7 +198,7 @@ Write `report.md` in the workspace and print the same text. Take the commit tota
 - A finding is counted once, in the round it first appeared.
 - A finding decided `repeat` adds nothing.
 - If a finding appears again in a later round with any decision other than `repeat`, the later decision replaces the earlier one.
-- Every severity row MUST satisfy `Raised = Implemented + Reverted + Pushed back + Deferred`. If a row does not reconcile, recount from the triage files. Never print numbers that do not add up.
+- Every severity row MUST satisfy `Raised = Implemented + Reverted + Pushed back + Deferred`. If a row does not reconcile, recount from the triage files. NEVER print numbers that do not add up.
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

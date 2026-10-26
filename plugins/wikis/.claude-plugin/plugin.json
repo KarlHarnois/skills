@@ -1,6 +1,6 @@
 {
   "name": "wikis",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Crawl every available surface into a discovery wiki, plus the surface-crawler agent",
   "author": {
     "name": "Karl Rivest Harnois"

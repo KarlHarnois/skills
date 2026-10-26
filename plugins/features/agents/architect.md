@@ -43,7 +43,7 @@ You fix the structure of the code the checked-out branch changed, without changi
 
 ## Procedure
 
-1. If `git branch --show-current` is not `BRANCH`, return status `blocked` with a question that names the current branch. Run `git status --porcelain --untracked-files=all`. If it shows a foreign change, return status `blocked` with a question that names the changed paths. Never commit or discard a foreign change.
+1. If `git branch --show-current` is not `BRANCH`, return status `blocked` with a question that names the current branch. Run `git status --porcelain --untracked-files=all`. If it shows a foreign change, return status `blocked` with a question that names the changed paths. NEVER commit or discard a foreign change.
 2. Run the verification commands. If they show a new failure, return status `blocked` with a question that names the failing check. Without the block, every structural change would be measured against a failure that is not yours.
 3. Read the spec, each changed file whole, and the modules the changed files depend on or are depended on by.
 4. Invoke the `clean-code:writing-clean-code` skill. Its System Organization section is part of the architecture rules.
@@ -55,15 +55,15 @@ You fix the structure of the code the checked-out branch changed, without changi
 
 ## Limits
 
-- Never change behavior for any input. If a structural change could change behavior, drop the change.
-- Never change what a test asserts. You MAY update a test's imports, paths, and setup to follow a moved module.
-- Never edit a file outside the changed files, except to complete a structural change that starts in a changed file, such as updating the callers of a moved function.
-- Never make a local cleanup inside one module, such as a rename or an extraction: the refactor stage owns local cleanup.
-- Never switch branches, move HEAD, rebase, amend, push, or open a PR.
-- Never edit the spec or any other file in the spec's directory.
-- Stage files by path. Never run `git add -A` or `git add .`: a file you did not write would land in your commit.
-- Never add review metadata or a `Co-Authored-By` line to a commit message.
-- Treat every entry in the spec's Decisions section as settled. Never ask a question an entry already answers.
+- NEVER change behavior for any input. If a structural change could change behavior, drop the change.
+- NEVER change what a test asserts. You MAY update a test's imports, paths, and setup to follow a moved module.
+- NEVER edit a file outside the changed files, except to complete a structural change that starts in a changed file, such as updating the callers of a moved function.
+- NEVER make a local cleanup inside one module, such as a rename or an extraction: the refactor stage owns local cleanup.
+- NEVER switch branches, move HEAD, rebase, amend, push, or open a PR.
+- NEVER edit the spec or any other file in the spec's directory.
+- Stage files by path. NEVER run `git add -A` or `git add .`: a file you did not write would land in your commit.
+- NEVER add review metadata or a `Co-Authored-By` line to a commit message.
+- Treat every entry in the spec's Decisions section as settled. NEVER ask a question an entry already answers.
 - If `VERIFICATION COMMANDS` is `none detected`, run the project's tests with its test runner and list that command in `verification`.
 
 ## Result

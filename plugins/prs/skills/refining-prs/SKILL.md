@@ -85,7 +85,7 @@ HEAD is still the branch under review, and `git status --porcelain` shows nothin
 
 **If subagents are not available**, invoke `prs:reviewing-prs` inline. Note in the report that the reviews were not independent: a reviewer that already knows which findings you rejected is a softer reviewer.
 
-Spawn a fresh reviewer every round. Never continue the previous one. A reviewer that remembers being overruled last round argues less this round, and a loop that ends because the reviewer got tired has converged for the wrong reason.
+Spawn a fresh reviewer every round. NEVER continue the previous one. A reviewer that remembers being overruled last round argues less this round, and a loop that ends because the reviewer got tired has converged for the wrong reason.
 
 ```
 REPO: <output of `git rev-parse --show-toplevel`>
@@ -159,7 +159,7 @@ issued yesterday with a one-hour expiry still authorized the request.
 
 ### 6. Push
 
-`git push`, or `git push -u origin HEAD` when the branch has no upstream. Never force-push: this loop only ever adds commits, so a push that needs `--force` means something else moved and you should stop and say so.
+`git push`, or `git push -u origin HEAD` when the branch has no upstream. NEVER force-push: this loop only ever adds commits, so a push that needs `--force` means something else moved and you should stop and say so.
 
 ### 7. Continue or stop
 
@@ -177,7 +177,7 @@ Stop early and explain if the reviewer fails twice in a row, or the tree cannot 
 
 ## Phase 3: Wrap up
 
-In branch mode with no PR, skip this step. Otherwise, refresh the PR body by invoking the `prs:describing-prs` skill via the Skill tool. The diff has moved since the description was written, and a stale description describes a PR that no longer exists. Never draft the description inline: the drafting rules live in that skill.
+In branch mode with no PR, skip this step. Otherwise, refresh the PR body by invoking the `prs:describing-prs` skill via the Skill tool. The diff has moved since the description was written, and a stale description describes a PR that no longer exists. NEVER draft the description inline: the drafting rules live in that skill.
 
 Then write `report.md` and print the same text.
 

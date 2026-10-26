@@ -1,6 +1,6 @@
 {
   "name": "clean-code",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Robert Martin's Clean Code principles applied to every piece of code Claude writes",
   "author": {
     "name": "Karl Rivest Harnois"
