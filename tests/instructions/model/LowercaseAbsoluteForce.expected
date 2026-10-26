@@ -1,4 +1,5 @@
 tests/instructions/model/LowercaseAbsoluteForce.md:1:11:suggestion:WritingInstructions.LowercaseAbsoluteForce:§2: Does 'must' state force? If it does, write it in all capitals. If it is in its ordinary sense, leave it.
 tests/instructions/model/LowercaseAbsoluteForce.md:5:1:suggestion:WritingInstructions.LowercaseAbsoluteForce:§2: Does 'Always' state force? If it does, write it in all capitals. If it is in its ordinary sense, leave it.
 tests/instructions/model/LowercaseAbsoluteForce.md:9:24:suggestion:WritingInstructions.LowercaseAbsoluteForce:§2: Does 'never' state force? If it does, write it in all capitals. If it is in its ordinary sense, leave it.
+tests/instructions/model/LowercaseAbsoluteForce.md:11:1:suggestion:WritingInstructions.LowercaseAbsoluteForce:§2: Does 'Never' state force? If it does, write it in all capitals. If it is in its ordinary sense, leave it.
 tests/instructions/model/LowercaseAbsoluteForce.md:15:9:suggestion:WritingInstructions.LowercaseAbsoluteForce:§2: Does 'always' state force? If it does, write it in all capitals. If it is in its ordinary sense, leave it.

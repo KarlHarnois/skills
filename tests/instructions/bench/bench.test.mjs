@@ -54,16 +54,15 @@ describe('ForceSiteCheck', () => {
     assert.equal(ordinary.judge(Fixture.tree('The API ALWAYS returns cents.')), Verdict.WRONG)
   })
 
-  test('accepts a Never that opens a Prohibition at any force-stating never site', () => {
-    assert.equal(stating.judge(Fixture.tree('Never push the archive.')), Verdict.CORRECT)
-    assert.equal(stating.judge(Fixture.tree('- **Never push the archive.**')), Verdict.CORRECT)
-    assert.equal(stating.judge(Fixture.tree('Keep the cache. Never push the archive.')), Verdict.CORRECT)
-  })
-
-  test('rejects a capitalized first letter on every other force-stating word', () => {
+  test('rejects a capitalized first letter on every force-stating word', () => {
     const command = new ForceSiteCheck({ anchor: 'dry run', word: 'always', statesForce: true })
     assert.equal(command.judge(Fixture.tree('Always run the dry run.')), Verdict.WRONG)
-    assert.equal(stating.judge(Fixture.tree('You push, Never the job, to the archive.')), Verdict.WRONG)
+    assert.equal(stating.judge(Fixture.tree('Never push the archive.')), Verdict.WRONG)
+    assert.equal(stating.judge(Fixture.tree('- **Never push the archive.**')), Verdict.WRONG)
+  })
+
+  test('accepts a capitalized first letter on an ordinary-sense word', () => {
+    assert.equal(ordinary.judge(Fixture.tree('Always, the API returns cents.')), Verdict.CORRECT)
   })
 
   test('accepts a force-stating site restated with another capitalized force word', () => {
@@ -117,9 +116,9 @@ describe('PlacementCheck', () => {
 })
 
 describe('bench cases', () => {
-  test('the force-words input fails every force-stating site except the capitalized prohibition', () => {
+  test('the force-words input fails every force-stating site', () => {
     const { verdicts } = Fixture.case('force-words')
-    assert.deepEqual(Object.values(verdicts.forceStating).sort(), [Verdict.CORRECT, Verdict.WRONG, Verdict.WRONG, Verdict.WRONG])
+    assert.ok(Object.values(verdicts.forceStating).every(verdict => verdict === Verdict.WRONG))
     assert.ok(Object.values(verdicts.ordinarySense).every(verdict => verdict === Verdict.CORRECT))
   })
 

@@ -4,4 +4,4 @@ level: suggestion
 tokens:
   - '[Mm]ust(?!-)'
   - '[Aa]lways(?!-)'
-  - never(?!-)
+  - '[Nn]ever(?!-)'
