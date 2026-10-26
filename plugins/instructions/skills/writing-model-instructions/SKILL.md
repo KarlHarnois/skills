@@ -47,7 +47,7 @@ allowed-tools: Bash(${CLAUDE_SKILL_DIR}/scripts/lint.sh *)
 
 ## 2. Force is a controlled vocabulary
 
-**Write every force word that states force in all capitals:** all capitals tell the reader that the word states force. Leave a force word in its ordinary sense in lowercase. A force word in its ordinary sense that starts a sentence takes a capital first letter. A force word that a sentence names MAY take any case.
+**Write every force word that states force in all capitals:** all capitals tell the reader that the word states force. Open a Prohibition with `NEVER`: the `Never X` shape in `core.md` §1 shows the form and not its case. Leave a force word in its ordinary sense in lowercase. A force word in its ordinary sense that starts a sentence takes a capital first letter. A force word that a sentence names MAY take any case.
 
 ## 3. Branches are exhaustive
 
