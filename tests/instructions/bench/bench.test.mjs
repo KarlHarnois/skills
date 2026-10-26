@@ -118,7 +118,7 @@ describe('PlacementCheck', () => {
 describe('bench cases', () => {
   test('the force-words input fails every force-stating site', () => {
     const { verdicts } = Fixture.case('force-words')
-    assert.ok(Object.values(verdicts.forceStating).every(verdict => verdict === Verdict.WRONG))
+    assert.deepEqual(Object.values(verdicts.forceStating), [Verdict.WRONG, Verdict.WRONG, Verdict.WRONG, Verdict.WRONG])
     assert.ok(Object.values(verdicts.ordinarySense).every(verdict => verdict === Verdict.CORRECT))
   })
 
