@@ -1,6 +1,6 @@
 {
   "name": "instructions",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "The prose standard and Vale linter for model and human instruction text",
   "author": {
     "name": "Karl Rivest Harnois"
