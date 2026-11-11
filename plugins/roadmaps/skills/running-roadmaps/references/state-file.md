@@ -13,6 +13,7 @@
 | Profile | Setup fills it. Change it per `project-profile.md`. |
 | Sessions | The status of a worker changes. Keep one row per worker, and update its Status. Write `deleted` in the Status once the session is deleted. |
 | Decisions | The user settles a decision, per `decisions.md`. |
+| Approvals | The user grants a one-time permission, per `decisions.md`. |
 | Rulings | The manager makes a choice that is not a decision. |
 | Follow-ups | A review or a report finds work outside its item. Add each follow-up to the roadmap too, per `roadmap-adapters.md`. |
 | Lessons | A mistake reaches a worker, the base branch, or the user. Write the rule that prevents the mistake's class, not the instance. |
@@ -23,9 +24,24 @@
 
 **Append to the Log, and edit the other sections in place.** NEVER rewrite the whole file: a whole-file rewrite drops lines you did not reread.
 
+**NEXT holds only the next action for each item that is not done.** Move each finished action to the Log. NEVER let NEXT keep history: Resume reads NEXT as the work still owed.
+
 **If a lesson holds for every project, tell the user.** The user decides whether this skill gains the rule.
+
+## Standing rules
+
+**The standing rules file is `standing-rules.md` in the state directory.** It holds each rule that the user sets for how the manager works. Write it from `templates/standing-rules.md`.
+
+- If the user states a rule for every later action, add the rule to the standing rules file. Record the change in the Log.
+- Write one rule per line, as a Command or a Prohibition, with no date and no history.
+- Keep the standing rules file under 80 lines. If it passes 80 lines, merge the rules that cover one class into one rule.
+- NEVER put a standing rule in the Profile section. The Profile holds values, per `project-profile.md`.
+
+## Project templates
+
+**A project template is a handoff skeleton that the manager reuses across items.** Save each project template in `handoffs/` as `<kind>-template.md`. Fill a copy of the project template for each handoff, per `SKILL.md` Dispatch.
 
 ## Before a planned compaction
 
 1. Rewrite the NEXT section with the next action for each item that is not done.
-2. Tell the user to compact with this instruction: `Read <state file path> first after compacting.`
+2. Tell the user to compact with this instruction: `Read <state directory>/standing-rules.md and <state file path> first after compacting.`

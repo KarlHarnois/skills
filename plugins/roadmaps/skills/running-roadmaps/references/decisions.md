@@ -28,3 +28,11 @@
 1. Add `D<n>: <decision>, recorded <date>` to the Decisions section of the state file.
 2. Record the decision in the roadmap, per `roadmap-adapters.md`.
 3. From then on, quote the decision verbatim in every handoff whose task touches it, per `prompt-standards.md`.
+
+## Record an approval
+
+**An approval is a one-time permission the user grants, such as accepting one measured regression or one exception to a settled rule.** An approval is not a decision, and it settles no rule.
+
+1. Add `<what the user allowed>, limited to <the scope>, granted <date>` to the Approvals section of the state file. The scope names the pull request, the head, the entry, or the limit the user gave.
+2. Act on the approval only within its scope. If a later change passes the scope, ask the user again.
+3. NEVER read an approval as a rule for later items.

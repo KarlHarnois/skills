@@ -1,6 +1,6 @@
 # Roadmap state: <roadmap name>
 
-Read this file first after a compaction. Trust it and git over your memory.
+Read `standing-rules.md` beside this file first, then this file, after a compaction. Trust both and git over your memory.
 
 ## Profile
 
@@ -52,6 +52,10 @@ Read this file first after a compaction. Trust it and git over your memory.
 ## Decisions
 
 - D<n>: <decision>, recorded <date>
+
+## Approvals
+
+- <what the user allowed>, limited to <the scope>, granted <date>
 
 ## Rulings
 
