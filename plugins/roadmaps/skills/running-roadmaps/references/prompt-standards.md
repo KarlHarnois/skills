@@ -145,4 +145,5 @@
 ## Before you send
 
 1. Check each standard in this file against the handoff.
-2. Lint the handoff, per `SKILL.md` Dispatch.
+2. If the handoff migrates a form across the repository, search every tracked file for the old form first. Include tests, examples, docs, the README, and source text embedded in test code. List each hit's path in the handoff.
+3. Lint the handoff, per `SKILL.md` Dispatch.
