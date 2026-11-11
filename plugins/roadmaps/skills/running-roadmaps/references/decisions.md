@@ -5,14 +5,15 @@
 ## Bring decisions to the user
 
 1. Number each decision `D<n>`, continuing the numbers in the Decisions section of the state file.
-2. For each decision, write these parts:
+2. If the decisions belong to a spec, a design, or a roadmap item, open the message with a summary of it in at most five sentences.
+3. For each decision, write these parts:
    - the question, in one sentence
    - two or three options
    - for each option, a concrete example: what a user of the project writes, and what results
    - the cost of each option
    - your recommendation, with its reason taken from the settled rules or the principles of `AGENTS.md`
-3. Put the decisions in one message, in number order. If a worker runs, ask in plain text, per `SKILL.md`.
-4. Dispatch the items that the open decisions do not block.
+4. Put the decisions in one message, in number order, in plain text, per `SKILL.md`.
+5. Dispatch the items that the open decisions do not block.
 
 **NEVER ask the user to choose without a recommendation and an example per option:** the user cannot answer without both.
 
