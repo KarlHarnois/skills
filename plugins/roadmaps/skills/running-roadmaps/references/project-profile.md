@@ -18,6 +18,8 @@
 | Reviewer agent | The Ringleader agent name for reviewers. | ask the user. PREFER the strongest model OVER the model of the worker agent. |
 | Worker skills | The skills that the worker agent and the reviewer agent can invoke. | For an opencode agent, the folder names under `~/.config/opencode/skills/`. For a Claude agent, the skills its enabled plugins and skill folders provide. If neither applies, ask the user. |
 | Maximum workers | How many workers MAY run at once. | ask the user. The default is 2. |
+| Resource limits | The command prefix that every worker puts before each test and build command, to cap its time and memory. | ask the user. The default is `timeout 900 systemd-run --user --scope -p MemoryMax=4G`. |
+| Description words | The most words a pull request description MAY hold. | ask the user. The default is 150. |
 | Scratch directory | A directory inside each worktree that git ignores, for worker scratch files. | `git check-ignore -v <directory>`. If the project ignores none, ask the user. |
 | Roadmap | The roadmap adapter and its location, per `roadmap-adapters.md`. | ask the user |
 | Authority | The actions the manager takes without asking, per Authority below. | ask the user |
@@ -28,6 +30,7 @@
 | --- | --- | --- |
 | Commit commands | The commands a build MUST pass before each commit. | `AGENTS.md`, `CLAUDE.md`, the Makefile, or the CI workflow |
 | Gate commands | The commands a pull request MUST pass before it merges. | the same files. The gate includes the commit commands. |
+| Shared numbered identifiers | Each kind of number that two workers can claim at once, such as error codes or design document numbers, with the files that hold the numbers. | the repository instructions, or ask the user |
 | Core areas | The paths where an item starts with research. | ask the user |
 | Protected | The files, constants, and settings that no worker changes. | the repository instructions, or ask the user |
 | Review greps | Patterns the manager searches in every diff, each with the defect it catches. | lessons, per `state-file.md` |

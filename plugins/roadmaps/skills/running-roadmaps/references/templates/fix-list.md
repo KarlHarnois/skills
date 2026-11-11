@@ -12,7 +12,7 @@
 2. Run the commit commands of your build task. All of them MUST pass.
 3. <amend the commit, or add a commit with the title `<title>`>
 4. Run the gate: <gate commands>. Every command MUST pass.
-5. Run `git push --force-with-lease`.
+5. Run `git push --force-with-lease`. If the push is refused, stop and put the command and its output in the report.
 6. Send the report, per the Done section.
 
 ## MUST lines
@@ -24,6 +24,7 @@
 - If a rebase conflict cannot keep both changes, run `git rebase --abort`, stop, and put the conflicting hunks in the report.
 - If a snapshot or output changes that a step does not allow, stop. Put its diff in the report.
 - If a command fails, fix the cause and rerun it at most twice. If it still fails, stop and put its output in the report.
+- If CI fails a coverage, complexity, or lint check, fix the code. NEVER change the check's configuration or thresholds.
 
 ## Done
 

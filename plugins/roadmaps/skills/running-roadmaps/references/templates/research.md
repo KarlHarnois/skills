@@ -33,6 +33,7 @@ If every hypothesis is disproved, prototype the smallest change you can find tha
 
 - Read <settled rule sources> before you start.
 - Keep every scratch file under `<scratch directory>` in your worktree. NEVER read or write outside your worktree: a permission prompt there can stall you until the project owner answers.
+- <worker conduct>
 - NEVER commit on your session branch. Commit only on the prototype branch.
 - NEVER run `git push`, `gh`, or any command that changes a remote.
 - Change only these paths: <paths>.
