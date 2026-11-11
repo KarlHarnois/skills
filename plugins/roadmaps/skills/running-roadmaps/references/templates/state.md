@@ -14,6 +14,7 @@ Read `standing-rules.md` beside this file first, then this file, after a compact
 - Worker agent: research `<agent>`, design `<agent>`, build `<agent>`, fix list `<agent>`
 - Worker strictness: <prescriptive or goal-level>
 - Reviewer agent: `<agent>`
+- Design review: <on or off>
 - Worker skills: <skills>
 - Maximum workers: <number>
 - Resource limits: `<command prefix>`

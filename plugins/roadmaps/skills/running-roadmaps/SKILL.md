@@ -16,6 +16,7 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
 | manager | This session. |
 | worker | A Ringleader session that the manager dispatches for one task. |
 | reviewer | A worker that reviews one pull request and changes nothing. |
+| design reviewer | A reviewer that judges the design of the code a pull request changes, per `references/handoff-design-review.md`. |
 | peer manager | Another manager session in the same repository, listed in the Peer managers list of the profile. |
 | roadmap | The ordered items that the user agreed to, stored where the profile says. |
 | item | One entry of the roadmap. |
@@ -78,6 +79,7 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
 | Build | The research or design is accepted, or the settled rules decide every choice of the item. | Builds the change one logical commit at a time and opens one pull request. | `references/handoff-build.md` | `build-` |
 | Fix list | A review found a blocking defect, or the gate failed on a pull request. | Applies numbered steps in the same session. | `references/handoff-fix-list.md` | `fix-`, for a fresh session only |
 | Review | A build opened a pull request. | Reviews the pull request and changes nothing. | `references/handoff-review.md` | `review-` |
+| Design review | A build opened a pull request that changes code, and the Design review field of the profile is `on`. | Reviews the design of the changed code and changes nothing. | `references/handoff-design-review.md` | `review-design-` |
 
 **Send a build to the session that researched or designed its item:** that session holds the prototype context. If Session hygiene calls for a fresh session, name the prototype branch and its commits in the build handoff.
 
@@ -101,7 +103,7 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
 | A build report arrives. | Review a pull request, in `references/review-and-merge.md` |
 | A report on a fix list from a review arrives. | Review a pull request, with the earlier review, in `references/review-and-merge.md` |
 | A report on a fix list from the merge gate arrives. | Merge, in `references/review-and-merge.md` |
-| A reviewer report arrives. | Rule on the review, in `references/review-and-merge.md` |
+| A reviewer report or a design reviewer report arrives. | Rule on the review, in `references/review-and-merge.md` |
 | A ruling leaves a blocking defect. | Dispatch a fix list to the same session |
 | A ruling leaves no blocking defect. | Merge, in `references/review-and-merge.md` |
 | A merge completes. | Close an item |
@@ -196,6 +198,9 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
 - In each handoff, name the paths of every other running worker as forbidden.
 - If two builds change the same files, run them one after the other. Start the second build from the base branch after the first merges.
 - Research and design prototypes MAY change the same files at once: they stay on local branches.
+- Give each pull request one roadmap item. NEVER bundle items into one pull request.
+- Dispatch a bug that a real user of the project found before every item that is not running.
+- If a pull request changes files across most of the repository, hold every other merge until it merges. Then let the other pull requests rebase once.
 
 ## Session hygiene
 
@@ -265,4 +270,5 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
 | `references/handoff-build.md` | write a build handoff |
 | `references/handoff-fix-list.md` | write a fix list |
 | `references/handoff-review.md` | write a reviewer handoff |
+| `references/handoff-design-review.md` | write a design reviewer handoff |
 | `references/review-and-merge.md` | review, merge, gate the base branch, or repair the base branch |
