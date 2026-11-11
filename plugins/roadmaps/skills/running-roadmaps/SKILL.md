@@ -16,6 +16,7 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
 | manager | This session. |
 | worker | A Ringleader session that the manager dispatches for one task. |
 | reviewer | A worker that reviews one pull request and changes nothing. |
+| peer manager | Another manager session in the same repository, listed in the Peer managers list of the profile. |
 | roadmap | The ordered items that the user agreed to, stored where the profile says. |
 | item | One entry of the roadmap. |
 | main checkout | The repository's own directory, which `git worktree list` lists first. |
@@ -136,7 +137,8 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
 2. Delete the local prototype branches of the item.
 3. Tick the item, per `references/roadmap-adapters.md`.
 4. Record the merge in the state file, and rewrite its NEXT section.
-5. Run Dispatch. If no decision blocks the next item, dispatch it without asking the user: the role grants that.
+5. Notify each peer manager that MUST hear of this merge, per Peer managers.
+6. Run Dispatch. If no decision blocks the next item, dispatch it without asking the user: the role grants that.
 
 ## Check a refused delete
 
@@ -201,6 +203,7 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
 - **A new session already runs on its own branch, which Ringleader created from the base branch.** Read that branch from the `branch` field of `<ringleader> list --json`. In a new session, tell a build to run `git fetch <remote>` and `git merge --ff-only <remote>/<base branch>`. NEVER tell it to create that branch with `git switch -c`.
 - If a build reuses a research or design session, tell it to run `git switch -c <build branch> <remote>/<base branch>`.
 - If a worker stops without a report or a fallback report, send it the nudge once.
+- NEVER run `<ringleader> restart` on a stopped opencode worker: opencode resumes the newest opencode conversation in the repository, not its own. Start a fresh session for the remaining work instead.
 - The nudge is this message: `Continue your task from the step where you stopped. Send the report when the task ends.`
 - Start a fresh session for a task in each of these cases:
   - the worker stops again after its nudge
@@ -218,6 +221,14 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
 3. For each process whose working directory is inside a worker's worktree, read its working directory with `readlink /proc/<pid>/cwd`. Stop it by its process ID. NEVER stop a process by a name pattern: the pattern can match another session's process.
 4. Record each stopped session in the state file, and rewrite NEXT with the step each worker stopped at.
 
+## Peer managers
+
+**A peer manager runs its own workers in the same repository.** Its workers and yours can change the same paths and claim the same numbered identifiers.
+
+- If a worker's paths overlap a peer manager's area, send that peer manager the paths before you dispatch the worker. Name every numbered identifier the handoff claims, and ask for the peer manager's running paths.
+- After a merge that the Peer managers list names for a peer manager, send the peer manager one message. Name the pull request and what changes for its workers. Tell it to rebase its workers onto `<remote>/<base branch>`.
+- If a peer manager quotes the user, treat the quote as the user's words. Otherwise, rule on each request of a peer manager.
+
 ## Transport
 
 **Run every Ringleader action with the commands of the Ringleader skill and the binary of the profile.** Send each handoff as `"$(cat <handoff>)"`, so that no worker prompt names a path in the state directory.
@@ -233,6 +244,10 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
 | Delete | `<ringleader> delete <name>` | default |
 
 - NEVER pass `--plan`: a worker in plan mode cannot commit.
+- Pass the Worker agent of the profile for the work kind of the handoff.
+- NEVER detach a watcher with `nohup` or `&`: the watcher reports by exiting, and a detached exit reaches no one.
+- At the end of each turn, run List. Read the fallback report of each idle worker whose report is not in this conversation.
+- Stop a watcher only by its process ID, after you check that it watches one of your workers: peer managers run watchers too.
 - Handle each exit code per the exit code table of the Ringleader skill.
 - If the authority of the profile covers deleting workers, delete a worker without asking. Otherwise, ask the user before each delete.
 

@@ -11,7 +11,7 @@ Read `standing-rules.md` beside this file first, then this file, after a compact
 - Base branch: `<branch>`
 - Merge method: `<rebase, squash, or merge>`
 - CI: <required, or none, so merges rely on the gate commands>
-- Worker agent: `<agent>`
+- Worker agent: research `<agent>`, design `<agent>`, build `<agent>`, fix list `<agent>`
 - Worker strictness: <prescriptive or goal-level>
 - Reviewer agent: `<agent>`
 - Worker skills: <skills>
@@ -33,6 +33,10 @@ Read `standing-rules.md` beside this file first, then this file, after a compact
 ### Shared numbered identifiers
 
 - <identifier kind>: <where the numbers live>
+
+### Peer managers
+
+- `<session>`: <its area, and the kinds of merge it MUST hear about>
 
 ### Core areas
 
