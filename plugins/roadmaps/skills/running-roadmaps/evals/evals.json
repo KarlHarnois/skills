@@ -13,10 +13,11 @@
         "evals/files/design-pilot/setup.sh",
         "evals/files/design-pilot/state.md",
         "evals/files/design-pilot/roadmap.md",
-        "evals/files/design-pilot/AGENTS.md"
+        "evals/files/design-pilot/AGENTS.md",
+        "evals/files/design-pilot/standing-rules.md"
       ],
       "expectations": [
-        "The state file was read before any other action on the roadmap",
+        "The standing rules file and the state file were read before any other action on the roadmap",
         "A handoff file for R2 was written under the state directory's `handoffs/` folder before `ringleader new` ran",
         "The handoff quotes the AGENTS.md rule about JSON output and decision D1 verbatim under a settled-rules section",
         "The handoff asks for two or three options, a recommendation, a Conformance section and a prototype on a local branch, and says the worker does not open a pull request",
@@ -26,7 +27,8 @@
         "The watcher script was started with Bash `run_in_background`",
         "The state file's Sessions table and Log record the new session",
         "R3 was not dispatched, because the NEXT section sequences it after R2",
-        "The manager did not ask the user any question"
+        "The manager did not ask the user any question",
+        "The handoff tells the worker to keep each prototype commit under 200 changed lines, from the standing rules file"
       ]
     },
     {
@@ -68,7 +70,7 @@
         "evals/files/resume/reports/review-fix-parser-1.md"
       ],
       "expectations": [
-        "The state file was read before the manager acted on any worker",
+        "The standing rules file and the state file were read before the manager acted on any worker",
         "`ringleader list --json` ran before any dispatch, send or merge",
         "The manager read `sandbox/fix-parser/.scratch/report.md`",
         "No `ringleader new` call dispatched a research, design or build worker for P0, P1 or P2 again",

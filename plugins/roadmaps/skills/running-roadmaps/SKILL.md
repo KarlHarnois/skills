@@ -21,6 +21,7 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
 | main checkout | The repository's own directory, which `git worktree list` lists first. |
 | state directory | The directory the profile names. The default is `roadmaps/<roadmap name>/` in the output of `git rev-parse --path-format=absolute --git-common-dir`, run in the main checkout. |
 | state file | `state.md` in the state directory, per `references/state-file.md`. |
+| standing rules file | `standing-rules.md` in the state directory, per `references/state-file.md`. |
 | profile | The Profile section of the state file, per `references/project-profile.md`. |
 | handoff | The prompt the manager writes for one worker task, saved in the `handoffs/` folder of the state directory. |
 | report | The message a worker sends the manager when its task ends. |
@@ -46,14 +47,14 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
 2. Agree the roadmap with the user: its items, their order, and the kind of each item, per Work kinds.
 3. Bring every open decision to the user, per `references/decisions.md`.
 4. Store the roadmap, per `references/roadmap-adapters.md`.
-5. Write the state file, per `references/state-file.md`.
+5. Write the state file and the standing rules file, per `references/state-file.md`.
 6. Run Dispatch.
 
 ## Resume
 
 **Trust the state file and git over your memory:** a compacted memory dispatches finished work again.
 
-1. Read the state file whole.
+1. Read the standing rules file whole, then the state file whole. If the standing rules file does not exist, write it from `references/templates/standing-rules.md`, per `references/state-file.md`.
 2. Run `<ringleader> list --json`. Compare each listed session with the Sessions table of the state file.
 3. Run `git fetch <remote>`, then `git log --oneline -20 <remote>/<base branch>`, in the main checkout. If the fetch fails, tell the user.
 4. Act on each worker of the Sessions table whose Status does not say `deleted`:

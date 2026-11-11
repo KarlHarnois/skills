@@ -28,6 +28,9 @@ install_state_file() {
   state_dir="$(git -C "$SANDBOX/app" rev-parse --path-format=absolute --git-common-dir)/roadmaps/$2"
   mkdir -p "$state_dir"
   sed -e "s|@SANDBOX@|$SANDBOX|g" "$template" >"$state_dir/state.md"
+  local standing_rules
+  standing_rules="$(dirname "$template")/standing-rules.md"
+  [ ! -f "$standing_rules" ] || cp "$standing_rules" "$state_dir/standing-rules.md"
   echo "$state_dir"
 }
 
