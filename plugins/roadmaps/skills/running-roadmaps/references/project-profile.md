@@ -17,6 +17,7 @@
 | Worker strictness | `prescriptive` or `goal-level`, per `prompt-standards.md`. | ask the user |
 | Reviewer agent | The Ringleader agent name for reviewers. | ask the user. PREFER the strongest model OVER the model of the worker agent. |
 | Worker skills | The skills that the worker agent and the reviewer agent can invoke. | For an opencode agent, the folder names under `~/.config/opencode/skills/`. For a Claude agent, the skills its enabled plugins and skill folders provide. If neither applies, ask the user. |
+| Design review | `on` or `off`. If `on`, each pull request that changes code gets a design reviewer beside the behavior reviewer, per `handoff-design-review.md`. | ask the user. The default is `off`. |
 | Maximum workers | How many workers MAY run at once. | ask the user. The default is 2. |
 | Resource limits | The command prefix that every worker puts before each test and build command, to cap its time and memory. | ask the user. The default is `timeout 900 systemd-run --user --scope -p MemoryMax=4G`. |
 | Description words | The most words a pull request description MAY hold. | ask the user. The default is 150. |
