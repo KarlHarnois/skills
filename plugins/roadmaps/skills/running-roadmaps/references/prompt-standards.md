@@ -66,7 +66,7 @@
 
 ## Worker conduct
 
-**Copy these lines into the Rules section of every handoff, in place of `<worker conduct>`.** Fill each placeholder from the profile.
+**Copy these lines into the Rules section of every handoff, in place of `<worker conduct>`.** Fill each placeholder from the profile. If a profile field is empty and `project-profile.md` gives it a default, fill the placeholder with the default. If the Shared numbered identifiers list is empty, leave out its line.
 
 ```markdown
 - NEVER use a question dialog. Send each question with `<ringleader> send <manager session> '<question>'`, and keep working on every step the question does not block.
