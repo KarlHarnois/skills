@@ -155,6 +155,12 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
 - a failure that this skill's retry limits do not fix
 - an action that the Authority of the profile does not cover, per `references/project-profile.md`
 - a permission prompt in a worker
+- a stuck worker, per the next paragraph
+
+**A worker is stuck in each of these cases.** Tell the user at once, with the session name and what blocks it:
+
+- `<ringleader> send` to the worker fails twice because the worker is not at its prompt
+- the worker sits idle on an item that another item waits on
 
 **A decision is a choice that no settled rule decides, about one of these:**
 
@@ -175,10 +181,9 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
 
 ## Talking to the user while workers run
 
-- NEVER use AskUserQuestion while a worker runs: an open dialog blocks `ringleader send`, and the worker's report is lost.
-- Ask in plain text, with numbered questions.
-- If no worker runs, you MAY use AskUserQuestion.
-- After any dialog closes, read the fallback report of each worker that stopped while the dialog was open.
+- NEVER use AskUserQuestion: an open dialog blocks every worker report and merge until the user answers.
+- Ask in plain text, with numbered questions. Give a recommendation for each question.
+- Keep working on every item that the questions do not block.
 - If the user leaves a question unanswered, NEVER ask it again. Record the question under NEXT in the state file. Dispatch the items that the question does not block.
 - When you report status, name the next action for each item that is not done.
 
@@ -203,6 +208,15 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
 - Write the fresh session's handoff with the branch, the commits already made, and the remaining steps. Delete the old session after the fresh one starts.
 - NEVER rename the manager session while a worker runs: each worker sends its report to that name.
 - Delete each worker after its item merges or the user drops the item. Delete each reviewer after you rule on its review.
+
+## Pause
+
+**If the user pauses the roadmap, stop work and leave no process behind.**
+
+1. Run `<ringleader> stop <name>` for each worker that runs.
+2. Stop each watcher, per Transport.
+3. For each process whose working directory is inside a worker's worktree, read its working directory with `readlink /proc/<pid>/cwd`. Stop it by its process ID. NEVER stop a process by a name pattern: the pattern can match another session's process.
+4. Record each stopped session in the state file, and rewrite NEXT with the step each worker stopped at.
 
 ## Transport
 

@@ -76,7 +76,7 @@
         "No `ringleader new` call dispatched a research, design or build worker for P0, P1 or P2 again",
         "The watcher script was started in the background for `design-cache`",
         "`ringleader-calls.log` shows `new` with `--base-branch fix-parser` for a reviewer of pull request 12, and the skill's `merge-gate.sh` did not run",
-        "The manager did not use AskUserQuestion while `design-cache` was running"
+        "The manager did not use AskUserQuestion"
       ]
     }
   ]
