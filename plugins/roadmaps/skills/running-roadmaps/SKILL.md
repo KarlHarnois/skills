@@ -129,9 +129,10 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
 1. Save the report to `<state directory>/reports/<session name>-<round>.md`, because the worker's worktree goes away with the worker. Copy its file, or write its message text.
 2. Read the diff of each prototype commit. Worktrees share refs, so `git show <prototype branch>` works in the main checkout.
 3. For each claim the next handoff builds on, rerun its command or read its `file:line`.
-4. Rule on each open question that the settled rules decide. Bring each other open question to the user, per `references/decisions.md`. If an open decision blocks the build, wait for the user's answer before step 5.
-5. Write the build handoff, per `references/handoff-build.md`.
-6. Send the build to the same session, per Transport.
+4. If the report calls a choice unsound, incomplete, or a trade-off against correctness, treat the choice as an open question. NEVER accept such a choice because it leaves every snapshot or output unchanged.
+5. Rule on each open question that the settled rules decide. Bring each other open question to the user, per `references/decisions.md`. If an open decision blocks the build, wait for the user's answer before step 6.
+6. Write the build handoff, per `references/handoff-build.md`.
+7. Send the build to the same session, per Transport.
 
 ## Close an item
 
