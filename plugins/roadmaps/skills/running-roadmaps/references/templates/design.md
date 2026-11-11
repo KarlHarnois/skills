@@ -37,6 +37,7 @@ Every option in the design MUST show its result for each example.
 
 - Read <settled rule sources> before you design. Your design MUST follow them. The principles of `AGENTS.md` decide every choice that no rule covers.
 - Keep every scratch file under `<scratch directory>` in your worktree. NEVER read or write outside your worktree: a permission prompt there can stall you until the project owner answers.
+- <worker conduct>
 - NEVER commit on your session branch. Commit only on the prototype branch.
 - NEVER run `git push`, `gh`, or any command that changes a remote.
 - Change only these paths: <paths>.

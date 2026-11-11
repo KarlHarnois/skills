@@ -16,6 +16,7 @@
 
 - Read <settled rule sources> before you start.
 - Keep every scratch file under `<scratch directory>` in your worktree. NEVER read or write outside your worktree: a permission prompt there can stall you until the project owner answers.
+- <worker conduct>
 - Before each commit, run these commands. All of them MUST pass.
 
   ```sh
@@ -30,6 +31,8 @@
 - Only these existing snapshots or outputs MAY change: <list, or "none">. Every other one MUST stay unchanged.
 - If the task leaves a choice open, choose by the principles of `AGENTS.md`. Record the choice under Departures in the report.
 - If you find a problem outside this task, add one line under Open questions in the report, and continue.
+- If the build fixes a bug, add a test that fails without the fix. Revert the fix, run the test, and confirm that it fails, before you commit the fix.
+- If CI fails a coverage, complexity, or lint check, fix the code. NEVER change the check's configuration or thresholds.
 
 ## Start
 
@@ -51,19 +54,13 @@ Give each commit a description of two or three sentences.
 ## Finish
 
 1. Run the gate on the last commit: <gate commands>. Every command MUST pass.
-2. Push the branch.
-3. Open the pull request with `gh pr create --assignee @me`, the title `<pull request title>`, and this description:
-
-   ```text
-   ## Summary
-   <two or three plain sentences: what the code does now, and why>
-
-   ## Test plan
-   - [x] <the gate commands> pass.
-   ```
-
-4. NEVER merge the pull request.
-5. Send the report, per the Done section.
+2. If you can invoke the `prs:reviewing-prs` skill, invoke it with no pull request number. Fix each finding that breaks a rule of this build, then rerun step 1.
+3. Push the branch.
+4. Open the pull request with `gh pr create --assignee @me` and the title `<pull request title>`. If you can invoke the `prs:describing-prs` skill, write the description with it. Otherwise, write two or three plain sentences: what the code does now, and why.
+5. Keep the description under <description words> words. NEVER list the commits or paste tables into the description: tables go in the report. NEVER name the `prs:describing-prs` skill in a repository file.
+6. If `gh pr create` opened a draft, run `gh pr ready`. If `gh pr ready` is refused, say so in the report.
+7. NEVER merge the pull request.
+8. Send the report, per the Done section.
 
 ## Failure branches
 

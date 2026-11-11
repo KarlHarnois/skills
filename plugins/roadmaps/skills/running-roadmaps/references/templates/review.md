@@ -9,6 +9,7 @@ Your worktree is on a branch of its own, which starts at the head of the pull re
 ## Rules
 
 - Keep every scratch file under `<scratch directory>` in your worktree. NEVER read or write a path outside your worktree.
+- <worker conduct>
 - NEVER switch branches or run `gh pr checkout`: the worker holds `<branch>` in its own worktree.
 - NEVER trust the report below. The report is the worker's claim about the work. Check each claim against the diff.
 - NEVER run the gate. The manager runs the gate before the merge.

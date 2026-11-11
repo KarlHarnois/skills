@@ -64,6 +64,23 @@
 - Tell the worker to keep every scratch file under the scratch directory of the profile, inside its worktree.
 - Give the worker this rule: `If you find a problem outside this task, add one line under Open questions in the report, and continue.`
 
+## Worker conduct
+
+**Copy these lines into the Rules section of every handoff, in place of `<worker conduct>`.** Fill each placeholder from the profile.
+
+```markdown
+- NEVER use a question dialog. Send each question with `<ringleader> send <manager session> '<question>'`, and keep working on every step the question does not block.
+- NEVER write the words manager, handoff, or roadmap into a repository file.
+- Put `<resource limits>` before each test and build command. If a command hits the limit, stop and report which command hit it.
+- Stop a process of your own by its process ID. NEVER run `pkill -f` or `killall`: the pattern can match another session's process.
+- NEVER merge `<remote>/<base branch>` into your branch. Rebase onto it instead.
+- Before you take a new number of these kinds, check that no open pull request and no file on `<remote>/<base branch>` holds it: <shared numbered identifiers>.
+```
+
+## Security fixes
+
+**Describe a security fix in plain engineering terms.** Name the property the fix keeps, such as input validation or paths that stay inside a directory. NEVER paste an attack string or a probe command into a handoff: such text can trip the worker's model safety checks. Point to the review file that holds the probe instead.
+
 ## Reports
 
 **Ask for a report that puts findings first and stays capped.** The report carries each of these, and nothing else:

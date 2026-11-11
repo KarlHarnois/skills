@@ -16,6 +16,8 @@ Read `standing-rules.md` beside this file first, then this file, after a compact
 - Reviewer agent: `<agent>`
 - Worker skills: <skills>
 - Maximum workers: <number>
+- Resource limits: `<command prefix>`
+- Description words: <number>
 - Scratch directory: `<directory>/`
 - Roadmap: <adapter>, <location>
 - Authority: <the granted actions>
@@ -27,6 +29,10 @@ Read `standing-rules.md` beside this file first, then this file, after a compact
 ### Gate commands
 
 - `<command>`
+
+### Shared numbered identifiers
+
+- <identifier kind>: <where the numbers live>
 
 ### Core areas
 
