@@ -13,7 +13,7 @@
 | Base branch | The branch that pull requests merge into. | `gh repo view --json defaultBranchRef -q .defaultBranchRef.name` |
 | Merge method | `rebase`, `squash`, or `merge`, as `gh pr merge` takes it. | the repository settings, or ask the user |
 | CI | Whether a pull request MUST pass CI before it merges. | the CI workflow files, or ask the user |
-| Worker agent | The Ringleader agent name for research, design, build, and fix workers. | the `[[agents]]` entries of the Ringleader config, or ask the user |
+| Worker agent | The Ringleader agent name for each work kind: research, design, build, and fix list. One agent MAY serve every kind. | the `[[agents]]` entries of the Ringleader config, or ask the user |
 | Worker strictness | `prescriptive` or `goal-level`, per `prompt-standards.md`. | ask the user |
 | Reviewer agent | The Ringleader agent name for reviewers. | ask the user. PREFER the strongest model OVER the model of the worker agent. |
 | Worker skills | The skills that the worker agent and the reviewer agent can invoke. | For an opencode agent, the folder names under `~/.config/opencode/skills/`. For a Claude agent, the skills its enabled plugins and skill folders provide. If neither applies, ask the user. |
@@ -31,6 +31,7 @@
 | Commit commands | The commands a build MUST pass before each commit. | `AGENTS.md`, `CLAUDE.md`, the Makefile, or the CI workflow |
 | Gate commands | The commands a pull request MUST pass before it merges. | the same files. The gate includes the commit commands. |
 | Shared numbered identifiers | Each kind of number that two workers can claim at once, such as error codes or design document numbers, with the files that hold the numbers. | the repository instructions, or ask the user |
+| Peer managers | Each other manager session in the repository, its area, and the kinds of merge it MUST hear about. | `<ringleader> list --json`, then ask the user |
 | Core areas | The paths where an item starts with research. | ask the user |
 | Protected | The files, constants, and settings that no worker changes. | the repository instructions, or ask the user |
 | Review greps | Patterns the manager searches in every diff, each with the defect it catches. | lessons, per `state-file.md` |
@@ -45,6 +46,7 @@
 - merge pull requests that pass the gate
 - delete the worker sessions and branches that this manager created
 - push rebased commits to worker branches with `--force-with-lease`
+- mark draft pull requests ready with `gh pr ready`
 - tick and add roadmap items
 - dispatch the next item without asking
 
