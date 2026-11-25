@@ -11,7 +11,7 @@
 | Section | Write it when |
 | --- | --- |
 | Profile | Setup fills it. Change it per `project-profile.md`. |
-| Sessions | The status of a worker changes. Keep one row per worker, and update its Status. Write `deleted` in the Status once the session is deleted. |
+| Sessions | The status of a worker or a reviewer changes. Keep one row per worker and one row per reviewer, and update its Status. Write `deleted` in the Status once the session is deleted. |
 | Decisions | The user settles a decision, per `decisions.md`. |
 | Approvals | The user grants a one-time permission, per `decisions.md`. |
 | Rulings | The manager makes a choice that is not a decision. |

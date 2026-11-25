@@ -59,7 +59,8 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
 1. Read the standing rules file whole, then the state file whole. If the standing rules file does not exist, write it from `references/templates/standing-rules.md`, per `references/state-file.md`.
 2. Run `<ringleader> list --json`. Compare each listed session with the Sessions table of the state file.
 3. Run `git fetch <remote>`, then `git log --oneline -20 <remote>/<base branch>`, in the main checkout. If the fetch fails, tell the user.
-4. Act on each worker of the Sessions table whose Status does not say `deleted`:
+4. Delete each finished session that the listing holds, per Session hygiene.
+5. Act on each other worker of the Sessions table whose Status does not say `deleted`:
 
    | Listed state | Action |
    | --- | --- |
@@ -67,8 +68,8 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
    | `waiting` | If its report reached this conversation, act on the report per Events. Otherwise, read its fallback report. If no fallback report exists, nudge the worker, per Session hygiene. |
    | `exited`, `stopped`, or not listed | Tell the user the session name, its state, and its item. |
 
-5. Run Gate the base branch, in `references/review-and-merge.md`, before you dispatch anything.
-6. Continue from the NEXT section of the state file.
+6. Run Gate the base branch, in `references/review-and-merge.md`, before you dispatch anything.
+7. Continue from the NEXT section of the state file.
 
 ## Work kinds
 
@@ -136,7 +137,7 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
 
 ## Close an item
 
-1. Delete the worker, per Transport. If its reviewer still runs, delete the reviewer too. If the delete of the worker exits 3 and says that it would lose work, run Check a refused delete.
+1. Delete the worker, per Transport. Delete each reviewer of the item that the listing still holds. If the delete of the worker exits 3 and says that it would lose work, run Check a refused delete.
 2. Delete the local prototype branches of the item.
 3. Tick the item, per `references/roadmap-adapters.md`.
 4. Record the merge in the state file, and rewrite its NEXT section.
@@ -216,7 +217,11 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
   - a fix list reaches its third round and the review still finds a blocking defect
 - Write the fresh session's handoff with the branch, the commits already made, and the remaining steps. Delete the old session after the fresh one starts.
 - NEVER rename the manager session while a worker runs: each worker sends its report to that name.
-- Delete each worker after its item merges or the user drops the item. Delete each reviewer after you rule on its review.
+- A **finished session** is either of these:
+  - a worker whose item merged or was dropped
+  - a reviewer whose review has a ruling
+- Delete each finished session, per Transport, before the next dispatch.
+- NEVER run `<ringleader> stop` on a finished session: a stopped session keeps its worktree and its row in the listing.
 
 ## Pause
 
@@ -252,7 +257,7 @@ Invocation arguments, if any (the roadmap, or the path of its state file): $ARGU
 - NEVER pass `--plan`: a worker in plan mode cannot commit.
 - Pass the Worker agent of the profile for the work kind of the handoff.
 - NEVER detach a watcher with `nohup` or `&`: the watcher reports by exiting, and a detached exit reaches no one.
-- At the end of each turn, run List. Read the fallback report of each idle worker whose report is not in this conversation.
+- At the end of each turn, run List. Delete each finished session that the listing holds, per Session hygiene. Read the fallback report of each idle worker whose report is not in this conversation.
 - Stop a watcher only by its process ID, after you check that it watches one of your workers: peer managers run watchers too.
 - Handle each exit code per the exit code table of the Ringleader skill.
 - If the authority of the profile covers deleting workers, delete a worker without asking. Otherwise, ask the user before each delete.
